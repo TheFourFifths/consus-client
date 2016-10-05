@@ -1,5 +1,7 @@
 # Consus Client
 
+[![Build Status](https://travis-ci.org/TheFourFifths/consus-client.svg?branch=master)](https://travis-ci.org/TheFourFifths/consus-client)
+
 ## Developing
 
 ### Getting Started
