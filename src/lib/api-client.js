@@ -88,3 +88,20 @@ export function searchModel(id) {
         });
     });
 }
+
+export function searchStudent(id){
+    get('TODO',{
+        id
+    }).then(body => {
+        Dispatcher.handleAction({
+            type: 'STUDENT_FOUND',
+            data: {
+                //TODO: Relevant Data
+            }
+        })
+    }).catch(message => {
+        Dispatcher.handleAction({
+            type:'NO_STUDENT_FOUND'
+        })
+    })
+}
