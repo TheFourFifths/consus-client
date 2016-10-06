@@ -62,7 +62,7 @@ export function searchItem(id) {
             }
         });
     })
-    .catch(message => {
+    .catch(() => {
         Dispatcher.handleAction({
             type: 'NO_ITEM_FOUND',
         });
@@ -82,7 +82,7 @@ export function searchModel(id) {
             }
         });
     })
-    .catch(message => {
+    .catch(() => {
         Dispatcher.handleAction({
             type: 'NO_MODEL_FOUND',
         });

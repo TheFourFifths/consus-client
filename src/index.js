@@ -9,7 +9,7 @@ let window;
 // Create the main app window
 function createWindow() {
     // Create the browser window
-    let window = new BrowserWindow({
+    window = new BrowserWindow({
         fullscreen: true,
         show: false
     });
