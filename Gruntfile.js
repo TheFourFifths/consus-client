@@ -92,7 +92,7 @@ module.exports = function(grunt) {
             test: ['.test/']
         },
         electron: {
-            win32Build: {
+            win64Build: {
                 options: {
                     name: 'Consus-Client',
                     dir: '.',
@@ -100,24 +100,25 @@ module.exports = function(grunt) {
                     version: '1.4.2',
                     platform: 'win32',
                     arch: 'x64',
-                    'no-prune': true,
+                    prune: true,
                     overwrite: true,
                     asar: true,
                     icon: 'consus-logo.ico' //This isn't working?
                 }
             },
-            // macosBuild: {
-            //     options: {
-            //         name: 'Consus-Client',
-            //         dir: '.',
-            //         out: '.',
-            //         version: '1.4.2',
-            //         platform: 'darwin',
-            //         arch: 'x64',
-            //         'no-prune': true,
-            //         overwrite: true
-            //     }
-            // },
+            macosBuild: {
+                options: {
+                    name: 'Consus-Client',
+                    dir: '.',
+                    out: '.',
+                    version: '1.4.2',
+                    platform: 'darwin',
+                    arch: 'x64',
+                    prune: true,
+                    overwrite: true,
+                    asar: true
+                }
+            },
             linuxBuild: {
                 options: {
                     name: 'Consus-Client',
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
                     version: '1.4.2',
                     platform: 'linux',
                     arch: 'x64',
-                    'no-prune': true,
+                    prune: true,
                     overwrite: true,
                     asar: true
                 }
