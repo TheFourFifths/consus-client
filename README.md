@@ -1,6 +1,7 @@
 # Consus Client
 
 [![Build Status](https://travis-ci.org/TheFourFifths/consus-client.svg?branch=dev)](https://travis-ci.org/TheFourFifths/consus-client)
+[![codecov](https://codecov.io/gh/TheFourFifths/consus/branch/dev/graph/badge.svg)](https://codecov.io/gh/TheFourFifths/consus)
 
 ## Developing
 
@@ -26,6 +27,7 @@ npm start
 * `npm test`: Run the test suite
 * `npm run lint`: Run the linter
 * `npm run build`: Build the usable .dist directory
+* `npm run coverage`: Generate a code coverage report
 
 ## Project File Structure
 

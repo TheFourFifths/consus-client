@@ -68,14 +68,11 @@ module.exports = function(grunt) {
                 dest: '.dist/index.html'
             }
         },
-        jshint: {
+        eslint: {
             options: {
-                jshintrc: '.jshintrc'
+                configFile: '.eslintrc.json'
             },
-            uses_defaults: [
-                'src/**/*.js',
-                'test/**/*.js'
-            ]
+            src: ['index.js', 'src/**/*.js']
         },
         mochacli: {
             options: {
@@ -136,7 +133,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-browserify');
@@ -145,7 +142,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-electron');
 
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
-    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('lint', ['eslint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
     grunt.registerTask('package', ['build', 'electron']);
 };
