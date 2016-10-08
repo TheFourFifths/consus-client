@@ -85,7 +85,9 @@ module.exports = function(grunt) {
             }
         },
         clean: {
+            coverage: ['coverage/', 'coverage.lcov', '.nyc_output/'],
             dist: ['.dist/'],
+            packages: ['Consus-Client-*/'],
             test: ['.test/']
         },
         electron: {
@@ -127,7 +129,7 @@ module.exports = function(grunt) {
                     overwrite: true,
                     asar: true
                 }
-            }            
+            }
         }
     });
 
