@@ -39,4 +39,4 @@ npm start
         * `components`: Smaller components
         * `pages`: Entire pages
 * `test`: The project's tests
-    * TODO
+    * `unit`: Unit tests
