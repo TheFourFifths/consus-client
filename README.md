@@ -13,7 +13,7 @@ Note: You will need a local `consus` server running while using this application
 # Clone the repository
 git clone git@github.com:TheFourFifths/consus-client.git
 # Enter the project directory
-cd consus
+cd consus-client
 # Install dependencies
 npm install
 # Build the project
