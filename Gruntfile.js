@@ -102,6 +102,7 @@ module.exports = function(grunt) {
                     arch: 'x64',
                     'no-prune': true,
                     overwrite: true,
+                    asar: true,
                     icon: 'consus-logo.ico' //This isn't working?
                 }
             },
@@ -126,7 +127,8 @@ module.exports = function(grunt) {
                     platform: 'linux',
                     arch: 'x64',
                     'no-prune': true,
-                    overwrite: true
+                    overwrite: true,
+                    asar: true
                 }
             }            
         }
