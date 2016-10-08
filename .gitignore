@@ -2,3 +2,6 @@
 .test
 node_modules
 npm-debug.log*
+Consus-Client-linux-x64
+Consus-Client-win32-x64
+consus-logo.ico

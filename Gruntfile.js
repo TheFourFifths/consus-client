@@ -90,6 +90,45 @@ module.exports = function(grunt) {
         clean: {
             dist: ['.dist/'],
             test: ['.test/']
+        },
+        electron: {
+            win32Build: {
+                options: {
+                    name: 'Consus-Client',
+                    dir: '.',
+                    out: '.',
+                    version: '1.4.2',
+                    platform: 'win32',
+                    arch: 'x64',
+                    'no-prune': true,
+                    overwrite: true,
+                    icon: 'consus-logo.ico' //This isn't working?
+                }
+            },
+            // macosBuild: {
+            //     options: {
+            //         name: 'Consus-Client',
+            //         dir: '.',
+            //         out: '.',
+            //         version: '1.4.2',
+            //         platform: 'darwin',
+            //         arch: 'x64',
+            //         'no-prune': true,
+            //         overwrite: true
+            //     }
+            // },
+            linuxBuild: {
+                options: {
+                    name: 'Consus-Client',
+                    dir: '.',
+                    out: '.',
+                    version: '1.4.2',
+                    platform: 'linux',
+                    arch: 'x64',
+                    'no-prune': true,
+                    overwrite: true
+                }
+            }            
         }
     });
 
@@ -101,9 +140,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-electron');
 
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
-
+    grunt.registerTask('package', ['build', 'electron']);
 };

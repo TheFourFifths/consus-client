@@ -15,7 +15,8 @@
     "start": "electron index.js --dev",
     "build": "grunt build",
     "test": "grunt test",
-    "lint": "grunt lint"
+    "lint": "grunt lint",
+    "package": "grunt package"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-jshint": "1.0.0",
     "grunt-contrib-stylus": "^1.2.0",
+    "grunt-electron": "^5.0.0",
     "grunt-inline": "^0.3.6",
     "grunt-mocha-cli": "2.1.0",
     "react": "^15.3.2",
