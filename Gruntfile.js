@@ -102,7 +102,7 @@ module.exports = function(grunt) {
                     prune: true,
                     overwrite: true,
                     asar: true,
-                    icon: 'consus-logo.ico' //This isn't working?
+                    icon: 'assets/icons/consus-logo.ico' //This isn't working?
                 }
             },
             macosBuild: {

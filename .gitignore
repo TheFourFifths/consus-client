@@ -3,6 +3,5 @@
 node_modules
 npm-debug.log*
 Consus-Client-*
-consus-logo.ico
 coverage*
 .nyc_output
