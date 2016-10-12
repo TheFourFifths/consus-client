@@ -2,6 +2,8 @@ import request from 'request';
 import { Dispatcher } from 'consus-flux';
 
 function get(endpoint, data) {
+    //TODO: swap out 'TODOs' for actual endpoints when they exist
+
     let options = {
         uri: 'http://localhost/api/' + endpoint,
         method: 'GET',
@@ -93,7 +95,7 @@ export function searchStudent(id){
         id
     }).then(body => {
         Dispatcher.handleAction('STUDENT_FOUND',{
-            //TODO: Relevant Data
+            //NOTE: data is tentative, more may be required.
             items:body.model.items,
             id: body.model.id,
             name: body.model.name

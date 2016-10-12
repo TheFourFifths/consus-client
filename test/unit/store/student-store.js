@@ -4,7 +4,9 @@ import { assert } from 'chai';
 
 describe('StudentStore', () => {
 
-    it('should instantiate without a model', () => {
+    //TODO: Swap out tests to use new handler format
+    
+    it('should instantiate without a student', () => {
         assert.strictEqual(StudentStore.getStudent(), null);
     });
 

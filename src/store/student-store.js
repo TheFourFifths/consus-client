@@ -12,7 +12,7 @@ const store = new StudentStore();
 
 store.registerHandler('STUDENT_FOUND', data => {
     student = {
-        //TODO: Relevant Data
+        //NOTE: this data is tentative
         id : data.id,
         name: data.name,
         items: data.items
