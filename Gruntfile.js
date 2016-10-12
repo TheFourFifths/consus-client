@@ -148,7 +148,7 @@ module.exports = function(grunt) {
                     mode: 'tgz'
                 },
                 files: [
-                    { src: ['Consus-Client-linux-x64/**'], dest: '/Consus-Client-linux.tgz' }
+                    { src: ['Consus-Client-linux-x64/**'], dest: '/' }
                 ]
             },
             macos_zip: {
