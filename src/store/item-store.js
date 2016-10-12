@@ -1,6 +1,7 @@
 import { Store } from 'consus-flux';
 
 let item = null;
+let items = [];
 
 class ItemStore extends Store {
 
@@ -14,6 +15,10 @@ class ItemStore extends Store {
         };
     }
 
+    getAllItems(){
+        return items;
+    }
+
 }
 
 const store = new ItemStore();
@@ -23,10 +28,17 @@ store.registerHandler('ITEM_FOUND', data => {
         id: data.id,
         status: data.status
     };
+    items.push(item);
     store.emitChange();
 });
 
 store.registerHandler('NO_ITEM_FOUND', () => {
+    item = null;
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    items = [];
     item = null;
     store.emitChange();
 });

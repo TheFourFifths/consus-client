@@ -36,6 +36,17 @@ function post(endpoint, data) {
     });
 }
 
+export function checkOutItems(studentId,items){
+    post('TODO',{
+        studentId,
+        items
+    }).then(() => {
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+    }).catch(() => {
+        Dispatcher.handleAction('CHECKOUT_FAILED');
+    })
+}
+
 export function createItem(id) {
     post('item', {
         id
@@ -54,18 +65,13 @@ export function searchItem(id) {
         id
     })
     .then(body => {
-        Dispatcher.handleAction({
-            type: 'ITEM_FOUND',
-            data: {
-                id: body.item.id,
-                status: body.item.status
-            }
+        Dispatcher.handleAction('ITEM_FOUND',{
+            id: body.item.id,
+            status: body.item.status
         });
     })
     .catch(message => {
-        Dispatcher.handleAction({
-            type: 'NO_ITEM_FOUND',
-        });
+        Dispatcher.handleAction('NO_ITEM_FOUND');
     });
 }
 
@@ -74,34 +80,27 @@ export function searchModel(id) {
         id
     })
     .then(body => {
-        Dispatcher.handleAction({
-            type: 'MODEL_FOUND',
-            data: {
-                id: body.model.id,
-                name: body.model.name
-            }
+        Dispatcher.handleAction('MODEL_FOUND',{
+            id: body.model.id,
+            name: body.model.name
         });
     })
     .catch(message => {
-        Dispatcher.handleAction({
-            type: 'NO_MODEL_FOUND',
-        });
+        Dispatcher.handleAction('NO_MODEL_FOUND');
     });
 }
 
 export function searchStudent(id){
-    get('TODO',{
+    get('student',{
         id
     }).then(body => {
-        Dispatcher.handleAction({
-            type: 'STUDENT_FOUND',
-            data: {
-                //TODO: Relevant Data
-            }
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            //TODO: Relevant Data
+            items:body.model.items,
+            id: body.model.id,
+            name: body.model.name
         })
     }).catch(message => {
-        Dispatcher.handleAction({
-            type:'NO_STUDENT_FOUND'
-        })
+        Dispatcher.handleAction('NO_STUDENT_FOUND')
     })
 }
