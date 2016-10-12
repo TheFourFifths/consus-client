@@ -69,9 +69,9 @@ export function searchItem(id) {
             id: body.item.id,
             status: body.item.status
         });
-    })
-    .catch(message => {
+    }).catch(message => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
+
     });
 }
 
@@ -84,9 +84,9 @@ export function searchModel(id) {
             id: body.model.id,
             name: body.model.name
         });
-    })
-    .catch(message => {
+    }).catch(message => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
+
     });
 }
 
