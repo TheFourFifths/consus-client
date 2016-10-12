@@ -131,6 +131,35 @@ module.exports = function(grunt) {
                     asar: true
                 }
             }
+        },
+        compress: {
+            win64_zip: {
+                options: {
+                    archive: 'Consus-Client-win.zip',
+                    mode: 'zip'
+                },
+                files: [
+                    { src: ['Consus-Client-win32-x64/**'], dest: '/' }
+                ]
+            },
+            linux_zip: {
+                options: {
+                    archive: 'Consus-Client-linux.zip',
+                    mode: 'zip'
+                },
+                files: [
+                    { src: ['Consus-Client-linux-x64/**'], dest: '/' }
+                ]
+            },
+            macos_zip: {
+                options: {
+                    archive: 'Consus-Client-macos.zip',
+                    mode: 'zip'
+                },
+                files: [
+                    { src: ['Consus-Client-darwin-x64/**'], dest: '/' }
+                ]
+            }
         }
     });
 
@@ -143,9 +172,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-electron');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['eslint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
-    grunt.registerTask('package', ['build', 'electron']);
+    grunt.registerTask('package', ['build', 'electron', 'compress']);
 };
