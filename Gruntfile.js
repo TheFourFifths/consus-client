@@ -142,13 +142,13 @@ module.exports = function(grunt) {
                     { src: ['Consus-Client-win32-x64/**'], dest: '/' }
                 ]
             },
-            linux_zip: {
+            linux_tgz: {
                 options: {
-                    archive: 'Consus-Client-linux.zip',
-                    mode: 'zip'
+                    archive: 'Consus-Client-linux.tgz',
+                    mode: 'tgz'
                 },
                 files: [
-                    { src: ['Consus-Client-linux-x64/**'], dest: '/' }
+                    { src: ['Consus-Client-linux-x64/**'], dest: '/Consus-Client-linux.tgz' }
                 ]
             },
             macos_zip: {

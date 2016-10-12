@@ -22,12 +22,17 @@ notifications:
 
 before_deploy: "npm run package"
 deploy:
-  provider: releases
-  api_key: "w/RNsuiRF3qyVQ6myUAaVUh3+vCTmYLkFEWN7A+oqcm6sZ2WSYz/G5zJJHriaFjjvj6vtx14Q9mulcwaCcCckvQsHzYv8JL5ioDytaIWxdKqUBTRZ9761o4niATfYtMFq2T/D4eLJa6ul7DOqZCtK5gLJPMkRCrHKpvJjsh9IbKuucIveTq0mD6Lsc3V2BccWxUr6iXRW8/LKQzXDvJ8qNH2OoSTiSSTSYyyk2MD+GlacSUeWlDcJ6uGJfnqJWs1ejFxbJZHkw4+DaGPSstQ6+9fj39414DROA4XZ2cD+sz0gRv5kDKAxWQZhuGa5ZQPhrhhLeym5C5JtUqt7VYnDqs7BiBe6Uib1RLYqvWDe+AZUmS1v8GRfvkmFmQE0RM/yzbCWm/zqQaemk9df05nCv3E2RnZDAy+PiR4IDGqD0Anq4E9aciyZMroQEDJrmMEhWl59lfGMC9s2AU7y47DKttSuJyYfUx4x1jNv8NlmOYF0FKBXOtWMXoUsoG8yCz2V98We1Yr2tnAeh/ZjYYALxbQf/P4kGjTuMYQEKiWj4ePYsp6R/VTM2VTa2aPle0PoC2sLrBKmVaXxALAsBF0Jvrx01zw2bvQ40CkAIJLvXuTonltTQwlCzoCLWqAF9EHgJRAaAjMZHKc71PCB/48i1RkoqrRSQz5rMBtRH/AOWY="
-  file: 
-    - "Consus-Client-linux.zip"
-    - "Consus-Client-macos.zip"
-    - "Consus-Client-win.zip"
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: releases
+    api_key: "w/RNsuiRF3qyVQ6myUAaVUh3+vCTmYLkFEWN7A+oqcm6sZ2WSYz/G5zJJHriaFjjvj6vtx14Q9mulcwaCcCckvQsHzYv8JL5ioDytaIWxdKqUBTRZ9761o4niATfYtMFq2T/D4eLJa6ul7DOqZCtK5gLJPMkRCrHKpvJjsh9IbKuucIveTq0mD6Lsc3V2BccWxUr6iXRW8/LKQzXDvJ8qNH2OoSTiSSTSYyyk2MD+GlacSUeWlDcJ6uGJfnqJWs1ejFxbJZHkw4+DaGPSstQ6+9fj39414DROA4XZ2cD+sz0gRv5kDKAxWQZhuGa5ZQPhrhhLeym5C5JtUqt7VYnDqs7BiBe6Uib1RLYqvWDe+AZUmS1v8GRfvkmFmQE0RM/yzbCWm/zqQaemk9df05nCv3E2RnZDAy+PiR4IDGqD0Anq4E9aciyZMroQEDJrmMEhWl59lfGMC9s2AU7y47DKttSuJyYfUx4x1jNv8NlmOYF0FKBXOtWMXoUsoG8yCz2V98We1Yr2tnAeh/ZjYYALxbQf/P4kGjTuMYQEKiWj4ePYsp6R/VTM2VTa2aPle0PoC2sLrBKmVaXxALAsBF0Jvrx01zw2bvQ40CkAIJLvXuTonltTQwlCzoCLWqAF9EHgJRAaAjMZHKc71PCB/48i1RkoqrRSQz5rMBtRH/AOWY="
+    file: 
+      - "Consus-Client-linux.zip"
+      - "Consus-Client-macos.zip"
+      - "Consus-Client-win.zip"
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: npm
+    api_key: "g26R4Cp66RbJay3nUSPgeM+bd7xlfenrt3kRImi/s989+MgxB4yP6mfsi+rFTEyxWHJ3fTAV2z5m6X7mIRV254BvgETb4VIhhW4dEspQvqNcNY6GAx0KhQymOBBGMkTvpChWxY+H1zKAqPM+zvV9UeCwt+gaXJBvgurpgqrMIV1UvuAKx8a0sh5PaW4zbLlfy5vJAivD7LKnIvGP6fz053Ne+X15aNsjj8nNj3ec3TjCVAEBALIVqKhFXeXqdW5rkvPjwyXScJxDG+VbeJCLJMJr+3sKngmhhd/WtWuU3kQc6uiYR0zx5o6+my3IOsl1no68jrgnLX5X5L4I2tCpzQm0cYBlls6xt0BMuF/T6QF52UBlXXtwjQ6Qv+Ldgc5goK79a785phzYvvjZhMIiPig2kZ756U5bVQacHQZmK2lInURiLv4giwuba836ft2cd+0T9NsI50p4qhJ/rHTE1lgtSv4BaXvuuEDMASHotF1SG+UXwfuA1QmTDNEy1FuDbz1MwkN94QrEPSYUEIUtaK26wG1W26lp8SGIlfFmVp5MjUySE5dqzzbIpl4RtU4zrkTb7iWYTHZiwxXOpR7SfohuCGmnYSrdZg2pnsIVvULFoY15mgMMJnolhQA0k79roix4LWXsf//NHFBMLxbCbvfQBshELgwkztJa3EiAY6A="
+    skip_cleanup: true
+    on:
+      tags: true
