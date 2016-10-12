@@ -6,6 +6,7 @@ describe('ItemStore', () => {
 
     it('should instantiate without an item', () => {
         assert.strictEqual(ItemStore.getItem(), null);
+        assert.strictEqual(ItemStore.getAllItems().length,0);
     });
 
     it('should update an item', () => {
@@ -27,4 +28,20 @@ describe('ItemStore', () => {
         assert.strictEqual(ItemStore.getItem(), null);
     });
 
+    it('should clear items on checkout',() => {
+        Dispatcher.handleAction({
+            type: 'ITEM_FOUND',
+            data: {
+                id: '123',
+                status: 'AVAILABLE'
+            }
+        });
+
+        Dispatcher.handleAction({
+            type:'CHECKOUT_SUCCESS'
+        });
+
+        assert.strictEqual(ItemStore.getItem(), null);
+        assert.strictEqual(ItemStore.getAllItems().length,0);
+    });
 });
