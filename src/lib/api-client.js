@@ -44,7 +44,7 @@ export function checkOutItems(studentId,items){
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(() => {
         Dispatcher.handleAction('CHECKOUT_FAILED');
-    })
+    });
 }
 
 export function createItem(id) {
@@ -69,9 +69,8 @@ export function searchItem(id) {
             id: body.item.id,
             status: body.item.status
         });
-    }).catch(message => {
+    }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
-
     });
 }
 
@@ -84,9 +83,8 @@ export function searchModel(id) {
             id: body.model.id,
             name: body.model.name
         });
-    }).catch(message => {
+    }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
-
     });
 }
 
@@ -99,8 +97,8 @@ export function searchStudent(id){
             items:body.model.items,
             id: body.model.id,
             name: body.model.name
-        })
-    }).catch(message => {
-        Dispatcher.handleAction('NO_STUDENT_FOUND')
-    })
+        });
+    }).catch(() => {
+        Dispatcher.handleAction('NO_STUDENT_FOUND');
+    });
 }

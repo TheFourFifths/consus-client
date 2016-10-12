@@ -9,10 +9,13 @@ describe('StudentStore', () => {
     });
 
     it('should update the student', () => {
-        Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432345',
-            name: 'Poe',
-            items: [1,2,3,4,5]
+        Dispatcher.handleAction({
+            type:'STUDENT_FOUND',
+            data:{
+                id: '432345',
+                name: 'Poe',
+                items: [1,2,3,4,5]
+            }
         });
         let student = StudentStore.getStudent();
         assert.strictEqual(student.id,'432345');
@@ -27,7 +30,7 @@ describe('StudentStore', () => {
             items: [1,2,3,4,5]
         });
 
-        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+        Dispatcher.handleAction({type:'CHECKOUT_SUCCESS'});
         assert.strictEqual(StudentStore.getStudent(),null);
     });
 });
