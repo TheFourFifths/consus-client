@@ -102,7 +102,7 @@ module.exports = function(grunt) {
                     prune: true,
                     overwrite: true,
                     asar: true,
-                    icon: 'assets/icons/consus-logo.ico'
+                    icon: 'assets/icons/consus-logo'
                 }
             },
             macosBuild: {
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
                     prune: true,
                     overwrite: true,
                     asar: true,
-                    icon: 'assets/icons/consus-logo.icns'
+                    icon: 'assets/icons/consus-logo'
                 }
             },
             linuxBuild: {
@@ -130,7 +130,7 @@ module.exports = function(grunt) {
                     prune: true,
                     overwrite: true,
                     asar: true,
-                    icon: 'assets/icons/consus-logo.png'
+                    icon: 'assets/icons/consus-logo'
                 }
             }
         },
