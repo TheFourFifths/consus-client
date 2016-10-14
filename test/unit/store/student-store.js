@@ -3,9 +3,6 @@ import StudentStore from '../../../.dist/store/student-store';
 import { assert } from 'chai';
 
 describe('StudentStore', () => {
-
-    //TODO: Swap out tests to use new handler format
-
     it('should instantiate without a student', () => {
         assert.strictEqual(StudentStore.getStudent(), null);
     });

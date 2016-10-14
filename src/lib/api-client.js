@@ -2,8 +2,6 @@ import request from 'request';
 import { Dispatcher } from 'consus-flux';
 
 function get(endpoint, data) {
-    //TODO: swap out 'TODOs' for actual endpoints when they exist
-
     let options = {
         uri: 'http://localhost/api/' + endpoint,
         method: 'GET',
@@ -39,7 +37,7 @@ function post(endpoint, data) {
 }
 
 export function checkOutItems(studentId,items){
-    post('TODO',{
+    post('checkout',{
         studentId,
         items
     }).then(() => {
