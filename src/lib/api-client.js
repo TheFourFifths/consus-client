@@ -76,6 +76,17 @@ export function searchItem(id) {
     });
 }
 
+export function searchItemForCheckout(id){
+    get('item',{
+        id
+    }).then(body => {
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            id: body.item.id,
+            status: body.item.status
+        });
+    })
+}
+
 export function searchModel(id) {
     get('model', {
         id
