@@ -9,27 +9,21 @@ describe('CartStore', () => {
     });
 
     it('should add item to list', () => {
-        Dispatcher.handleAction({
-            type: 'CHECKOUT_ITEM_FOUND',
-            data: {
-                id: '123',
-                status: 'AVAILABLE'
-            }
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            id: '123',
+            status: 'AVAILABLE'
         });
         assert.strictEqual(CartStore.getItems()[0].id, '123');
         assert.strictEqual(CartStore.getItems()[0].status, 'AVAILABLE');
     });
 
     it('should clear items on checkout',() => {
-        Dispatcher.handleAction({
-            type: 'CHECKOUT_ITEM_FOUND',
-            data: {
-                id: '123',
-                status: 'AVAILABLE'
-            }
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            id: '123',
+            status: 'AVAILABLE'
         });
 
-        Dispatcher.handleAction({type:'CHECKOUT_SUCCESS'});
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
 
         assert.strictEqual(CartStore.getItems().length,0);
     });

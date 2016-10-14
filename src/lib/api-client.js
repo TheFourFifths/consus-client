@@ -84,7 +84,7 @@ export function searchItemForCheckout(id){
             id: body.item.id,
             status: body.item.status
         });
-    })
+    });
 }
 
 export function searchModel(id) {
