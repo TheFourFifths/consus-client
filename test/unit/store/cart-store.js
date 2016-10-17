@@ -22,7 +22,7 @@ describe('CartStore', () => {
             id: '123',
             status: 'AVAILABLE'
         });
-
+        assert.strictEqual(CartStore.getItems()[0].id, '123');
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
 
         assert.strictEqual(CartStore.getItems().length,0);

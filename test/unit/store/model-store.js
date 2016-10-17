@@ -8,7 +8,7 @@ describe('ModelStore', () => {
         assert.strictEqual(ModelStore.getModel(), null);
     });
 
-    it('should update a model', () => {
+    it('should get a model', () => {
         Dispatcher.handleAction('MODEL_FOUND', {
             id: 'ABC',
             name: 'A model'

@@ -4,10 +4,10 @@ import { assert } from 'chai';
 
 describe('StudentStore', () => {
     it('should instantiate without a student', () => {
-        assert.strictEqual(StudentStore.getStudent(), null);
+        assert.isNull(StudentStore.getStudent());
     });
 
-    it('should update the student', () => {
+    it('should get the student', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             id: '432345',
             name: 'Poe',
@@ -30,8 +30,8 @@ describe('StudentStore', () => {
             name: 'Poe',
             items: [1,2,3,4,5]
         });
-
+        assert.strictEqual(StudentStore.getStudent().id,'432345');
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-        assert.strictEqual(StudentStore.getStudent(),null);
+        assert.isNull(StudentStore.getStudent());
     });
 });

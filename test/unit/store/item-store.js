@@ -8,7 +8,7 @@ describe('ItemStore', () => {
         assert.strictEqual(ItemStore.getItem(), null);
     });
 
-    it('should update an item', () => {
+    it('should get an item', () => {
         Dispatcher.handleAction('ITEM_FOUND',{
             id: '123',
             status: 'AVAILABLE'
@@ -19,7 +19,7 @@ describe('ItemStore', () => {
 
     it('should handle no-item', () => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
-        assert.strictEqual(ItemStore.getItem(), null);
+        assert.isNull(ItemStore.getItem());
     });
 
 });
