@@ -36,6 +36,17 @@ function post(endpoint, data) {
     });
 }
 
+export function checkOutItems(studentId,items){
+    post('checkout',{
+        studentId,
+        items
+    }).then(() => {
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+    }).catch(() => {
+        Dispatcher.handleAction('CHECKOUT_FAILED');
+    });
+}
+
 export function createItem(id) {
     post('item', {
         id
@@ -54,17 +65,22 @@ export function searchItem(id) {
         id
     })
     .then(body => {
-        Dispatcher.handleAction({
-            type: 'ITEM_FOUND',
-            data: {
-                id: body.item.id,
-                status: body.item.status
-            }
+        Dispatcher.handleAction('ITEM_FOUND',{
+            id: body.item.id,
+            status: body.item.status
         });
-    })
-    .catch(() => {
-        Dispatcher.handleAction({
-            type: 'NO_ITEM_FOUND',
+    }).catch(() => {
+        Dispatcher.handleAction('NO_ITEM_FOUND');
+    });
+}
+
+export function searchItemForCheckout(id){
+    get('item',{
+        id
+    }).then(body => {
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            id: body.item.id,
+            status: body.item.status
         });
     });
 }
@@ -74,17 +90,26 @@ export function searchModel(id) {
         id
     })
     .then(body => {
-        Dispatcher.handleAction({
-            type: 'MODEL_FOUND',
-            data: {
-                id: body.model.id,
-                name: body.model.name
-            }
+        Dispatcher.handleAction('MODEL_FOUND',{
+            id: body.model.id,
+            name: body.model.name
         });
-    })
-    .catch(() => {
-        Dispatcher.handleAction({
-            type: 'NO_MODEL_FOUND',
+    }).catch(() => {
+        Dispatcher.handleAction('NO_MODEL_FOUND');
+    });
+}
+
+export function searchStudent(id){
+    get('student',{
+        id
+    }).then(body => {
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            //NOTE: data is tentative, more may be required.
+            items:body.model.items,
+            id: body.model.id,
+            name: body.model.name
         });
+    }).catch(() => {
+        Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 }
