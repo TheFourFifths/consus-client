@@ -2,6 +2,7 @@
 .test
 node_modules
 npm-debug.log*
+Consus-Client-*
 coverage*
 .nyc_output
 .idea
