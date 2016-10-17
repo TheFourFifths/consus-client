@@ -87,7 +87,7 @@ module.exports = function(grunt) {
         clean: {
             coverage: ['coverage/', 'coverage.lcov', '.nyc_output/'],
             dist: ['.dist/'],
-            packages: ['Consus-Client-*/'],
+            packages: ['Consus-Client-*/', 'Consus-Client-*'],
             test: ['.test/']
         },
         electron: {
