@@ -7,8 +7,10 @@ import CreateItemForm from '../components/create-item-form.jsx';
 import CreateModelForm from '../components/create-model-form.jsx';
 import SearchItemForm from '../components/search-item-form.jsx';
 import SearchModelForm from '../components/search-model-form.jsx';
+import SearchStudentForm from '../components/search-student-form.jsx'
 import Item from '../components/item.jsx';
 import Model from '../components/model.jsx';
+import Student from '../components/student.jsx';
 
 export default class Index extends ListenerComponent {
 
@@ -18,27 +20,21 @@ export default class Index extends ListenerComponent {
 
     getStores() {
         return [
-            ItemStore,
-            ModelStore
+            StudentStore
         ];
     }
 
     getState() {
         return {
-            item: ItemStore.getItem(),
-            model: ModelStore.getModel()
+            student: StudentStore.getStudent()
         };
     }
 
     render() {
         return (
             <div id='index'>
-                <CreateItemForm />
-                <CreateModelForm />
-                <SearchItemForm />
-                <Item item={this.state.item} />
-                <SearchModelForm />
-                <Model model={this.state.model} />
+                <SearchStudentForm />
+                <Student student={this.state.student} />
             </div>
         );
     }
