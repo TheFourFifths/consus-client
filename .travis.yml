@@ -20,3 +20,15 @@ notifications:
     on_success: change
     on_failure: always
 
+before_deploy: "npm run package"
+deploy:
+  provider: releases
+  api_key: "w/RNsuiRF3qyVQ6myUAaVUh3+vCTmYLkFEWN7A+oqcm6sZ2WSYz/G5zJJHriaFjjvj6vtx14Q9mulcwaCcCckvQsHzYv8JL5ioDytaIWxdKqUBTRZ9761o4niATfYtMFq2T/D4eLJa6ul7DOqZCtK5gLJPMkRCrHKpvJjsh9IbKuucIveTq0mD6Lsc3V2BccWxUr6iXRW8/LKQzXDvJ8qNH2OoSTiSSTSYyyk2MD+GlacSUeWlDcJ6uGJfnqJWs1ejFxbJZHkw4+DaGPSstQ6+9fj39414DROA4XZ2cD+sz0gRv5kDKAxWQZhuGa5ZQPhrhhLeym5C5JtUqt7VYnDqs7BiBe6Uib1RLYqvWDe+AZUmS1v8GRfvkmFmQE0RM/yzbCWm/zqQaemk9df05nCv3E2RnZDAy+PiR4IDGqD0Anq4E9aciyZMroQEDJrmMEhWl59lfGMC9s2AU7y47DKttSuJyYfUx4x1jNv8NlmOYF0FKBXOtWMXoUsoG8yCz2V98We1Yr2tnAeh/ZjYYALxbQf/P4kGjTuMYQEKiWj4ePYsp6R/VTM2VTa2aPle0PoC2sLrBKmVaXxALAsBF0Jvrx01zw2bvQ40CkAIJLvXuTonltTQwlCzoCLWqAF9EHgJRAaAjMZHKc71PCB/48i1RkoqrRSQz5rMBtRH/AOWY="
+  file:
+    - "Consus-Client-linux.zip"
+    - "Consus-Client-macos.zip"
+    - "Consus-Client-win.zip"
+  skip_cleanup: true
+  on:
+    tags: true
+    node: '6'
