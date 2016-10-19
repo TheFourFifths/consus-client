@@ -3,7 +3,7 @@ import { readAddress } from 'consus-core/identifiers';
 import { searchItemForCheckout } from '../../lib/api-client';
 import { assert } from 'chai';
 
-export default class StudentPanel extends React.Component {
+export default class CartPanel extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +21,6 @@ export default class StudentPanel extends React.Component {
                 address: ''
             });
         } catch(f) {
-            console.log(f.message);
             this.setState({
                 address: e.target.value
             });
