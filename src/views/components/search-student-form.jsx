@@ -6,7 +6,7 @@ export default class SearchStudentForm extends React.Component {
 
     changeId(e) {
         searchStudent(e.target.value);
-        this.history.pushState(null, 'checkout');
+        // Need to either redirect to or render the check-out-form
     }
 
     render() {

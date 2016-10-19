@@ -6,35 +6,35 @@ export default class CheckOutForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            id: '',
-            name: ''
+            // Store added items in an array here?
+            // items: []
+            // studentId: 0 how do I get this?
         }
     }
 
-    changeId(e) {
-        this.setState({
-            id: e.target.value
-        });
-    }
+    additem(e) {
+        // Display the Item
 
-    changeName(e) {
+        // Add the item to the current state
+        state[items].push(e.target.value)
         this.setState({
-            name: e.target.value
+            items: state[items];
         });
     }
 
     submit(e) {
         e.preventDefault();
-        createModel(this.state.id, this.state.name);
+        checkOutItems(//Student and item id's here);
     }
 
     render() {
         return (
             <div className='create-model-form'>
-                <h1>Create a Model</h1>
+                <h1>Check out an item</h1>
                 <form onSubmit={this.submit.bind(this)}>
-                    <input type='text' value={this.state.id} onChange={this.changeId.bind(this)} placeholder='Student ID' />
-                    <input type='submit' value='Find Student' />
+                    <input type='text' placeholder='Item ID' />
+                    <input type='button' value='Add to Cart' onClick='addItem' />
+                    <input type='submit' value='Complete Transaction' />
                 </form>
             </div>
         );

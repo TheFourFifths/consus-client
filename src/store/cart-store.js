@@ -12,7 +12,7 @@ const store = new CartStore();
 
 store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     let item = {
-        id: data.id,
+        address: data.address,
         status: data.status
     };
     items.push(item);
