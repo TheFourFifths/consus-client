@@ -1,5 +1,5 @@
 import { Store } from 'consus-core/flux';
-import CartStore from './cart-store'
+import CartStore from './cart-store';
 
 let student = null;
 

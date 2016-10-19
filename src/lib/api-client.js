@@ -111,7 +111,7 @@ export function searchStudent(id){
             name: data.student.name
         });
         hashHistory.push('/student');
-    }).catch((e) => {
+    }).catch(() => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 }
