@@ -20,7 +20,7 @@ export default class StudentPanel extends React.Component {
             this.setState({
                 address: ''
             });
-        } catch() {
+        } catch(f) {
             this.setState({
                 address: e.target.value
             });

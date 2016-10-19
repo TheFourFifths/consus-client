@@ -1,4 +1,4 @@
-import { Store } from 'consus-flux';
+import { Store } from 'consus-core/flux';
 
 let items = [];
 
