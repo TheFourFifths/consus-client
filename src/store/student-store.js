@@ -1,4 +1,5 @@
-import { Store } from 'consus-flux';
+import { Store } from 'consus-core/flux';
+import CartStore from './cart-store';
 
 let student = null;
 
@@ -15,7 +16,7 @@ store.registerHandler('STUDENT_FOUND', data => {
         //NOTE: this data is tentative
         id : data.id,
         name: data.name,
-        items: data.items
+        itemAddresses: data.itemAddresses
     };
     store.emitChange();
 });
@@ -26,7 +27,7 @@ store.registerHandler('NO_STUDENT_FOUND', () => {
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student = null;
+    student.itemAddresses = student.itemAddresses.concat(CartStore.getItems().map(item => item.address));
     store.emitChange();
 });
 

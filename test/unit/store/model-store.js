@@ -1,4 +1,4 @@
-import { Dispatcher } from 'consus-flux';
+import { Dispatcher } from 'consus-core/flux';
 import ModelStore from '../../../.dist/store/model-store';
 import { assert } from 'chai';
 

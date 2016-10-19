@@ -1,5 +1,6 @@
 import request from 'request';
-import { Dispatcher } from 'consus-flux';
+import { Dispatcher } from 'consus-core/flux';
+import { hashHistory } from 'react-router';
 
 function get(endpoint, data) {
     let options = {
@@ -11,7 +12,7 @@ function get(endpoint, data) {
         request(options, (error, response, body) => {
             body = JSON.parse(body);
             if (body.status === 'success') {
-                resolve(body);
+                resolve(body.data);
             } else {
                 reject(body.message);
             }
@@ -28,7 +29,7 @@ function post(endpoint, data) {
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
             if (body.status === 'success') {
-                resolve(body);
+                resolve(body.data);
             } else {
                 reject(body.message);
             }
@@ -36,10 +37,10 @@ function post(endpoint, data) {
     });
 }
 
-export function checkOutItems(studentId,items){
-    post('checkout',{
+export function checkOutItems(studentId, itemAddresses){
+    post('checkout', {
         studentId,
-        items
+        itemAddresses
     }).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(() => {
@@ -64,23 +65,23 @@ export function searchItem(id) {
     get('item', {
         id
     })
-    .then(body => {
-        Dispatcher.handleAction('ITEM_FOUND',{
-            id: body.item.id,
-            status: body.item.status
+    .then(data => {
+        Dispatcher.handleAction('ITEM_FOUND', {
+            id: data.item.id,
+            status: data.item.status
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
 }
 
-export function searchItemForCheckout(id){
-    get('item',{
-        id
-    }).then(body => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
-            id: body.item.id,
-            status: body.item.status
+export function searchItemForCheckout(address){
+    get('item', {
+        address
+    }).then(data => {
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: data.item.address,
+            status: data.item.status
         });
     });
 }
@@ -89,10 +90,10 @@ export function searchModel(id) {
     get('model', {
         id
     })
-    .then(body => {
-        Dispatcher.handleAction('MODEL_FOUND',{
-            id: body.model.id,
-            name: body.model.name
+    .then(data => {
+        Dispatcher.handleAction('MODEL_FOUND', {
+            id: data.model.id,
+            name: data.model.name
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
@@ -100,15 +101,16 @@ export function searchModel(id) {
 }
 
 export function searchStudent(id){
-    get('student',{
+    get('student', {
         id
-    }).then(body => {
-        Dispatcher.handleAction('STUDENT_FOUND',{
+    }).then(data => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
-            items:body.model.items,
-            id: body.model.id,
-            name: body.model.name
+            itemAddresses: data.student.itemAddresses,
+            id: data.student.id,
+            name: data.student.name
         });
+        hashHistory.push('/student');
     }).catch(() => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });

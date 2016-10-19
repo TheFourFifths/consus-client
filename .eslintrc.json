@@ -1,5 +1,12 @@
 {
     "rules": {
+        "comma-spacing": [
+            2,
+            {
+                "before": false,
+                "after": true
+            }
+        ],
         "indent": [
             2,
             4
