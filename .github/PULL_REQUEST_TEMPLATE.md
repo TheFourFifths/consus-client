@@ -15,15 +15,15 @@ Finally, is it ready to be reviewed and merged: yes :white_check_mark: / no :red
 ### How to Review
 
 1. Put
-1. the steps
-1. to verify
-1. the PR's
-1. new functionality
-1. here
+2. the steps
+3. to verify
+4. the PR's
+5. new functionality
+6. here
 
 ### Links
 
 Put links to Jira tickets, and anything else, here.
 
-- [S002-29](https://msoese.atlassian.net/browse/S002-29)
+- [TFF-29](https://msoese.atlassian.net/browse/TFF-29)
 
