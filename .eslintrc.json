@@ -11,6 +11,9 @@
             2,
             4
         ],
+        "no-console": [
+            2
+        ],
         "quotes": [
             2,
             "single"
