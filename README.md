@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/TheFourFifths/consus-client.svg?branch=dev)](https://travis-ci.org/TheFourFifths/consus-client)
 [![codecov](https://codecov.io/gh/TheFourFifths/consus/branch/dev/graph/badge.svg)](https://codecov.io/gh/TheFourFifths/consus)
+[![devDependency Status](https://david-dm.org/TheFourFifths/consus-client/dev-status.svg)](https://david-dm.org/TheFourFifths/consus-client?type=dev)
 
 ## Developing
 
