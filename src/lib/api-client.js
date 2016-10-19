@@ -37,8 +37,8 @@ function post(endpoint, data) {
     });
 }
 
-export function checkOutItems(studentId,itemAddresses){
-    post('checkout',{
+export function checkOutItems(studentId, itemAddresses){
+    post('checkout', {
         studentId,
         itemAddresses
     }).then(() => {
@@ -66,7 +66,7 @@ export function searchItem(id) {
         id
     })
     .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND',{
+        Dispatcher.handleAction('ITEM_FOUND', {
             id: data.item.id,
             status: data.item.status
         });
@@ -76,10 +76,10 @@ export function searchItem(id) {
 }
 
 export function searchItemForCheckout(address){
-    get('item',{
+    get('item', {
         address
     }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
             address: data.item.address,
             status: data.item.status
         });
@@ -91,7 +91,7 @@ export function searchModel(id) {
         id
     })
     .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND',{
+        Dispatcher.handleAction('MODEL_FOUND', {
             id: data.model.id,
             name: data.model.name
         });
@@ -101,10 +101,10 @@ export function searchModel(id) {
 }
 
 export function searchStudent(id){
-    get('student',{
+    get('student', {
         id
     }).then(data => {
-        Dispatcher.handleAction('STUDENT_FOUND',{
+        Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
             itemAddresses: data.student.itemAddresses,
             id: data.student.id,
