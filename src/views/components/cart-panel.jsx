@@ -21,6 +21,7 @@ export default class StudentPanel extends React.Component {
                 address: ''
             });
         } catch(f) {
+            console.log(f.message);
             this.setState({
                 address: e.target.value
             });
@@ -28,13 +29,13 @@ export default class StudentPanel extends React.Component {
     }
 
     renderEquipment() {
-        if(this.props.items.length === 0) {
-            return <i>Cart is empty.</i>;
+        if(this.props.itemAddresses.length === 0) {
+            return <div><br/><i>Cart is empty.</i><br/><br/></div>;
         }
         return (
             <ul>
-                {this.props.items.map((item, i) => {
-                    return <li key={i}>item.address</li>;
+                {this.props.itemAddresses.map((itemAddress, i) => {
+                    return <li key={i}>{itemAddress}</li>;
                 })}
             </ul>
         );
@@ -44,7 +45,7 @@ export default class StudentPanel extends React.Component {
         return (
             <div className='cart'>
                 <h3>Cart</h3>
-                <input type='text' onChange={this.changeAddress.bind(this)} placeholder='Equipment ID' />
+                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' />
                 {this.renderEquipment()}
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />
             </div>

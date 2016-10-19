@@ -1,9 +1,10 @@
 import { Store } from 'consus-core/flux';
+import StudentStore from './student-store';
 
 let items = [];
 
 class CartStore extends Store {
-    getItems(){
+    getItems() {
         return items;
     }
 }
@@ -21,6 +22,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
 
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
+    store.waitFor(StudentStore);
     items = [];
     store.emitChange();
 });

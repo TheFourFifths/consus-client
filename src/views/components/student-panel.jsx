@@ -3,13 +3,13 @@ import React from 'react';
 export default class StudentPanel extends React.Component {
 
     renderEquipment() {
-        if(this.props.student.items.length === 0) {
-            return <i>Student has no equipment checked out.</i>;
+        if(this.props.student.itemAddresses.length === 0) {
+            return <div><i>Student has no equipment checked out.</i></div>;
         }
         return (
             <ul>
-                {this.props.student.items.map((item, i) => {
-                    return <li key={i}>item.address</li>;
+                {this.props.student.itemAddresses.map((itemAddress, i) => {
+                    return <li key={i}>{itemAddress}</li>;
                 })}
             </ul>
         );

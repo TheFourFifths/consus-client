@@ -11,9 +11,8 @@ function get(endpoint, data) {
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
             body = JSON.parse(body);
-            alert(body);
             if (body.status === 'success') {
-                resolve(body);
+                resolve(body.data);
             } else {
                 reject(body.message);
             }
@@ -30,7 +29,7 @@ function post(endpoint, data) {
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
             if (body.status === 'success') {
-                resolve(body);
+                resolve(body.data);
             } else {
                 reject(body.message);
             }
@@ -38,10 +37,10 @@ function post(endpoint, data) {
     });
 }
 
-export function checkOutItems(studentId,items){
+export function checkOutItems(studentId,itemAddresses){
     post('checkout',{
         studentId,
-        items
+        itemAddresses
     }).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(() => {
@@ -66,23 +65,23 @@ export function searchItem(id) {
     get('item', {
         id
     })
-    .then(body => {
+    .then(data => {
         Dispatcher.handleAction('ITEM_FOUND',{
-            id: body.item.id,
-            status: body.item.status
+            id: data.item.id,
+            status: data.item.status
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
 }
 
-export function searchItemForCheckout(id){
+export function searchItemForCheckout(address){
     get('item',{
-        id
-    }).then(body => {
+        address
+    }).then(data => {
         Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
-            id: body.item.id,
-            status: body.item.status
+            address: data.item.address,
+            status: data.item.status
         });
     });
 }
@@ -91,10 +90,10 @@ export function searchModel(id) {
     get('model', {
         id
     })
-    .then(body => {
+    .then(data => {
         Dispatcher.handleAction('MODEL_FOUND',{
-            id: body.model.id,
-            name: body.model.name
+            id: data.model.id,
+            name: data.model.name
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
@@ -104,19 +103,15 @@ export function searchModel(id) {
 export function searchStudent(id){
     get('student',{
         id
-    }).then(body => {
-        console.log(body);
+    }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             //NOTE: data is tentative, more may be required.
-            items: body.data.model.itemAddresses,
-            id: body.data.model.id,
-            name: body.data.model.name
+            itemAddresses: data.student.itemAddresses,
+            id: data.student.id,
+            name: data.student.name
         });
-        console.log(7);
         hashHistory.push('/student');
-    }).catch(() => {
-        console.log(3);
+    }).catch((e) => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
-        console.log(4);
     });
 }

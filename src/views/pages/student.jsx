@@ -24,19 +24,20 @@ export default class Student extends ListenerComponent {
     getState() {
         return {
             student: StudentStore.getStudent(),
-            items: CartStore.getItems()
+            itemAddresses: CartStore.getItems().map(item => item.address)
         };
     }
 
     checkOut() {
-        checkOutItems(this.state.student.id, this.state.items.map(item => item.address));
+        checkOutItems(this.state.student.id, this.state.itemAddresses);
     }
 
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel items={this.state.items} submit={this.checkOut.bind(this)} />
+                <CartPanel itemAddresses={this.state.itemAddresses} submit={this.checkOut.bind(this)} />
+                <div className='clear'></div>
             </div>
         );
     }
