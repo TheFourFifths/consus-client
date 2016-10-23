@@ -37,6 +37,19 @@ function post(endpoint, data) {
     });
 }
 
+export function checkInItem(studentId, itemAddress){
+    post('checkin', {
+        studentId,
+        itemAddress
+    }).then(data => {
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: data.itemAddress
+        });
+    }).catch(() => {
+        Dispatcher.handleAction('CHECKIN_FAILED');
+    });
+}
+
 export function checkOutItems(studentId, itemAddresses){
     post('checkout', {
         studentId,
