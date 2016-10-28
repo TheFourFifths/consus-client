@@ -6,6 +6,10 @@ class ErrorStore extends Store{
     getError() {
         return error;
     }
+
+    clearError(){
+        error = null;
+    }
 }
 
 const store = new ErrorStore();
