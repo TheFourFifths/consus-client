@@ -4,6 +4,11 @@ import CartStore from './cart-store';
 let student = null;
 
 class StudentStore extends Store{
+    hasOverDueItems(){
+        //TODO
+        return false;
+    }
+
     getStudent() {
         return student;
     }

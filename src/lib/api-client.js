@@ -54,7 +54,7 @@ export function checkInItem(studentId, itemAddress){
 }
 
 export function checkOutItems(studentId, itemAddresses){
-    if (true /*If student has no overdue items*/) {
+    if (!StudentStore.hasOverDueItems()) {
         post('checkout', {
             studentId,
             itemAddresses
