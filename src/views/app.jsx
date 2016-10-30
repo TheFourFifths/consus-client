@@ -3,7 +3,7 @@ import AuthenticationStore from '../store/authentication-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
-
+import Models from './pages/models.jsx';
 export default class App extends ListenerComponent {
 
     constructor() {

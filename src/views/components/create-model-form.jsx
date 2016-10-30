@@ -24,6 +24,7 @@ export default class CreateModelForm extends React.Component {
     }
 
     submit(e) {
+        console.log('Submitting');
         e.preventDefault();
         createModel(this.state.id, this.state.name);
     }
