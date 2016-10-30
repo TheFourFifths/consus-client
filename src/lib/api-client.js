@@ -1,6 +1,7 @@
 import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
+import StudentStore from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -58,8 +59,10 @@ export function checkOutItems(studentId, itemAddresses){
         itemAddresses
     }).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(() => {
-        Dispatcher.handleAction('CHECKOUT_FAILED');
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data.error
+        });
     });
 }
 
@@ -73,6 +76,17 @@ export function createModel(id, name) {
     post('model', {
         id,
         name
+    });
+}
+
+export function forceSearchItemForCheckout(address){
+    get('item', {
+        address
+    }).then(data => {
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: data.item.address,
+            status: data.item.status
+        });
     });
 }
 
@@ -91,13 +105,19 @@ export function searchItem(id) {
 }
 
 export function searchItemForCheckout(address){
-    get('item', {
-        address
-    }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+    if (StudentStore.getStudent().itemAddresses.length === 0) {
+        get('item', {
+            address
+        }).then(data => {
+            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+                address: data.item.address,
+                status: data.item.status
+            });
         });
+    }else Dispatcher.handleAction('ERROR', {
+        error: {
+            message: 'Student has items already checked out.'
+        }
     });
 }
 
