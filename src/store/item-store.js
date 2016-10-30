@@ -1,9 +1,8 @@
-import { Store } from 'consus-flux';
+import { Store } from 'consus-core/flux';
 
 let item = null;
 
 class ItemStore extends Store {
-
     getItem() {
         if (item === null) {
             return item;
@@ -13,7 +12,6 @@ class ItemStore extends Store {
             status: item.status
         };
     }
-
 }
 
 const store = new ItemStore();

@@ -2,6 +2,7 @@ import React from 'react';
 import AuthenticationStore from '../store/authentication-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
+import Omnibar from './components/omnibar.jsx';
 
 export default class App extends ListenerComponent {
 
@@ -30,6 +31,7 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
+                <Omnibar />
                 {this.props.children}
             </div>
         );

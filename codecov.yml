@@ -1,0 +1,13 @@
+comment:
+  layout: "header, diff, changes"
+  require_changes: true
+
+coverage:
+  notify:
+    slack:
+      default:
+        url: secret:zAChUP65Q3h28t2CYkf2vhL+54O0I8A9SMmSPmc3FiecRJdoOv2ekTUMh+mYW3FY6pJnXXGEqjPlhBe2Oj78CyPO6V3yBqToOP8Y0inPgKTMZzfFlX+UYWZoNJEtMD0hrmoUnVpZr/VIpPh0n2dgHrjVPHaChz8VmBWFdlXyBUY=
+        attachments: "diff, sunburst"
+
+fixes:
+  - ".dist/lib/::src/lib/"

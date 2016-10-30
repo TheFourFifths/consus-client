@@ -1,6 +1,8 @@
-import { Store } from 'consus-flux';
+import { Store } from 'consus-core/flux';
 
+/* eslint-disable no-unused-vars */
 let user = null;
+/* eslint-enable no-unused-vars */
 
 class AuthenticationStore extends Store {
 
