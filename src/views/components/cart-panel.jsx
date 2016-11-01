@@ -15,7 +15,6 @@ export default class CartPanel extends React.Component {
 
     changeAddress(e) {
         try {
-          // Have to somehow figure out whether this is a check in or check out
             let result = readAddress(e.target.value);
             assert.strictEqual(result.type, 'item');
             let student = this.props.student;
@@ -51,7 +50,7 @@ export default class CartPanel extends React.Component {
         return (
             <div className='cart'>
                 <h3>Cart</h3>
-                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' />
+                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />
             </div>
