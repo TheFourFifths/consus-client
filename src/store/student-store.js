@@ -31,4 +31,9 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.emitChange();
 });
 
+store.registerHandler('CHECKIN_SUCCESS', data => {
+    student.itemAddresses.splice(student.itemAddresses.indexOf(data.itemAddress), 1);
+    store.emitChange();
+});
+
 export default store;
