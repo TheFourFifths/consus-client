@@ -7,6 +7,11 @@ class CartStore extends Store {
     getItems() {
         return items;
     }
+
+    clearItems() {
+        items = [];
+        this.emitChange();
+    }
 }
 
 const store = new CartStore();
@@ -20,10 +25,9 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     store.emitChange();
 });
 
-
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.waitFor(StudentStore);
-    items = [];
+    store.clearItems();
     store.emitChange();
 });
 

@@ -32,11 +32,15 @@ export default class Student extends ListenerComponent {
         checkOutItems(this.state.student.id, this.state.itemAddresses);
     }
 
+    cancel() {
+        CartStore.clearItems();
+    }
+
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel itemAddresses={this.state.itemAddresses} submit={this.checkOut.bind(this)} />
+                <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} />
                 <div className='clear'></div>
             </div>
         );
