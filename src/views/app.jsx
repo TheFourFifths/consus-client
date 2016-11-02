@@ -3,6 +3,7 @@ import AuthenticationStore from '../store/authentication-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
+import Modal from './components/modal.jsx';
 
 export default class App extends ListenerComponent {
 
@@ -31,6 +32,9 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
+                <Modal active={true}>
+                    <p>Hello, Tony!</p>
+                </Modal>
                 <Omnibar />
                 {this.props.children}
             </div>
