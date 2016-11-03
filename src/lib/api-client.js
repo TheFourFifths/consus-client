@@ -54,7 +54,6 @@ export function checkInItem(studentId, itemAddress){
 }
 
 export function checkOutItems(studentId, itemAddresses){
-
     post('checkout', {
         studentId,
         itemAddresses

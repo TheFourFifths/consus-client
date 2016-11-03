@@ -6,7 +6,7 @@ let student = null;
 class StudentStore extends Store{
     hasOverdueItems(items){
         return items.some(element => {
-            return element.timestamp >= new Date().getTime();
+            return element.timestamp <= new Date().getTime();
         });
     }
 

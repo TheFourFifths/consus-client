@@ -43,4 +43,55 @@ describe('StudentStore', () => {
         assert.strictEqual(student.items.length, 3);
         assert.strictEqual(student.items.indexOf(4), -1);
     });
+
+    it("should add item to student's list on checkout success", () => {
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: "32423",
+            name: "Poe",
+            items: []
+        });
+
+        Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", {
+            address: "123",
+            status: "AVAILABLE"
+        });
+
+        Dispatcher.handleAction("CHECKOUT_SUCCESS");
+
+        let student = StudentStore.getStudent();
+
+        assert.strictEqual(student.items[0].address, "123");
+    });
+
+    it("Should know if the student has an overdue item", () => {
+        //Test that it will find an overdue item
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            id: '432432432423432432432432432',
+            name: 'Poe',
+            items: [{
+                address: 1,
+                timestamp: 0
+            }]
+        });
+
+        let student = StudentStore.getStudent();
+
+        assert.strictEqual(student.items.length, 1);
+        assert(student.hasOverdueItem);
+
+        //Test that it will not say an item is overdue if it's not.
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            id: '432432432423432432432432432',
+            name: 'Poe',
+            items: [{
+                address: 1,
+                timestamp: new Date().getTime() + 100000
+            }]
+        });
+
+        student = StudentStore.getStudent();
+
+        assert.strictEqual(student.items.length, 1);
+        assert(!student.hasOverdueItem);
+    });
 });
