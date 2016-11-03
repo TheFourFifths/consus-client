@@ -5,7 +5,10 @@ let student = null;
 
 class StudentStore extends Store{
     hasOverdueItems(){
-        return false;
+        return student.itemAddresses.some(element => {
+            return false;
+            //TODO check if item is overdue here.
+        });
     }
 
     getStudent() {
