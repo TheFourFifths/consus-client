@@ -4,8 +4,7 @@ import CartStore from './cart-store';
 let student = null;
 
 class StudentStore extends Store{
-    hasOverDueItems(){
-        //TODO
+    hasOverdueItems(){
         return false;
     }
 
@@ -21,7 +20,8 @@ store.registerHandler('STUDENT_FOUND', data => {
         //NOTE: this data is tentative
         id : data.id,
         name: data.name,
-        itemAddresses: data.itemAddresses
+        itemAddresses: data.itemAddresses,
+        hasOverdueItem: store.hasOverdueItems()
     };
     store.emitChange();
 });

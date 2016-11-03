@@ -54,21 +54,16 @@ export function checkInItem(studentId, itemAddress){
 }
 
 export function checkOutItems(studentId, itemAddresses){
-    if (!StudentStore.hasOverDueItems()) {
-        post('checkout', {
-            studentId,
-            itemAddresses
-        }).then(() => {
-            Dispatcher.handleAction('CHECKOUT_SUCCESS');
-        }).catch(data => {
-            Dispatcher.handleAction('ERROR', {
-                error: data.error
-            });
+
+    post('checkout', {
+        studentId,
+        itemAddresses
+    }).then(() => {
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data.error
         });
-    } else Dispatcher.handleAction('ERROR', {
-        error:{
-            message: "Student has at least one overdue item."
-        }
     });
 }
 
@@ -89,37 +84,45 @@ export function searchItem(id) {
     get('item', {
         id
     })
-    .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
-            status: data.item.status
-        });
-    }).catch(() => {
+        .then(data => {
+            Dispatcher.handleAction('ITEM_FOUND', {
+                id: data.item.id,
+                status: data.item.status
+            });
+        }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
 }
 
 export function searchItemForCheckout(address){
-    get('item', {
-        address
-    }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+    if(!StudentStore.getStudent().hasOverdueItem) {
+        get('item', {
+            address
+        }).then(data => {
+            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+                address: data.item.address,
+                status: data.item.status
+            });
         });
-    });
+    } else {
+        Dispatcher.handleAction('ERROR', {
+            error:{
+                message: "Student has at least one overdue item."
+            }
+        });
+    }
 }
 
 export function searchModel(id) {
     get('model', {
         id
     })
-    .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', {
-            id: data.model.id,
-            name: data.model.name
-        });
-    }).catch(() => {
+        .then(data => {
+            Dispatcher.handleAction('MODEL_FOUND', {
+                id: data.model.id,
+                name: data.model.name
+            });
+        }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
     });
 }
