@@ -11,7 +11,7 @@ describe('StudentStore', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             id: '432345',
             name: 'Poe',
-            itemAddresses: [1,2,3,4,5]
+            items: [1,2,3,4,5]
         });
         let student = StudentStore.getStudent();
         assert.strictEqual(student.id,'432345');
@@ -28,11 +28,11 @@ describe('StudentStore', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             id: '432345',
             name: 'Poe',
-            itemAddresses: [1,2,3,4,5]
+            items: [{address:1},{address:2},{address:3},{address:4}]
         });
         let student = StudentStore.getStudent();
         //validate test state
-        assert.strictEqual(student.itemAddresses.length,5);
+        assert.strictEqual(student.items.length,4);
 
         Dispatcher.handleAction('CHECKIN_SUCCESS',{
             itemAddress: 4
@@ -40,7 +40,7 @@ describe('StudentStore', () => {
 
         student = StudentStore.getStudent();
 
-        assert.strictEqual(student.itemAddresses.length, 4);
-        assert.strictEqual(student.itemAddresses.indexOf(4), -1);
+        assert.strictEqual(student.items.length, 3);
+        assert.strictEqual(student.items.indexOf(4), -1);
     });
 });

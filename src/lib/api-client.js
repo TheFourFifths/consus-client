@@ -84,12 +84,12 @@ export function searchItem(id) {
     get('item', {
         id
     })
-        .then(data => {
-            Dispatcher.handleAction('ITEM_FOUND', {
-                id: data.item.id,
-                status: data.item.status
-            });
-        }).catch(() => {
+    .then(data => {
+        Dispatcher.handleAction('ITEM_FOUND', {
+            id: data.item.id,
+            status: data.item.status
+        });
+    }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
 }
@@ -107,7 +107,7 @@ export function searchItemForCheckout(address){
     } else {
         Dispatcher.handleAction('ERROR', {
             error:{
-                message: "Student has at least one overdue item."
+                message: 'Student has at least one overdue item.'
             }
         });
     }
@@ -117,12 +117,12 @@ export function searchModel(id) {
     get('model', {
         id
     })
-        .then(data => {
-            Dispatcher.handleAction('MODEL_FOUND', {
-                id: data.model.id,
-                name: data.model.name
-            });
-        }).catch(() => {
+    .then(data => {
+        Dispatcher.handleAction('MODEL_FOUND', {
+            id: data.model.id,
+            name: data.model.name
+        });
+    }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
     });
 }

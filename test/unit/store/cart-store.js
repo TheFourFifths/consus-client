@@ -21,7 +21,7 @@ describe('CartStore', () => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             id: '123456',
             name: 'Pope Francis',
-            itemAddresses: []
+            items: []
         });
         Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
             address: '123',
