@@ -132,7 +132,7 @@ export function searchStudent(id){
     }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
-            itemAddresses: data.student.itemAddresses,
+            items: data.student.items,
             id: data.student.id,
             name: data.student.name
         });
