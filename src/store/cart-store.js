@@ -31,4 +31,9 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ITEMS', () => {
+    items = [];
+    store.emitChange();
+});
+
 export default store;
