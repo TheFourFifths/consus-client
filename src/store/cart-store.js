@@ -20,9 +20,13 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     store.emitChange();
 });
 
-
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.waitFor(StudentStore);
+    items = [];
+    store.emitChange();
+});
+
+store.registerHandler('CLEAR_ALL_DATA', () => {
     items = [];
     store.emitChange();
 });

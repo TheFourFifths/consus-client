@@ -112,6 +112,8 @@ export function searchStudent(id){
         });
         hashHistory.push('/student');
     }).catch(() => {
-        Dispatcher.handleAction('NO_STUDENT_FOUND');
+        Dispatcher.handleAction('ERROR', {
+            error: 'An invalid student ID was scanned. The student could not be found.'
+        });
     });
 }

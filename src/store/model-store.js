@@ -31,4 +31,9 @@ store.registerHandler('NO_MODEL_FOUND', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    model = null;
+    store.emitChange();
+});
+
 export default store;

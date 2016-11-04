@@ -3,6 +3,9 @@ import ModelStore from '../../../.dist/store/model-store';
 import { assert } from 'chai';
 
 describe('ModelStore', () => {
+    before(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
 
     it('should instantiate without a model', () => {
         assert.strictEqual(ModelStore.getModel(), null);

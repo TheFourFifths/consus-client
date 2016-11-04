@@ -3,6 +3,10 @@ import StudentStore from '../../../.dist/store/student-store';
 import { assert } from 'chai';
 
 describe('StudentStore', () => {
+    before(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
+
     it('should instantiate without a student', () => {
         assert.isNull(StudentStore.getStudent());
     });
@@ -16,10 +20,5 @@ describe('StudentStore', () => {
         let student = StudentStore.getStudent();
         assert.strictEqual(student.id,'432345');
         assert.strictEqual(student.name,'Poe');
-    });
-
-    it('should handle a student not being found', () => {
-        Dispatcher.handleAction('NO_STUDENT_FOUND');
-        assert.strictEqual(StudentStore.getStudent(),null);
     });
 });

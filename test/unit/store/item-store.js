@@ -3,6 +3,9 @@ import ItemStore from '../../../.dist/store/item-store';
 import { assert } from 'chai';
 
 describe('ItemStore', () => {
+    before(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
 
     it('should instantiate without an item', () => {
         assert.strictEqual(ItemStore.getItem(), null);

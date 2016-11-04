@@ -21,13 +21,13 @@ store.registerHandler('STUDENT_FOUND', data => {
     store.emitChange();
 });
 
-store.registerHandler('NO_STUDENT_FOUND', () => {
-    student = null;
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    student.itemAddresses = student.itemAddresses.concat(CartStore.getItems().map(item => item.address));
     store.emitChange();
 });
 
-store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student.itemAddresses = student.itemAddresses.concat(CartStore.getItems().map(item => item.address));
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    student = null;
     store.emitChange();
 });
 
