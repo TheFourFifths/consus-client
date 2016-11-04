@@ -48,10 +48,6 @@ export function checkOutItems(studentId, itemAddresses){
     });
 }
 
-export function clearCart(){
-    Dispatcher.handleAction('CLEAR_ITEMS');
-}
-
 export function createItem(id) {
     post('item', {
         id

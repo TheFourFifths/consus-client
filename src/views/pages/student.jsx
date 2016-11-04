@@ -5,9 +5,9 @@ import StudentStore from '../../store/student-store';
 import CartStore from '../../store/cart-store';
 import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
+import { Dispatcher } from 'consus-core/flux';
 
 import { checkOutItems } from '../../lib/api-client';
-import { clearCart } from '../../lib/api-client';
 
 export default class Student extends ListenerComponent {
 
@@ -34,7 +34,7 @@ export default class Student extends ListenerComponent {
     }
 
     cancel() {
-        clearCart();
+        Dispatcher.handleAction('CLEAR_ITEMS');
     }
 
     render() {
