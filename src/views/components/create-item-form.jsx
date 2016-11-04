@@ -28,6 +28,11 @@ export default class CreateItemForm extends React.Component {
                 <form onSubmit={this.submit.bind(this)}>
                     <input type='text' value={this.state.id} onChange={this.changeId.bind(this)} placeholder='ID' />
                     <input type='submit' value='Create Item' />
+                    <select value=''>
+                      <option value="A">Apple</option>
+                      <option value="B">Banana</option>
+                      <option value="C">Cranberry</option>
+                    </select>
                 </form>
             </div>
         );
