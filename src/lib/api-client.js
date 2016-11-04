@@ -117,7 +117,7 @@ export function searchStudent(id){
 }
 
 export function getAllModels(){
-    get('model/all-models', {}
+    get('model/all', {}
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/models');
