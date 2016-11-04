@@ -7,6 +7,7 @@ import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
 
 import { checkOutItems } from '../../lib/api-client';
+import { clearCart } from '../../lib/api-client';
 
 export default class Student extends ListenerComponent {
 
@@ -33,7 +34,7 @@ export default class Student extends ListenerComponent {
     }
 
     cancel() {
-        CartStore.clearItems();
+        clearCart();
     }
 
     render() {
