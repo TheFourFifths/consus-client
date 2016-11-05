@@ -48,7 +48,6 @@ describe('CartStore', () => {
       assert.strictEqual(CartStore.getItems()[0].address, '123');
       Dispatcher.handleAction('CLEAR_ITEMS');
       assert.strictEqual(CartStore.getItems().length,0);
-      Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 
 });
