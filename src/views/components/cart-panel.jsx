@@ -2,6 +2,7 @@ import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import { searchItemForCheckout } from '../../lib/api-client';
 import { searchItem } from '../../lib/api-client';
+import { checkInItem } from '../../lib/api-client';
 import { assert } from 'chai';
 
 export default class CartPanel extends React.Component {
@@ -21,7 +22,7 @@ export default class CartPanel extends React.Component {
             if( student.itemAddresses.indexOf(e.target.value) ===  -1) {
               searchItemForCheckout(e.target.value);
             } else {
-              // checkInItem(student.id, e.target.value)
+              checkInItem(student.id, e.target.value)
             }
             this.setState({
                 address: ''

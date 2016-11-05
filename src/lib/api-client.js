@@ -82,7 +82,7 @@ export function searchItem(address) {
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.address,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
