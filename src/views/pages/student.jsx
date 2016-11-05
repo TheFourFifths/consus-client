@@ -5,6 +5,7 @@ import StudentStore from '../../store/student-store';
 import CartStore from '../../store/cart-store';
 import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
+import { Dispatcher } from 'consus-core/flux';
 
 import { checkOutItems } from '../../lib/api-client';
 
@@ -32,11 +33,15 @@ export default class Student extends ListenerComponent {
         checkOutItems(this.state.student.id, this.state.itemAddresses);
     }
 
+    cancel() {
+        Dispatcher.handleAction('CLEAR_ITEMS');
+    }
+
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel itemAddresses={this.state.itemAddresses} submit={this.checkOut.bind(this)} />
+                <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} />
                 <div className='clear'></div>
             </div>
         );

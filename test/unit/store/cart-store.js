@@ -33,4 +33,20 @@ describe('CartStore', () => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 
+    it('should clear items on cancel', () => {
+      Dispatcher.handleAction('STUDENT_FOUND', {
+          id: '123456',
+          name: 'Pope Francis',
+          items: []
+      });
+      Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+          address: '123',
+          status: 'AVAILABLE'
+      });
+      assert.strictEqual(CartStore.getItems()[0].address, '123');
+      Dispatcher.handleAction('CLEAR_ITEMS');
+      assert.strictEqual(CartStore.getItems().length,0);
+      Dispatcher.handleAction('NO_STUDENT_FOUND');
+    });
+
 });
