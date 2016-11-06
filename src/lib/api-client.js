@@ -105,9 +105,7 @@ export function searchItemForCheckout(address){
         });
     } else {
         Dispatcher.handleAction('ERROR', {
-            error:{
-                message: 'Student has at least one overdue item.'
-            }
+            error:'Student has at least one overdue item.'
         });
     }
 }
