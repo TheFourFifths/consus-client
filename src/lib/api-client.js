@@ -46,9 +46,9 @@ export function checkInItem(studentId, itemAddress){
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
             itemAddress: data.itemAddress
         });
-    }).catch(data => {
+    }).catch(error => {
         Dispatcher.handleAction('ERROR', {
-            error: data.error
+            error
         });
     });
 }
