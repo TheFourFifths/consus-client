@@ -59,9 +59,9 @@ export function checkOutItems(studentId, itemAddresses){
         itemAddresses
     }).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(data => {
+    }).catch(error => {
         Dispatcher.handleAction('ERROR', {
-            error: data.error
+            error
         });
     });
 }
