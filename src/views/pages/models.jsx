@@ -2,7 +2,7 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store.js';
 import CreateModelForm from '../components/create-model-form.jsx';
-import { getAllModels } from '../../lib/api-client'
+import { hashHistory } from 'react-router';
 export default class Models extends ListenerComponent {
 
     constructor() {
@@ -19,10 +19,14 @@ export default class Models extends ListenerComponent {
             models: ModelStore.getAllModels()
         };
     }
+    addNewModel(){
+        hashHistory.push("/models/new");
+    }
     render() {
         return (
             <div id="models">
                 <h1>All models</h1>
+                <button onClick={this.addNewModel}>Make new model</button>
                 {this.state.models.map(function(model, key){
                     return <div key={key} className="model">
                         <div className="picArea">

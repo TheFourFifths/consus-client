@@ -69,10 +69,17 @@ export function createItem(id) {
     });
 }
 
-export function createModel(id, name) {
+export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
     post('model', {
-        id,
-        name
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price,
+        count: count
     });
 }
 
