@@ -32,7 +32,10 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <Modal />
+                <Modal active={true}>
+                    <h3>Yo Bitch</h3>
+                    <p>It done werkded!</p>
+                </Modal>
                 <Omnibar />
                 {this.props.children}
             </div>

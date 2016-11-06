@@ -1,47 +1,28 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import { Disapatcher } from 'consus-core/flux/dispatcher';
-import { ErrorStore } from '../../store/error-store';
+import { Dispatcher } from 'consus-core/flux';
 
 export default class Modal extends ListenerComponent {
 
-    constructor() {
-        super();
-    }
-    // constructor(props) {
-    //     super(props);
-    // }
-
-    getStores() {
-        return [ErrorStore];
+    constructor(props) {
+        super(props);
     }
 
-    getState() {
-        return {
-            tag: ErrorStore.getTag();
-            error: ErrorStore.getError();
-        };
-    }
-
-    clearError() {
-        Dispatcher.handleAction('CLEAR_ERRORS', {});
+    _deactivateModal() {
+        this.props.active = false;
     }
 
     render() {
-        if (!ErrorStore.hasError()) {
+        if (!this.props.active) {
             return false;
         }
 
         return (
-            <div className="modal">
-                <!-- TODO add close 'X' in top-right -->
-                <div className="modal-content {this.state.tag.toLowerCase()}">
-                    <h3>{this.state.error.summary}</h3>
-                    {this.state.error.message}
+            <div className='modal'>
+                <div className='modal-content'>
                     {this.props.children}
+                    <button type='button' onClick={this._deactiveModal.bind(this)}>Close</button>
                 </div>
-                <!-- TODO add close button -->
-                <button type="button" onClick="clearError">Close</button>
             </div>
         );
     }

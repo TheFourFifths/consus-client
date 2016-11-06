@@ -45,7 +45,7 @@ store.registerHandler('ERROR', data => {
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ERRORS', data => {
+store.registerHandler('CLEAR_ERROR', data => {
     clearError();
 });
 
