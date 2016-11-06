@@ -1,7 +1,6 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store.js';
-import CreateModelForm from '../components/create-model-form.jsx';
 import { hashHistory } from 'react-router';
 export default class Models extends ListenerComponent {
 

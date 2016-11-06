@@ -1,6 +1,7 @@
 import React from 'react';
 import { createModel } from '../../lib/api-client';
 import { getAllModels } from '../../lib/api-client'
+import { hashHistory } from 'react-router';
 export default class CreateModelForm extends React.Component {
 
     constructor() {
@@ -82,13 +83,20 @@ export default class CreateModelForm extends React.Component {
                 <h1>Create a Model</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
-                    <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' />
-                    <input type='text' value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' />
-                    <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' />
-                    <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' />
-                    <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' />
-                    <input type='text' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' />
-                    <input type='text' value={this.state.count} onChange={this.changeCount.bind(this)} placeholder='Count' />
+                    Name:<br/>
+                    <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
+                    Description:<br/>
+                    <textarea rows="4" cols="50" value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required> </textarea><br/>
+                    Manufacturer:<br/>
+                    <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+                    Vendor:<br/>
+                    <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+                    Storage location:<br/>
+                    <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+                    Price per unit:<br/>
+                    <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    Amount in stock:<br/>
+                    <input type='number' value={this.state.count} onChange={this.changeCount.bind(this) } placeholder='Count' required/><br/><br/>
                     <input type='submit' value='Create Model' />
                 </form>
             </div>
