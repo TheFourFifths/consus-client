@@ -1,6 +1,8 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import { searchItemForCheckout } from '../../lib/api-client';
+import { searchItem } from '../../lib/api-client';
+import { checkInItem } from '../../lib/api-client';
 import { assert } from 'chai';
 
 export default class CartPanel extends React.Component {
@@ -16,7 +18,12 @@ export default class CartPanel extends React.Component {
         try {
             let result = readAddress(e.target.value);
             assert.strictEqual(result.type, 'item');
-            searchItemForCheckout(e.target.value);
+            let student = this.props.student;
+            if( student.itemAddresses.indexOf(e.target.value) ===  -1) {
+              searchItemForCheckout(e.target.value);
+            } else {
+              checkInItem(student.id, e.target.value)
+            }
             this.setState({
                 address: ''
             });
@@ -44,7 +51,7 @@ export default class CartPanel extends React.Component {
         return (
             <div className='cart'>
                 <h3>Cart</h3>
-                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' />
+                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />
             </div>
