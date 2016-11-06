@@ -53,16 +53,24 @@ export function checkInItem(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses){
-    post('checkout', {
+export function checkOutItems(studentId, itemAddresses, adminCode){
+    let params = {
         studentId,
         itemAddresses
-    }).then(() => {
+    };
+
+    if (adminCode) params.adminCode = adminCode;
+
+    post('checkout', params).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
+        if (error === 'Student has overdue item'){
+            //TODO Handle action for override modal.
+        }else {
+            Dispatcher.handleAction('ERROR', {
+                error
+            });
+        }
     });
 }
 
@@ -104,9 +112,7 @@ export function searchItemForCheckout(address){
             });
         });
     } else {
-        Dispatcher.handleAction('ERROR', {
-            error:'Student has at least one overdue item.'
-        });
+        //TODO Handle action for override modal.
     }
 }
 
