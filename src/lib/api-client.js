@@ -1,6 +1,7 @@
 import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
+import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -37,14 +38,31 @@ function post(endpoint, data) {
     });
 }
 
+export function checkInItem(studentId, itemAddress){
+    post('checkin', {
+        studentId,
+        itemAddress
+    }).then(data => {
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: data.itemAddress
+        });
+    }).catch(error => {
+        Dispatcher.handleAction('ERROR', {
+            error
+        });
+    });
+}
+
 export function checkOutItems(studentId, itemAddresses){
     post('checkout', {
         studentId,
         itemAddresses
     }).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(() => {
-        Dispatcher.handleAction('CHECKOUT_FAILED');
+    }).catch(error => {
+        Dispatcher.handleAction('ERROR', {
+            error
+        });
     });
 }
 
@@ -76,14 +94,20 @@ export function searchItem(id) {
 }
 
 export function searchItemForCheckout(address){
-    get('item', {
-        address
-    }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+    if(!StudentStore.getStudent().hasOverdueItem) {
+        get('item', {
+            address
+        }).then(data => {
+            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+                address: data.item.address,
+                status: data.item.status
+            });
         });
-    });
+    } else {
+        Dispatcher.handleAction('ERROR', {
+            error:'Student has at least one overdue item.'
+        });
+    }
 }
 
 export function searchModel(id) {
@@ -106,7 +130,7 @@ export function searchStudent(id){
     }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
-            itemAddresses: data.student.itemAddresses,
+            items: data.student.items,
             id: data.student.id,
             name: data.student.name
         });

@@ -4,6 +4,12 @@ import CartStore from './cart-store';
 let student = null;
 
 class StudentStore extends Store{
+    hasOverdueItems(items){
+        return items.some(element => {
+            return element.timestamp <= new Date().getTime();
+        });
+    }
+
     getStudent() {
         return student;
     }
@@ -16,7 +22,8 @@ store.registerHandler('STUDENT_FOUND', data => {
         //NOTE: this data is tentative
         id : data.id,
         name: data.name,
-        itemAddresses: data.itemAddresses
+        items: data.items,
+        hasOverdueItem: store.hasOverdueItems(data.items)
     };
     store.emitChange();
 });
@@ -27,7 +34,17 @@ store.registerHandler('NO_STUDENT_FOUND', () => {
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student.itemAddresses = student.itemAddresses.concat(CartStore.getItems().map(item => item.address));
+    student.items = student.items.concat(CartStore.getItems());
+    store.emitChange();
+});
+
+store.registerHandler('CHECKIN_SUCCESS', data => {
+    let index = student.items.findIndex(element => {
+        return element.address === data.itemAddress;
+    });
+
+    student.items.splice(index, 1);
+
     store.emitChange();
 });
 
