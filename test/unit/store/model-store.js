@@ -3,7 +3,8 @@ import ModelStore from '../../../.dist/store/model-store';
 import { assert } from 'chai';
 
 describe('ModelStore', () => {
-    before(() => {
+
+    beforeEach(() => {
         return Dispatcher.handleAction('CLEAR_ALL_DATA');
     });
 

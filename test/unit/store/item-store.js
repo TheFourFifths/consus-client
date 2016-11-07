@@ -3,7 +3,8 @@ import ItemStore from '../../../.dist/store/item-store';
 import { assert } from 'chai';
 
 describe('ItemStore', () => {
-    before(() => {
+
+    beforeEach(() => {
         return Dispatcher.handleAction('CLEAR_ALL_DATA');
     });
 

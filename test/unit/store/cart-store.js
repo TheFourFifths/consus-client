@@ -3,7 +3,8 @@ import CartStore from '../../../.dist/store/cart-store';
 import { assert } from 'chai';
 
 describe('CartStore', () => {
-    before(() => {
+
+    beforeEach(() => {
         return Dispatcher.handleAction('CLEAR_ALL_DATA');
     });
 
@@ -24,7 +25,7 @@ describe('CartStore', () => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             id: '123456',
             name: 'Pope Francis',
-            itemAddresses: []
+            items: []
         });
         Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
             address: '123',
@@ -39,7 +40,7 @@ describe('CartStore', () => {
       Dispatcher.handleAction('STUDENT_FOUND', {
           id: '123456',
           name: 'Pope Francis',
-          itemAddresses: []
+          items: []
       });
       Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
           address: '123',
