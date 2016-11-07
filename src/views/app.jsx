@@ -3,7 +3,7 @@ import AuthenticationStore from '../store/authentication-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
-import Modal from './components/modal.jsx';
+import ErrorModal from './components/error-modal.jsx';
 
 export default class App extends ListenerComponent {
 
@@ -21,6 +21,10 @@ export default class App extends ListenerComponent {
         };
     }
 
+    closeError() {
+        console.log('Close');
+    }
+
     render() {
         if (!this.state.loggedIn) {
             return (
@@ -32,10 +36,7 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <Modal active={true}>
-                    <h3>Yo Bitch</h3>
-                    <p>It done werkded!</p>
-                </Modal>
+                <ErrorModal active={true} onClose={this.closeError} message={'fuck'} />
                 <Omnibar />
                 {this.props.children}
             </div>
