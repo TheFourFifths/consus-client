@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dispatcher } from 'consus-core/flux';
 import AuthenticationStore from '../store/authentication-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
@@ -22,7 +23,14 @@ export default class App extends ListenerComponent {
     }
 
     closeError() {
-        console.log('Close');
+        Dispatcher.handleAction('CLEAR_ERROR', {});
+    }
+
+    makeError() {
+        console.log('Error!');
+        Dispatcher.handleAction('ERROR', {
+            error: 'Skyrim is being played'
+        });
     }
 
     render() {
@@ -36,7 +44,8 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <ErrorModal active={true} onClose={this.closeError} message={'fuck'} />
+                <button type='button' onClick={this.makeError}>Error!</button>
+                <ErrorModal active={true} onClose={this.closeError} message="Sorry, I can't let you do that" />
                 <Omnibar />
                 {this.props.children}
             </div>

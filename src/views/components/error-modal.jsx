@@ -1,16 +1,17 @@
 import React from 'react';
+import ErrorStore from '../../store/error-store';
 import Modal from './modal.jsx';
 
 export default class ErrorModal extends React.Component {
 
     render() {
-        if (!this.props.active) {
+        if (!ErrorStore.hasError()) {
             return false;
         }
 
         return (
-            <Modal active={true} onClose={this.props.onClose}>
-                <p>{this.props.message}</p>
+            <Modal active={ErrorStore.hasError()} onClose={this.props.onClose}>
+                <p>{ErrorStore.getError()}</p>
             </Modal>
         );
     }

@@ -29,7 +29,7 @@ store.registerHandler('DEBUG', data => {
     tag = 'DEBUG';
     store.emitChange();
 });
-store.reigsterHandler('INFO', data => {
+store.registerHandler('INFO', data => {
     error = data.error;
     tag = 'DEBUG';
     store.emitChange();
@@ -47,6 +47,7 @@ store.registerHandler('ERROR', data => {
 
 store.registerHandler('CLEAR_ERROR', data => {
     clearError();
+    store.emitChange();
 });
 
 export default store;
