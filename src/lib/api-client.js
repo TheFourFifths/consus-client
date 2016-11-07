@@ -48,9 +48,9 @@ export function checkOutItems(studentId, itemAddresses){
     });
 }
 
-export function createItem(id) {
+export function createItem(modelAddress) {
     post('item', {
-        id
+        modelAddress: modelAddress
     });
 }
 

@@ -6,13 +6,13 @@ export default class CreateItemForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            id: ''
+            modelAddress: ''
         };
     }
 
-    changeId(e) {
+    changeModel(e) {
         this.setState({
-            id: e.target.value
+            modelAddress: e.target.value
         });
     }
 
@@ -26,13 +26,13 @@ export default class CreateItemForm extends React.Component {
             <div className='create-item-form'>
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
-                    <input type='text' value={this.state.id} onChange={this.changeId.bind(this)} placeholder='ID' />
-                    <input type='submit' value='Create Item' />
-                    <select value=''>
+                    <select value='Select a Model Type' onChange={this.changeId.bind(this)} >
+                      
                       <option value="A">Apple</option>
                       <option value="B">Banana</option>
                       <option value="C">Cranberry</option>
                     </select>
+                    <input type='submit' value='Create Item' />
                 </form>
             </div>
         );
