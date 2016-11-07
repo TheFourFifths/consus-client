@@ -37,7 +37,7 @@ function post(endpoint, data) {
     });
 }
 
-export function checkInItem(studentId, itemAddress){
+export function checkInItem(studentId, itemAddress) {
     post('checkin', {
         studentId,
         itemAddress
@@ -52,7 +52,7 @@ export function checkInItem(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses){
+export function checkOutItems(studentId, itemAddresses) {
     post('checkout', {
         studentId,
         itemAddresses
@@ -80,6 +80,10 @@ export function createModel(name, description, manufacturer, vendor, location, i
         faultDescription: faultDescription,
         price: price,
         count: count
+    }).then(() => {
+        hashHistory.push("/models");
+    }).catch(() => {
+        //Todo pop-up a modal explaining server is down
     });
 }
 
@@ -97,7 +101,7 @@ export function searchItem(id) {
     });
 }
 
-export function searchItemForCheckout(address){
+export function searchItemForCheckout(address) {
     get('item', {
         address
     }).then(data => {
@@ -122,7 +126,7 @@ export function searchModel(id) {
     });
 }
 
-export function searchStudent(id){
+export function searchStudent(id) {
     get('student', {
         id
     }).then(data => {
@@ -138,7 +142,7 @@ export function searchStudent(id){
     });
 }
 
-export function getAllModels(){
+export function getAllModels() {
     get('model/all', {}
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
