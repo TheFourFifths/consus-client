@@ -20,6 +20,7 @@ export default class App extends ListenerComponent {
 
     getState() {
         return {
+            hasError: ErrorStore.hasError(),
             loggedIn: AuthenticationStore.loggedIn(),
             errorTag: ErrorStore.getTag(),
             errorMessage: ErrorStore.getError()
@@ -28,12 +29,6 @@ export default class App extends ListenerComponent {
 
     closeError() {
         Dispatcher.handleAction('CLEAR_ERROR', {});
-    }
-
-    makeError() {
-        Dispatcher.handleAction('ERROR', {
-            error: 'Skyrim is being played'
-        });
     }
 
     render() {
@@ -47,7 +42,6 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <button type='button' onClick={this.makeError}>Error!</button>
                 <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} message={this.state.errorMessage} />
                 <Omnibar />
                 {this.props.children}

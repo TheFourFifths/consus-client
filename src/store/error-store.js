@@ -1,11 +1,11 @@
 import { Store } from 'consus-core/flux';
 
-let error = null;
+let message = null;
 let tag = null;
 
 class ErrorStore extends Store{
     getError() {
-        return error;
+        return message;
     }
 
     getTag() {
@@ -13,40 +13,36 @@ class ErrorStore extends Store{
     }
 
     hasError() {
-        return error !== null;
-    }
-
-    clearError(){
-        error = null;
-        tag = null;
+        return message !== null;
     }
 }
 
 const store = new ErrorStore();
 
 store.registerHandler('DEBUG', data => {
-    error = data.error;
+    message = data.debug;
     tag = 'DEBUG';
     store.emitChange();
 });
 store.registerHandler('INFO', data => {
-    error = data.error;
+    message = data.info;
     tag = 'INFO';
     store.emitChange();
 });
 store.registerHandler('WARN', data => {
-    error = data.error;
+    message = data.warn;
     tag = 'WARN';
     store.emitChange();
 });
 store.registerHandler('ERROR', data => {
-    error = data.error;
+    message = data.error;
     tag = 'ERROR';
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ERROR', _ => {
-    store.clearError();
+store.registerHandler('CLEAR_ERROR', () => {
+    message = null;
+    tag = null;
     store.emitChange();
 });
 

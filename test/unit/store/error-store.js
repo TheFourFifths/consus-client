@@ -8,7 +8,7 @@ describe('ErrorStore', () => {
     });
 
     it('should store an error when one is gotten', () => {
-        Dispatcher.handleAction('ERROR',{
+        Dispatcher.handleAction('ERROR', {
             error: 'Some Error'
         });
 
@@ -18,7 +18,7 @@ describe('ErrorStore', () => {
 
     it('should store a debug message when one is gotten', () => {
         Dispatcher.handleAction('DEBUG', {
-            error: 'Some bug'
+            debug: 'Some bug'
         });
 
         assert.strictEqual(ErrorStore.getTag(), 'DEBUG');
@@ -27,7 +27,7 @@ describe('ErrorStore', () => {
 
     it('should store an info message when one is gotten', () => {
         Dispatcher.handleAction('INFO', {
-            error: 'Some info'
+            info: 'Some info'
         });
 
         assert.strictEqual(ErrorStore.getTag(), 'INFO');
@@ -36,7 +36,7 @@ describe('ErrorStore', () => {
 
     it('should store a warning when one is gotten', () => {
         Dispatcher.handleAction('WARN', {
-            error: 'Some warning'
+            warn: 'Some warning'
         });
 
         assert.strictEqual(ErrorStore.getTag(), 'WARN');

@@ -14,13 +14,6 @@
         "no-console": [
             2
         ],
-        "no-unused-vars": [
-            2,
-            {
-                "argsIgnorePattern": "^_",
-                "varsIgnorePattern": "^_"
-            }
-        ],
         "semi": [
             2,
             "always"
