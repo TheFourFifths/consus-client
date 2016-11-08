@@ -143,6 +143,9 @@ export function searchStudent(id) {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 }
+export function viewModel(address){
+    get('')
+}
 
 export function getAllModels() {
     get('model/all', {}

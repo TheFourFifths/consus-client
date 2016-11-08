@@ -22,11 +22,9 @@ class ModelStore extends Store {
 const store = new ModelStore();
 
 store.registerHandler('MODEL_FOUND', data => {
-    model = {
-        id: data.id,
-        name: data.name
-    };
+    model = data;
     store.emitChange();
+    hashHistory("/model/")
 });
 
 store.registerHandler('NO_MODEL_FOUND', () => {

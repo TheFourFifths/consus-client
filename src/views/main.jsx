@@ -7,17 +7,19 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './app.jsx';
 import Index from './pages/index.jsx';
 import Student from './pages/student.jsx';
-import Model from "./pages/models.jsx";
+import Models from "./pages/models.jsx";
 import createModelForm from './components/create-model-form.jsx';
-import Item from './pages/items.jsx';
+import Items from './pages/items.jsx';
+import Model from './components/model.jsx';
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path='/' component={App}>
             <IndexRoute component={Index} />
             <Route path='/student' component={Student} />
-            <Route path='/models' component={Model} />
+            <Route path='/models' component={Models} />
             <Route path='/models/new' component={createModelForm} />
-            <Route path='/items' component={Item} />
+            <Route path='/items' component={Items} />
+            <Route path="/model/:address" component={Model}/>
         </Route>
     </Router>
 ), document.getElementById('app-container'));

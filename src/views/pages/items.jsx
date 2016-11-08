@@ -1,7 +1,8 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store.js';
-import { hashHistory } from 'react-router';
+import { hashHistory, Link} from 'react-router';
+import { viewModel } from '../../lib/api-client.js'
 export default class Models extends ListenerComponent {
 
     constructor() {
@@ -18,22 +19,19 @@ export default class Models extends ListenerComponent {
             items: ItemStore.getAllItems()
         };
     }
-    viewModel(){
-        console.log('test');
-    }
     render() {
         return (
             <div id="item">
                 <h1>All Items</h1>
                 <button>Make new Item</button>
-                {this.state.items.map(function(item, key){
+                {this.state.items.map(((item, key) => {
                     return <div key={key} className="item">
                         <div className="picArea">
                             <img src="../src/imgs/placeholder.jpg" />
                         </div>
                         <div className="titleArea">
                             <h2>{item.address}</h2>
-                            <button onClick={this.viewModel.bind(this)} className="modelLink">View model</button>
+                            <Link to={`/model/${item.address}`} >View model</Link>
                         </div>
                         <div className="infoArea">
                             <div className="descriptionArea">
@@ -55,7 +53,7 @@ export default class Models extends ListenerComponent {
                         </div>
                         <div className="clear"> </div>
                     </div>
-                })}
+                }))}
             </div>
         );
     }
