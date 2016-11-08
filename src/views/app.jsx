@@ -31,7 +31,6 @@ export default class App extends ListenerComponent {
     }
 
     makeError() {
-        console.log('Error!');
         Dispatcher.handleAction('ERROR', {
             error: 'Skyrim is being played'
         });
