@@ -1,8 +1,8 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store.js';
-import CreateModelForm from '../components/create-model-form.jsx';
-import { getAllModels } from '../../lib/api-client'
+
+import { Link } from 'react-router';
 export default class Models extends ListenerComponent {
 
     constructor() {
@@ -23,6 +23,7 @@ export default class Models extends ListenerComponent {
         return (
             <div id="models">
                 <h1>All models</h1>
+                <Link to='/models/new'>Make new model</Link>
                 {this.state.models.map(function(model, key){
                     return <div key={key} className="model">
                         <div className="picArea">

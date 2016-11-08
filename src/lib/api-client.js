@@ -37,7 +37,22 @@ function post(endpoint, data) {
     });
 }
 
-export function checkOutItems(studentId, itemAddresses){
+export function checkInItem(studentId, itemAddress) {
+    post('checkin', {
+        studentId,
+        itemAddress
+    }).then(data => {
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: data.itemAddress
+        });
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data.error
+        });
+    });
+}
+
+export function checkOutItems(studentId, itemAddresses) {
     post('checkout', {
         studentId,
         itemAddresses
@@ -54,20 +69,35 @@ export function createItem(modelAddress) {
     });
 }
 
-export function createModel(id, name) {
+export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
     post('model', {
-        id,
-        name
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price,
+        count: count
+    }).then(data => {
+        Dispatcher.handleAction('MODEL_CREATED', data);
+        hashHistory.push("/models");
+
+    }).catch(() => {
+        Dispatcher.handleAction('ERROR', {
+            error: 'The server was not able to create the item. Is the server down?'
+        });
     });
 }
 
-export function searchItem(id) {
+export function searchItem(address) {
     get('item', {
-        id
+        address
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
@@ -75,7 +105,7 @@ export function searchItem(id) {
     });
 }
 
-export function searchItemForCheckout(address){
+export function searchItemForCheckout(address) {
     get('item', {
         address
     }).then(data => {
@@ -100,7 +130,7 @@ export function searchModel(id) {
     });
 }
 
-export function searchStudent(id){
+export function searchStudent(id) {
     get('student', {
         id
     }).then(data => {
@@ -116,7 +146,7 @@ export function searchStudent(id){
     });
 }
 
-export function getAllModels(){
+export function getAllModels() {
     get('model/all', {}
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);

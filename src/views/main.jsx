@@ -17,7 +17,8 @@ ReactDOM.render((
             <IndexRoute component={Index} />
             <Route path='/student' component={Student} />
             <Route path='/models' component={Model} />
-            <Route path='/items/new' component={createItemForm} />
+            <Route path='/models/new' component={createModelForm} />
+	    <Route path='/items/new' component={createItemForm} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
