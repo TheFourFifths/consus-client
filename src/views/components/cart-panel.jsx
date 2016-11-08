@@ -28,7 +28,7 @@ export default class CartPanel extends React.Component {
                     address: ''
                 });
             } else {
-                checkInItem(student.id, e.target.value)
+                checkInItem(student.id, e.target.value);
                 this.setState({
                     active: true,
                     address: ''
@@ -65,7 +65,7 @@ export default class CartPanel extends React.Component {
     render() {
         return (
             <div className='cart'>
-                <Modal active={this.state.active} onClose={this.closeModal.bind(this)} >You successfully Checked in an Item</Modal>
+                <Modal active={this.state.active} onClose={this.closeModal.bind(this)} >You successfully Checked in an Item.<br/></Modal>
                 <h3>Cart</h3>
                 <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
