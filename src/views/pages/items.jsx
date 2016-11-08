@@ -25,9 +25,33 @@ export default class Models extends ListenerComponent {
                 <button>Make new Item</button>
                 {this.state.models.map(function(item, key){
                     return <div key={key} className="item">
-                        {item.address}
+                        <div className="picArea">
+                            <img src="../src/imgs/placeholder.jpg" />
+                        </div>
+                        <div className="titleArea">
+                            <h2>{item.address}</h2>
+                            <i className="modelLink">View model</i>
+                        </div>
+                        <div className="infoArea">
+                            <div className="descriptionArea">
+                            <h3>Status</h3>
+                                <p>{item.status}</p>
+                            </div>
+                            <div className="faultArea">
+                                <h3>Fault</h3>
+                                {(item.isFaulty
+                                        ? <p>{item.faultDescription}</p>
+                                        : <p>Item is not faulty.</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className="actionArea">
+                            <img src="../src/imgs/plus.png" />
+                            <img src="../src/imgs/edit.png" />
+                            <img src="../src/imgs/trashcan.png" />
+                        </div>
+                        <div className="clear"> </div>
                     </div>
-
                 })}
             </div>
         );
