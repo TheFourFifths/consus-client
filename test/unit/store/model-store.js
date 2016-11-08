@@ -21,5 +21,16 @@ describe('ModelStore', () => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
         assert.strictEqual(ModelStore.getModel(), null);
     });
-
+    it('should get all models', () => {
+        Dispatcher.handleAction('MODELS_RECEIVED',{
+            models:[{
+                name: 'test1'
+            },{
+                name: 'test2'
+            },{
+                name: 'test3'
+            }]
+        });
+        assert.strictEqual(ModelStore.getAllModels().length, 3);
+    });
 });

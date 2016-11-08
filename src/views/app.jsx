@@ -5,6 +5,7 @@ import ErrorStore from '../store/error-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
+import Models from './pages/models.jsx';
 import ErrorModal from './components/error-modal.jsx';
 
 export default class App extends ListenerComponent {

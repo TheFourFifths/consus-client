@@ -76,13 +76,13 @@ export function createModel(id, name) {
     });
 }
 
-export function searchItem(id) {
+export function searchItem(address) {
     get('item', {
-        id
+        address
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
@@ -128,5 +128,13 @@ export function searchStudent(id){
         hashHistory.push('/student');
     }).catch(() => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
+    });
+}
+
+export function getAllModels(){
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/models');
     });
 }
