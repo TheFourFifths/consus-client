@@ -66,9 +66,8 @@ export function checkOutItems(studentId, itemAddresses) {
 export function createItem(modelAddress) {
     post('item', {
         modelAddress: modelAddress
-    }).then(data => {
-        hashHistory.push('/');
     });
+    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
