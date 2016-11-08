@@ -22,28 +22,25 @@ class AuthenticationStore extends Store {
     }
 
     overrideNeeded(){
-        return overrideNeeded || adminCode !== null;
+        return overrideNeeded && adminCode === null;
     }
 
 }
 
 const store = new AuthenticationStore();
 
-store.registerHandler("CHECKOUT_SUCCESS", () => {
+store.registerHandler('CHECKOUT_SUCCESS', () => {
     overrideNeeded = false;
     adminCode = null;
     store.emitChange();
 });
 
-store.registerHandler("OVERRIDE_REQUIRED", () => {
-    console.log("Overridereq");
-    console.log(store.overrideNeeded());
+store.registerHandler('OVERRIDE_REQUIRED', () => {
     overrideNeeded = true;
-    console.log(store.overrideNeeded());
     store.emitChange();
 });
 
-store.registerHandler("ADMIN_CODE_ENTERED", data => {
+store.registerHandler('ADMIN_CODE_ENTERED', data => {
     adminCode = data.adminCode;
     store.emitChange();
 });

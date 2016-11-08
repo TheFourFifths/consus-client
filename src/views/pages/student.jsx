@@ -6,6 +6,7 @@ import CartStore from '../../store/cart-store';
 import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
 import AuthenticationStore from '../../store/authentication-store';
+import InputModal from '../components/input-modal.jsx';
 import { Dispatcher } from 'consus-core/flux';
 
 import { checkOutItems } from '../../lib/api-client';
@@ -48,14 +49,19 @@ export default class Student extends ListenerComponent {
     }
 
     render() {
+        console.log(this.state.adminCodeRequired);
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
                 <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} />
                 <div className='clear'></div>
-                
+                <InputModal
+                    message='heelo'
+                    active = {this.state.adminCodeRequired}
+                    onClose= {this.closeAdminModal.bind(this)}
+                />
             </div>
         );
     }
 
-}
+} 

@@ -1,7 +1,6 @@
 import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
-import StudentStore  from '../store/student-store';
 import AuthStore from '../store/authentication-store';
 
 function get(endpoint, data) {
@@ -68,8 +67,7 @@ export function checkOutItems(studentId, itemAddresses){
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(error => {
         if (error === 'Student has overdue item'){
-            console.log('fuck you!');
-            Dispatcher.handleAction("OVERRIDE_REQUIRED");
+            Dispatcher.handleAction('OVERRIDE_REQUIRED');
         }else {
             Dispatcher.handleAction('ERROR', {
                 error
