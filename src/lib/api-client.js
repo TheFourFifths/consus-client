@@ -130,3 +130,11 @@ export function searchStudent(id){
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 }
+
+export function getAllModels(){
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/models');
+    });
+}
