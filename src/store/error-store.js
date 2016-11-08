@@ -31,7 +31,7 @@ store.registerHandler('DEBUG', data => {
 });
 store.registerHandler('INFO', data => {
     error = data.error;
-    tag = 'DEBUG';
+    tag = 'INFO';
     store.emitChange();
 });
 store.registerHandler('WARN', data => {
@@ -45,8 +45,8 @@ store.registerHandler('ERROR', data => {
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ERROR', data => {
-    clearError();
+store.registerHandler('CLEAR_ERROR', _ => {
+    store.clearError();
     store.emitChange();
 });
 

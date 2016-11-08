@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dispatcher } from 'consus-core/flux';
 import AuthenticationStore from '../store/authentication-store';
+import ErrorStore from '../store/error-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
@@ -13,12 +14,14 @@ export default class App extends ListenerComponent {
     }
 
     getStores() {
-        return [AuthenticationStore];
+        return [AuthenticationStore, ErrorStore];
     }
 
     getState() {
         return {
-            loggedIn: AuthenticationStore.loggedIn()
+            loggedIn: AuthenticationStore.loggedIn(),
+            errorTag: ErrorStore.getTag(),
+            errorMessage: ErrorStore.getError()
         };
     }
 
@@ -45,7 +48,7 @@ export default class App extends ListenerComponent {
         return (
             <div id='app'>
                 <button type='button' onClick={this.makeError}>Error!</button>
-                <ErrorModal active={true} onClose={this.closeError} message="Sorry, I can't let you do that" />
+                <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} message={this.state.errorMessage} />
                 <Omnibar />
                 {this.props.children}
             </div>
