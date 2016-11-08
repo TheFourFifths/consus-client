@@ -2,7 +2,7 @@ import React from 'react';
 
 import AuthenticationStore from '../store/authentication-store';
 
-export default class App extends React.Component {
+export default class ListenerComponent extends React.Component {
 
     constructor() {
         super();

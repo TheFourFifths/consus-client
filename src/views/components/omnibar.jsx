@@ -30,7 +30,7 @@ export default class Omnibar extends React.Component {
     render() {
         return (
             <div id='omnibar'>
-                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Student ID' />
+                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Student ID' autoFocus/>
                 <input type='button' onClick={this.search.bind(this)} value='Search' />
             </div>
         );
