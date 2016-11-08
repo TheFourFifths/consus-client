@@ -37,6 +37,21 @@ function post(endpoint, data) {
     });
 }
 
+export function checkInItem(studentId, itemAddress){
+    post('checkin', {
+        studentId,
+        itemAddress
+    }).then(data => {
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: data.itemAddress
+        });
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data.error
+        });
+    });
+}
+
 export function checkOutItems(studentId, itemAddresses){
     post('checkout', {
         studentId,
@@ -61,13 +76,13 @@ export function createModel(id, name) {
     });
 }
 
-export function searchItem(id) {
+export function searchItem(address) {
     get('item', {
-        id
+        address
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
