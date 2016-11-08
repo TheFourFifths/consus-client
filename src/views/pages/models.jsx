@@ -54,9 +54,9 @@ export default class Models extends ListenerComponent {
                             </div>
                         </div>
                         <div className="actionArea">
-                            <img src="../src/imgs/plus.png" />
-                            <img src="../src/imgs/edit.png" />
-                            <img src="../src/imgs/trashcan.png" />
+                            <img src="../assets/add.svg" />
+                            <img src="../assets/edit.svg" />
+                            <img src="../assets/delete.svg" />
                         </div>
                         <div className="clear"> </div>
                     </div>
