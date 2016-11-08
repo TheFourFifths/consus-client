@@ -66,6 +66,8 @@ export function checkOutItems(studentId, itemAddresses) {
 export function createItem(modelAddress) {
     post('item', {
         modelAddress: modelAddress
+    }).then(data => {
+        hashHistory.push('/');
     });
 }
 
@@ -151,5 +153,13 @@ export function getAllModels() {
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/models');
+    });
+}
+
+export function getModelsForNewItem() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/items/new');
     });
 }
