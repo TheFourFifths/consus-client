@@ -33,4 +33,12 @@ describe('ModelStore', () => {
         });
         assert.strictEqual(ModelStore.getAllModels().length, 3);
     });
+    it('should handle new model created', () =>{
+        Dispatcher.handleAction('MODEL_CREATED', {
+            id: 'ABC',
+            name: 'A model'
+        });
+        assert.strictEqual(ModelStore.getAllModels().length, 4);
+    });
+
 });
