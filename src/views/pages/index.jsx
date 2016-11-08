@@ -7,15 +7,14 @@ export default class Index extends React.Component {
         getAllModels();
     }
 
-    createItem(e) {
-
-    }
-
     render() {
         return (
             <div id='index'>
-                <button onClick={this.allModels.bind(this)}>View all models</button>
-                <Link to='/items/new'>Create A New Item</Link>
+                <div id='links'>
+                  <button onClick={this.allModels.bind(this)}>View all models</button><br/>
+                  <Link to='/items/new'>Create A New Item</Link><br/>
+                  <Link to='/models/new'>Create a New Model</Link><br/>
+                </div>
             </div>
         );
     }

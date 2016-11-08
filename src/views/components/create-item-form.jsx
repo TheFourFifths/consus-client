@@ -30,7 +30,7 @@ export default class CreateItemForm extends React.Component {
                       <option value="A">Apple</option>
                       <option value="B">Banana</option>
                       <option value="C">Cranberry</option>
-                    </select>
+                    </select><br/>
                     <input type='submit' value='Create Item' />
                 </form>
             </div>
