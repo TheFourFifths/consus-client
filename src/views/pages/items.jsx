@@ -15,22 +15,25 @@ export default class Models extends ListenerComponent {
     }
     getState() {
         return {
-            models: ItemStore.getAllItems()
+            items: ItemStore.getAllItems()
         };
+    }
+    viewModel(){
+        console.log('test');
     }
     render() {
         return (
             <div id="item">
-                <h1>All Item</h1>
+                <h1>All Items</h1>
                 <button>Make new Item</button>
-                {this.state.models.map(function(item, key){
+                {this.state.items.map(function(item, key){
                     return <div key={key} className="item">
                         <div className="picArea">
                             <img src="../src/imgs/placeholder.jpg" />
                         </div>
                         <div className="titleArea">
                             <h2>{item.address}</h2>
-                            <i className="modelLink">View model</i>
+                            <button onClick={this.viewModel.bind(this)} className="modelLink">View model</button>
                         </div>
                         <div className="infoArea">
                             <div className="descriptionArea">
