@@ -2,6 +2,7 @@ import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 import StudentStore  from '../store/student-store';
+import AuthStore from '../store/authentication-store';
 
 function get(endpoint, data) {
     let options = {
@@ -53,19 +54,22 @@ export function checkInItem(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses, adminCode){
+export function checkOutItems(studentId, itemAddresses){
     let params = {
         studentId,
         itemAddresses
     };
 
-    if (adminCode) params.adminCode = adminCode;
+    let code = AuthStore.getAdminCode();
+
+    if (code) params.adminCode = code;
 
     post('checkout', params).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(error => {
         if (error === 'Student has overdue item'){
-            //TODO Handle action for override modal.
+            console.log('fuck you!');
+            Dispatcher.handleAction("OVERRIDE_REQUIRED");
         }else {
             Dispatcher.handleAction('ERROR', {
                 error
@@ -102,18 +106,14 @@ export function searchItem(id) {
 }
 
 export function searchItemForCheckout(address){
-    if(!StudentStore.getStudent().hasOverdueItem) {
-        get('item', {
-            address
-        }).then(data => {
-            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-                address: data.item.address,
-                status: data.item.status
-            });
+    get('item', {
+        address
+    }).then(data => {
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: data.item.address,
+            status: data.item.status
         });
-    } else {
-        //TODO Handle action for override modal.
-    }
+    });
 }
 
 export function searchModel(id) {
