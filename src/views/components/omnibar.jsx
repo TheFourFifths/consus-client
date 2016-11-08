@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { Link } from 'react-router';
 import { searchStudent } from '../../lib/api-client'
 
 export default class Omnibar extends React.Component {
@@ -26,7 +28,10 @@ export default class Omnibar extends React.Component {
     render() {
         return (
             <div id='omnibar'>
-                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Student ID' autoFocus/>
+                <Link to='/'>
+                  <img src='../assets/icons/consus-logo.png'></img>
+                </Link>
+                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} autoFocus/>
             </div>
         );
     }
