@@ -80,8 +80,10 @@ export function createModel(name, description, manufacturer, vendor, location, i
         faultDescription: faultDescription,
         price: price,
         count: count
-    }).then(() => {
+    }).then(data => {
+        Dispatcher.handleAction('MODEL_CREATED', data);
         hashHistory.push("/models");
+
     }).catch(() => {
         //Todo pop-up a modal explaining server is down
     });
