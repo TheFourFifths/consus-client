@@ -19,10 +19,10 @@ export default class CartPanel extends React.Component {
             let result = readAddress(e.target.value);
             assert.strictEqual(result.type, 'item');
             let student = this.props.student;
-            if( student.itemAddresses.indexOf(e.target.value) ===  -1) {
-              searchItemForCheckout(e.target.value);
+            if (student.items.some(item => item.address === e.target.value)) {
+                checkInItem(student.id, e.target.value);
             } else {
-              checkInItem(student.id, e.target.value)
+                searchItemForCheckout(e.target.value);
             }
             this.setState({
                 address: ''
