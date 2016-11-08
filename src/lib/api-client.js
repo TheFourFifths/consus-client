@@ -89,13 +89,13 @@ export function createModel(name, description, manufacturer, vendor, location, i
     });
 }
 
-export function searchItem(id) {
+export function searchItem(address) {
     get('item', {
-        id
+        address
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
