@@ -27,7 +27,7 @@ export default class Models extends ListenerComponent {
                 {this.state.models.map(function(model, key){
                     return <div key={key} className="model">
                         <div className="picArea">
-                            <img src="../assets/icons/placeholder.jpg" />
+                            <img src="../assets/images/placeholder.jpg" />
                         </div>
                         <div className="titleArea">
                             <h2>{model.name}</h2>
@@ -54,9 +54,9 @@ export default class Models extends ListenerComponent {
                             </div>
                         </div>
                         <div className="actionArea">
-                            <img src="../assets/icons/add.svg" />
-                            <img src="../assets/icons/edit.svg" />
-                            <img src="../assets/icons/delete.svg" />
+                            <img src="../assets/images/add.svg" />
+                            <img src="../assets/images/edit.svg" />
+                            <img src="../assets/images/delete.svg" />
                         </div>
                         <div className="clear"> </div>
                     </div>
