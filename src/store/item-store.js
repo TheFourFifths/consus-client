@@ -12,6 +12,9 @@ class ItemStore extends Store {
             status: item.status
         };
     }
+    getAllItems(){
+        return item;
+    }
 }
 
 const store = new ItemStore();
@@ -29,4 +32,8 @@ store.registerHandler('NO_ITEM_FOUND', () => {
     store.emitChange();
 });
 
+store.registerHandler('ITEMS_RECEIVED', data => {
+    item = data.items;
+    store.emitChange();
+});
 export default store;

@@ -9,6 +9,7 @@ import Index from './pages/index.jsx';
 import Student from './pages/student.jsx';
 import Model from "./pages/models.jsx";
 import createModelForm from './components/create-model-form.jsx';
+import Item from './pages/items.jsx';
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path='/' component={App}>
@@ -16,6 +17,7 @@ ReactDOM.render((
             <Route path='/student' component={Student} />
             <Route path='/models' component={Model} />
             <Route path='/models/new' component={createModelForm} />
+            <Route path='/items' component={Item} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));

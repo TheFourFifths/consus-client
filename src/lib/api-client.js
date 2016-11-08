@@ -151,3 +151,11 @@ export function getAllModels() {
         hashHistory.push('/models');
     });
 }
+
+export function getAllItems() {
+    get('item/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        hashHistory.push('/items');
+    });
+}
