@@ -9,6 +9,7 @@ import Index from './pages/index.jsx';
 import Student from './pages/student.jsx';
 import Model from './pages/models.jsx';
 
+import createModelForm from './components/create-model-form.jsx';
 import createItemForm from './components/create-item-form.jsx';
 
 ReactDOM.render((
@@ -18,7 +19,7 @@ ReactDOM.render((
             <Route path='/student' component={Student} />
             <Route path='/models' component={Model} />
             <Route path='/models/new' component={createModelForm} />
-	    <Route path='/items/new' component={createItemForm} />
+	          <Route path='/items/new' component={createItemForm} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
