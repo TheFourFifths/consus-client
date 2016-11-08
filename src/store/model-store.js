@@ -36,6 +36,12 @@ store.registerHandler('NO_MODEL_FOUND', () => {
 
 store.registerHandler('MODELS_RECEIVED', data => {
     model = data.models;
+    store.emitChange();
+});
+
+store.registerHandler('MODEL_CREATED', data => {
+    model.push(data);
+    store.emitChange();
 });
 
 export default store;
