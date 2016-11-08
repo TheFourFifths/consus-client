@@ -39,7 +39,6 @@ describe('StudentStore', () => {
         });
 
         student = StudentStore.getStudent();
-
         assert.strictEqual(student.items.length, 3);
         assert.strictEqual(student.items.indexOf(4), -1);
     });
@@ -92,6 +91,6 @@ describe('StudentStore', () => {
         student = StudentStore.getStudent();
 
         assert.strictEqual(student.items.length, 1);
-        assert(!student.hasOverdueItem);
+        assert.isFalse(student.hasOverdueItem);
     });
 });

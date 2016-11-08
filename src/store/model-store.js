@@ -13,6 +13,9 @@ class ModelStore extends Store {
             name: model.name
         };
     }
+    getAllModels(){
+        return model;
+    }
 
 }
 
@@ -28,6 +31,16 @@ store.registerHandler('MODEL_FOUND', data => {
 
 store.registerHandler('NO_MODEL_FOUND', () => {
     model = null;
+    store.emitChange();
+});
+
+store.registerHandler('MODELS_RECEIVED', data => {
+    model = data.models;
+    store.emitChange();
+});
+
+store.registerHandler('MODEL_CREATED', data => {
+    model.push(data);
     store.emitChange();
 });
 

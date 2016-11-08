@@ -2,6 +2,7 @@ import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 import AuthStore from '../store/authentication-store';
+import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -82,20 +83,35 @@ export function createItem(id) {
     });
 }
 
-export function createModel(id, name) {
+export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
     post('model', {
-        id,
-        name
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price,
+        count: count
+    }).then(data => {
+        Dispatcher.handleAction('MODEL_CREATED', data);
+        hashHistory.push("/models");
+
+    }).catch(() => {
+        Dispatcher.handleAction('ERROR', {
+            error: 'The server was not able to create the item. Is the server down?'
+        });
     });
 }
 
-export function searchItem(id) {
+export function searchItem(address) {
     get('item', {
-        id
+        address
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            id: data.item.id,
+            address: data.item.address,
             status: data.item.status
         });
     }).catch(() => {
@@ -103,15 +119,21 @@ export function searchItem(id) {
     });
 }
 
-export function searchItemForCheckout(address){
-    get('item', {
-        address
-    }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+export function searchItemForCheckout(address) {
+    if(!StudentStore.getStudent().hasOverdueItem) {
+        get('item', {
+            address
+        }).then(data => {
+            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+                address: data.item.address,
+                status: data.item.status
+            });
         });
-    });
+    } else {
+        Dispatcher.handleAction('ERROR', {
+            error:'Student has at least one overdue item.'
+        });
+    }
 }
 
 export function searchModel(id) {
@@ -128,7 +150,7 @@ export function searchModel(id) {
     });
 }
 
-export function searchStudent(id){
+export function searchStudent(id) {
     get('student', {
         id
     }).then(data => {
@@ -141,5 +163,13 @@ export function searchStudent(id){
         hashHistory.push('/student');
     }).catch(() => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
+    });
+}
+
+export function getAllModels() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/models');
     });
 }

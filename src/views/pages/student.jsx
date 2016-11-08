@@ -53,7 +53,7 @@ export default class Student extends ListenerComponent {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} />
+                <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} student={this.state.student} />
                 <div className='clear'></div>
                 <InputModal
                     message='heelo'

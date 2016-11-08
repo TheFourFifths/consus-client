@@ -44,7 +44,6 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     });
 
     student.items.splice(index, 1);
-
     store.emitChange();
 });
 
