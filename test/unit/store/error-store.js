@@ -39,7 +39,7 @@ describe('ErrorStore', () => {
             error: 'Some warning'
         });
 
-        assert.strictEqual(ErrorStore.getTage(), 'WARN');
+        assert.strictEqual(ErrorStore.getTag(), 'WARN');
         assert.strictEqual(ErrorStore.getError(), 'Some warning');
     });
 
