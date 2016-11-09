@@ -69,7 +69,9 @@ export function checkOutItems(studentId, itemAddresses){
     }).catch(error => {
         if (error === 'Student has overdue item'){
             Dispatcher.handleAction('OVERRIDE_REQUIRED');
-        }else {
+        }else if(error === 'Invalid Admin'){
+            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+        }else{
             Dispatcher.handleAction('ERROR', {
                 error
             });
