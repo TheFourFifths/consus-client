@@ -4,6 +4,10 @@ import { assert } from 'chai';
 
 describe('ModelStore', () => {
 
+    beforeEach(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
+
     it('should instantiate without a model', () => {
         assert.strictEqual(ModelStore.getModel(), null);
     });
@@ -21,6 +25,7 @@ describe('ModelStore', () => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
         assert.strictEqual(ModelStore.getModel(), null);
     });
+
     it('should get all models', () => {
         Dispatcher.handleAction('MODELS_RECEIVED',{
             models:[{
@@ -33,12 +38,13 @@ describe('ModelStore', () => {
         });
         assert.strictEqual(ModelStore.getAllModels().length, 3);
     });
+
     it('should handle new model created', () =>{
         Dispatcher.handleAction('MODEL_CREATED', {
             id: 'ABC',
             name: 'A model'
         });
-        assert.strictEqual(ModelStore.getAllModels().length, 4);
+        assert.strictEqual(ModelStore.getAllModels().length, 1);
     });
 
 });

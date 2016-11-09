@@ -26,6 +26,11 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    items = [];
+    store.emitChange();
+});
+
 store.registerHandler('CLEAR_ITEMS', () => {
     items = [];
     store.emitChange();

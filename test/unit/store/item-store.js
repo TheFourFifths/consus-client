@@ -4,6 +4,10 @@ import { assert } from 'chai';
 
 describe('ItemStore', () => {
 
+    beforeEach(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
+
     it('should instantiate without an item', () => {
         assert.strictEqual(ItemStore.getItem(), null);
     });
