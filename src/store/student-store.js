@@ -41,6 +41,7 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     let index = student.items.findIndex(element => {
         return element.address === data.itemAddress;
     });
+
     student.items.splice(index, 1);
     store.emitChange();
 });

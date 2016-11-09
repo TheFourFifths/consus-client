@@ -1,6 +1,7 @@
 import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
+import AuthStore from '../store/authentication-store';
 import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
@@ -38,7 +39,7 @@ function post(endpoint, data) {
     });
 }
 
-export function checkInItem(studentId, itemAddress) {
+export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
@@ -53,16 +54,28 @@ export function checkInItem(studentId, itemAddress) {
     });
 }
 
-export function checkOutItems(studentId, itemAddresses) {
-    post('checkout', {
+export function checkOutItems(studentId, itemAddresses){
+    let params = {
         studentId,
         itemAddresses
-    }).then(() => {
+    };
+
+    let code = AuthStore.getAdminCode();
+
+    if (code) params.adminCode = code;
+
+    post('checkout', params).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
     }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
+        if (error === 'Student has overdue item'){
+            Dispatcher.handleAction('OVERRIDE_REQUIRED');
+        }else if(error === 'Invalid Admin'){
+            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+        }else{
+            Dispatcher.handleAction('ERROR', {
+                error
+            });
+        }
     });
 }
 
