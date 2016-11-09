@@ -14,10 +14,10 @@ describe('ModelStore', () => {
 
     it('should get a model', () => {
         Dispatcher.handleAction('MODEL_FOUND', {
-            id: 'ABC',
+            address: 'ABC',
             name: 'A model'
         });
-        assert.strictEqual(ModelStore.getModel().id, 'ABC');
+        assert.strictEqual(ModelStore.getModel().address, 'ABC');
         assert.strictEqual(ModelStore.getModel().name, 'A model');
     });
 
@@ -41,7 +41,7 @@ describe('ModelStore', () => {
 
     it('should handle new model created', () =>{
         Dispatcher.handleAction('MODEL_CREATED', {
-            id: 'ABC',
+            address: 'ABC',
             name: 'A model'
         });
         assert.strictEqual(ModelStore.getAllModels().length, 1);

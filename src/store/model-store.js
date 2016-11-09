@@ -10,7 +10,7 @@ class ModelStore extends Store {
             return model;
         }
         return {
-            id: model.id,
+            address: model.address,
             name: model.name
         };
     }
@@ -25,7 +25,7 @@ const store = new ModelStore();
 
 store.registerHandler('MODEL_FOUND', data => {
     model = {
-        id: data.id,
+        address: data.address,
         name: data.name
     };
     store.emitChange();

@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { Link } from 'react-router';
 import { searchStudent } from '../../lib/api-client'
 
 export default class Omnibar extends React.Component {
@@ -23,15 +25,13 @@ export default class Omnibar extends React.Component {
         }
     }
 
-    search(e) {
-        e.preventDefault();
-    }
-
     render() {
         return (
             <div id='omnibar'>
-                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Student ID' autoFocus/>
-                <input type='button' onClick={this.search.bind(this)} value='Search' />
+                <Link to='/'>
+                  <img src='../assets/icons/consus-logo.png'></img>
+                </Link>
+                <input type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );
     }
