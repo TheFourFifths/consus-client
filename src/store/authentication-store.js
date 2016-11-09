@@ -50,5 +50,10 @@ store.registerHandler('CLEAR_ADMIN_CODE', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ADMIN_WINDOW', () => {
+    adminCode = null;
+    overrideNeeded = false;
+    store.emitChange();
+});
 
 export default store;

@@ -46,10 +46,16 @@ export default class Student extends ListenerComponent {
         })
     }
 
+    cancelAdminModal(){
+        Dispatcher.handleAction("CLEAR_ADMIN_WINDOW");
+    }
+
+
     closeAdminModal(adminCode){
         Dispatcher.handleAction("ADMIN_CODE_ENTERED", {
             adminCode
         });
+        //Automatically Checkout after admin scan or pin.
         this.checkOut();
     }
 
@@ -62,7 +68,10 @@ export default class Student extends ListenerComponent {
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'
                     active = {this.state.adminCodeRequired}
-                    onClose= {this.closeAdminModal.bind(this)}
+                    onAccept= {this.closeAdminModal.bind(this)}
+                    onCancel={this.cancelAdminModal.bind(this)}
+                    acceptText='Continue Checkout'
+                    textHidden={true}
                 />
             </div>
         );
