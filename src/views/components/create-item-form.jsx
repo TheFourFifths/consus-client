@@ -36,7 +36,7 @@ export default class CreateItemForm extends ListenerComponent {
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
                     <select onChange={this.changeModel.bind(this)} >
-                        {this.state.models.map(function(model, key){
+                        {this.state.models.map((model, key) => {
                             return <option key={key} value={model.address}>{ model.name }</option>
                         })}
                     </select><br/>
