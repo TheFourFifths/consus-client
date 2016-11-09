@@ -1,7 +1,8 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store.js';
-import { hashHistory } from 'react-router';
+
+import { Link } from 'react-router';
 export default class Models extends ListenerComponent {
 
     constructor() {
@@ -18,18 +19,15 @@ export default class Models extends ListenerComponent {
             models: ModelStore.getAllModels()
         };
     }
-    addNewModel(){
-        hashHistory.push("/models/new");
-    }
     render() {
         return (
             <div id="models">
                 <h1>All models</h1>
-                <button onClick={this.addNewModel}>Make new model</button>
+                <Link to='/models/new'>Make new model</Link>
                 {this.state.models.map(function(model, key){
                     return <div key={key} className="model">
                         <div className="picArea">
-                            <img src="../src/imgs/placeholder.jpg" />
+                            <img src="../assets/images/placeholder.jpg" />
                         </div>
                         <div className="titleArea">
                             <h2>{model.name}</h2>
@@ -56,9 +54,9 @@ export default class Models extends ListenerComponent {
                             </div>
                         </div>
                         <div className="actionArea">
-                            <img src="../src/imgs/plus.png" />
-                            <img src="../src/imgs/edit.png" />
-                            <img src="../src/imgs/trashcan.png" />
+                            <img src="../assets/images/add.svg" />
+                            <img src="../assets/images/edit.svg" />
+                            <img src="../assets/images/delete.svg" />
                         </div>
                         <div className="clear"> </div>
                     </div>

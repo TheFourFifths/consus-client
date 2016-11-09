@@ -85,7 +85,9 @@ export function createModel(name, description, manufacturer, vendor, location, i
         hashHistory.push("/models");
 
     }).catch(() => {
-        //Todo pop-up a modal explaining server is down
+        Dispatcher.handleAction('ERROR', {
+            error: 'The server was not able to create the item. Is the server down?'
+        });
     });
 }
 
