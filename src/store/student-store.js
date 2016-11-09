@@ -28,9 +28,8 @@ store.registerHandler('STUDENT_FOUND', data => {
     store.emitChange();
 });
 
-store.registerHandler('NO_STUDENT_FOUND', () => {
+store.registerHandler('CLEAR_ALL_DATA', () => {
     student = null;
-    store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {

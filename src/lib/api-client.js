@@ -79,10 +79,11 @@ export function checkOutItems(studentId, itemAddresses){
     });
 }
 
-export function createItem(id) {
+export function createItem(modelAddress) {
     post('item', {
-        id
+        modelAddress: modelAddress
     });
+    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
@@ -164,7 +165,9 @@ export function searchStudent(id) {
         });
         hashHistory.push('/student');
     }).catch(() => {
-        Dispatcher.handleAction('NO_STUDENT_FOUND');
+        Dispatcher.handleAction('ERROR', {
+            error: 'An invalid student ID was scanned. The student could not be found.'
+        });
     });
 }
 
@@ -173,5 +176,13 @@ export function getAllModels() {
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/models');
+    });
+}
+
+export function getModelsForNewItem() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/items/new');
     });
 }
