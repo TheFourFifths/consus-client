@@ -52,9 +52,8 @@ export default class Student extends ListenerComponent {
 
 
     closeAdminModal(adminCode){
-        Dispatcher.handleAction("ADMIN_CODE_ENTERED", {
-            adminCode
-        });
+        if (adminCode.length > 0)
+            Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
         //Automatically Checkout after admin scan or pin.
         this.checkOut();
     }
