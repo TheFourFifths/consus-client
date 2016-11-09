@@ -42,4 +42,13 @@ describe('AuthStore', () => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
         assert.isNull(AuthStore.getAdminCode());
     });
+
+    it('Should clear admin code on code clear', () => {
+        Dispatcher.handleAction('ADMIN_CODE_ENTERED', {
+            adminCode: '2015'
+        });
+        assert.strictEqual(AuthStore.getAdminCode(), '2015');
+        Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+        assert.isNull(AuthStore.getAdminCode());
+    });
 });
