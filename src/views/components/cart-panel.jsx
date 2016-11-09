@@ -58,7 +58,7 @@ export default class CartPanel extends React.Component {
     closeModal() {
         this.setState({
             active: false,
-            address: ''
+            address: this.state.address
         });
     }
 
