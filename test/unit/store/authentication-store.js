@@ -51,4 +51,11 @@ describe('AuthStore', () => {
         Dispatcher.handleAction('CLEAR_ADMIN_CODE');
         assert.isNull(AuthStore.getAdminCode());
     });
+    
+    it("Should reset the states when admin window is called", () => {
+        Dispatcher.handleAction('OVERRIDE_REQUIRED');
+        assert.isTrue(AuthStore.overrideNeeded());
+        Dispatcher.handleAction('CLEAR_ADMIN_WINDOW');
+        assert.isFalse(AuthStore.overrideNeeded());
+    });
 });
