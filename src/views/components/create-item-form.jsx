@@ -5,10 +5,6 @@ import { createItem } from '../../lib/api-client';
 
 export default class CreateItemForm extends ListenerComponent {
 
-    constructor() {
-        super();
-    }
-
     getStores() {
         return [
             ModelStore
