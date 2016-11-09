@@ -1,24 +1,33 @@
 import React from 'react';
+import ListenerComponent from '../../lib/listener-component.jsx';
+import ModelStore from '../../store/model-store'
 import { createItem } from '../../lib/api-client';
 
-export default class CreateItemForm extends React.Component {
+export default class CreateItemForm extends ListenerComponent {
 
-    constructor() {
-        super();
-        this.state = {
-            id: ''
+    getStores() {
+        return [
+            ModelStore
+        ];
+    }
+
+    getState() {
+        return {
+            modelAddress: '',
+            models: ModelStore.getAllModels()
         };
     }
 
-    changeId(e) {
+    changeModel(e) {
         this.setState({
-            id: e.target.value
+            modelAddress: e.target.value,
+            models: this.state.models
         });
     }
 
     submit(e) {
         e.preventDefault();
-        createItem(this.state.id);
+        createItem(this.state.modelAddress);
     }
 
     render() {
@@ -26,7 +35,11 @@ export default class CreateItemForm extends React.Component {
             <div className='create-item-form'>
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
-                    <input type='text' value={this.state.id} onChange={this.changeId.bind(this)} placeholder='ID' />
+                    <select onChange={this.changeModel.bind(this)} >
+                        {this.state.models.map((model, key) => {
+                            return <option key={key} value={model.address}>{ model.name }</option>
+                        })}
+                    </select><br/>
                     <input type='submit' value='Create Item' />
                 </form>
             </div>
