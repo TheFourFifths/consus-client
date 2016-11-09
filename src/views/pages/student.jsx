@@ -39,7 +39,11 @@ export default class Student extends ListenerComponent {
     }
 
     checkOut() {
-        checkOutItems(this.state.student.id, this.state.itemAddresses, this.state.adminCode);
+        if(CartStore.getItems().length > 0)
+            checkOutItems(this.state.student.id, this.state.itemAddresses, this.state.adminCode);
+        else Dispatcher.handleAction('ERROR', {
+            error: 'No Items were scanned for checkout.'
+        })
     }
 
     closeAdminModal(adminCode){
@@ -49,14 +53,13 @@ export default class Student extends ListenerComponent {
     }
 
     render() {
-        console.log(this.state.adminCodeRequired);
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
                 <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} student={this.state.student} />
                 <div className='clear'></div>
                 <InputModal
-                    message='heelo'
+                    message='Please Scan Admin ID or Enter Admin Pin:'
                     active = {this.state.adminCodeRequired}
                     onClose= {this.closeAdminModal.bind(this)}
                 />
@@ -64,4 +67,4 @@ export default class Student extends ListenerComponent {
         );
     }
 
-} 
+}

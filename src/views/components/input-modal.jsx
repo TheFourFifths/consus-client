@@ -11,7 +11,6 @@ export default class InputModal extends React.Component {
     }
 
     onClose(){
-        console.log('closing,'+this.state.input);
         this.props.onClose(this.state.input);
     }
 
@@ -20,7 +19,6 @@ export default class InputModal extends React.Component {
     }
 
     render() {
-        console.log('render');
         return (
             <Modal active={this.props.active} onClose={this.onClose.bind(this)}>
                 <p>{this.props.message}</p><br/>
