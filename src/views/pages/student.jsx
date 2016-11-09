@@ -50,6 +50,7 @@ export default class Student extends ListenerComponent {
         Dispatcher.handleAction("ADMIN_CODE_ENTERED", {
             adminCode
         });
+        this.checkOut();
     }
 
     render() {
