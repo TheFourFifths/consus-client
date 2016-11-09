@@ -38,13 +38,10 @@ describe('StudentStore', () => {
         let student = StudentStore.getStudent();
         //validate test state
         assert.strictEqual(student.items.length,4);
-
         Dispatcher.handleAction('CHECKIN_SUCCESS',{
             itemAddress: 4
         });
-
         student = StudentStore.getStudent();
-
         assert.strictEqual(student.items.length, 3);
         assert.strictEqual(student.items.indexOf(4), -1);
     });
@@ -97,7 +94,7 @@ describe('StudentStore', () => {
         student = StudentStore.getStudent();
 
         assert.strictEqual(student.items.length, 1);
-        assert(!student.hasOverdueItem);
+        assert.isFalse(student.hasOverdueItem);
     });
 
 });

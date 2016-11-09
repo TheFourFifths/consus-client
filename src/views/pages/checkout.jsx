@@ -1,4 +1,4 @@
-import Item from '../components/item.jsx';
+import ListenerComponent from '../../lib/listener-component.jsx';
 import Student from '../components/student.jsx';
 
 export default class Checkout extends ListenerComponent {

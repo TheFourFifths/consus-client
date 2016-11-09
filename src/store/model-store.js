@@ -1,6 +1,7 @@
 import { Store } from 'consus-core/flux';
 
 let model = null;
+let models = [];
 
 class ModelStore extends Store {
 
@@ -12,6 +13,10 @@ class ModelStore extends Store {
             id: model.id,
             name: model.name
         };
+    }
+
+    getAllModels(){
+        return models;
     }
 
 }
@@ -33,6 +38,16 @@ store.registerHandler('NO_MODEL_FOUND', () => {
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
     model = null;
+    models = [];
+});
+
+store.registerHandler('MODELS_RECEIVED', data => {
+    models = data.models;
+    store.emitChange();
+});
+
+store.registerHandler('MODEL_CREATED', data => {
+    models.push(data);
     store.emitChange();
 });
 
