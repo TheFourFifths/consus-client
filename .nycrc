@@ -1,5 +1,6 @@
 {
     "all": true,
+    "cache": true,
     "include": [
         "src/**/*.js"
     ],
