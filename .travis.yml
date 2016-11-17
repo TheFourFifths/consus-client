@@ -1,6 +1,7 @@
 language: node_js
 
 node_js:
+  - 'node' # ensure we're always running on the latest version of Node.js
   - '6'
   - '4'
 
