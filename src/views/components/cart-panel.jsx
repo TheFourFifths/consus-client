@@ -15,6 +15,7 @@ export default class CartPanel extends React.Component {
     }
 
     changeAddress(e) {
+        //TODO: Check for special Characters.
         try {
             let result = readAddress(e.target.value);
             assert.strictEqual(result.type, 'item');
@@ -51,7 +52,7 @@ export default class CartPanel extends React.Component {
         return (
             <div className='cart'>
                 <h3>Cart</h3>
-                <input type='text' onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
+                <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />
                 <input type='button' onClick={this.props.cancel} value='Cancel' />

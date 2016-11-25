@@ -11,6 +11,7 @@ export default class InputModal extends React.Component {
     }
 
     onAccept(){
+        //TODO: Check for special characters.
         this.setState({input:''});
         this.props.onAccept(this.state.input);
     }
@@ -32,6 +33,7 @@ export default class InputModal extends React.Component {
                 onClose={this.onAccept.bind(this)}>
                 <p>{this.props.message}</p><br/>
                 <input
+                    maxLength="30"
                     type={this.props.textHidden? 'password' : 'text'}
                     onChange={this.update.bind(this)}
                     value={this.state.input}/>
