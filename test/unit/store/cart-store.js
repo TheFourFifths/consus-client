@@ -1,5 +1,6 @@
 import { Dispatcher } from 'consus-core/flux';
 import CartStore from '../../../.dist/store/cart-store';
+import StudentStore from '../../../.dist/store/student-store';
 import { assert } from 'chai';
 
 describe('CartStore', () => {
@@ -49,6 +50,50 @@ describe('CartStore', () => {
       assert.strictEqual(CartStore.getItems()[0].address, '123');
       Dispatcher.handleAction('CLEAR_ITEMS');
       assert.strictEqual(CartStore.getItems().length,0);
+    });
+
+    it('times out', function(done) {
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '111111',
+            name: 'Poe',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
+        //shorten timeout time so tests don't just take a minute longer
+        CartStore.TIMEOUT_TIME = 100;
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            address: '123',
+            status: 'AVAILABLE'
+        });
+        
+        setTimeout(() => {
+            assert.isFalse(CartStore.isOnTimeout());
+            done();
+        }, CartStore.TIMEOUT_TIME + 1000);
+
+        // assert.strictEqual(StudentStore.getStudent().items.length, 1);
+        // assert.strictEqual(CartStore.getItems().length,0);
+    });
+
+    it('cancels timeout when new student is scanned', () => {
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '111111',
+            name: 'Poe',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
+        CartStore.TIMEOUT_TIME = 60000;
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            address: '123',
+            status: 'AVAILABLE'
+        });
+        assert.isTrue(CartStore.isOnTimeout());
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '123432',
+            name: 'Testy McTestface',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
     });
 
 });
