@@ -6,23 +6,36 @@ export default class InputModal extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            input: ''
+            input: '',
+            invalid: false
         }
     }
 
     onAccept(){
-        //TODO: Check for special characters.
         this.setState({input:''});
         this.props.onAccept(this.state.input);
     }
 
     update(e){
-        this.setState({input:e.target.value});
+        let regex = new RegExp("^[a-zA-Z0-9]*$");
+        if(regex.test(e.target.value)) {
+            this.setState({input: e.target.value, invalid: false});
+        }else{
+            this.setState({invalid: true});
+        }
     }
 
     onCancel(){
         this.setState({input:''});
         this.props.onCancel();
+    }
+
+    renderWarning(){
+        if(this.state.invalid){
+            return <span className="invalidText">Please only use Alphanumeric characters.<br/></span>
+        }else{
+            return '';
+        }
     }
 
     render() {
@@ -38,6 +51,7 @@ export default class InputModal extends React.Component {
                     onChange={this.update.bind(this)}
                     value={this.state.input}/>
                 <br/>
+                {this.renderWarning()}
                 <button onClick={this.onCancel.bind(this)}>Cancel</button>
             </Modal>
         )
