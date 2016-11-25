@@ -1,6 +1,8 @@
 import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
+import AuthStore from '../store/authentication-store';
+import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -37,7 +39,7 @@ function post(endpoint, data) {
     });
 }
 
-export function checkInItem(studentId, itemAddress) {
+export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
@@ -45,21 +47,35 @@ export function checkInItem(studentId, itemAddress) {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
             itemAddress: data.itemAddress
         });
-    }).catch(data => {
+    }).catch(error => {
         Dispatcher.handleAction('ERROR', {
-            error: data.error
+            error
         });
     });
 }
 
-export function checkOutItems(studentId, itemAddresses) {
-    post('checkout', {
+export function checkOutItems(studentId, itemAddresses){
+    let params = {
         studentId,
         itemAddresses
-    }).then(() => {
+    };
+
+    let code = AuthStore.getAdminCode();
+
+    if (code) params.adminCode = code;
+
+    post('checkout', params).then(() => {
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(() => {
-        Dispatcher.handleAction('CHECKOUT_FAILED');
+    }).catch(error => {
+        if (error === 'Student has overdue item'){
+            Dispatcher.handleAction('OVERRIDE_REQUIRED');
+        }else if(error === 'Invalid Admin'){
+            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+        }else{
+            Dispatcher.handleAction('ERROR', {
+                error
+            });
+        }
     });
 }
 
@@ -107,14 +123,20 @@ export function searchItem(address) {
 }
 
 export function searchItemForCheckout(address) {
-    get('item', {
-        address
-    }).then(data => {
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+    if(!StudentStore.getStudent().hasOverdueItem) {
+        get('item', {
+            address
+        }).then(data => {
+            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+                address: data.item.address,
+                status: data.item.status
+            });
         });
-    });
+    } else {
+        Dispatcher.handleAction('ERROR', {
+            error:'Student has at least one overdue item.'
+        });
+    }
 }
 
 export function searchModel(id) {
@@ -137,13 +159,15 @@ export function searchStudent(id) {
     }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
-            itemAddresses: data.student.itemAddresses,
+            items: data.student.items,
             id: data.student.id,
             name: data.student.name
         });
         hashHistory.push('/student');
     }).catch(() => {
-        Dispatcher.handleAction('NO_STUDENT_FOUND');
+        Dispatcher.handleAction('ERROR', {
+            error: 'An invalid student ID was scanned. The student could not be found.'
+        });
     });
 }
 
