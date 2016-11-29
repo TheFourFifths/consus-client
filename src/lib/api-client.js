@@ -123,7 +123,7 @@ export function searchItem(address) {
 }
 
 export function searchItemForCheckout(address) {
-    if(!StudentStore.getStudent().hasOverdueItem) {
+    if(StudentStore.getStudent().hasOverdueItem) {
         return Dispatcher.handleAction('ERROR', {
             error:'Student has at least one overdue item.'
         });
