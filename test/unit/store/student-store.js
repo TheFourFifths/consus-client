@@ -3,6 +3,11 @@ import StudentStore from '../../../.dist/store/student-store';
 import { assert } from 'chai';
 
 describe('StudentStore', () => {
+
+    beforeEach(() => {
+        return Dispatcher.handleAction('CLEAR_ALL_DATA');
+    });
+
     it('should instantiate without a student', () => {
         assert.isNull(StudentStore.getStudent());
     });
@@ -20,7 +25,7 @@ describe('StudentStore', () => {
 
     it('should handle a student not being found', () => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
-        assert.strictEqual(StudentStore.getStudent(),null);
+        assert.strictEqual(StudentStore.getStudent(), null);
     });
 
     it("should remove an item from a student's list when it's checked in", () =>{
@@ -39,7 +44,6 @@ describe('StudentStore', () => {
         });
 
         student = StudentStore.getStudent();
-
         assert.strictEqual(student.items.length, 3);
         assert.strictEqual(student.items.indexOf(4), -1);
     });
@@ -92,6 +96,7 @@ describe('StudentStore', () => {
         student = StudentStore.getStudent();
 
         assert.strictEqual(student.items.length, 1);
-        assert(!student.hasOverdueItem);
+        assert.isFalse(student.hasOverdueItem);
     });
+
 });
