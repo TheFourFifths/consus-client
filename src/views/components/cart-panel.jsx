@@ -41,6 +41,7 @@ export default class CartPanel extends React.Component {
         }else{
             Dispatcher.handleAction('ERROR', {
                 error: "Please only enter Alphanumeric Characters."
+            });
         }
     }
 
