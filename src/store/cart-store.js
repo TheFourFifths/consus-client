@@ -41,7 +41,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     };
     items.push(item);
     timer = setTimeout(() => {
-        checkOutItems(StudentStore.getStudent().id, items.map(item =>{return item.address;}));
+        checkOutItems(StudentStore.getStudent().id, items.map(item => item.address));
         timer = null;
     }, store.TIMEOUT_TIME);
     store.emitChange();
