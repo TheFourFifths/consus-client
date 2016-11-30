@@ -5,7 +5,11 @@ import { checkOutItems } from '../lib/api-client';
 let items = [];
 
 let timer = null;
-let isOnTimer = false;
+
+function clearTimer() {
+    clearTimeout(timer);
+    timer = null;
+}
 
 class CartStore extends Store {
     getItems() {
@@ -13,7 +17,7 @@ class CartStore extends Store {
     }
 
     isOnTimeout(){
-        return isOnTimer;
+        return timer !== null;
     }
 }
 
@@ -22,15 +26,14 @@ const store = new CartStore();
 store.TIMEOUT_TIME = 60000;
 
 store.registerHandler('STUDENT_FOUND', () => {
-    if(isOnTimer){
-        clearTimeout(timer);
-        isOnTimer = false;
+    if(store.isOnTimeout()){
+        clearTimer();
     }
 });
 
 store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
-    if(timer !== null) {
-        clearTimeout(timer);
+    if(store.isOnTimeout()){
+        clearTimer();
     }
     let item = {
         address: data.address,
@@ -39,16 +42,13 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     items.push(item);
     timer = setTimeout(() => {
         checkOutItems(StudentStore.getStudent().id, items.map(item =>{return item.address;}));
-        isOnTimer = false;
+        timer = null;
     }, store.TIMEOUT_TIME);
-    isOnTimer = true;
     store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    clearTimeout(timer);
-    isOnTimer = false;
-    timer = null;
+    clearTimer();
     store.waitFor(StudentStore);
     items = [];
     store.emitChange();
