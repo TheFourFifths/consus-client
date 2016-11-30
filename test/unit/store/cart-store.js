@@ -60,16 +60,16 @@ describe('CartStore', () => {
         });
         assert.isFalse(CartStore.isOnTimeout());
         //shorten timeout time so tests don't just take a minute longer
-        CartStore.TIMEOUT_TIME = 100;
+        CartStore.TIMEOUT_TIME = 10;
         Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
             address: '123',
             status: 'AVAILABLE'
         });
-        
+
         setTimeout(() => {
             assert.isFalse(CartStore.isOnTimeout());
             done();
-        }, CartStore.TIMEOUT_TIME + 1000);
+        }, CartStore.TIMEOUT_TIME);
 
         // assert.strictEqual(StudentStore.getStudent().items.length, 1);
         // assert.strictEqual(CartStore.getItems().length,0);

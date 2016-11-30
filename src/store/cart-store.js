@@ -6,7 +6,6 @@ let items = [];
 
 let timer = null;
 let isOnTimer = false;
-let TIMEOUT_TIME = 60000;
 
 class CartStore extends Store {
     getItems() {
@@ -19,6 +18,8 @@ class CartStore extends Store {
 }
 
 const store = new CartStore();
+
+store.TIMEOUT_TIME = 60000;
 
 store.registerHandler('STUDENT_FOUND', () => {
     if(isOnTimer){
@@ -39,7 +40,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     timer = setTimeout(() => {
         checkOutItems(StudentStore.getStudent().id, items.map(item =>{return item.address;}));
         isOnTimer = false;
-    }, TIMEOUT_TIME);
+    }, store.TIMEOUT_TIME);
     isOnTimer = true;
     store.emitChange();
 });
