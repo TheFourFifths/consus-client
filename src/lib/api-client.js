@@ -123,20 +123,24 @@ export function searchItem(address) {
 }
 
 export function searchItemForCheckout(address) {
-    if(!StudentStore.getStudent().hasOverdueItem) {
-        get('item', {
-            address
-        }).then(data => {
-            Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-                address: data.item.address,
-                status: data.item.status
-            });
-        });
-    } else {
-        Dispatcher.handleAction('ERROR', {
+    if(StudentStore.getStudent().hasOverdueItem) {
+        return Dispatcher.handleAction('ERROR', {
             error:'Student has at least one overdue item.'
         });
     }
+    get('item', {
+        address
+    }).then(data => {
+        if (data.item.status === 'CHECKED_OUT') {
+            return Dispatcher.handleAction('ERROR', {
+                error: 'This item is already checked out by another student.'
+            });
+        }
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: data.item.address,
+            status: data.item.status
+        });
+    });
 }
 
 export function searchModel(id) {
