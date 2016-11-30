@@ -9,8 +9,9 @@ import Index from './pages/index.jsx';
 import Student from './pages/student.jsx';
 import Model from './pages/models.jsx';
 
-import createModelForm from './components/create-model-form.jsx';
-import createItemForm from './components/create-item-form.jsx';
+import CreateModelForm from './components/create-model-form.jsx';
+import CreateItemForm from './components/create-item-form.jsx';
+import StudentFileUpload from './components/student-file-upload.jsx'
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -18,8 +19,9 @@ ReactDOM.render((
             <IndexRoute component={Index} />
             <Route path='/student' component={Student} />
             <Route path='/models' component={Model} />
-            <Route path='/models/new' component={createModelForm} />
-	          <Route path='/items/new' component={createItemForm} />
+            <Route path='/models/new' component={CreateModelForm} />
+	          <Route path='/items/new' component={CreateItemForm} />
+            <Route path='/students/upload' component={StudentFileUpload} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));

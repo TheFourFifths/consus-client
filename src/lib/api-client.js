@@ -162,3 +162,15 @@ export function getModelsForNewItem() {
         hashHistory.push('/items/new');
     });
 }
+
+export function submitStudentList(upload) {
+  post('students/upload', {
+      file: upload
+  }).then(data => {
+      Dispatcher.handleAction('FILE_UPLOADED', data);
+  }).catch(() => {
+      Dispatcher.handleAction('ERROR', {
+          error: 'The provided file was rejected'
+      });
+  });
+}
