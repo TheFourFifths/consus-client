@@ -7,11 +7,18 @@ export default class StudentPanel extends React.Component {
             return <div><i>Student has no equipment checked out.</i></div>;
         }
         return (
-            <ul>
-                {this.props.student.items.map((items, i) => {
-                    return <li key={i}>{items.address}</li>;
+            <div>
+                {this.props.student.items.map((item, i) => {
+                    return <div key={i}>
+                        {item.address}
+                        <br/>
+                        {item.modelAddress}
+                        <br/>
+                        {item.status}
+                        <br/>
+                    </div>;
                 })}
-            </ul>
+            </div>
         );
     }
 
