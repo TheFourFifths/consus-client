@@ -8,7 +8,7 @@ export default class InputModal extends React.Component {
         this.state = {
             input: '',
             invalid: false
-        }
+        };
     }
 
     onAccept(){
@@ -32,7 +32,7 @@ export default class InputModal extends React.Component {
 
     renderWarning(){
         if(this.state.invalid){
-            return <span className="invalidText">Please only use Alphanumeric characters.<br/></span>
+            return <span className="invalidText">Please only use Alphanumeric characters.<br/></span>;
         }else{
             return '';
         }
