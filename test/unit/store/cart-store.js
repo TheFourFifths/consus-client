@@ -65,7 +65,7 @@ describe('CartStore', () => {
             address: '123',
             status: 'AVAILABLE'
         });
-
+        assert.isTrue(CartStore.isOnTimeout());
         setTimeout(() => {
             assert.isFalse(CartStore.isOnTimeout());
             done();
