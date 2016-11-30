@@ -3,6 +3,7 @@ import { readAddress } from 'consus-core/identifiers';
 import { searchItemForCheckout } from '../../lib/api-client';
 import { searchItem } from '../../lib/api-client';
 import { checkInItem } from '../../lib/api-client';
+import Modal from './modal.jsx';
 import { assert } from 'chai';
 import { Dispatcher } from 'consus-core/flux';
 
@@ -11,7 +12,8 @@ export default class CartPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            address: ''
+            address: '',
+            active: false
         };
     }
 
@@ -32,6 +34,7 @@ export default class CartPanel extends React.Component {
                 });
             } catch (f) {
                 this.setState({
+                    active: false,
                     address: e.target.value
                 });
             }
@@ -55,9 +58,17 @@ export default class CartPanel extends React.Component {
         );
     }
 
+    closeModal() {
+        this.setState({
+            active: false,
+            address: this.state.address
+        });
+    }
+
     render() {
         return (
             <div className='cart'>
+                <Modal active={this.state.active} onClose={this.closeModal.bind(this)} >You successfully checked in an Item.<br/></Modal>
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
