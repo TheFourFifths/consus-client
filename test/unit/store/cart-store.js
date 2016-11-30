@@ -70,9 +70,6 @@ describe('CartStore', () => {
             assert.isFalse(CartStore.isOnTimeout());
             done();
         }, CartStore.TIMEOUT_TIME);
-
-        // assert.strictEqual(StudentStore.getStudent().items.length, 1);
-        // assert.strictEqual(CartStore.getItems().length,0);
     });
 
     it('cancels timeout when new student is scanned', () => {
