@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router'
-import { getAllModels } from '../../lib/api-client'
-import { getAllItems } from '../../lib/api-client'
 import { Link } from 'react-router';
 import { getAllModels } from '../../lib/api-client';
+import { getAllItems } from '../../lib/api-client';
 import { getModelsForNewItem } from '../../lib/api-client';
 export default class Index extends React.Component {
 

@@ -117,15 +117,12 @@ export function searchItemForCheckout(address) {
     });
 }
 
-export function searchModel(id) {
-    get('model', {
-        id
+export function searchModel(address) {
+    return get('model', {
+        address
     })
     .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', {
-            id: data.model.id,
-            name: data.model.name
-        });
+        Dispatcher.handleAction('MODEL_FOUND',data);
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
     });

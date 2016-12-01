@@ -1,30 +1,24 @@
 import { Store } from 'consus-core/flux';
-
+import { searchModel } from '../lib/api-client';
 let model = null;
 
 class ModelStore extends Store {
 
     getModel() {
-        if (model === null) {
-            return model;
-        }
-        return {
-            id: model.id,
-            name: model.name
-        };
+        return model;
     }
     getAllModels(){
         return model;
     }
-
+    searchModelByAddress(address){
+        return searchModel(address);
+    }
 }
 
 const store = new ModelStore();
 
 store.registerHandler('MODEL_FOUND', data => {
     model = data;
-    store.emitChange();
-    hashHistory("/model/");
     store.emitChange();
 });
 

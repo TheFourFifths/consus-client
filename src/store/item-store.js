@@ -1,29 +1,23 @@
 import { Store } from 'consus-core/flux';
-
+import { searchItem } from '../lib/api-client.js';
 let item = null;
 
 class ItemStore extends Store {
     getItem() {
-        if (item === null) {
-            return item;
-        }
-        return {
-            id: item.id,
-            status: item.status
-        };
+        return item;
     }
     getAllItems(){
         return item;
+    }
+    searchItemByAddress(address){
+        return searchItem(address);
     }
 }
 
 const store = new ItemStore();
 
 store.registerHandler('ITEM_FOUND', data => {
-    item = {
-        id: data.id,
-        status: data.status
-    };
+    item = data;
     store.emitChange();
 });
 
