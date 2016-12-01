@@ -18,13 +18,7 @@ class StudentStore extends Store{
 const store = new StudentStore();
 
 store.registerHandler('STUDENT_FOUND', data => {
-    student = {
-        //NOTE: this data is tentative
-        id : data.id,
-        name: data.name,
-        items: data.items,
-        hasOverdueItem: store.hasOverdueItems(data.items)
-    };
+    student = data;
     store.emitChange();
 });
 

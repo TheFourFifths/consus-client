@@ -113,10 +113,7 @@ export function searchItem(address) {
         address
     })
     .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
-        });
+        Dispatcher.handleAction('ITEM_FOUND', data);
     }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
@@ -131,15 +128,12 @@ export function searchItemForCheckout(address) {
     get('item', {
         address
     }).then(data => {
-        if (data.item.status === 'CHECKED_OUT') {
+        if (data.status === 'CHECKED_OUT') {
             return Dispatcher.handleAction('ERROR', {
                 error: 'This item is already checked out by another student.'
             });
         }
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
-        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', data);
     });
 }
 
@@ -158,12 +152,7 @@ export function searchStudent(id) {
     get('student', {
         id
     }).then(data => {
-        Dispatcher.handleAction('STUDENT_FOUND', {
-            //NOTE: data is tentative, more may be required.
-            items: data.student.items,
-            id: data.student.id,
-            name: data.student.name
-        });
+        Dispatcher.handleAction('STUDENT_FOUND', data);
         hashHistory.push('/student');
     }).catch(() => {
         Dispatcher.handleAction('ERROR', {
