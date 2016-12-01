@@ -1,5 +1,4 @@
 import { Store } from 'consus-core/flux';
-import CartStore from './cart-store';
 import { searchStudent } from '../lib/api-client';
 
 let student = null;
