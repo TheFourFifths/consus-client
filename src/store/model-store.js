@@ -1,14 +1,16 @@
 import { Store } from 'consus-core/flux';
 import { searchModel } from '../lib/api-client';
 let model = null;
+let models = [];
 
 class ModelStore extends Store {
 
     getModel() {
         return model;
     }
+
     getAllModels(){
-        return model;
+        return models;
     }
     searchModelByAddress(address){
         return searchModel(address);
@@ -27,13 +29,18 @@ store.registerHandler('NO_MODEL_FOUND', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    model = null;
+    models = [];
+});
+
 store.registerHandler('MODELS_RECEIVED', data => {
-    model = data.models;
+    models = data.models;
     store.emitChange();
 });
 
 store.registerHandler('MODEL_CREATED', data => {
-    model.push(data);
+    models.push(data);
     store.emitChange();
 });
 

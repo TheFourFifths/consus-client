@@ -26,6 +26,11 @@ store.registerHandler('NO_ITEM_FOUND', () => {
     store.emitChange();
 });
 
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    item = null;
+    store.emitChange();
+});
+
 store.registerHandler('ITEMS_RECEIVED', data => {
     item = data.items;
     store.emitChange();
