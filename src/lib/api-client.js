@@ -142,7 +142,7 @@ export function searchModel(address) {
         address
     })
     .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND',data);
+        Dispatcher.handleAction('MODEL_FOUND', data);
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
     });
