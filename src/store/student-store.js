@@ -1,5 +1,6 @@
 import { Store } from 'consus-core/flux';
 import CartStore from './cart-store';
+import { searchStudent } from '../lib/api-client';
 
 let student = null;
 
@@ -33,8 +34,10 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student.items = student.items.concat(CartStore.getItems());
-    store.emitChange();
+    /*API call made from store to update student from server
+    after checkout completes, then the store will emit change when
+    student is found.*/
+    searchStudent(student.id);
 });
 
 store.registerHandler('CHECKIN_SUCCESS', data => {
