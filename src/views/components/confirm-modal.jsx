@@ -12,7 +12,6 @@ export default class ConfirmModal extends React.Component {
                 onClose={() => this.props.onSelect(true)}>
                 <p>{this.props.message}</p><br/>
                 <br/>
-                {this.renderWarning()}
                 <button onClick={() => this.props.onSelect(false)}>No</button>
             </Modal>
         )

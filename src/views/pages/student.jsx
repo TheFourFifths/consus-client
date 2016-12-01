@@ -7,7 +7,6 @@ import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
 import AuthenticationStore from '../../store/authentication-store';
 import InputModal from '../components/input-modal.jsx';
-import ConfirmModal from '../components/confirm-modal.jsx';
 import { Dispatcher } from 'consus-core/flux';
 
 import { checkOutItems } from '../../lib/api-client';
@@ -72,11 +71,6 @@ export default class Student extends ListenerComponent {
                     onCancel={this.cancelAdminModal.bind(this)}
                     acceptText='Continue Checkout'
                     textHidden={true}
-                />
-                <ConfirmModal
-                    message="Confirm?"
-                    active = {true}
-                    onSelect = {bool => console.log('Conf:', bool)}
                 />
             </div>
         );
