@@ -6,10 +6,6 @@ import { getModelsForNewItem } from '../../lib/api-client';
 import Item from '../components/item.jsx';
 export default class Models extends ListenerComponent {
 
-    constructor() {
-        super();
-
-    }
     getStores() {
         return [
             ItemStore

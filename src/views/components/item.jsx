@@ -4,10 +4,7 @@ import { Link } from 'react-router';
 export default class Item extends React.Component {
     constructor(props) {
         super(props);
-        if (props.item !== null)
-            this.state = {item: props.item};
-        else
-            this.state = {item: null};
+        this.state = {item: props.item};
     }
 
     componentDidMount() {
@@ -15,14 +12,14 @@ export default class Item extends React.Component {
             ItemStore.searchItemByAddress(this.props.params.address).then(() => {
                 this.setState({
                     item: ItemStore.getItem()
-                })
+                });
             });
         }
     }
 
     render() {
         if (this.state.item === null)
-            return (<i>Item is loading...</i>);
+            return <i>Item is loading...</i>;
         return (
             <div className='item'>
                 <div className="picArea">

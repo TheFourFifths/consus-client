@@ -4,24 +4,21 @@ export default class Model extends React.Component {
 
     constructor(props){
         super(props);
-        if(props.model !== undefined)
-            this.state = {model: props.model};
-        else
-            this.state = {model: null};
+        this.state = {model: props.model};
     }
     componentDidMount(){
         if(this.state.model === null) {
             ModelStore.searchModelByAddress(this.props.params.address).then(() => {
                 this.setState({
                     model: ModelStore.getModel()
-                })
+                });
             });
         }
     }
 
     render() {
         if(this.state.model === null)
-            return (<div>Data is loading...</div>);
+            return <div>Data is loading...</div>;
         return (
             <div className='model'>
                 <div className="picArea">
