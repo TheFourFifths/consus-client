@@ -63,10 +63,11 @@ export function checkOutItems(studentId, itemAddresses) {
     });
 }
 
-export function createItem(id) {
+export function createItem(modelAddress) {
     post('item', {
-        id
+        modelAddress: modelAddress
     });
+    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
@@ -145,9 +146,6 @@ export function searchStudent(id) {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
     });
 }
-export function viewModel(address){
-    get('')
-}
 
 export function getAllModels() {
     get('model/all', {}
@@ -162,5 +160,13 @@ export function getAllItems() {
     ).then(data => {
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
         hashHistory.push('/items');
+    });
+}
+
+export function getModelsForNewItem() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+        hashHistory.push('/items/new');
     });
 }

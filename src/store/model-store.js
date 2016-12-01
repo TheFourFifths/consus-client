@@ -24,7 +24,8 @@ const store = new ModelStore();
 store.registerHandler('MODEL_FOUND', data => {
     model = data;
     store.emitChange();
-    hashHistory("/model/")
+    hashHistory("/model/");
+    store.emitChange();
 });
 
 store.registerHandler('NO_MODEL_FOUND', () => {
