@@ -175,6 +175,13 @@ export function searchStudent(id) {
     });
 }
 
+export function justGetAllModels() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+    });
+}
+
 export function getAllModels() {
     get('model/all', {}
     ).then(data => {

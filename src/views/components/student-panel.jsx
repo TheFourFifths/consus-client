@@ -1,6 +1,25 @@
 import React from 'react';
+import ModelStore from '../../store/model-store';
+import ListenerComponent from '../../lib/listener-component.jsx';
+import { justGetAllModels } from '../../lib/api-client';
 
-export default class StudentPanel extends React.Component {
+export default class StudentPanel extends ListenerComponent {
+
+    componentWillMount(){
+        justGetAllModels();
+    }
+
+    getStores() {
+        return [
+            ModelStore
+        ];
+    }
+
+    getState() {
+        return {
+            models: ModelStore.getAllModels()
+        }
+    }
 
     renderEquipment() {
         if(this.props.student.items.length === 0) {
@@ -10,9 +29,8 @@ export default class StudentPanel extends React.Component {
             <div>
                 {this.props.student.items.map((item, i) => {
                     return <div key={i}>
+                        {this.renderModelInfo(item)}
                         {item.address}
-                        <br/>
-                        {item.modelAddress}
                         <br/>
                         {item.status}
                         <br/>
@@ -20,6 +38,17 @@ export default class StudentPanel extends React.Component {
                 })}
             </div>
         );
+    }
+
+    renderModelInfo(item){
+        let model = this.state.models.find(model => model.address === item.modelAddress);
+        if(!model){
+            return null;
+        }else{
+            return <div>
+                {model.name}
+            </div>
+        }
     }
 
     render() {
