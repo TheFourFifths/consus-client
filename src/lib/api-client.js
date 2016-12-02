@@ -164,10 +164,10 @@ export function getModelsForNewItem() {
 }
 
 export function submitStudentList(upload) {
-  post('students/upload', {
+  post('student/upload', {
       file: upload
   }).then(data => {
-      Dispatcher.handleAction('FILE_UPLOADED', data);
+      hashHistory.push('/');
   }).catch(() => {
       Dispatcher.handleAction('ERROR', {
           error: 'The provided file was rejected'
