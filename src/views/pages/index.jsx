@@ -14,8 +14,8 @@ export default class Index extends React.Component {
         return (
             <div id='index'>
                 <div id='links'>
-                  <button onClick={this.allModels.bind(this)}>View all models</button><br/>
-                  <button onClick={this.allItems.bind(this)}>View all Items</button><br/>
+                  <button onClick={this.allModels}>View all models</button><br/>
+                  <button onClick={this.allItems}>View all Items</button><br/>
                 </div>
             </div>
         );

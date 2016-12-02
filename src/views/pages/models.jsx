@@ -1,6 +1,6 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import ModelStore from '../../store/model-store.js';
+import ModelStore from '../../store/model-store';
 import Model from '../components/model.jsx';
 import { Link } from 'react-router';
 export default class Models extends ListenerComponent {
@@ -25,9 +25,9 @@ export default class Models extends ListenerComponent {
                 <h1>All models</h1>
                 <Link to='/models/new'>Make new model</Link>
                 {this.state.models.map(function(model, key){
-                    return <div key= {key}>
+                    return (<div key= {key}>
                         <Model model= {model} />
-                    </div>
+                    </div>)
 
                 })}
             </div>

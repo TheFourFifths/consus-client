@@ -1,7 +1,7 @@
 import React from 'react';
-import ItemStore from '../../store/item-store.js';
+import ItemStore from '../../store/item-store';
 import { Link } from 'react-router';
-import { searchItem } from '../../lib/api-client.js';
+import { searchItem } from '../../lib/api-client';
 export default class Item extends React.Component {
     constructor(props) {
         super(props);

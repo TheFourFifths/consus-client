@@ -1,5 +1,5 @@
 import React from 'react';
-import ModelStore  from '../../store/model-store.js';
+import ModelStore  from '../../store/model-store';
 import { searchModel } from '../../lib/api-client';
 export default class Model extends React.Component {
 
@@ -22,7 +22,7 @@ export default class Model extends React.Component {
 
     render() {
         if(this.state.model === null)
-            return <div>Data is loading...</div>;
+            return <i>Data is loading...</i>;
         return (
             <div className='model'>
                 <div className="picArea">
