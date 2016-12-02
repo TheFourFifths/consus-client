@@ -1,35 +1,35 @@
 import { Store } from 'consus-core/flux';
 
-let messages = [];
+let toasts = [];
 let nextId = 0;
 
-class Toast extends Store {
+class ToastStore extends Store {
 
     getToasts() {
-        return messages;
+        return toasts;
     }
 
 }
 
 const store = new ToastStore();
 
-function addMessage(text) {
-    messages.push({
+function addToast(text) {
+    toasts.push({
         id: nextId,
-        text: data.text
+        text
     });
     nextId ++;
 }
 
 store.registerHandler('CREATE_TOAST', data => {
-    addMessage(data.text);
+    addToast(data.text);
     store.emitChange();
 });
 
 store.registerHandler('POP_TOAST', data => {
-    let index = messages.findIndex(message => message.id === data.id);
+    let index = toasts.findIndex(toast => toast.id === data.id);
     if (index > -1) {
-        messages.splice(index, 1);
+        toasts.splice(index, 1);
         store.emitChange();
     }
 });
