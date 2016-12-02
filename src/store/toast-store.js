@@ -21,6 +21,11 @@ function addToast(text) {
     nextId ++;
 }
 
+store.registerHandler('CLEAR_ALL_DATA', () => {
+    toasts = [];
+    nextId = 0;
+});
+
 store.registerHandler('CREATE_TOAST', data => {
     addToast(data.text);
     store.emitChange();
