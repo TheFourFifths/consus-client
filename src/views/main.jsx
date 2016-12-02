@@ -11,7 +11,7 @@ import Model from './pages/models.jsx';
 
 import CreateModelForm from './components/create-model-form.jsx';
 import CreateItemForm from './components/create-item-form.jsx';
-import StudentFileUpload from './components/student-file-upload.jsx'
+import StudentFileUpload from './components/student-file-upload.jsx';
 
 ReactDOM.render((
     <Router history={hashHistory}>
