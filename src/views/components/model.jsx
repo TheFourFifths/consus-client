@@ -1,14 +1,18 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store.js';
+import { searchModel } from '../../lib/api-client';
 export default class Model extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {model: props.model};
+        if (props.model === undefined)
+            this.state = {model: null};
+        else
+            this.state = {model: props.model};
     }
     componentDidMount(){
         if(this.state.model === null) {
-            ModelStore.searchModelByAddress(this.props.params.address).then(() => {
+            searchModel(this.props.params.address).then(() => {
                 this.setState({
                     model: ModelStore.getModel()
                 });

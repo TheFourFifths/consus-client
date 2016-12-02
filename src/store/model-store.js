@@ -1,5 +1,4 @@
 import { Store } from 'consus-core/flux';
-import { searchModel } from '../lib/api-client';
 let model = null;
 let models = [];
 
@@ -11,9 +10,6 @@ class ModelStore extends Store {
 
     getAllModels(){
         return models;
-    }
-    searchModelByAddress(address){
-        return searchModel(address);
     }
 }
 

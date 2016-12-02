@@ -1,15 +1,19 @@
 import React from 'react';
 import ItemStore from '../../store/item-store.js';
 import { Link } from 'react-router';
+import { searchItem } from '../../lib/api-client.js';
 export default class Item extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {item: props.item};
+        if (props.item === undefined)
+            this.state = {item: null};
+        else
+            this.state = {item: props.item};
     }
 
     componentDidMount() {
         if (this.state.item === null) {
-            ItemStore.searchItemByAddress(this.props.params.address).then(() => {
+            searchItem(this.props.params.address).then(() => {
                 this.setState({
                     item: ItemStore.getItem()
                 });

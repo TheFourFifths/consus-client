@@ -1,5 +1,4 @@
 import { Store } from 'consus-core/flux';
-import { searchItem } from '../lib/api-client.js';
 let item = null;
 
 class ItemStore extends Store {
@@ -8,9 +7,6 @@ class ItemStore extends Store {
     }
     getAllItems(){
         return item;
-    }
-    searchItemByAddress(address){
-        return searchItem(address);
     }
 }
 
