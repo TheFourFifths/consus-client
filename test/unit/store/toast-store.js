@@ -27,6 +27,23 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'D');
     });
 
+    it('should have a default timeout of 5 seconds', () => {
+        assert.lengthOf(ToastStore.getToasts(), 3);
+        Dispatcher.handleAction('CREATE_TOAST', {
+            text: 'D'
+        });
+        assert.strictEqual(ToastStore.getToasts()[3].timeout, 5000);
+    });
+
+    it('should be able to define the timeout', () => {
+        assert.lengthOf(ToastStore.getToasts(), 3);
+        Dispatcher.handleAction('CREATE_TOAST', {
+            text: 'D',
+            timeout: 1234
+        });
+        assert.strictEqual(ToastStore.getToasts()[3].timeout, 1234);
+    });
+
     it('should pop the first toast message', () => {
         Dispatcher.handleAction('POP_TOAST', {
             id: 0

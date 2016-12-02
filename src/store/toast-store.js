@@ -1,5 +1,7 @@
 import { Store } from 'consus-core/flux';
 
+const DEFAULT_TIME_UNTIL_POP = 5000; // 5 seconds
+
 let toasts = [];
 let nextId = 0;
 
@@ -13,10 +15,11 @@ class ToastStore extends Store {
 
 const store = new ToastStore();
 
-function addToast(text) {
+function addToast(text, timeout = DEFAULT_TIME_UNTIL_POP) {
     toasts.push({
         id: nextId,
-        text
+        text,
+        timeout
     });
     nextId ++;
 }
@@ -27,7 +30,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 });
 
 store.registerHandler('CREATE_TOAST', data => {
-    addToast(data.text);
+    addToast(data.text, data.timeout);
     store.emitChange();
 });
 

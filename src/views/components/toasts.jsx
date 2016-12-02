@@ -18,7 +18,7 @@ export default class Toasts extends React.Component {
                 <ReactCSSTransitionGroup transitionName='toast' transitionEnterTimeout={700} transitionLeaveTimeout={300}>
                     {this.props.toasts.map(toast => {
                         return (
-                            <Toast key={toast.id} onPop={this.popToast.bind(this, toast.id)}>
+                            <Toast key={toast.id} onPop={this.popToast.bind(this, toast.id)} timeout={toast.timeout}>
                                 {toast.text}
                             </Toast>
                         );

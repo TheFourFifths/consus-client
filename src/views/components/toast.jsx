@@ -1,7 +1,5 @@
 import React from 'react';
 
-const TIME_UNTIL_POP = 5000; // 5 seconds
-
 export default class Toast extends React.Component {
 
     constructor(props) {
@@ -12,7 +10,7 @@ export default class Toast extends React.Component {
     componentDidMount() {
         setTimeout(() => {
             this.pop();
-        }, TIME_UNTIL_POP);
+        }, this.props.timeout);
     }
 
     pop() {
