@@ -30,9 +30,7 @@ export default class StudentPanel extends ListenerComponent {
                 {this.props.student.items.map((item, i) => {
                     return <div key={i}>
                         {this.renderModelInfo(item)}
-                        {item.address}
-                        <br/>
-                        {item.status}
+                        Item Code: {item.address}
                         <br/>
                     </div>;
                 })}
@@ -46,7 +44,7 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         }else{
             return <div>
-                {model.name}
+                Model: {model.name}
             </div>
         }
     }
