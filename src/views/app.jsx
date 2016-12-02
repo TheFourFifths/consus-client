@@ -8,7 +8,7 @@ import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
 import Models from './pages/models.jsx';
 import ErrorModal from './components/error-modal.jsx';
-import Toast from './components/toast.jsx';
+import Toasts from './components/toasts.jsx';
 
 export default class App extends ListenerComponent {
 
@@ -34,12 +34,6 @@ export default class App extends ListenerComponent {
         Dispatcher.handleAction('CLEAR_ERROR', {});
     }
 
-    popToast(id) {
-        Dispatcher.handleAction('POP_TOAST', {
-            id
-        });
-    }
-
     render() {
         if (!this.state.loggedIn) {
             return (
@@ -52,9 +46,7 @@ export default class App extends ListenerComponent {
         return (
             <div id='app'>
                 <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} message={this.state.errorMessage} />
-                <div id='toasts'>
-                    {this.state.toasts.map(t => <Toast key={t.id} onPop={this.popToast.bind(this, t.id)}>{t.text}</Toast>)}
-                </div>
+                <Toasts toasts={this.state.toasts} />
                 <Omnibar />
                 <div id='children'>
                   {this.props.children}

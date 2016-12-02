@@ -7,13 +7,27 @@
 
     .toast
         background-color: #464646
+        width: 20em
         color: #fbfbfb
         border-radius: 0.5em
         padding: 1em
-        width: 20em
         margin: 0 auto 1em auto
         text-align: center
         cursor: pointer
 
         &:hover
-            background-color: #727272
+            background-color: #262626
+
+        &.toast-enter
+            opacity: 0
+
+            &.toast-enter-active
+                opacity: 1
+                transition: opacity 700ms ease-in
+
+        &.toast-leave
+            opacity: 1
+
+            &.toast-leave-active
+                opacity: 0
+                transition: opacity 300ms ease-in
