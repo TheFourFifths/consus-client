@@ -1,33 +1,22 @@
 import { Store } from 'consus-core/flux';
-
 let model = null;
 let models = [];
 
 class ModelStore extends Store {
 
     getModel() {
-        if (model === null) {
-            return model;
-        }
-        return {
-            address: model.address,
-            name: model.name
-        };
+        return model;
     }
 
     getAllModels(){
         return models;
     }
-
 }
 
 const store = new ModelStore();
 
 store.registerHandler('MODEL_FOUND', data => {
-    model = {
-        address: data.address,
-        name: data.name
-    };
+    model = data;
     store.emitChange();
 });
 
