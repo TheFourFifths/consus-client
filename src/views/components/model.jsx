@@ -1,6 +1,7 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import { searchModel } from '../../lib/api-client';
+
 export default class Model extends React.Component {
 
     constructor(props){
@@ -10,6 +11,7 @@ export default class Model extends React.Component {
         else
             this.state = {model: props.model};
     }
+
     componentDidMount(){
         if(this.state.model === null) {
             searchModel(this.props.params.address).then(() => {
@@ -59,7 +61,6 @@ export default class Model extends React.Component {
                 </div>
                 <div className="clear"> </div>
             </div>
-
         );
     }
 

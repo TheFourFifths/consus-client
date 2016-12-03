@@ -3,32 +3,37 @@ import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
 import Model from '../components/model.jsx';
 import { Link } from 'react-router';
+
 export default class Models extends ListenerComponent {
 
     constructor() {
         super();
 
     }
+
     getStores() {
         return [
             ModelStore
         ];
     }
+
     getState() {
         return {
             models: ModelStore.getAllModels()
         };
     }
+
     render() {
         return (
             <div id="models">
                 <h1>All models</h1>
                 <Link to='/models/new'>Make new model</Link>
-                {this.state.models.map(function(model, key){
-                    return (<div key= {key}>
-                        <Model model= {model} />
-                    </div>)
-
+                {this.state.models.map((model, key) => {
+                    return (
+                        <div key= {key}>
+                            <Model model= {model} />
+                        </div>
+                    );
                 })}
             </div>
         );

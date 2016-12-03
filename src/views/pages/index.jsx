@@ -1,6 +1,7 @@
 import React from 'react';
 import { getAllModels } from '../../lib/api-client';
 import { getAllItems } from '../../lib/api-client';
+
 export default class Index extends React.Component {
 
     allModels(e) {
@@ -10,6 +11,7 @@ export default class Index extends React.Component {
     allItems(){
         getAllItems();
     }
+
     render() {
         return (
             <div id='index'>
