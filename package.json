@@ -58,8 +58,9 @@
     "grunt-inline": "^0.3.6",
     "grunt-mocha-cli": "2.1.0",
     "nyc": "^9.0.1",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
+    "react-dom": "^15.4.1",
     "react-router": "^2.8.1",
     "request": "^2.75.0"
   }
