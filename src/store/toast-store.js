@@ -42,4 +42,9 @@ store.registerHandler('POP_TOAST', data => {
     }
 });
 
+store.registerHandler('MODEL_CREATED', data => {
+    addToast(`Created a new ${data.name}`);
+    store.emitChange();
+});
+
 export default store;
