@@ -1,26 +1,19 @@
 import { Store } from 'consus-core/flux';
-
 let item = null;
-
+let items = [];
 class ItemStore extends Store {
     getItem() {
-        if (item === null) {
-            return item;
-        }
-        return {
-            id: item.id,
-            status: item.status
-        };
+        return item;
+    }
+    getAllItems(){
+        return items;
     }
 }
 
 const store = new ItemStore();
 
 store.registerHandler('ITEM_FOUND', data => {
-    item = {
-        id: data.id,
-        status: data.status
-    };
+    item = data;
     store.emitChange();
 });
 
@@ -31,7 +24,12 @@ store.registerHandler('NO_ITEM_FOUND', () => {
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
     item = null;
+    items = [];
     store.emitChange();
 });
 
+store.registerHandler('ITEMS_RECEIVED', data => {
+    items = data.items;
+    store.emitChange();
+});
 export default store;
