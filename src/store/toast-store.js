@@ -43,7 +43,7 @@ store.registerHandler('POP_TOAST', data => {
 });
 
 store.registerHandler('MODEL_CREATED', data => {
-    addToast(`Created a new ${data.name}`, DEFAULT_TIME_UNTIL_POP);
+    addToast(`Created a new ${data.name}`);
     store.emitChange();
 });
 

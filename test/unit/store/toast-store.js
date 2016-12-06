@@ -84,4 +84,13 @@ describe('ToastStore', () => {
         assert.lengthOf(ToastStore.getToasts(), 0);
     });
 
+    it('should add a toast message for creating new models', () => {
+        Dispatcher.handleAction('MODEL_CREATED', {
+            name: 'Car Radio',
+            description: 'Somebody stole my car radio, so now I sit in silence'
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.match(ToastStore.getToasts()[3].text, /Created a new Car Radio/);
+    });
+
 });
