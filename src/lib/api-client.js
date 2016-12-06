@@ -45,7 +45,7 @@ export function checkInItem(studentId, itemAddress){
         itemAddress
     }).then(data => {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
+            itemAddress: itemAddress
         });
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
@@ -114,8 +114,8 @@ export function searchItem(address) {
     })
     .then(data => {
         Dispatcher.handleAction('ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+            address: item.address,
+            status: item.status
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
@@ -131,14 +131,14 @@ export function searchItemForCheckout(address) {
     get('item', {
         address
     }).then(data => {
-        if (data.item.status === 'CHECKED_OUT') {
+        if (item.status === 'CHECKED_OUT') {
             return Dispatcher.handleAction('ERROR', {
                 error: 'This item is already checked out by another student.'
             });
         }
         Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: data.item.address,
-            status: data.item.status
+            address: item.address,
+            status: item.status
         });
     });
 }
@@ -149,8 +149,8 @@ export function searchModel(id) {
     })
     .then(data => {
         Dispatcher.handleAction('MODEL_FOUND', {
-            id: data.model.id,
-            name: data.model.name
+            id: model.id,
+            name: model.name
         });
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
@@ -160,15 +160,15 @@ export function searchModel(id) {
 export function searchStudent(id) {
     get('student', {
         id
-    }).then(data => {
+    }).then(student => {
         Dispatcher.handleAction('STUDENT_FOUND', {
             //NOTE: data is tentative, more may be required.
-            items: data.student.items,
-            id: data.student.id,
-            name: data.student.name
+            items: student.items,
+            id: student.id,
+            name: student.name
         });
         hashHistory.push('/student');
-    }).catch(() => {
+    }).catch((e) => {
         Dispatcher.handleAction('ERROR', {
             error: 'An invalid student ID was scanned. The student could not be found.'
         });
