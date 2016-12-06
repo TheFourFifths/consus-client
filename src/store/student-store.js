@@ -35,6 +35,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     student.items = student.items.concat(CartStore.getItems());
+    store.emitChange();//This isn't needed but you guys wanted it.
     searchStudent(student.id);
 });
 
