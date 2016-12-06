@@ -113,10 +113,7 @@ export function searchItem(address) {
         address
     })
     .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND', {
-            address: item.address,
-            status: item.status
-        });
+        Dispatcher.handleAction('ITEM_FOUND', data);
     }).catch(() => {
         Dispatcher.handleAction('NO_ITEM_FOUND');
     });
@@ -131,27 +128,21 @@ export function searchItemForCheckout(address) {
     get('item', {
         address
     }).then(data => {
-        if (item.status === 'CHECKED_OUT') {
+        if (data.status === 'CHECKED_OUT') {
             return Dispatcher.handleAction('ERROR', {
                 error: 'This item is already checked out by another student.'
             });
         }
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
-            address: item.address,
-            status: item.status
-        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', data);
     });
 }
 
-export function searchModel(id) {
-    get('model', {
-        id
+export function searchModel(address) {
+    return get('model', {
+        address
     })
     .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', {
-            id: model.id,
-            name: model.name
-        });
+        Dispatcher.handleAction('MODEL_FOUND', data);
     }).catch(() => {
         Dispatcher.handleAction('NO_MODEL_FOUND');
     });
@@ -160,13 +151,9 @@ export function searchModel(id) {
 export function searchStudent(id) {
     get('student', {
         id
-    }).then(student => {
-        Dispatcher.handleAction('STUDENT_FOUND', {
-            //NOTE: data is tentative, more may be required.
-            items: student.items,
-            id: student.id,
-            name: student.name
-        });
+
+    }).then(data => {
+        Dispatcher.handleAction('STUDENT_FOUND', data);
         hashHistory.push('/student');
     }).catch((e) => {
         Dispatcher.handleAction('ERROR', {
@@ -187,6 +174,14 @@ export function getAllModels() {
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/models');
+    });
+}
+
+export function getAllItems() {
+    get('item/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        hashHistory.push('/items');
     });
 }
 

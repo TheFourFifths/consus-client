@@ -26,4 +26,18 @@ describe('ItemStore', () => {
         assert.isNull(ItemStore.getItem());
     });
 
+    it('should get all items', () => {
+        Dispatcher.handleAction('ITEMS_RECEIVED',{
+            items:[{
+                name: 'test1'
+            },{
+                name: 'test2'
+            },{
+                name: 'test3'
+            }]
+        });
+        assert.strictEqual(ItemStore.getAllItems().length, 3);
+    });
+
+
 });
