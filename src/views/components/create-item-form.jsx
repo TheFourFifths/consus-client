@@ -1,7 +1,8 @@
 import React from 'react';
+import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import ModelStore from '../../store/model-store'
-import { createItem } from '../../lib/api-client';
+import ModelStore from '../../store/model-store';
+import { createItem, searchModel } from '../../lib/api-client';
 
 export default class CreateItemForm extends ListenerComponent {
 
@@ -21,13 +22,18 @@ export default class CreateItemForm extends ListenerComponent {
     changeModel(e) {
         this.setState({
             modelAddress: e.target.value,
-            models: this.state.models
         });
     }
 
     submit(e) {
         e.preventDefault();
         createItem(this.state.modelAddress);
+
+        searchModel(this.state.modelAddress);
+        let newItemType = ModelStore.getModel();
+        Dispatcher.handleAction('CREATE_TOAST', {
+            text: `Created a new ${JSON.stringify(newItemType.name)}`
+        });
     }
 
     render() {
