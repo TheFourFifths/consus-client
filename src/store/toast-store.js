@@ -42,6 +42,11 @@ store.registerHandler('POP_TOAST', data => {
     }
 });
 
+store.registerHandler('MODEL_CREATED', data => {
+    addToast(`Created a new ${data.name}`);
+    store.emitChange();
+});
+
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     addToast('Checkout completed successfully!');
     store.emitChange();
