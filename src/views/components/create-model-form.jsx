@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
 import { createModel } from '../../lib/api-client';
 import { getAllModels } from '../../lib/api-client'
 import { hashHistory } from 'react-router';
@@ -75,13 +74,12 @@ export default class CreateModelForm extends React.Component {
             this.state.price,
             this.state.count
         );
-        Dispatcher.handleAction('CREATE_TOAST', {
-            text: `Created a new ${this.state.name}`
-        });
     }
+
     allModels(e) {
         getAllModels();
     }
+
     render() {
         return (
             <div className='create-model-form'>
