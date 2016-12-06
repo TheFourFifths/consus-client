@@ -189,6 +189,7 @@ export function submitStudentList(upload) {
   post('student/upload', {
       file: upload
   }).then(data => {
+      Dispatcher.handleAction('FILE_UPLOADED', data);
       hashHistory.push('/');
   }).catch(() => {
       Dispatcher.handleAction('ERROR', {
