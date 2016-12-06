@@ -28,9 +28,18 @@ describe('ToastStore', () => {
     });
 
     it('should add a toast message for successful checkouts', () => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            address: '123',
+            status: 'AVAILABLE'
+        });
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3], 'Checkout completed successfully!');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully!');
     });
 
     it('should have a default timeout of 5 seconds', () => {
