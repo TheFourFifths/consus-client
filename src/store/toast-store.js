@@ -42,4 +42,9 @@ store.registerHandler('POP_TOAST', data => {
     }
 });
 
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    addToast('Checkout completed successfully!');
+    store.emitChange();
+});
+
 export default store;

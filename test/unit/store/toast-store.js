@@ -27,6 +27,12 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'D');
     });
 
+    it('should add a toast message for successful checkouts', () => {
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3], 'Checkout completed successfully!');
+    });
+
     it('should have a default timeout of 5 seconds', () => {
         assert.lengthOf(ToastStore.getToasts(), 3);
         Dispatcher.handleAction('CREATE_TOAST', {
