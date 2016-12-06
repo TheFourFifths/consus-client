@@ -27,6 +27,24 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'D');
     });
 
+    it('should add a toast message for successful checkins', () => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+            address: '123',
+            status: 'AVAILABLE'
+        });
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: '123'
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Item checked in successfully: 123');
+    });
+
     it('should have a default timeout of 5 seconds', () => {
         assert.lengthOf(ToastStore.getToasts(), 3);
         Dispatcher.handleAction('CREATE_TOAST', {

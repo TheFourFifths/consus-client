@@ -42,4 +42,9 @@ store.registerHandler('POP_TOAST', data => {
     }
 });
 
+store.registerHandler('CHECKIN_SUCCESS', data => {
+    addToast(`Item checked in successfully: ${data.itemAddress}`);
+    store.emitChange();
+});
+
 export default store;
