@@ -22,15 +22,13 @@ export default class Models extends ListenerComponent {
     }
 
     render() {
-        console.log("page is rendering");
-        console.log(this.state.items);
         return (
             <div id="item">
                 <h1>All Items</h1>
                 <button onClick={this.newItem}>Make new Item</button>
-                {this.state.items.map((item, key) => {
+                {this.state.items.map((item) => {
                     return (
-                        <div key={key}>
+                        <div key={item.address}>
                             <Item item={item} />
                         </div>
                     );

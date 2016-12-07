@@ -190,7 +190,6 @@ export function getAllModels() {
 export function getAllItems() {
     get('item/all', {}
     ).then(data => {
-        console.log(data.items);
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
         hashHistory.push('/items');
     });

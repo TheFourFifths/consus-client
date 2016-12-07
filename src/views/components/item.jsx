@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
 import { Link, hashHistory } from 'react-router';
-import { searchItem, deleteItem } from '../../lib/api-client';
+import { deleteItem } from '../../lib/api-client';
 
 export default class Item extends React.Component {
 
@@ -21,12 +21,6 @@ export default class Item extends React.Component {
                 });
             });
         }
-    }
-    deleteThisItem(address){
-        deleteItem(address).then(() => {
-            console.log('STORE HAS...');
-            console.log(ItemStore.getAllItems());
-        });
     }
     render() {
         if (this.state.item === null)
@@ -56,7 +50,7 @@ export default class Item extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
-                    <img onClick={this.deleteThisItem.bind(this, this.state.item.address)} src="../assets/images/delete.svg"/>
+                    <img onClick={deleteItem.bind(this, this.state.item.address)} src="../assets/images/delete.svg"/>
                 </div>
                 <div className="clear"></div>
             </div>
