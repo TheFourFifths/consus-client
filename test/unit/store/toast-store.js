@@ -84,4 +84,11 @@ describe('ToastStore', () => {
         assert.lengthOf(ToastStore.getToasts(), 0);
     });
 
+    it('should add a toast message when creating a new item', () => {
+        Dispatcher.handleAction('ITEM_CREATED', data => {
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.match(ToastStore.getToasts()[3].text, /Created a new FOO/);
+    });
+
 });

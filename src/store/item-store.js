@@ -1,6 +1,8 @@
 import { Store } from 'consus-core/flux';
+
 let item = null;
 let items = [];
+
 class ItemStore extends Store {
     getItem() {
         return item;
@@ -32,4 +34,10 @@ store.registerHandler('ITEMS_RECEIVED', data => {
     items = data.items;
     store.emitChange();
 });
+
+store.registerHandler('ITEM_CREATED', data => {
+    items.push(data);
+    store.emitChange();
+});
+
 export default store;
