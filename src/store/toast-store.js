@@ -52,4 +52,9 @@ store.registerHandler('MODEL_CREATED', data => {
     store.emitChange();
 });
 
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    addToast('Checkout completed successfully!');
+    store.emitChange();
+});
+
 export default store;
