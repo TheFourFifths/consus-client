@@ -33,7 +33,7 @@ describe('ToastStore', () => {
             name: 'Pope Francis',
             items: []
         });
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND',{
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
             address: '123',
             status: 'AVAILABLE'
         });
