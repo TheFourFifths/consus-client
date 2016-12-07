@@ -22,7 +22,6 @@ const store = new StudentStore();
 store.registerHandler('STUDENT_FOUND', data => {
     student = data;
     student.hasOverdueItem = store.hasOverdueItems(data.items);
-    console.log(student.hasOverdueItem);
     store.emitChange();
 });
 
