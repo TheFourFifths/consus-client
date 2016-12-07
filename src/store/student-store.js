@@ -7,7 +7,8 @@ let student = null;
 class StudentStore extends Store{
     hasOverdueItems(items){
         return items.some(element => {
-            return element.timestamp < new Date().getTime();
+            let now = Math.floor(Date.now() / 1000);
+            return element.timestamp < now;
         });
     }
 
@@ -21,6 +22,7 @@ const store = new StudentStore();
 store.registerHandler('STUDENT_FOUND', data => {
     student = data;
     student.hasOverdueItem = store.hasOverdueItems(data.items);
+    console.log(student.hasOverdueItem);
     store.emitChange();
 });
 
