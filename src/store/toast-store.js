@@ -1,6 +1,4 @@
 import { Store } from 'consus-core/flux';
-import { searchModel } from '../lib/api-client';
-import ModelStore from './model-store';
 
 const DEFAULT_TIME_UNTIL_POP = 5000; // 5 seconds
 
@@ -45,12 +43,8 @@ store.registerHandler('POP_TOAST', data => {
 });
 
 store.registerHandler('ITEM_CREATED', data => {
-    searchModel(data.modelAddress).then(() => {
-        let newModelType = ModelStore.getModel();
-
-        addToast(`Created a new ${newModelType.name} item`);
-        store.emitChange();
-    });
+    addToast(`Created a new ${data.modelName} item!`);
+    store.emitChange();
 });
 
 export default store;

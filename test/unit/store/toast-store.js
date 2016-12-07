@@ -85,10 +85,12 @@ describe('ToastStore', () => {
     });
 
     it('should add a toast message when creating a new item', () => {
-        Dispatcher.handleAction('ITEM_CREATED', data => {
+        Dispatcher.handleAction('ITEM_CREATED', {
+            address: 'iGwEZUvfA',
+            modelName: 'Resistor'
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.match(ToastStore.getToasts()[3].text, /Created a new FOO/);
+        assert.match(ToastStore.getToasts()[3].text, /Created a new Resistor/);
     });
 
 });
