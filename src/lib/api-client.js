@@ -50,12 +50,12 @@ export function checkInItem(studentId, itemAddress){
     });
 }
 
-export function createItem(modelAddress) {
-    post('item', {
-        modelAddress: modelAddress
-    });
-    hashHistory.push('/');
-}
+// export function createItem(modelAddress) {
+//     post('item', {
+//         modelAddress: modelAddress
+//     });
+//     hashHistory.push('/');
+// }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
     post('model', {
@@ -148,6 +148,10 @@ export function checkOutItems(studentId, itemAddresses, code){
     if (code) params.adminCode = code;
 
     return post('checkout', params);
+}
+
+export function createItem(modelAddress){
+    return post('item', { modelAddress });
 }
 
 export function getAllItems() {
