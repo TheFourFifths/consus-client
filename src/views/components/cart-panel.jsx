@@ -22,9 +22,9 @@ export default class CartPanel extends React.Component {
                 assert.strictEqual(result.type, 'item');
                 let student = this.props.student;
                 if (student.items.some(item => item.address === e.target.value)) {
-                    CartController.checkIn(student.id, e.target.value);
+                    CartController.checkInItem(student.id, e.target.value);
                 } else {
-                    CartController.searchItem(e.target.value);
+                    CartController.getItem(e.target.value);
                 }
                 this.setState({
                     address: ''
@@ -36,9 +36,7 @@ export default class CartPanel extends React.Component {
                 });
             }
         }else{
-            Dispatcher.handleAction('ERROR', {
-                error: "Please only enter Alphanumeric Characters."
-            });
+            CartController.throwError("Please only enter Alphanumeric Characters.");
         }
     }
 

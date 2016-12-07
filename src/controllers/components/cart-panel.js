@@ -1,9 +1,21 @@
-import { searchItem, checkInItem} from '../../lib/api-client';
+import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
-import { hashHistory } from 'react-router';
 import StudentStore from '../../store/student-store';
 
 export default class CartController {
+        
+    static checkInItem(id, itemAddress) {
+        checkIn(id,itemAddress).then(item => {
+            Dispatcher.handleAction('CHECKIN_SUCCESS', {
+                itemAddress: item.itemAddress
+            });
+        }).catch(error => {
+            Dispatcher.handleAction('ERROR', {
+                error
+            });
+        });
+    }
+
     static getItem(address) {
         if(StudentStore.getStudent().hasOverdueItem)
             return Dispatcher.handleAction('ERROR', {
@@ -19,7 +31,7 @@ export default class CartController {
         });
     }
     
-    static checkIn(id, itemAddress) {
-        
+    static throwError(error){
+        Dispatcher.handleAction("ERROR", { error });
     }
 }

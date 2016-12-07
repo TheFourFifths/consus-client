@@ -1,5 +1,4 @@
 import request from 'request';
-import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -134,17 +133,9 @@ export function searchStudent(id) {
 }
 //////////////////////
 export function checkIn(studentId, itemAddress){
-    post('checkin', {
+    return post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
-        });
-    }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
     });
 }
 
