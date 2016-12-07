@@ -1,6 +1,8 @@
 import { Store } from 'consus-core/flux';
+
 let item = null;
 let items = [];
+
 class ItemStore extends Store {
     getItem() {
         return item;
