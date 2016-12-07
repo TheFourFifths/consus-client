@@ -19,7 +19,7 @@ ReactDOM.render((
         <Route path='/' component={App}>
             <IndexRoute component={Index} />
             <Route path='/student' component={Student} />
-            <Route path='/models' component={Model} />
+            <Route path='/models' component={Models} />
             <Route path='/models/new' component={CreateModelForm} />
             <Route path="/model/:address" component={Model}/>
             <Route path='/items' component={Items} />
