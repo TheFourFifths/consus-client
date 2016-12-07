@@ -43,7 +43,7 @@ export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
+    }).then(() => {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
             itemAddress: itemAddress
         });
@@ -155,7 +155,7 @@ export function searchStudent(id) {
     }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND', data);
         hashHistory.push('/student');
-    }).catch((e) => {
+    }).catch(() => {
         Dispatcher.handleAction('ERROR', {
             error: 'An invalid student ID was scanned. The student could not be found.'
         });
