@@ -27,6 +27,40 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'D');
     });
 
+    it('should add a toast message for successful checkins', () => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: '123',
+            status: 'AVAILABLE'
+        });
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: '123',
+            modelName: 'Resistor'
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Item checked in successfully: Resistor (123)');
+    });
+
+
+    it('should add a toast message for successful checkouts', () => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', {
+            address: '123',
+            status: 'AVAILABLE'
+        });
+        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully!');
+    });
+
     it('should have a default timeout of 5 seconds', () => {
         assert.lengthOf(ToastStore.getToasts(), 3);
         Dispatcher.handleAction('CREATE_TOAST', {
@@ -82,6 +116,15 @@ describe('ToastStore', () => {
             id: 2
         });
         assert.lengthOf(ToastStore.getToasts(), 0);
+    });
+
+    it('should add a toast message for creating new models', () => {
+        Dispatcher.handleAction('MODEL_CREATED', {
+            name: 'Car Radio',
+            description: 'Somebody stole my car radio, so now I sit in silence'
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.match(ToastStore.getToasts()[3].text, /Created a new Car Radio/);
     });
 
     it('should add a toast message when creating a new item', () => {

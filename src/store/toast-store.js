@@ -42,6 +42,21 @@ store.registerHandler('POP_TOAST', data => {
     }
 });
 
+store.registerHandler('CHECKIN_SUCCESS', data => {
+    addToast(`Item checked in successfully: ${data.modelName} (${data.itemAddress})`);
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    addToast('Checkout completed successfully!');
+    store.emitChange();
+});
+
+store.registerHandler('MODEL_CREATED', data => {
+    addToast(`Created a new ${data.name}`);
+    store.emitChange();
+});
+
 store.registerHandler('ITEM_CREATED', data => {
     addToast(`Created a new ${data.modelName} item!`);
     store.emitChange();

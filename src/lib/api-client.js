@@ -44,9 +44,7 @@ export function checkInItem(studentId, itemAddress){
         studentId,
         itemAddress
     }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
-        });
+        Dispatcher.handleAction('CHECKIN_SUCCESS', data);
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
             error
