@@ -43,7 +43,7 @@ store.registerHandler('POP_TOAST', data => {
 });
 
 store.registerHandler('CHECKIN_SUCCESS', data => {
-    addToast(`Item checked in successfully: ${data.itemAddress}`);
+    addToast(`Item checked in successfully: ${data.modelName} (${data.itemAddress})`);
     store.emitChange();
 });
 
