@@ -39,6 +39,23 @@ function post(endpoint, data) {
     });
 }
 
+function deleteRequest(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        json: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
+
 export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
@@ -183,4 +200,13 @@ export function getModelsForNewItem() {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/items/new');
     });
+}
+export function deleteItem(address){
+    deleteRequest('item',address
+    ).then(data => {
+        Dispatcher.handleAction('ITEM_DELTED', data);
+    }).catch(() => {
+        Dispatcher.handleAction('ERROR', {
+            error: 'The address does not match up with anything in the database!'
+        });
 }
