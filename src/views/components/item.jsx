@@ -51,7 +51,7 @@ export default class Item extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
-                    <img onClick={deleteItem} ="../assets/images/delete.svg"/>
+                    <img onClick={deleteItem.bind(this, this.state.item.address)} src="../assets/images/delete.svg"/>
                 </div>
                 <div className="clear"></div>
             </div>

@@ -39,7 +39,7 @@ function post(endpoint, data) {
     });
 }
 
-function deleteRequest(endpoint, data) {
+function del(endpoint, data) {
     let options = {
         uri: 'http://localhost/api/' + endpoint,
         method: 'DELETE',
@@ -202,11 +202,12 @@ export function getModelsForNewItem() {
     });
 }
 export function deleteItem(address){
-    deleteRequest('item',address
-    ).then(data => {
-        Dispatcher.handleAction('ITEM_DELTED', data);
+    del('item', address
+    ).then(() => {
+        getAllItems();
     }).catch(() => {
         Dispatcher.handleAction('ERROR', {
             error: 'The address does not match up with anything in the database!'
         });
+    });
 }
