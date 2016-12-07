@@ -38,10 +38,11 @@ describe('ToastStore', () => {
             status: 'AVAILABLE'
         });
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: '123'
+            itemAddress: '123',
+            modelName: 'Resistor'
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, 'Item checked in successfully: 123');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Item checked in successfully: Resistor (123)');
     });
 
 
