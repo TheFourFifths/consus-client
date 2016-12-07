@@ -17,12 +17,13 @@ export default class Models extends ListenerComponent {
             items: ItemStore.getAllItems()
         };
     }
-
     newItem(e) {
         getModelsForNewItem();
     }
 
     render() {
+        console.log("page is rendering");
+        console.log(this.state.items);
         return (
             <div id="item">
                 <h1>All Items</h1>

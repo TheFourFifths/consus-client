@@ -43,10 +43,11 @@ function del(endpoint, data) {
     let options = {
         uri: 'http://localhost/api/' + endpoint,
         method: 'DELETE',
-        json: data
+        qs: data
     };
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            body = JSON.parse(body);
             if (body.status === 'success') {
                 resolve(body.data);
             } else {
@@ -189,6 +190,7 @@ export function getAllModels() {
 export function getAllItems() {
     get('item/all', {}
     ).then(data => {
+        console.log(data.items);
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
         hashHistory.push('/items');
     });
@@ -202,12 +204,13 @@ export function getModelsForNewItem() {
     });
 }
 export function deleteItem(address){
-    del('item', address
-    ).then(() => {
-        getAllItems();
-    }).catch(() => {
+    return del('item', {
+        itemAddress: address
+    }).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+    }).catch(data => {
         Dispatcher.handleAction('ERROR', {
-            error: 'The address does not match up with anything in the database!'
+            error: data
         });
     });
 }
