@@ -7,7 +7,7 @@ let student = null;
 class StudentStore extends Store{
     hasOverdueItems(items){
         return items.some(element => {
-            return element.timestamp <= new Date().getTime();
+            return element.timestamp < new Date().getTime();
         });
     }
 
@@ -41,6 +41,7 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
 
     student.items.splice(index, 1);
     store.emitChange();
+    searchStudent(student.id);
 });
 
 export default store;
