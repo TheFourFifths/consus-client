@@ -7,6 +7,6 @@ export default class ItemController {
         getAllModels.then(models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/items/new');
-        })
+        });
     }
 }

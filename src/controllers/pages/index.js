@@ -14,6 +14,6 @@ export default class IndexController {
         getAllModels.then(models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/models');
-        })
+        });
     }
 }

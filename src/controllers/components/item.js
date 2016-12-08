@@ -7,6 +7,6 @@ export default class ItemController {
             Dispatcher.handleAction("ITEM_FOUND", item);
         }).catch( () => {
             Dispatcher.handleAction("NO_ITEM_FOUND");
-        })
+        });
     }
 }

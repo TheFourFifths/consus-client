@@ -5,7 +5,7 @@ import StudentStore from '../../store/student-store';
 export default class CartController {
         
     static checkInItem(id, itemAddress) {
-        checkIn(id,itemAddress).then(item => {
+        checkIn(id, itemAddress).then(item => {
             Dispatcher.handleAction('CHECKIN_SUCCESS', {
                 itemAddress: item.itemAddress
             });

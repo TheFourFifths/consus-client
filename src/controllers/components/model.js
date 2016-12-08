@@ -7,6 +7,6 @@ export default class ModelController {
             Dispatcher.handleAction("MODEL_FOUND", model);
         }).catch( () => {
             Dispatcher.handleAction("NO_MODEL_FOUND");
-        })
+        });
     }
 }
