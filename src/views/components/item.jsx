@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
 import { Link } from 'react-router';
-import { searchItem } from '../../lib/api-client';
+import ItemController from '../../controllers/components/item';
 
 export default class Item extends React.Component {
 
@@ -15,7 +15,7 @@ export default class Item extends React.Component {
 
     componentDidMount() {
         if (this.state.item === null) {
-            searchItem(this.props.params.address).then(() => {
+            ItemController.getItem(this.props.params.address).then(() => {
                 this.setState({
                     item: ItemStore.getItem()
                 });
