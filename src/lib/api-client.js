@@ -34,21 +34,21 @@ function post(endpoint, data) {
         });
     });
 }
-
-export function checkInItem(studentId, itemAddress){
-    post('checkin', {
-        studentId,
-        itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
-        });
-    }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
-    });
-}
+//
+// export function checkInItem(studentId, itemAddress){
+//     post('checkin', {
+//         studentId,
+//         itemAddress
+//     }).then(data => {
+//         Dispatcher.handleAction('CHECKIN_SUCCESS', {
+//             itemAddress: data.itemAddress
+//         });
+//     }).catch(error => {
+//         Dispatcher.handleAction('ERROR', {
+//             error
+//         });
+//     });
+// }
 
 // export function createItem(modelAddress) {
 //     post('item', {
@@ -57,27 +57,27 @@ export function checkInItem(studentId, itemAddress){
 //     hashHistory.push('/');
 // }
 
-export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-    post('model', {
-        name: name,
-        description: description,
-        manufacturer: manufacturer,
-        vendor: vendor,
-        location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
-        price: price,
-        count: count
-    }).then(data => {
-        Dispatcher.handleAction('MODEL_CREATED', data);
-        hashHistory.push("/models");
-
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'The server was not able to create the item. Is the server down?'
-        });
-    });
-}
+// export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
+//     post('model', {
+//         name: name,
+//         description: description,
+//         manufacturer: manufacturer,
+//         vendor: vendor,
+//         location: location,
+//         isFaulty: isFaulty,
+//         faultDescription: faultDescription,
+//         price: price,
+//         count: count
+//     }).then(data => {
+//         Dispatcher.handleAction('MODEL_CREATED', data);
+//         hashHistory.push("/models");
+//
+//     }).catch(() => {
+//         Dispatcher.handleAction('ERROR', {
+//             error: 'The server was not able to create the item. Is the server down?'
+//         });
+//     });
+// }
 
 // export function searchItem(address) {
 //     get('item', {
@@ -152,6 +152,20 @@ export function checkOutItems(studentId, itemAddresses, code){
 
 export function createItem(modelAddress){
     return post('item', { modelAddress });
+}
+
+export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
+    return post('model', {
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price,
+        count: count
+    });
 }
 
 export function getAllItems() {

@@ -1,7 +1,5 @@
 import React from 'react';
-import { createModel } from '../../lib/api-client';
-import { getAllModels } from '../../lib/api-client'
-import { hashHistory } from 'react-router';
+import ModelFormController from '../../controllers/components/create-model-form';
 export default class CreateModelForm extends React.Component {
 
     constructor() {
@@ -62,7 +60,7 @@ export default class CreateModelForm extends React.Component {
 
     submit(e) {
         e.preventDefault();
-        createModel(
+        ModelFormController.createModel(
             this.state.name,
             this.state.description,
             this.state.manufacturer,
@@ -74,8 +72,8 @@ export default class CreateModelForm extends React.Component {
             this.state.count
         );
     }
-    allModels(e) {
-        getAllModels();
+    allModels() {
+        ModelFormController.getModels();
     }
     render() {
         return (
