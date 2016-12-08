@@ -1,20 +1,18 @@
 import CartController from '../../../../.dist/controllers/components/cart-panel';
 import { assert } from "chai";
 import sinon from 'sinon';
-import { searchItem, checkIn} from '../../../../.dist/lib/api-client';
+import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 describe("Cart Controller", () => {
 
     it('should check in an item', function(done){
-        sinon.stub(checkIn);
+        let checkIn = sinon.stub(api, "checkIn");
         let spy = sinon.spy(Dispatcher, "handleAction");
 
-        checkIn.onCall(0).returns({
-            then: (cb) => {
-                cb({itemAddress:'123456'});
-            }
-        });
+        checkIn.onCall(0).returns(Promise.resolve({address:"123456"}));
+
+        Dispatcher.handleAction("STUDENT_FOUND",{items:[]});
 
         CartController.checkInItem('123456','123456').then(() => {
             assert.isTrue(spy.called);
