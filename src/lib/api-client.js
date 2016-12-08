@@ -118,19 +118,19 @@ function post(endpoint, data) {
 //         Dispatcher.handleAction('NO_MODEL_FOUND');
 //     });
 // }
-
-export function searchStudent(id) {
-    get('student', {
-        id
-    }).then(data => {
-        Dispatcher.handleAction('STUDENT_FOUND', data);
-        hashHistory.push('/student');
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'An invalid student ID was scanned. The student could not be found.'
-        });
-    });
-}
+//
+// export function searchStudent(id) {
+//     get('student', {
+//         id
+//     }).then(data => {
+//         Dispatcher.handleAction('STUDENT_FOUND', data);
+//         hashHistory.push('/student');
+//     }).catch(() => {
+//         Dispatcher.handleAction('ERROR', {
+//             error: 'An invalid student ID was scanned. The student could not be found.'
+//         });
+//     });
+// }
 //////////////////////
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
@@ -181,9 +181,11 @@ export function searchItem(address) {
 }
 
 export function searchModel(address) {
-    return get('model', {
-        address
-    });
+    return get('model', { address });
+}
+
+export function searchStudent(id) {
+    return get('student', { id });
 }
 
 
