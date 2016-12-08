@@ -60,15 +60,15 @@ export function createItem(modelAddress){
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
     return post('model', {
-        name: name,
-        description: description,
-        manufacturer: manufacturer,
-        vendor: vendor,
-        location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
-        price: price,
-        count: count
+        name,
+        description,
+        manufacturer,
+        vendor,
+        location,
+        isFaulty,
+        faultDescription,
+        price,
+        count
     });
 }
 

@@ -15,7 +15,7 @@ export default class ModelFormController {
     }
 
     static getModels(){
-        getAllModels().then( models => {
+        return getAllModels().then( models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/models');
         });

@@ -3,9 +3,9 @@ import { Dispatcher } from 'consus-core/flux';
 import StudentStore from '../../store/student-store';
 
 export default class CartController {
-        
+
     static checkInItem(id, itemAddress) {
-        checkIn(id, itemAddress).then(item => {
+        return checkIn(id, itemAddress).then(item => {
             Dispatcher.handleAction('CHECKIN_SUCCESS', {
                 itemAddress: item.itemAddress
             });
@@ -30,7 +30,7 @@ export default class CartController {
             Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", item);
         });
     }
-    
+
     static throwError(error){
         Dispatcher.handleAction("ERROR", { error });
     }

@@ -4,7 +4,7 @@ import { hashHistory } from 'react-router';
 
 export default class ItemController {
     static newItem() {
-        getAllModels.then(models => {
+        getAllModels().then(models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/items/new');
         });
