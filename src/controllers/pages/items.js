@@ -1,4 +1,4 @@
-import { getAllModels} from '../../lib/api-client';
+import { getAllModels } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 
