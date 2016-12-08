@@ -108,16 +108,16 @@ function post(endpoint, data) {
 //     });
 // }
 
-export function searchModel(address) {
-    return get('model', {
-        address
-    })
-    .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', data);
-    }).catch(() => {
-        Dispatcher.handleAction('NO_MODEL_FOUND');
-    });
-}
+// export function searchModel(address) {
+//     return get('model', {
+//         address
+//     })
+//     .then(data => {
+//         Dispatcher.handleAction('MODEL_FOUND', data);
+//     }).catch(() => {
+//         Dispatcher.handleAction('NO_MODEL_FOUND');
+//     });
+// }
 
 export function searchStudent(id) {
     get('student', {
@@ -178,6 +178,12 @@ export function getAllModels() {
 
 export function searchItem(address) {
     return get('item', { address });
+}
+
+export function searchModel(address) {
+    return get('model', {
+        address
+    });
 }
 
 
