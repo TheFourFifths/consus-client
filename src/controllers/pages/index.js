@@ -4,7 +4,7 @@ import { hashHistory } from 'react-router';
 
 export default class IndexController {
     static getItems() {
-        getAllItems().then(items => {
+        return getAllItems().then(items => {
             Dispatcher.handleAction('ITEMS_RECEIVED', items);
             hashHistory.push('/items');
         });
