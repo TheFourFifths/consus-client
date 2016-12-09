@@ -4,7 +4,7 @@ import { Dispatcher } from 'consus-core/flux';
 
 export default class ModelFormController {
     static createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-        createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count).then(model=> {
+        return createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count).then(model=> {
             Dispatcher.handleAction("MODEL_CREATED", model);
             hashHistory.push('/models');
         }).catch(() => {
