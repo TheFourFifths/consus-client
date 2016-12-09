@@ -22,7 +22,7 @@ export default class CartController {
                 error:'Student has at least one overdue item.'
             });
 
-        searchItem(address).then(item => {
+        return searchItem(address).then(item => {
             if (item.status === 'CHECKED_OUT')
                 return Dispatcher.handleAction('ERROR', {
                     error: 'This item is already checked out by another student.'
