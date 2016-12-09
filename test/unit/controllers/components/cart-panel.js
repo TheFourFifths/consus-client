@@ -46,7 +46,7 @@ describe("Cart Controller", () => {
 
             checkIn.returns(
                 new Promise((resolve, reject) => {
-                    reject({error: "Something Wrong"});
+                    reject("Something Wrong");
                 })
             );
 
@@ -54,6 +54,7 @@ describe("Cart Controller", () => {
                 assert.isTrue(spy.called);
                 assert.strictEqual(spy.getCall(0).args.length, 2);
                 assert.strictEqual(spy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(spy.getCall(0).args[1].error, 'Something Wrong');
 
                 checkIn.restore();
                 spy.restore();
@@ -104,29 +105,36 @@ describe("Cart Controller", () => {
             assert.isTrue(spy.called);
             assert.strictEqual(spy.getCall(0).args.length, 2);
             assert.strictEqual(spy.getCall(0).args[0], "ERROR");
+            assert.strictEqual(spy.getCall(0).args[1].error, 'Student has at least one overdue item.');
 
             searchItem.restore();
             spy.restore();
         });
 
         it('Should dispatch "ERROR" if item is checked out', () => {
-            Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456", timestamp:0}]});
+            Dispatcher.handleAction("STUDENT_FOUND", {items: []});
             let searchItem = sinon.stub(api, "searchItem");
             let spy = sinon.spy(Dispatcher, "handleAction");
 
             searchItem.returns(
                 new Promise(resolve => {
-                    resolve({status: "CHECKED_OUT"});
+                    resolve({
+                        "address": "iGwEZUvfA",
+                        "modelAddress": "m8y7nEtAe",
+                        "status": "CHECKED_OUT"
+                    })
                 })
             );
 
-            CartController.getItem("123456");
-            assert.isTrue(spy.called);
-            assert.strictEqual(spy.getCall(0).args.length, 2);
-            assert.strictEqual(spy.getCall(0).args[0], "ERROR");
+            return CartController.getItem("iGwEZUvfA").then(() => {
+                assert.isTrue(spy.called);
+                assert.strictEqual(spy.getCall(0).args.length, 2);
+                assert.strictEqual(spy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(spy.getCall(0).args[1].error, 'This item is already checked out by another student.');
 
-            searchItem.restore();
-            spy.restore();
+                searchItem.restore();
+                spy.restore();
+            });
         });
     });
 
