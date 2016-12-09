@@ -3,7 +3,7 @@ import { hashHistory } from 'react-router';
 
 export default class ItemFormController {
     static createItem(modelAddress) {
-        createItem(modelAddress).then(()=>{
+        return createItem(modelAddress).then(()=>{
             hashHistory.push('/');
         });
     }

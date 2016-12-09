@@ -56,6 +56,8 @@ describe("Cart Controller", () => {
                 assert.strictEqual(spy.getCall(0).args[0], "ERROR");
                 assert.strictEqual(spy.getCall(0).args[1].error, 'Something Wrong');
 
+
+
                 checkIn.restore();
                 spy.restore();
             });
