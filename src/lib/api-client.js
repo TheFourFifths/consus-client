@@ -111,13 +111,5 @@ export function searchStudent(id) {
 }
 
 export function deleteItem(address){
-    return del('item', {
-        itemAddress: address
-    }).then(data => {
-        Dispatcher.handleAction('ITEMS_RECEIVED', data);
-    }).catch(data => {
-        Dispatcher.handleAction('ERROR', {
-            error: data
-        });
-    });
+    return del('item', { address });
 }
