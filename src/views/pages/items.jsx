@@ -23,9 +23,9 @@ export default class Models extends ListenerComponent {
             <div id="item">
                 <h1>All Items</h1>
                 <button onClick={ItemController.newItem}>Make new Item</button>
-                {this.state.items.map((item, key) => {
+                {this.state.items.map((item) => {
                     return (
-                        <div key={key}>
+                        <div key={item.address}>
                             <Item item={item} />
                         </div>
                     );

@@ -1,5 +1,23 @@
 import request from 'request';
 
+function del(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        qs: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            body = JSON.parse(body);
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
+
 function get(endpoint, data) {
     let options = {
         uri: 'http://localhost/api/' + endpoint,
@@ -92,4 +110,14 @@ export function searchStudent(id) {
     return get('student', { id });
 }
 
-
+export function deleteItem(address){
+    return del('item', {
+        itemAddress: address
+    }).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data
+        });
+    });
+}
