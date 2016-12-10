@@ -4,12 +4,10 @@ import { Dispatcher } from 'consus-core/flux';
 export default class ItemController {
 
     static deleteItem(address){
-        return deleteItem(address).then(data => {
-            Dispatcher.handleAction('ITEMS_RECEIVED', data);
-        }).catch(data => {
-            Dispatcher.handleAction('ERROR', {
-                error: data
-            });
+        return deleteItem(address).then(items => {
+            Dispatcher.handleAction('ITEMS_RECEIVED', items);
+        }).catch(error => {
+            Dispatcher.handleAction('ERROR', { error });
         });
     }
 
