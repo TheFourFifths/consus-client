@@ -4,7 +4,6 @@ import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import ItemController from '../../../../.dist/controllers/components/item';
 
-
 describe("ItemController", () => {
     describe("deleteItem",() => {
         let dispatcherSpy, deleteItem;
@@ -41,15 +40,13 @@ describe("ItemController", () => {
                 assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "NO");
             });
         });
-
-
+        
         afterEach(() => {
             dispatcherSpy.restore();
             deleteItem.restore();
         });
     });
-
-
+    
     describe("getItem",() => {
         let dispatcherSpy, searchItem;
         beforeEach(() => {
@@ -70,7 +67,6 @@ describe("ItemController", () => {
                 assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ITEM_FOUND");
             });
-
         });
 
         it('Dispatches "NO_ITEM_FOUND" when item is not found', () => {
@@ -92,7 +88,4 @@ describe("ItemController", () => {
             searchItem.restore();
         });
     });
-
-
-
 });

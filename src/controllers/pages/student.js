@@ -6,20 +6,18 @@ export default class StudentController{
     static acceptAdminModal(adminCode){
         if (adminCode.length > 0)
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
-        //Automatically Checkout after admin scan or pin.
-        this.checkOut();
     }
-    
-    static cancelAdminModal(){        
+
+    static cancelAdminModal(){
         Dispatcher.handleAction("CLEAR_ADMIN_WINDOW");
     }
-    
+
     static cancelCheckout() {
         Dispatcher.handleAction('CLEAR_ITEMS');
     }
-    
+
     static checkout(id, items) {
-        checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
+        return checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
             Dispatcher.handleAction('CHECKOUT_SUCCESS');
         }).catch(error => {
             if (error === 'Student has overdue item'){
@@ -33,7 +31,7 @@ export default class StudentController{
             }
         });
     }
-    
+
     static throwNoItemsError() {
         Dispatcher.handleAction('ERROR', {
             error: 'No Items were scanned for checkout.'

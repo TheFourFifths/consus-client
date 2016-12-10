@@ -31,6 +31,11 @@ export default class Student extends ListenerComponent {
         };
     }
 
+    acceptAdminModal(code){
+        StudentController.acceptAdminModal(code);
+        this.checkOut();
+    }
+
     checkOut() {
         if(CartStore.getItems().length > 0)
             StudentController.checkout(this.state.student.id, this.state.itemAddresses);
@@ -46,7 +51,7 @@ export default class Student extends ListenerComponent {
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'
                     active = {this.state.adminCodeRequired}
-                    onAccept= {StudentController.acceptAdminModal}
+                    onAccept= {this.acceptAdminModal}
                     onCancel={StudentController.cancelAdminModal}
                     acceptText='Continue Checkout'
                     textHidden={true}
