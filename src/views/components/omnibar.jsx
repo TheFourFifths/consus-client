@@ -1,8 +1,6 @@
 import React from 'react';
-
+import OmnibarController from '../../controllers/components/omnibar';
 import { Link } from 'react-router';
-import { searchStudent } from '../../lib/api-client';
-import { Dispatcher } from 'consus-core/flux';
 
 export default class Omnibar extends React.Component {
 
@@ -20,16 +18,14 @@ export default class Omnibar extends React.Component {
                 this.setState({
                     query: ''
                 });
-                searchStudent(e.target.value);
+                OmnibarController.getStudent(e.target.value);
             } else {
                 this.setState({
                     query: e.target.value
                 });
             }
         }else{
-            Dispatcher.handleAction('ERROR', {
-                error: "Please only enter Alphanumeric Characters."
-            });
+            OmnibarController.throwInvalidCharacterError();
         }
     }
 
@@ -37,7 +33,7 @@ export default class Omnibar extends React.Component {
         return (
             <div id='omnibar'>
                 <Link to='/'>
-                  <img src='../assets/icons/consus-logo.png'></img>
+                  <img src='../assets/icons/consus-logo.png'/>
                 </Link>
                 <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>

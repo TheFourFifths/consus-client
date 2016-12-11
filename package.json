@@ -61,6 +61,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "sinon": "^1.17.6"
   }
 }

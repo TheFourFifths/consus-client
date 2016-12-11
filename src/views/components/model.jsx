@@ -1,6 +1,6 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
-import { searchModel } from '../../lib/api-client';
+import ModelController from '../../controllers/components/model';
 
 export default class Model extends React.Component {
 
@@ -14,7 +14,7 @@ export default class Model extends React.Component {
 
     componentDidMount(){
         if(this.state.model === null) {
-            searchModel(this.props.params.address).then(() => {
+            ModelController.getModel(this.props.params.address).then(() => {
                 this.setState({
                     model: ModelStore.getModel()
                 });

@@ -1,11 +1,8 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
-import { searchItemForCheckout } from '../../lib/api-client';
-import { searchItem } from '../../lib/api-client';
-import { checkInItem } from '../../lib/api-client';
+import CartController from '../../controllers/components/cart-panel';
 import Modal from './modal.jsx';
 import { assert } from 'chai';
-import { Dispatcher } from 'consus-core/flux';
 
 export default class CartPanel extends React.Component {
 
@@ -25,9 +22,9 @@ export default class CartPanel extends React.Component {
                 assert.strictEqual(result.type, 'item');
                 let student = this.props.student;
                 if (student.items.some(item => item.address === e.target.value)) {
-                    checkInItem(student.id, e.target.value);
+                    CartController.checkInItem(student.id, e.target.value);
                 } else {
-                    searchItemForCheckout(e.target.value);
+                    CartController.getItem(e.target.value);
                 }
                 this.setState({
                     address: ''
@@ -39,9 +36,7 @@ export default class CartPanel extends React.Component {
                 });
             }
         }else{
-            Dispatcher.handleAction('ERROR', {
-                error: "Please only enter Alphanumeric Characters."
-            });
+            CartController.throwError("Please only enter Alphanumeric Characters.");
         }
     }
 
