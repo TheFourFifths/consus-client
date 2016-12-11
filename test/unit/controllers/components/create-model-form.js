@@ -43,9 +43,9 @@ describe('ModelFormController', () => {
                 })
             );
 
-            ModelFormController.createModel('OIUIO').then(
-                assert.fail
-            ).catch((e) => {
+            return ModelFormController.createModel('OIUIO').then(() => {
+                assert.fail;
+            }).catch((e) => {
                 assert.strictEqual(e.message, 'The server was not able to create the item. Is the server down?');
             });
         });
