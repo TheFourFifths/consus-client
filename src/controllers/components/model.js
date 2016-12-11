@@ -1,4 +1,4 @@
-import { searchModel } from '../../lib/api-client';
+import { searchModel, deleteModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class ModelController {
@@ -7,6 +7,15 @@ export default class ModelController {
             Dispatcher.handleAction("MODEL_FOUND", model);
         }).catch( () => {
             Dispatcher.handleAction("NO_MODEL_FOUND");
+        });
+    }
+
+    static deleteModel(address){
+        return deleteModel(address).then(models => {
+            console.log(models);
+            Dispatcher.handleAction('MODELS_RECEIVED', models);
+        }).catch(error => {
+            Dispatcher.handleAction('ERROR', { error });
         });
     }
 }

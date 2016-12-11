@@ -22,6 +22,10 @@ export default class Model extends React.Component {
         }
     }
 
+    deleteModel() {
+        ModelController.deleteModel(this.state.model.address);
+    }
+
     render() {
         if(this.state.model === null)
             return <i>Data is loading...</i>;
@@ -57,7 +61,7 @@ export default class Model extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/add.svg" />
                     <img src="../assets/images/edit.svg" />
-                    <img src="../assets/images/delete.svg" />
+                    <img onClick={this.deleteModel.bind(this)} src="../assets/images/delete.svg" />
                 </div>
                 <div className="clear"> </div>
             </div>

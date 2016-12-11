@@ -54,6 +54,9 @@ function post(endpoint, data) {
 }
 
 //////////////////////
+export function deleteModel(modelAddress) {
+    return del('model', { modelAddress });
+}
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
