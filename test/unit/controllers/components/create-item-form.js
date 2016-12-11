@@ -21,11 +21,10 @@ describe('ItemFormController', () => {
             //Have to set up hashHistory because it currently doesn't exist without the browser.
             router.hashHistory = {};
             let spy = router.hashHistory.push = sinon.spy();
-            ItemFormController.createItem('OIUIO').then(() => {
+            return ItemFormController.createItem('OIUIO').then(() => {
                 assert.isTrue(spy.called);
                 assert.strictEqual(spy.getCall(0).args.length, 1);
                 assert.strictEqual(spy.getCall(0).args[0], "/");
-                spy.restore();
             });
         });
 
