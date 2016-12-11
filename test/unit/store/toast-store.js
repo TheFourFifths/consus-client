@@ -127,4 +127,13 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /Created a new Car Radio/);
     });
 
+    it('should add a toast message for deleting an item', () => {
+        let itemAddress = 'test';
+        Dispatcher.handleAction('ITEM_DELETED', {
+            itemAddress: itemAddress
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `Item ${itemAddress} was deleted successfully!`);
+    });
+
 });

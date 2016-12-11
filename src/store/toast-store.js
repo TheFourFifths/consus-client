@@ -57,4 +57,9 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.emitChange();
 });
 
+store.registerHandler('ITEM_DELETED', data => {
+    addToast(`Item ${data.itemAddress} was deleted successfully!`);
+    store.emitChange();
+});
+
 export default store;

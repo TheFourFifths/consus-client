@@ -205,6 +205,9 @@ export function deleteItem(address){
         itemAddress: address
     }).then(data => {
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        Dispatcher.handleAction('ITEM_DELETED', {
+            itemAddress: address
+        });
     }).catch(data => {
         Dispatcher.handleAction('ERROR', {
             error: data
