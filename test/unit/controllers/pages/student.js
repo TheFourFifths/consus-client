@@ -18,7 +18,7 @@ describe("StudentController", () => {
             assert.strictEqual(dispatcherSpy.getCall(0).args[1].adminCode, "1");
         });
 
-        it('Dispatches nothing is the adminCode is length 0', () => {
+        it('Dispatches nothing if the adminCode is length 0', () => {
             StudentController.acceptAdminModal("");
             assert.isFalse(dispatcherSpy.called);
         });

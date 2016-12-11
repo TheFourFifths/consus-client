@@ -24,7 +24,7 @@ export default class Item extends React.Component {
     }
 
     deleteItem() {
-        ItemController.deleteItem(this.state.itemAddress);
+        ItemController.deleteItem(this.state.item.address);
     }
 
     render() {

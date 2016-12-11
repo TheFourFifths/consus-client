@@ -90,6 +90,10 @@ export function createModel(name, description, manufacturer, vendor, location, i
     });
 }
 
+export function deleteItem(itemAddress){
+    return del('item', { itemAddress });
+}
+
 export function getAllItems() {
     return get('item/all', {});
 }
@@ -110,6 +114,4 @@ export function searchStudent(id) {
     return get('student', { id });
 }
 
-export function deleteItem(address){
-    return del('item', { address });
-}
+

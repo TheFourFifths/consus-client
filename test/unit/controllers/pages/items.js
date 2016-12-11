@@ -6,7 +6,7 @@ import { Dispatcher } from 'consus-core/flux';
 import ItemController from '../../../../.dist/controllers/pages/items';
 
 describe("ItemController", () => {
-    describe("newItem", () => {
+    describe("newItemPage", () => {
         let getAllModels, dispatcherSpy, spy;
         before(() => {
             router.hashHistory = {};
@@ -25,7 +25,7 @@ describe("ItemController", () => {
                 })
             );
 
-            return ItemController.newItem().then(() => {
+            return ItemController.newItemPage().then(() => {
                 assert.isTrue(spy.called);
                 assert.strictEqual(spy.getCall(0).args.length, 1);
                 assert.strictEqual(spy.getCall(0).args[0], "/items/new");
