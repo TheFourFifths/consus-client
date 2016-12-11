@@ -39,16 +39,17 @@ function get(endpoint, data) {
 function post(endpoint, data) {
     let options = {
         uri: 'http://localhost/api/' + endpoint,
-        method: 'POST',
         json: data
     };
     return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
+        request.post(options, (error, response, body) => {
+            if(!error) {
+                if (body.status === 'success') {
+                    resolve(body.data);
+                } else {
+                    reject(body.message);
+                }
+            }else reject("An error has occurred");
         });
     });
 }
