@@ -39,6 +39,24 @@ function post(endpoint, data) {
     });
 }
 
+function del(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        qs: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            body = JSON.parse(body);
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
+
 export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
@@ -180,5 +198,16 @@ export function getModelsForNewItem() {
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/items/new');
+    });
+}
+export function deleteItem(address){
+    return del('item', {
+        itemAddress: address
+    }).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data
+        });
     });
 }
