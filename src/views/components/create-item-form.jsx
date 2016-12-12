@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
 import { createItem } from '../../lib/api-client';
@@ -26,7 +27,13 @@ export default class CreateItemForm extends ListenerComponent {
 
     submit(e) {
         e.preventDefault();
-        createItem(this.state.modelAddress);
+        if (this.state.modelAddress === '') {
+            Dispatcher.handleAction('CREATE_TOAST', {
+                text: 'Please select a model.'
+            });
+        } else {
+            createItem(this.state.modelAddress);
+        }
     }
 
     render() {
@@ -35,6 +42,7 @@ export default class CreateItemForm extends ListenerComponent {
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
                     <select onChange={this.changeModel.bind(this)} >
+                        <option selected key='foo' value='bar' disabled>Choose a Model</option>
                         {this.state.models.map((model, key) => {
                             return <option key={key} value={model.address}>{ model.name }</option>
                         })}
