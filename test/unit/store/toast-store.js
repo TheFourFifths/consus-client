@@ -135,7 +135,7 @@ describe('ToastStore', () => {
             modelName: modelName
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted!`);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} ${itemAddress} was deleted!`);
     });
 
 });
