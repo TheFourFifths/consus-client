@@ -58,7 +58,7 @@ store.registerHandler('MODEL_CREATED', data => {
 });
 
 store.registerHandler('ITEM_CREATED', data => {
-    addToast(`Created a new ${data.modelName} item!`);
+    addToast(`New item added: ${data.modelName} (${data.address})`);
     store.emitChange();
 });
 

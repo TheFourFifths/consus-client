@@ -133,7 +133,7 @@ describe('ToastStore', () => {
             modelName: 'Resistor'
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.match(ToastStore.getToasts()[3].text, /Created a new Resistor item/);
+        assert.match(ToastStore.getToasts()[3].text, /item added: Resistor \(iGwEZUvfA\)/);
     });
 
 });
