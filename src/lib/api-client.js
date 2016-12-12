@@ -200,14 +200,13 @@ export function getModelsForNewItem() {
         hashHistory.push('/items/new');
     });
 }
-export function deleteItem(address){
+export function deleteItem(item){
     return del('item', {
-        itemAddress: address
+        itemAddress: item.address
     }).then(data => {
+        data.itemAddress = item.address;
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
-        Dispatcher.handleAction('ITEM_DELETED', {
-            itemAddress: address
-        });
+        Dispatcher.handleAction('ITEM_DELETED', data);
     }).catch(data => {
         Dispatcher.handleAction('ERROR', {
             error: data

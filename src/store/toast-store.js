@@ -57,8 +57,8 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     store.emitChange();
 });
 
-store.registerHandler('ITEM_DELETED', data => {
-    addToast(`Item ${data.itemAddress} was deleted successfully!`);
+store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
+    addToast(`Item ${itemDeletedResponse.itemAddress} from model ${itemDeletedResponse.modelName} was deleted successfully!`);
     store.emitChange();
 });
 
