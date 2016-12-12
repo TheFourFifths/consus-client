@@ -38,6 +38,7 @@ store.registerHandler('ITEMS_RECEIVED', data => {
 });
 
 store.registerHandler('STUDENT_FOUND', data => {
+    items = data.items;
     for(let item of data.items) {
         item.isOverdue = store.isOverdue(item);
     }
