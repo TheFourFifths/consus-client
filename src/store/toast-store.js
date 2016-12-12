@@ -58,7 +58,7 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
 });
 
 store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
-    addToast(`Item ${itemDeletedResponse.itemAddress} from model ${itemDeletedResponse.modelName} was deleted successfully!`);
+    addToast(`${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted!`);
     store.emitChange();
 });
 
