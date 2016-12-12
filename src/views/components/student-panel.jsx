@@ -28,10 +28,8 @@ export default class StudentPanel extends ListenerComponent {
         return (
             <div>
                 {this.props.student.items.map((item, i) => {
-                    return <div key={i}>
+                    return <div className="item-info" key={i}>
                         {this.renderModelInfo(item)}
-                        Item Code: {item.address}
-                        <br/>
                     </div>;
                 })}
             </div>
@@ -44,7 +42,7 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         }else{
             return <div>
-                Model: {model.name}
+                {model.name} <i>{item.address}</i>
             </div>
         }
     }
@@ -52,8 +50,8 @@ export default class StudentPanel extends ListenerComponent {
     render() {
         return (
             <div className='student'>
-                <p className='name'>{this.props.student.name}</p>
-                <p className='id'>{this.props.student.id}</p>
+                <h2 className='name center'>{this.props.student.name}</h2>
+                <i className='id center'>{this.props.student.id}</i>
                 <h4>Equipment</h4>
                 {this.renderEquipment()}
             </div>
