@@ -109,7 +109,7 @@ export function createModel(name, description, manufacturer, vendor, location, i
 }
 
 export function searchItem(address) {
-    get('item', {
+    return get('item', {
         address
     })
     .then(data => {

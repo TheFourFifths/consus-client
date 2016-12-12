@@ -1,7 +1,6 @@
 #student
     width: 90%
     margin: 24px auto 0 auto
-    background-color: darken(#ffffff, 8%)
 
     .student, .cart
         width: calc(50% - 18px)
@@ -9,16 +8,31 @@
         padding: 12px
         box-sizing: border-box
         float: left
-        background-color: darken(#ffffff, 16%)
+        background-color: #d8d8d8
+        border-radius: 3px
+        box-shadow: 0 1px 0 #ccc
+
+        .name, .id
+            margin: 0 0 0 0.5rem
+
+        .equipment-heading, .equipment-none
+            margin 1em 0 0 0.8rem
+
+        i
+            color: #777
+
+        .overdue
+            color: red
 
         .item-info
-            i
-                color: #777
-            background: #e1e1e1
+            background: #e5e5e5
             margin: 0.5em 0.5rem
             border-radius: 3px
             padding: 0.3em .8rem
             box-shadow: 0 1px 0 #ccc
+
+        .item-info:hover
+            background: lighten(#e5e5e5, 15%)
 
     .cart
         margin-left: 0

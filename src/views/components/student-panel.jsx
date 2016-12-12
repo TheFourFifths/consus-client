@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import { justGetAllModels } from '../../lib/api-client';
@@ -23,26 +24,28 @@ export default class StudentPanel extends ListenerComponent {
 
     renderEquipment() {
         if(this.props.student.items.length === 0) {
-            return <div><i>Student has no equipment checked out.</i></div>;
+            return <i className='equipment-none'>Student has no equipment checked out.</i>;
         }
         return (
             <div>
                 {this.props.student.items.map((item, i) => {
-                    return <div className="item-info" key={i}>
-                        {this.renderModelInfo(item)}
-                    </div>;
+                    return <Link to={`/item/${item.address}`}  key={i} className={item.isOverdue ? 'link-nostyle overdue' : 'link-nostyle'}>
+                        <div className="item-info">
+                            {this.renderItemInfo(item)}
+                        </div>
+                    </Link>;
                 })}
             </div>
         );
     }
 
-    renderModelInfo(item){
+    renderItemInfo(item){
         let model = this.state.models.find(model => model.address === item.modelAddress);
         if(!model){
             return null;
         }else{
             return <div>
-                {model.name} <i>{item.address}</i>
+                {model.name} {item.isOverdue ? '(overdue)' : ''} <i>{item.address}</i>
             </div>
         }
     }
@@ -50,9 +53,9 @@ export default class StudentPanel extends ListenerComponent {
     render() {
         return (
             <div className='student'>
-                <h2 className='name center'>{this.props.student.name}</h2>
-                <i className='id center'>{this.props.student.id}</i>
-                <h4>Equipment</h4>
+                <h2 className='name'>{this.props.student.name}</h2>
+                <i className='id'>{this.props.student.id}</i>
+                <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
             </div>
         );
