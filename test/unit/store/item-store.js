@@ -47,7 +47,7 @@ describe('ItemStore', () => {
         });
         let items = ItemStore.getAllItems();
         for(let item of items){
-            if(item.address%2 == 1){
+            if(item.address%2 == 1) {
                 assert(item.isOverdue); // Odd items are arbitrarily overdue
             }
             else {
