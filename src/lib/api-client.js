@@ -2,7 +2,6 @@ import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 import AuthStore from '../store/authentication-store';
-import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -30,6 +29,24 @@ function post(endpoint, data) {
     };
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
+
+function del(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        qs: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            body = JSON.parse(body);
             if (body.status === 'success') {
                 resolve(body.data);
             } else {
@@ -120,11 +137,6 @@ export function searchItem(address) {
 }
 
 export function searchItemForCheckout(address) {
-    if(StudentStore.getStudent().hasOverdueItem) {
-        return Dispatcher.handleAction('ERROR', {
-            error:'Student has at least one overdue item.'
-        });
-    }
     get('item', {
         address
     }).then(data => {
@@ -190,5 +202,17 @@ export function getModelsForNewItem() {
     ).then(data => {
         Dispatcher.handleAction('MODELS_RECEIVED', data);
         hashHistory.push('/items/new');
+    });
+}
+export function deleteItem(item){
+    return del('item', {
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
+    }).then(data => {
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data
+        });
     });
 }
