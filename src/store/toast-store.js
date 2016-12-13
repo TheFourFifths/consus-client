@@ -47,13 +47,23 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     store.emitChange();
 });
 
+store.registerHandler('CHECKOUT_SUCCESS', () => {
+    addToast('Checkout completed successfully!');
+    store.emitChange();
+});
+
 store.registerHandler('MODEL_CREATED', data => {
     addToast(`Created a new ${data.name}`);
     store.emitChange();
 });
 
-store.registerHandler('CHECKOUT_SUCCESS', () => {
-    addToast('Checkout completed successfully!');
+store.registerHandler('ITEM_CREATED', data => {
+    addToast(`New item added: ${data.modelName} (${data.address})`);
+    store.emitChange();
+});
+
+store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
+    addToast(`${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted!`);
     store.emitChange();
 });
 

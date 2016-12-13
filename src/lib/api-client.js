@@ -95,10 +95,12 @@ export function checkOutItems(studentId, itemAddresses){
 }
 
 export function createItem(modelAddress) {
-    post('item', {
-        modelAddress: modelAddress
+    return post('item', {
+        modelAddress
+    }).then(data => {
+        Dispatcher.handleAction('ITEM_CREATED', data);
+        hashHistory.push('/items');
     });
-    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
@@ -124,7 +126,7 @@ export function createModel(name, description, manufacturer, vendor, location, i
 }
 
 export function searchItem(address) {
-    get('item', {
+    return get('item', {
         address
     })
     .then(data => {
@@ -199,7 +201,9 @@ export function deleteItem(item){
         itemAddress: item.address,
         modelAddress: item.modelAddress
     }).then(data => {
+        data.itemAddress = item.address;
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        Dispatcher.handleAction('ITEM_DELETED', data);
     }).catch(data => {
         Dispatcher.handleAction('ERROR', {
             error: data
