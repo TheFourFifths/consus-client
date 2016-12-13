@@ -34,4 +34,10 @@ store.registerHandler('ITEMS_RECEIVED', data => {
     items = data.items;
     store.emitChange();
 });
+
+store.registerHandler('ITEM_CREATED', data => {
+    items.push(data);
+    store.emitChange();
+});
+
 export default store;

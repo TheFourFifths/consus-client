@@ -127,6 +127,15 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /Created a new Car Radio/);
     });
 
+    it('should add a toast message when creating a new item', () => {
+        Dispatcher.handleAction('ITEM_CREATED', {
+            address: 'iGwEZUvfA',
+            modelName: 'Resistor'
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.match(ToastStore.getToasts()[3].text, /item added: Resistor \(iGwEZUvfA\)/);
+    });
+
     it('should add a toast message for deleting an item', () => {
         let itemAddress = 'test';
         let modelName = 'vroom';
