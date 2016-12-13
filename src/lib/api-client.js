@@ -202,9 +202,10 @@ export function getModelsForNewItem() {
         hashHistory.push('/items/new');
     });
 }
-export function deleteItem(address){
+export function deleteItem(item){
     return del('item', {
-        itemAddress: address
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
     }).then(data => {
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
     }).catch(data => {
