@@ -67,4 +67,9 @@ store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
     store.emitChange();
 });
 
+store.registerHandler('INVALID_CODE', () => {
+    addToast('Invalid Admin Code');
+    store.emitChange();
+});
+
 export default store;
