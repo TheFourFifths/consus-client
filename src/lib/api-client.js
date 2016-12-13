@@ -2,7 +2,6 @@ import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 import AuthStore from '../store/authentication-store';
-import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
