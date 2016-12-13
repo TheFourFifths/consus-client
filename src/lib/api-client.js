@@ -60,8 +60,10 @@ export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', data);
+    }).then(() => {
+        Dispatcher.handleAction('CHECKIN_SUCCESS', {
+            itemAddress: itemAddress
+        });
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
             error
@@ -170,6 +172,13 @@ export function searchStudent(id) {
         Dispatcher.handleAction('ERROR', {
             error: 'An invalid student ID was scanned. The student could not be found.'
         });
+    });
+}
+
+export function justGetAllModels() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
     });
 }
 

@@ -4,6 +4,10 @@ let item = null;
 let items = [];
 
 class ItemStore extends Store {
+    isOverdue(item){
+        let now = Math.floor(Date.now() / 1000);
+        return item.timestamp < now;
+    }
     getItem() {
         return item;
     }
@@ -35,9 +39,11 @@ store.registerHandler('ITEMS_RECEIVED', data => {
     store.emitChange();
 });
 
-store.registerHandler('ITEM_CREATED', data => {
-    items.push(data);
+store.registerHandler('STUDENT_FOUND', data => {
+    items = data.items;
+    for(let item of data.items) {
+        item.isOverdue = store.isOverdue(item);
+    }
     store.emitChange();
 });
-
 export default store;

@@ -39,5 +39,21 @@ describe('ItemStore', () => {
         assert.strictEqual(ItemStore.getAllItems().length, 3);
     });
 
+    it('should find overdue items', () => {
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            id: '432345',
+            name: 'Thor',
+            items: [{address:1, timestamp:0},{address:2},{address:3, timestamp:0},{address:4}]
+        });
+        let items = ItemStore.getAllItems();
+        for(let item of items){
+            if(item.address%2 == 1) {
+                assert(item.isOverdue); // Odd items are arbitrarily overdue
+            }
+            else {
+                assert.isFalse(item.isOverdue); // Even items are not overdue
+            }
+        }
+    });
 
 });
