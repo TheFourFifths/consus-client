@@ -86,6 +86,7 @@ export function checkOutItems(studentId, itemAddresses){
             Dispatcher.handleAction('OVERRIDE_REQUIRED');
         }else if(error === 'Invalid Admin'){
             Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+            Dispatcher.handleAction('INVALID_CODE');
         }else{
             Dispatcher.handleAction('ERROR', {
                 error
