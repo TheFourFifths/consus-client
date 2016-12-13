@@ -147,4 +147,10 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} ${itemAddress} was deleted!`);
     });
 
+    it('should add a toast if admin code is wrong', () => {
+        Dispatcher.handleAction('INVALID_CODE');
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.match(ToastStore.getToasts()[3].text, /Invalid Admin Code/);
+    });
+
 });
