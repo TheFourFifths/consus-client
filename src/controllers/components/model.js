@@ -12,7 +12,6 @@ export default class ModelController {
 
     static deleteModel(address){
         return deleteModel(address).then(models => {
-            console.log(models);
             Dispatcher.handleAction('MODELS_RECEIVED', models);
         }).catch(error => {
             Dispatcher.handleAction('ERROR', { error });
