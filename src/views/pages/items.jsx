@@ -1,8 +1,8 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
-import { getModelsForNewItem,  viewModel } from '../../lib/api-client'
 import Item from '../components/item.jsx';
+import ItemController from '../../controllers/pages/items';
 
 export default class Models extends ListenerComponent {
 
@@ -17,15 +17,12 @@ export default class Models extends ListenerComponent {
             items: ItemStore.getAllItems()
         };
     }
-    newItem(e) {
-        getModelsForNewItem();
-    }
 
     render() {
         return (
             <div id="item">
                 <h1>All Items</h1>
-                <button onClick={this.newItem}>Make new Item</button>
+                <button onClick={ItemController.newItemPage}>Make new Item</button>
                 {this.state.items.map((item) => {
                     return (
                         <div key={item.address}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store'
-import { createItem } from '../../lib/api-client';
+import ItemFormController from '../../controllers/components/create-item-form';
 
 export default class CreateItemForm extends ListenerComponent {
 
@@ -27,7 +27,7 @@ export default class CreateItemForm extends ListenerComponent {
 
     submit(e) {
         e.preventDefault();
-        createItem(this.state.modelAddress);
+        ItemFormController.createItem(this.state.modelAddress);
     }
 
     render() {

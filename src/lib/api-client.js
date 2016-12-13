@@ -1,8 +1,22 @@
 import request from 'request';
-import { Dispatcher } from 'consus-core/flux';
-import { hashHistory } from 'react-router';
-import AuthStore from '../store/authentication-store';
-import StudentStore  from '../store/student-store';
+
+function del(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        qs: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            body = JSON.parse(body);
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
 
 function get(endpoint, data) {
     let options = {
@@ -39,178 +53,64 @@ function post(endpoint, data) {
     });
 }
 
-function del(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'DELETE',
-        qs: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            body = JSON.parse(body);
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
-}
-
-export function checkInItem(studentId, itemAddress){
-    post('checkin', {
+//////////////////////
+export function checkIn(studentId, itemAddress){
+    return post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
-        });
-    }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
     });
 }
 
-export function checkOutItems(studentId, itemAddresses){
+export function checkOutItems(studentId, itemAddresses, code){
     let params = {
         studentId,
         itemAddresses
     };
 
-    let code = AuthStore.getAdminCode();
-
     if (code) params.adminCode = code;
 
-    post('checkout', params).then(() => {
-        Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(error => {
-        if (error === 'Student has overdue item'){
-            Dispatcher.handleAction('OVERRIDE_REQUIRED');
-        }else if(error === 'Invalid Admin'){
-            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
-        }else{
-            Dispatcher.handleAction('ERROR', {
-                error
-            });
-        }
-    });
+    return post('checkout', params);
 }
 
-export function createItem(modelAddress) {
-    post('item', {
-        modelAddress: modelAddress
-    });
-    hashHistory.push('/');
+export function createItem(modelAddress){
+    return post('item', { modelAddress });
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-    post('model', {
-        name: name,
-        description: description,
-        manufacturer: manufacturer,
-        vendor: vendor,
-        location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
-        price: price,
-        count: count
-    }).then(data => {
-        Dispatcher.handleAction('MODEL_CREATED', data);
-        hashHistory.push("/models");
-
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'The server was not able to create the item. Is the server down?'
-        });
+    return post('model', {
+        name,
+        description,
+        manufacturer,
+        vendor,
+        location,
+        isFaulty,
+        faultDescription,
+        price,
+        count
     });
 }
 
-export function searchItem(address) {
-    get('item', {
-        address
-    })
-    .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND', data);
-    }).catch(() => {
-        Dispatcher.handleAction('NO_ITEM_FOUND');
-    });
-}
-
-export function searchItemForCheckout(address) {
-    if(StudentStore.getStudent().hasOverdueItem) {
-        return Dispatcher.handleAction('ERROR', {
-            error:'Student has at least one overdue item.'
-        });
-    }
-    get('item', {
-        address
-    }).then(data => {
-        if (data.status === 'CHECKED_OUT') {
-            return Dispatcher.handleAction('ERROR', {
-                error: 'This item is already checked out by another student.'
-            });
-        }
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', data);
-    });
-}
-
-export function searchModel(address) {
-    return get('model', {
-        address
-    })
-    .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', data);
-    }).catch(() => {
-        Dispatcher.handleAction('NO_MODEL_FOUND');
-    });
-}
-
-export function searchStudent(id) {
-    get('student', {
-        id
-    }).then(data => {
-        Dispatcher.handleAction('STUDENT_FOUND', data);
-        hashHistory.push('/student');
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'An invalid student ID was scanned. The student could not be found.'
-        });
-    });
-}
-
-export function getAllModels() {
-    get('model/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('MODELS_RECEIVED', data);
-        hashHistory.push('/models');
-    });
+export function deleteItem(itemAddress){
+    return del('item', { itemAddress });
 }
 
 export function getAllItems() {
-    get('item/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('ITEMS_RECEIVED', data);
-        hashHistory.push('/items');
-    });
+    return get('item/all', {});
 }
 
-export function getModelsForNewItem() {
-    get('model/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('MODELS_RECEIVED', data);
-        hashHistory.push('/items/new');
-    });
+export function getAllModels() {
+    return get('model/all', {});
 }
-export function deleteItem(item){
-    return del('item', {
-        itemAddress: item.address,
-        modelAddress: item.modelAddress
-    }).then(data => {
-        Dispatcher.handleAction('ITEMS_RECEIVED', data);
-    }).catch(data => {
-        Dispatcher.handleAction('ERROR', {
-            error: data
-        });
-    });
+
+export function searchItem(address) {
+    return get('item', { address });
 }
+
+export function searchModel(address) {
+    return get('model', { address });
+}
+
+export function searchStudent(id) {
+    return get('student', { id });
+}
+
