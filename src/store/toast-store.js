@@ -62,4 +62,9 @@ store.registerHandler('ITEM_CREATED', data => {
     store.emitChange();
 });
 
+store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
+    addToast(`${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted!`);
+    store.emitChange();
+});
+
 export default store;

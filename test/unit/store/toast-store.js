@@ -136,4 +136,15 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /item added: Resistor \(iGwEZUvfA\)/);
     });
 
+    it('should add a toast message for deleting an item', () => {
+        let itemAddress = 'test';
+        let modelName = 'vroom';
+        Dispatcher.handleAction('ITEM_DELETED', {
+            itemAddress: itemAddress,
+            modelName: modelName
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} ${itemAddress} was deleted!`);
+    });
+
 });
