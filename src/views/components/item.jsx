@@ -2,6 +2,7 @@ import React from 'react';
 import ItemStore from '../../store/item-store';
 import { Link, hashHistory } from 'react-router';
 import { deleteItem } from '../../lib/api-client';
+import { searchItem } from '../../lib/api-client';
 
 export default class Item extends React.Component {
 
