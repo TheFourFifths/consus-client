@@ -29,8 +29,7 @@ export default class Student extends ListenerComponent {
         return {
             student: StudentStore.getStudent(),
             itemAddresses: CartStore.getItems().map(item => item.address),
-            adminCodeRequired: AuthenticationStore.overrideNeeded(),
-            adminCode: AuthenticationStore.getAdminCode()
+            adminCodeRequired: AuthenticationStore.overrideNeeded()
         };
     }
 
@@ -39,8 +38,9 @@ export default class Student extends ListenerComponent {
     }
 
     checkOut() {
-        if(CartStore.getItems().length > 0)
-            checkOutItems(this.state.student.id, this.state.itemAddresses, this.state.adminCode);
+        if(CartStore.getItems().length > 0) {
+            checkOutItems(this.state.student.id, this.state.itemAddresses);
+        }
         else Dispatcher.handleAction('ERROR', {
             error: 'No Items were scanned for checkout.'
         })

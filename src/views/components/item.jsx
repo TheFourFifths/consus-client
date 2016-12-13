@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
-import { Link } from 'react-router';
-import { searchItem } from '../../lib/api-client';
+import { Link, hashHistory } from 'react-router';
+import { deleteItem } from '../../lib/api-client';
 
 export default class Item extends React.Component {
 
@@ -22,7 +22,6 @@ export default class Item extends React.Component {
             });
         }
     }
-
     render() {
         if (this.state.item === null)
             return <i>Item is loading...</i>;
@@ -51,7 +50,7 @@ export default class Item extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
-                    <img src="../assets/images/delete.svg"/>
+                    <img onClick={deleteItem.bind(this, this.state.item)} src="../assets/images/delete.svg"/>
                 </div>
                 <div className="clear"></div>
             </div>
