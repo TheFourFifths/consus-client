@@ -60,9 +60,10 @@ export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
-    }).then(() => {
+    }).then(data => {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: itemAddress
+            itemAddress,
+            modelName: data.modelName
         });
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
