@@ -7,4 +7,10 @@ export default class ItemFormController {
             hashHistory.push('/');
         });
     }
+    
+    static popNoModelSelectedToast(){
+        Dispatcher.handleAction('CREATE_TOAST', {
+            text: 'Please select a model.'
+        });
+    }
 }

@@ -20,14 +20,17 @@ export default class CreateItemForm extends ListenerComponent {
 
     changeModel(e) {
         this.setState({
-            modelAddress: e.target.value,
-            models: this.state.models
+            modelAddress: e.target.value
         });
     }
 
     submit(e) {
         e.preventDefault();
-        ItemFormController.createItem(this.state.modelAddress);
+        if (this.state.modelAddress === '') {
+            ItemFormController.popNoModelSelectedToast();
+        } else {
+            ItemFormController.createItem(this.state.modelAddress);
+        }
     }
 
     render() {
@@ -36,6 +39,7 @@ export default class CreateItemForm extends ListenerComponent {
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
                     <select onChange={this.changeModel.bind(this)} >
+                        <option selected key='foo' value='bar' disabled>Choose a Model</option>
                         {this.state.models.map((model, key) => {
                             return <option key={key} value={model.address}>{ model.name }</option>
                         })}
