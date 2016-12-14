@@ -16,7 +16,7 @@ describe('StudentStore', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             id: '432345',
             name: 'Poe',
-            items: [1,2,3,4,5]
+            items: []
         });
         let student = StudentStore.getStudent();
         assert.strictEqual(student.id,'432345');

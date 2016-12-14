@@ -116,5 +116,3 @@ export function searchModel(address) {
 export function searchStudent(id) {
     return get('student', { id });
 }
-
-
