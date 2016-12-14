@@ -47,4 +47,21 @@ describe('ModelStore', () => {
         assert.strictEqual(ModelStore.getAllModels().length, 1);
     });
 
+    it('should get model by address', () => {
+        Dispatcher.handleAction(Dispatcher.handleAction('MODELS_RECEIVED',{
+            models:[{
+                name: 'test1',
+                address: 'abc123'
+            },{
+                name: 'test2',
+                address: '123abc'
+            },{
+                name: 'test3',
+                address: 'address'
+            }]
+        }));
+        let model = ModelStore.getModelByAddress('abc123');
+        assert.strictEqual(model.name, 'test1');
+    });
+
 });
