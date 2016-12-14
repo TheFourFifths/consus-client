@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import { justGetAllModels } from '../../lib/api-client';
+import StudentPanelController from '../../controllers/components/student-panel';
 
 export default class StudentPanel extends ListenerComponent {
 
     componentWillMount(){
-        justGetAllModels();
+        StudentPanelController.getModels();
     }
 
     getStores() {
