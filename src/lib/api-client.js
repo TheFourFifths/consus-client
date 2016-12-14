@@ -58,16 +58,16 @@ export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress,
-            modelName: data.modelName
-        });
-    }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
-    });
+    });//.then(data => {
+    //     Dispatcher.handleAction('CHECKIN_SUCCESS', {
+    //         itemAddress,
+    //         modelName: data.modelName
+    //     });
+    // }).catch(error => {
+    //     Dispatcher.handleAction('ERROR', {
+    //         error
+    //     });
+    // });
 }
 
 export function checkOutItems(studentId, itemAddresses, code){
@@ -173,18 +173,19 @@ export function getAllItems() {
 //         Dispatcher.handleAction('MODELS_RECEIVED', data);
 //     });
 // >>>>>>> 599aeb0558f48e2c69d35eb9a6da77fde0e204b4
-// }
 
-    export function getAllModels() {
-        return get('model/all', {});
-    }
+}
 
-    export function searchItem(address) {
-        return get('item', {address});
-    }
+export function getAllModels() {
+    return get('model/all', {});
+}
 
-    export function searchModel(address) {
-        return get('model', {address});
+export function searchItem(address) {
+    return get('item', {address});
+}
+
+export function searchModel(address) {
+    return get('model', {address});
 // =======
 // export function getModelsForNewItem() {
 //     get('model/all', {}
@@ -207,9 +208,9 @@ export function getAllItems() {
 //         });
 //     });
 // >>>>>>> 599aeb0558f48e2c69d35eb9a6da77fde0e204b4
-    }
-
-    export function searchStudent(id) {
-        return get('student', {id});
-    }
 }
+
+export function searchStudent(id) {
+    return get('student', {id});
+}
+
