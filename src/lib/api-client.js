@@ -60,9 +60,10 @@ export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
-    }).then(() => {
+    }).then(data => {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: itemAddress
+            itemAddress,
+            modelName: data.modelName
         });
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
@@ -87,7 +88,7 @@ export function checkOutItems(studentId, itemAddresses){
         if (error === 'Student has overdue item'){
             Dispatcher.handleAction('OVERRIDE_REQUIRED');
         }else if(error === 'Invalid Admin'){
-            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+            Dispatcher.handleAction('INVALID_CODE');
         }else{
             Dispatcher.handleAction('ERROR', {
                 error
@@ -97,10 +98,12 @@ export function checkOutItems(studentId, itemAddresses){
 }
 
 export function createItem(modelAddress) {
-    post('item', {
-        modelAddress: modelAddress
+    return post('item', {
+        modelAddress
+    }).then(data => {
+        Dispatcher.handleAction('ITEM_CREATED', data);
+        hashHistory.push('/items');
     });
-    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
@@ -163,7 +166,6 @@ export function searchModel(address) {
 export function searchStudent(id) {
     get('student', {
         id
-
     }).then(data => {
         Dispatcher.handleAction('STUDENT_FOUND', data);
         hashHistory.push('/student');
@@ -209,7 +211,9 @@ export function deleteItem(item){
         itemAddress: item.address,
         modelAddress: item.modelAddress
     }).then(data => {
+        data.itemAddress = item.address;
         Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        Dispatcher.handleAction('ITEM_DELETED', data);
     }).catch(data => {
         Dispatcher.handleAction('ERROR', {
             error: data
