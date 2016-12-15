@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
-describe("Cart Controller", () => {
+describe("CartController", () => {
 
     describe('checkInItem',()=> {
 
@@ -12,7 +12,7 @@ describe("Cart Controller", () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456"}]});
         });
 
-        afterEach(() => {
+        after(() => {
             Dispatcher.handleAction("CLEAR_ALL_DATA");
             Dispatcher.handleAction("CLEAR_ERROR");
         });
