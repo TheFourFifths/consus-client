@@ -39,17 +39,20 @@ function get(endpoint, data) {
 function post(endpoint, data) {
     let options = {
         uri: 'http://localhost/api/' + endpoint,
+        method: 'POST',
         json: data
     };
     return new Promise((resolve, reject) => {
-        request.post(options, (error, response, body) => {
-            if(!error) {
-                if (body.status === 'success') {
-                    resolve(body.data);
-                } else {
-                    reject(body.message);
-                }
-            }else reject("An error has occurred");
+        request(options, (error, response, body) => {
+            console.log(response);
+            console.log(error);
+            if (error) {
+                reject("An error has occurred");
+            } else if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
         });
     });
 }
@@ -114,5 +117,3 @@ export function searchModel(address) {
 export function searchStudent(id) {
     return get('student', { id });
 }
-
-

@@ -1,16 +1,25 @@
-import { assert } from "chai";
-import * as api from "../../../.dist/lib/api-client";
-import request from 'request';
-import sinon from 'sinon';
+import { assert } from 'chai';
+import * as api from '../../../.dist/lib/api-client';
+import { mockServer, validateServer } from '../../util/server';
 
-describe("api-client", ()=> {
-    it("Does the checkin", () => {
-        let spy = sinon.spy(request, "post");
+describe('api-client', () => {
 
-        return api.checkIn("123456", "4311234").catch(() => {
-            assert.isTrue(spy.called);
-            assert.lengthOf(spy.getCall(0).args, 2);
-            assert.strictEqual(spy.getCall(0).args[0].uri, 'http://localhost/api/checkin');
-        });
+    it.only('#checkin', () => {
+        return mockServer({
+            method: 'post',
+            endpoint: '/api/checkin',
+            expectedRequest: {
+                studentId: '123456',
+                itemAddress: '43211234'
+            },
+            response: {
+                status: 'success'
+            }
+        }).then(() => {
+            return api.checkIn('123456', '43211234').then(response => {
+                assert.isUndefined(response);
+            });
+        }).then(validateServer);
     });
+
 });
