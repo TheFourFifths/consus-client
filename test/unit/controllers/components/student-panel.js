@@ -7,11 +7,22 @@ import { Dispatcher } from 'consus-core/flux';
 describe("StudentPanelController",() => {
     describe("getModels",() => {
         it("calls getAllModels", () => {
-            let spy = sinon.spy(api, "getAllModels");
-            StudentPanelController.getModels();
-            assert.isTrue(spy.called);
-            assert.lengthOf(spy.getCall(0).args, 0);
-            spy.restore();
+            let dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            let getAllModels = sinon.stub(api, "getAllModels");
+
+            getAllModels.returns(
+                new Promise(resolve => {
+                    resolve({models:[]});
+                })
+            );
+
+            return StudentPanelController.getModels().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODELS_RECEIVED");
+                dispatcherSpy.restore();
+                getAllModels.restore();
+            });
         });
         after(() => {
             Dispatcher.handleAction("CLEAR_ALL_DATA");
