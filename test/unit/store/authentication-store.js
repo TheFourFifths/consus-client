@@ -43,15 +43,15 @@ describe('AuthStore', () => {
         assert.isNull(AuthStore.getAdminCode());
     });
 
-    it('Should clear admin code on code clear', () => {
+    it('Should clear admin code on invalid code', () => {
         Dispatcher.handleAction('ADMIN_CODE_ENTERED', {
             adminCode: '2015'
         });
         assert.strictEqual(AuthStore.getAdminCode(), '2015');
-        Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+        Dispatcher.handleAction('INVALID_CODE');
         assert.isNull(AuthStore.getAdminCode());
     });
-    
+
     it("Should reset the states when admin window is called", () => {
         Dispatcher.handleAction('OVERRIDE_REQUIRED');
         assert.isTrue(AuthStore.overrideNeeded());

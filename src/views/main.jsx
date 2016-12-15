@@ -14,6 +14,7 @@ import CreateItemForm from './components/create-item-form.jsx';
 import StudentFileUpload from './components/student-file-upload.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
+import Item from './components/item.jsx';
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path='/' component={App}>
@@ -25,6 +26,7 @@ ReactDOM.render((
             <Route path='/items' component={Items} />
             <Route path='/items/new' component={CreateItemForm} />
 	    <Route path='/students/upload' component={StudentFileUpload} />
+	    <Route path="/item/:address" component={Item}/>
         </Route>
     </Router>
 ), document.getElementById('app-container'));

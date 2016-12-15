@@ -45,7 +45,7 @@ store.registerHandler('ADMIN_CODE_ENTERED', data => {
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ADMIN_CODE', () => {
+store.registerHandler('INVALID_CODE', () => {
     adminCode = null;
     store.emitChange();
 });

@@ -2,7 +2,6 @@ import request from 'request';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 import AuthStore from '../store/authentication-store';
-import StudentStore  from '../store/student-store';
 
 function get(endpoint, data) {
     let options = {
@@ -39,13 +38,32 @@ function post(endpoint, data) {
     });
 }
 
+function del(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'DELETE',
+        qs: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            body = JSON.parse(body);
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
+
 export function checkInItem(studentId, itemAddress){
     post('checkin', {
         studentId,
         itemAddress
     }).then(data => {
         Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress: data.itemAddress
+            itemAddress,
+            modelName: data.modelName
         });
     }).catch(error => {
         Dispatcher.handleAction('ERROR', {
@@ -70,7 +88,7 @@ export function checkOutItems(studentId, itemAddresses){
         if (error === 'Student has overdue item'){
             Dispatcher.handleAction('OVERRIDE_REQUIRED');
         }else if(error === 'Invalid Admin'){
-            Dispatcher.handleAction('CLEAR_ADMIN_CODE');
+            Dispatcher.handleAction('INVALID_CODE');
         }else{
             Dispatcher.handleAction('ERROR', {
                 error
@@ -80,10 +98,12 @@ export function checkOutItems(studentId, itemAddresses){
 }
 
 export function createItem(modelAddress) {
-    post('item', {
-        modelAddress: modelAddress
+    return post('item', {
+        modelAddress
+    }).then(data => {
+        Dispatcher.handleAction('ITEM_CREATED', data);
+        hashHistory.push('/items');
     });
-    hashHistory.push('/');
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
@@ -109,7 +129,7 @@ export function createModel(name, description, manufacturer, vendor, location, i
 }
 
 export function searchItem(address) {
-    get('item', {
+    return get('item', {
         address
     })
     .then(data => {
@@ -120,11 +140,6 @@ export function searchItem(address) {
 }
 
 export function searchItemForCheckout(address) {
-    if(StudentStore.getStudent().hasOverdueItem) {
-        return Dispatcher.handleAction('ERROR', {
-            error:'Student has at least one overdue item.'
-        });
-    }
     get('item', {
         address
     }).then(data => {
@@ -161,6 +176,13 @@ export function searchStudent(id) {
     });
 }
 
+export function justGetAllModels() {
+    get('model/all', {}
+    ).then(data => {
+        Dispatcher.handleAction('MODELS_RECEIVED', data);
+    });
+}
+
 export function getAllModels() {
     get('model/all', {}
     ).then(data => {
@@ -184,6 +206,7 @@ export function getModelsForNewItem() {
         hashHistory.push('/items/new');
     });
 }
+<<<<<<< HEAD
 
 export function submitStudentList(upload) {
     console.log(upload.entries()[0]);
@@ -195,6 +218,19 @@ export function submitStudentList(upload) {
     }).catch(() => {
         Dispatcher.handleAction('ERROR', {
             error: 'The provided file was rejected'
+=======
+export function deleteItem(item){
+    return del('item', {
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
+    }).then(data => {
+        data.itemAddress = item.address;
+        Dispatcher.handleAction('ITEMS_RECEIVED', data);
+        Dispatcher.handleAction('ITEM_DELETED', data);
+    }).catch(data => {
+        Dispatcher.handleAction('ERROR', {
+            error: data
+>>>>>>> student-file-TFF102-story
         });
     });
 }
