@@ -1,7 +1,7 @@
 {
   "name": "consus-client",
   "description": "The client application for Consus, an inventory management system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "The Four Fiths",
   "contributors": [
     "Jordan Longato",
