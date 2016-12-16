@@ -7,10 +7,9 @@ linked together.
 
 ### Checklist
 
-- [ ] Did you run `npm test`?
+- [ ] Have you added unit and functional tests as appropriate?
 - [ ] Did you update/add documentation for new methods or changed functionality?
-
-Finally, is it ready to be reviewed and merged: yes :white_check_mark: / no :red_circle:
+- [ ] Have you merged the target branch down into this one?
 
 ### How to Review
 
@@ -23,7 +22,5 @@ Finally, is it ready to be reviewed and merged: yes :white_check_mark: / no :red
 
 ### Links
 
-Put links to Jira tickets, and anything else, here.
-
 - [TFF-29](https://msoese.atlassian.net/browse/TFF-29)
-
+  [Sister PR on Consus](https://github.com/TheFourFifths/consus/pull/33)
