@@ -1,6 +1,5 @@
 import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
-import StudentStore from '../../store/student-store';
 
 export default class CartController {
 
