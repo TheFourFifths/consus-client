@@ -46,16 +46,25 @@ describe("StudentController", () => {
             checkOutItems = sinon.stub(api, "checkOutItems");
         });
 
-        it('Dispatches "CHECKOUT_SUCCESS" on success', () => {
+        it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
             checkOutItems.returns(
                 new Promise(resolve => {
                     resolve();
                 })
             );
 
+            let searchStudent = sinon.stub(api, "searchStudent");
+
+            searchStudent.returns(
+                new Promise(resolve => {
+                    resolve({student:{items:[]}});
+                })
+            );
+
             return StudentController.checkout().then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
+                searchStudent.restore();
             });
         });
 

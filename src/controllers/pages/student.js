@@ -1,4 +1,4 @@
-import { checkOutItems } from '../../lib/api-client';
+import { checkOutItems, searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 
@@ -18,8 +18,12 @@ export default class StudentController{
 
     static checkout(id, items) {
         return checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
-            Dispatcher.handleAction('CHECKOUT_SUCCESS');
+            return searchStudent(id).then(student => {
+                Dispatcher.handleAction('CHECKOUT_SUCCESS');
+                Dispatcher.handleAction("STUDENT_FOUND", student);
+            });
         }).catch(error => {
+            console.log(error); 
             if (error === 'Student has overdue item'){
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
             }else if(error === 'Invalid Admin'){
