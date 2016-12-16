@@ -3,6 +3,7 @@ import ErrorStore from '../../../.dist/store/error-store.js';
 import { assert } from 'chai';
 
 describe('ErrorStore', () => {
+
     it('should instantiate without an error', () => {
         assert.isNull(ErrorStore.getTag());
         assert.isNull(ErrorStore.getError());

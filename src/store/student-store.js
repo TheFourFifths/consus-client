@@ -1,9 +1,17 @@
 import { Store } from 'consus-core/flux';
 import CartStore from './cart-store';
+import { searchStudent } from '../lib/api-client';
 
 let student = null;
 
 class StudentStore extends Store{
+    hasOverdueItems(items){
+        return items.some(element => {
+            let now = Math.floor(Date.now() / 1000);
+            return element.timestamp < now;
+        });
+    }
+
     getStudent() {
         return student;
     }
@@ -12,28 +20,29 @@ class StudentStore extends Store{
 const store = new StudentStore();
 
 store.registerHandler('STUDENT_FOUND', data => {
-    student = {
-        //NOTE: this data is tentative
-        id : data.id,
-        name: data.name,
-        itemAddresses: data.itemAddresses
-    };
+    student = data;
+    student.hasOverdueItem = store.hasOverdueItems(data.items);
     store.emitChange();
 });
 
-store.registerHandler('NO_STUDENT_FOUND', () => {
+store.registerHandler('CLEAR_ALL_DATA', () => {
     student = null;
-    store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student.itemAddresses = student.itemAddresses.concat(CartStore.getItems().map(item => item.address));
-    store.emitChange();
+    student.items = student.items.concat(CartStore.getItems());
+    store.emitChange();//This isn't needed but you guys wanted it.
+    searchStudent(student.id);
 });
 
 store.registerHandler('CHECKIN_SUCCESS', data => {
-    student.itemAddresses.splice(student.itemAddresses.indexOf(data.itemAddress), 1);
+    let index = student.items.findIndex(element => {
+        return element.address === data.itemAddress;
+    });
+
+    student.items.splice(index, 1);
     store.emitChange();
+    searchStudent(student.id);
 });
 
 export default store;
