@@ -23,4 +23,4 @@ linked together.
 ### Links
 
 - [TFF-29](https://msoese.atlassian.net/browse/TFF-29)
-  [Sister PR on Consus](https://github.com/TheFourFifths/consus/pull/33)
+- TheFourFifths/consus/pull/##
