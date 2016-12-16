@@ -92,27 +92,6 @@ describe("CartController", () => {
             })
         });
 
-        it('Should dispatch "ERROR" is student has overdue item', () => {
-            Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456", timestamp:0}]});
-            let searchItem = sinon.stub(api, "searchItem");
-            let spy = sinon.spy(Dispatcher, "handleAction");
-
-            searchItem.returns(
-                new Promise(resolve => {
-                    resolve({status: "AVAILABLE"});
-                })
-            );
-
-            CartController.getItem("123456");
-            assert.isTrue(spy.called);
-            assert.strictEqual(spy.getCall(0).args.length, 2);
-            assert.strictEqual(spy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(spy.getCall(0).args[1].error, 'Student has at least one overdue item.');
-
-            searchItem.restore();
-            spy.restore();
-        });
-
         it('Should dispatch "ERROR" if item is checked out', () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: []});
             let searchItem = sinon.stub(api, "searchItem");
