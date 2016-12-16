@@ -1,8 +1,7 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
-import { Link, hashHistory } from 'react-router';
-import { deleteItem } from '../../lib/api-client';
-import { searchItem } from '../../lib/api-client';
+import { Link } from 'react-router';
+import ItemController from '../../controllers/components/item';
 
 export default class Item extends React.Component {
 
@@ -16,13 +15,18 @@ export default class Item extends React.Component {
 
     componentDidMount() {
         if (this.state.item === null) {
-            searchItem(this.props.params.address).then(() => {
+            ItemController.getItem(this.props.params.address).then(() => {
                 this.setState({
                     item: ItemStore.getItem()
                 });
             });
         }
     }
+
+    deleteItem() {
+        ItemController.deleteItem(this.state.item);
+    }
+
     render() {
         if (this.state.item === null)
             return <i>Item is loading...</i>;
@@ -51,7 +55,7 @@ export default class Item extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
-                    <img onClick={deleteItem.bind(this, this.state.item)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.deleteItem.bind(this)} src="../assets/images/delete.svg"/>
                 </div>
                 <div className="clear"></div>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import StudentController from '../../controllers/pages/student';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentStore from '../../store/student-store';
 import CartStore from '../../store/cart-store';
@@ -7,9 +7,6 @@ import StudentPanel from '../components/student-panel.jsx';
 import CartPanel from '../components/cart-panel.jsx';
 import AuthenticationStore from '../../store/authentication-store';
 import InputModal from '../components/input-modal.jsx';
-import { Dispatcher } from 'consus-core/flux';
-
-import { checkOutItems } from '../../lib/api-client';
 
 export default class Student extends ListenerComponent {
 
@@ -33,42 +30,28 @@ export default class Student extends ListenerComponent {
         };
     }
 
-    cancel() {
-        Dispatcher.handleAction('CLEAR_ITEMS');
+    acceptAdminModal(code){
+        StudentController.acceptAdminModal(code);
+        this.checkOut();
     }
 
     checkOut() {
-        if(CartStore.getItems().length > 0) {
-            checkOutItems(this.state.student.id, this.state.itemAddresses);
-        }
-        else Dispatcher.handleAction('ERROR', {
-            error: 'No Items were scanned for checkout.'
-        })
-    }
-
-    cancelAdminModal(){
-        Dispatcher.handleAction("CLEAR_ADMIN_WINDOW");
-    }
-
-
-    closeAdminModal(adminCode){
-        if (adminCode.length > 0)
-            Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
-        //Automatically Checkout after admin scan or pin.
-        this.checkOut();
+        if(CartStore.getItems().length > 0)
+            StudentController.checkout(this.state.student.id, this.state.itemAddresses);
+        else StudentController.throwNoItemsError();
     }
 
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel itemAddresses={this.state.itemAddresses} cancel={this.cancel.bind(this)} submit={this.checkOut.bind(this)} student={this.state.student} />
+                <CartPanel itemAddresses={this.state.itemAddresses} cancel={StudentController.cancelCheckout} submit={this.checkOut.bind(this)} student={this.state.student} />
                 <div className='clear'></div>
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'
                     active = {this.state.adminCodeRequired}
-                    onAccept= {this.closeAdminModal.bind(this)}
-                    onCancel={this.cancelAdminModal.bind(this)}
+                    onAccept= {this.acceptAdminModal.bind(this)}
+                    onCancel={StudentController.cancelAdminModal}
                     acceptText='Continue Checkout'
                     textHidden={true}
                 />
