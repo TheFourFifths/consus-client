@@ -23,7 +23,6 @@ export default class StudentController{
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
         }).catch(error => {
-            console.log(error); 
             if (error === 'Student has overdue item'){
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
             }else if(error === 'Invalid Admin'){
