@@ -34,7 +34,7 @@ class MockServer {
                     throw new Error('Received an unexpected request.');
                 }
                 this.status = AWAITING_VALIDATION;
-                this.request = config.method === 'get' ? req.query : req.body;
+                this.request = ['get', 'delete'].includes(config.method) ? req.query : req.body;
                 res.json(config.response);
             });
             this.server = app.listen(config.port || 80, resolve);
