@@ -6,7 +6,8 @@ import {
     changePort,
     checkIn,
     checkOutItems,
-    createItem
+    createItem,
+    createModel
 } from '../../../.dist/lib/api-client';
 import util from 'util';
 
@@ -81,6 +82,45 @@ describe('API Client', () => {
             assert.deepEqual(data, response.data);
             MockServer.validate({
                 modelAddress: 'm8y7nEtAe'
+            });
+        });
+    });
+
+    it('createModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                isFaulty: false,
+                faultDescription: '',
+                price: 10.50,
+                count: 20
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'post',
+            endpoint: '/api/model',
+            response
+        }).then(() => {
+            return createModel('Resistor', 'V = IR', 'Live', 'Mouzer', 'Shelf 14', false, '', 10.50, 20);
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                isFaulty: false,
+                faultDescription: '',
+                price: 10.50,
+                count: 20
             });
         });
     });
