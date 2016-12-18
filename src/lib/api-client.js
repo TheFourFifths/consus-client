@@ -1,8 +1,24 @@
 import request from 'request';
 
+let PROTOCOL = 'http';
+let HOST = 'localhost';
+let PORT = 80;
+
+export function changeProtocol(protocol) {
+    PROTOCOL = protocol;
+}
+
+export function changeHost(host) {
+    HOST = host;
+}
+
+export function changePort(port) {
+    PORT = port;
+}
+
 function del(endpoint, data) {
     let options = {
-        uri: 'http://localhost/api/' + endpoint,
+        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
         method: 'DELETE',
         qs: data
     };
@@ -20,7 +36,7 @@ function del(endpoint, data) {
 
 function get(endpoint, data) {
     let options = {
-        uri: 'http://localhost/api/' + endpoint,
+        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
         method: 'GET',
         qs: data
     };
@@ -38,7 +54,7 @@ function get(endpoint, data) {
 
 function post(endpoint, data) {
     let options = {
-        uri: 'http://localhost/api/' + endpoint,
+        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
         method: 'POST',
         json: data
     };
@@ -53,7 +69,6 @@ function post(endpoint, data) {
     });
 }
 
-//////////////////////
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -116,4 +131,3 @@ export function searchModel(address) {
 export function searchStudent(id) {
     return get('student', {id});
 }
-
