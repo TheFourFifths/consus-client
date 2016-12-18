@@ -52,6 +52,7 @@ class MockServer {
         assert.deepEqual(this.request, expectedRequest, 'Unexpected request');
         this.server.close();
         this.server = null;
+        this.request = null;
     }
 
 }
