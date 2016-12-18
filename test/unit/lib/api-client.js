@@ -8,7 +8,8 @@ import {
     checkOutItems,
     createItem,
     createModel,
-    deleteItem
+    deleteItem,
+    getAllItems
 } from '../../../.dist/lib/api-client';
 import util from 'util';
 
@@ -154,6 +155,30 @@ describe('API Client', () => {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
             });
+        });
+    });
+
+    it('getAllItems', () => {
+        let response = {
+            status: 'success',
+            data: {
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }]
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'get',
+            endpoint: '/api/item/all',
+            response
+        }).then(() => {
+            return getAllItems();
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({});
         });
     });
 
