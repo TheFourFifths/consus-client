@@ -90,8 +90,11 @@ export function createModel(name, description, manufacturer, vendor, location, i
     });
 }
 
-export function deleteItem(itemAddress){
-    return del('item', { itemAddress });
+export function deleteItem(item){
+    return del('item', {
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
+    });
 }
 
 export function getAllItems() {

@@ -1,6 +1,5 @@
 import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
-import StudentStore from '../../store/student-store';
 
 export default class CartController {
 
@@ -17,11 +16,6 @@ export default class CartController {
     }
 
     static getItem(address) {
-        if(StudentStore.getStudent().hasOverdueItem)
-            return Dispatcher.handleAction('ERROR', {
-                error:'Student has at least one overdue item.'
-            });
-
         return searchItem(address).then(item => {
             if (item.status === 'CHECKED_OUT')
                 return Dispatcher.handleAction('ERROR', {
