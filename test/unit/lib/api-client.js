@@ -1,6 +1,8 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import {
+    changeProtocol,
+    changeHost,
     changePort,
     checkIn,
     checkOutItems,
@@ -11,6 +13,8 @@ import util from 'util';
 describe('API Client', () => {
 
     before(() => {
+        changeProtocol('http');
+        changeHost('localhost');
         changePort(8080);
     });
 
