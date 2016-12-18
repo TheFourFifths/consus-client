@@ -32,7 +32,7 @@ describe('API Client', () => {
                 studentId: '123456',
                 itemAddress: 'iGwEZUvfA'
             });
-        });
+        }).catch(e = util.inspect);
     });
 
 });
