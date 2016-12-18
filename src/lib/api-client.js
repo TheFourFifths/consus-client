@@ -44,7 +44,7 @@ function get(endpoint, data) {
 }
 
 function post(endpoint, data) {
-    return call(endpoint, 'GET', undefined, data);
+    return call(endpoint, 'POST', undefined, data);
 }
 
 export function checkIn(studentId, itemAddress){
@@ -59,9 +59,9 @@ export function checkOutItems(studentId, itemAddresses, code){
         studentId,
         itemAddresses
     };
-
-    if (code) params.adminCode = code;
-
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
     return post('checkout', params);
 }
 
