@@ -105,13 +105,19 @@ export function getAllModels() {
 }
 
 export function searchItem(address) {
-    return get('item', {address});
+    return get('item', {
+        address
+    });
 }
 
 export function searchModel(address) {
-    return get('model', {address});
+    return get('model', {
+        address
+    });
 }
 
 export function searchStudent(id) {
-    return get('student', {id});
+    return get('student', {
+        id
+    });
 }
