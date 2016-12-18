@@ -12,7 +12,8 @@ import {
     getAllItems,
     getAllModels,
     searchItem,
-    searchModel
+    searchModel,
+    searchStudent
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -291,6 +292,32 @@ describe('API Client', () => {
             assert.deepEqual(data, response.data);
             MockServer.validate({
                 address: 'm8y7nEtAe'
+            });
+        });
+    });
+
+    it('searchStudent', () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: '123456',
+                    name: 'John von Neumann',
+                    items: []
+                }
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'get',
+            endpoint: '/api/student',
+            response
+        }).then(() => {
+            return searchStudent('123456');
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                id: '123456'
             });
         });
     });
