@@ -93,8 +93,11 @@ export function createModel(name, description, manufacturer, vendor, location, i
     });
 }
 
-export function deleteItem(itemAddress){
-    return del('item', { itemAddress });
+export function deleteItem(item){
+    return del('item', {
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
+    });
 }
 
 export function getAllItems() {
@@ -106,13 +109,14 @@ export function getAllModels() {
 }
 
 export function searchItem(address) {
-    return get('item', { address });
+    return get('item', {address});
 }
 
 export function searchModel(address) {
-    return get('model', { address });
+    return get('model', {address});
 }
 
 export function searchStudent(id) {
-    return get('student', { id });
+    return get('student', {id});
 }
+

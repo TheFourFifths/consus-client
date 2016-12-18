@@ -1,5 +1,6 @@
 import React from 'react';
 import ModelFormController from '../../controllers/components/create-model-form';
+
 export default class CreateModelForm extends React.Component {
 
     constructor() {
@@ -72,9 +73,11 @@ export default class CreateModelForm extends React.Component {
             this.state.count
         );
     }
+
     allModels() {
         ModelFormController.getModels();
     }
+
     render() {
         return (
             <div className='create-model-form'>

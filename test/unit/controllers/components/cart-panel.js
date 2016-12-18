@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
-describe("Cart Controller", () => {
+describe("CartController", () => {
 
     describe('checkInItem',()=> {
 
@@ -12,7 +12,7 @@ describe("Cart Controller", () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456"}]});
         });
 
-        afterEach(() => {
+        after(() => {
             Dispatcher.handleAction("CLEAR_ALL_DATA");
             Dispatcher.handleAction("CLEAR_ERROR");
         });
@@ -90,27 +90,6 @@ describe("Cart Controller", () => {
                 searchItem.restore();
                 spy.restore();
             })
-        });
-
-        it('Should dispatch "ERROR" is student has overdue item', () => {
-            Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456", timestamp:0}]});
-            let searchItem = sinon.stub(api, "searchItem");
-            let spy = sinon.spy(Dispatcher, "handleAction");
-
-            searchItem.returns(
-                new Promise(resolve => {
-                    resolve({status: "AVAILABLE"});
-                })
-            );
-
-            CartController.getItem("123456");
-            assert.isTrue(spy.called);
-            assert.strictEqual(spy.getCall(0).args.length, 2);
-            assert.strictEqual(spy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(spy.getCall(0).args[1].error, 'Student has at least one overdue item.');
-
-            searchItem.restore();
-            spy.restore();
         });
 
         it('Should dispatch "ERROR" if item is checked out', () => {
