@@ -16,11 +16,12 @@ export function changePort(port) {
     PORT = port;
 }
 
-function del(endpoint, data) {
+function call(endpoint, method, qs, json) {
     let options = {
         uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
-        method: 'DELETE',
-        qs: data
+        method,
+        qs,
+        json
     };
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
@@ -32,41 +33,18 @@ function del(endpoint, data) {
             }
         });
     });
+}
+
+function del(endpoint, data) {
+    return call(endpoint, 'DELETE', data);
 }
 
 function get(endpoint, data) {
-    let options = {
-        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
-        method: 'GET',
-        qs: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            body = JSON.parse(body);
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'GET', data);
 }
 
 function post(endpoint, data) {
-    let options = {
-        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
-        method: 'POST',
-        json: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'GET', undefined, data);
 }
 
 export function checkIn(studentId, itemAddress){
