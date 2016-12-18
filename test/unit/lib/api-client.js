@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
-import { changePort, checkIn } from '../../../.dist/lib/api-client';
+import { changePort, checkIn, checkOutItems } from '../../../.dist/lib/api-client';
 import util from 'util';
 
 describe('API Client', () => {
@@ -13,11 +13,8 @@ describe('API Client', () => {
         let response = {
             status: 'success',
             data: {
-                status: 'success',
-                data: {
-                    itemAddress: 'iGwEZUvfA',
-                    modelName: 'Resistor'
-                }
+                itemAddress: 'iGwEZUvfA',
+                modelName: 'Resistor'
             }
         };
         return MockServer.listen({

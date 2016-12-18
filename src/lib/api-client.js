@@ -19,13 +19,19 @@ export function changePort(port) {
 function call(endpoint, method, qs, json) {
     let options = {
         uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
-        method,
-        qs,
-        json
+        method
     };
+    if (typeof qs !== 'undefined') {
+        options.qs = qs;
+    }
+    if (typeof json !== 'undefined') {
+        options.json = json;
+    }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
-            body = JSON.parse(body);
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
             if (body.status === 'success') {
                 resolve(body.data);
             } else {
