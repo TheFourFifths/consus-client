@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import { changePort, checkIn } from '../../../.dist/lib/api-client';
+import util from 'util';
 
 describe('API Client', () => {
 
