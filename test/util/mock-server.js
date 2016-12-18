@@ -49,10 +49,11 @@ class MockServer {
             throw new Error('Mock server is not listening for a request.');
         }
         this.status = NOT_LISTENING;
-        assert.deepEqual(this.request, expectedRequest, 'Unexpected request');
         this.server.close();
         this.server = null;
+        let request = this.request;
         this.request = null;
+        assert.deepEqual(request, expectedRequest, 'Unexpected request');
     }
 
 }
