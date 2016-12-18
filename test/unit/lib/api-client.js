@@ -9,7 +9,8 @@ import {
     createItem,
     createModel,
     deleteItem,
-    getAllItems
+    getAllItems,
+    getAllModels
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -175,6 +176,37 @@ describe('API Client', () => {
             response
         }).then(() => {
             return getAllItems();
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({});
+        });
+    });
+
+    it('getAllModels', () => {
+        let response = {
+            status: 'success',
+            data: {
+                models: [{
+                    address: 'm8y7nEtAe',
+                    name: 'Resistor',
+                    description: 'V = IR',
+                    manufacturer: 'Pancakes R Us',
+                    vendor: 'Mouzer',
+                    location: 'Shelf 14',
+                    isFaulty: false,
+                    faultDescription: '',
+                    price: 10.50,
+                    count: 20
+                }]
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'get',
+            endpoint: '/api/model/all',
+            response
+        }).then(() => {
+            return getAllModels();
         }).then(data => {
             assert.deepEqual(data, response.data);
             MockServer.validate({});
