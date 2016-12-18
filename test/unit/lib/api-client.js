@@ -10,7 +10,8 @@ import {
     createModel,
     deleteItem,
     getAllItems,
-    getAllModels
+    getAllModels,
+    searchItem
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -61,6 +62,27 @@ describe('API Client', () => {
             MockServer.validate({
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
+            });
+        });
+    });
+
+    it('checkOutItems (with code)', () => {
+        let response = {
+            status: 'success'
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'post',
+            endpoint: '/api/checkout',
+            response
+        }).then(() => {
+            return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef');
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                studentId: '123456',
+                itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                adminCode: 'abcdef'
             });
         });
     });
@@ -210,6 +232,32 @@ describe('API Client', () => {
         }).then(data => {
             assert.deepEqual(data, response.data);
             MockServer.validate({});
+        });
+    });
+
+    it('getAllModels', () => {
+        let response = {
+            status: 'success',
+            data: {
+                item: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'get',
+            endpoint: '/api/item',
+            response
+        }).then(() => {
+            return searchItem('iGwEZUvfA');
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                address: 'iGwEZUvfA'
+            });
         });
     });
 
