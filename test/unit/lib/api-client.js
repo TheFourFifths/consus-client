@@ -33,4 +33,24 @@ describe('API Client', () => {
         });
     });
 
+    it('checkOutItems', () => {
+        let response = {
+            status: 'success'
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'post',
+            endpoint: '/api/checkout',
+            response
+        }).then(() => {
+            return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE']);
+        }).then(data => {
+            assert.isUndefined(data);
+            MockServer.validate({
+                studentId: '123456',
+                itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
+            });
+        });
+    });
+
 });
