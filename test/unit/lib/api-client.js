@@ -11,7 +11,8 @@ import {
     deleteItem,
     getAllItems,
     getAllModels,
-    searchItem
+    searchItem,
+    searchModel
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -257,6 +258,39 @@ describe('API Client', () => {
             assert.deepEqual(data, response.data);
             MockServer.validate({
                 address: 'iGwEZUvfA'
+            });
+        });
+    });
+
+    it('searchModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                model: {
+                    address: 'm8y7nEtAe',
+                    name: 'Resistor',
+                    description: 'V = IR',
+                    manufacturer: 'Pancakes R Us',
+                    vendor: 'Mouzer',
+                    location: 'Shelf 14',
+                    isFaulty: false,
+                    faultDescription: '',
+                    price: 10.50,
+                    count: 20
+                }
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'get',
+            endpoint: '/api/model',
+            response
+        }).then(() => {
+            return searchModel('m8y7nEtAe');
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                address: 'm8y7nEtAe'
             });
         });
     });
