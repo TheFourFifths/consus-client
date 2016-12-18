@@ -235,7 +235,7 @@ describe('API Client', () => {
         });
     });
 
-    it('getAllModels', () => {
+    it('searchItem', () => {
         let response = {
             status: 'success',
             data: {
