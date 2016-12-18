@@ -8,6 +8,7 @@ The mock server is used to return canned API responses to HTTP requests and vali
 import MockServer from '../../util/mock-server';
 
 MockServer.listen({
+    port: 8080, // optional, defaults to 80
     method: 'GET',
     endpoint: '/api/item',
     response: {

@@ -1,8 +1,12 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
-import { checkIn } from '../../../.dist/lib/api-client';
+import { changePort, checkIn } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
+
+    before(() => {
+        changePort(8080);
+    });
 
     it('checkIn', () => {
         let response = {
@@ -16,6 +20,7 @@ describe('API Client', () => {
             }
         };
         return MockServer.listen({
+            port: 8080,
             method: 'post',
             endpoint: '/api/checkin',
             response
