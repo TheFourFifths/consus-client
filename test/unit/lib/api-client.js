@@ -7,7 +7,8 @@ import {
     checkIn,
     checkOutItems,
     createItem,
-    createModel
+    createModel,
+    deleteItem
 } from '../../../.dist/lib/api-client';
 import util from 'util';
 
@@ -121,6 +122,37 @@ describe('API Client', () => {
                 faultDescription: '',
                 price: 10.50,
                 count: 20
+            });
+        });
+    });
+
+    it('deleteItem', () => {
+        let response = {
+            status: 'success',
+            data: {
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }],
+                modelName: 'Resistor'
+            }
+        };
+        return MockServer.listen({
+            port: 8080,
+            method: 'delete',
+            endpoint: '/api/item',
+            response
+        }).then(() => {
+            return deleteItem({
+                address: 'iGwEZUvfA',
+                modelAddress: 'm8y7nEtAe'
+            });
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            MockServer.validate({
+                itemAddress: 'iGwEZUvfA',
+                modelAddress: 'm8y7nEtAe'
             });
         });
     });
