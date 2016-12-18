@@ -97,11 +97,11 @@ export function deleteItem(item){
 }
 
 export function getAllItems() {
-    return get('item/all', {});
+    return get('item/all');
 }
 
 export function getAllModels() {
-    return get('model/all', {});
+    return get('model/all');
 }
 
 export function searchItem(address) {
