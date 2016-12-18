@@ -72,4 +72,9 @@ store.registerHandler('INVALID_CODE', () => {
     store.emitChange();
 });
 
+store.registerHandler('MODEL_DELETED', model => {
+    addToast(`${model.name}(${model.address}) was deleted`);
+    store.emitChange();
+});
+
 export default store;

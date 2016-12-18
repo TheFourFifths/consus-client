@@ -153,4 +153,15 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /Invalid Admin Code/);
     });
 
+    it('should add toast when model is deleted', () => {
+        let modelName = 'testerino';
+        let modelAddress = 'not really an address';
+        Dispatcher.handleAction('MODEL_DELETED', {
+            name: modelName,
+            address: modelAddress
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName}(${modelAddress}) was deleted`)
+    });
+
 });
