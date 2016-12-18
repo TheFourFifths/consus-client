@@ -11,7 +11,6 @@ import {
     deleteItem,
     getAllItems
 } from '../../../.dist/lib/api-client';
-import util from 'util';
 
 describe('API Client', () => {
 
