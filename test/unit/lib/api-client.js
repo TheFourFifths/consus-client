@@ -92,7 +92,7 @@ describe('API Client', () => {
             response
         });
         return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
-            assert.deepEqual(data, response.data);
+            assert.isUndefined(data);
             mockServer.validate();
         });
     });
