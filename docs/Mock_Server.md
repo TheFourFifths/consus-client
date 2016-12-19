@@ -38,7 +38,9 @@ mockServer.listen(8080).then(() => {
      * }
      */
 }).then(() => {
+    // Validate that the expected calls, and only the expected calls, were made
     mockServer.validate();
+    // Shut the server down
     mockServer.stop();
 });
 ```
