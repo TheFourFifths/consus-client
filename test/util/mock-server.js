@@ -72,6 +72,10 @@ export default class MockServer {
     }
 
     stop() {
+        if (this.status !== ON) {
+            throw new Error('Server cannot be stopped unless it is on');
+            return;
+        }
         this.server.close();
         this.server = null;
     }
