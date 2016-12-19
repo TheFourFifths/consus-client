@@ -16,6 +16,7 @@ class MockServer {
         this.status = NOT_LISTENING;
         this.server = null;
         this.request = null;
+        this.calls = 0;
     }
 
     listen(config) {
@@ -30,9 +31,7 @@ class MockServer {
             let app = express();
             app.use(bodyParser.json());
             app[config.method](config.endpoint, (req, res) => {
-                if (this.request !== null) { // TODO: test what happens with this error
-                    throw new Error('Received an unexpected request.');
-                }
+                this.calls++;
                 this.status = AWAITING_VALIDATION;
                 this.request = ['get', 'delete'].indexOf(config.method) !== -1 ? req.query : req.body;
                 res.json(config.response);
@@ -53,7 +52,10 @@ class MockServer {
         this.server = null;
         let request = this.request;
         this.request = null;
-        assert.deepEqual(request, expectedRequest, 'Unexpected request');
+        let calls = this.calls;
+        this.calls = 0;
+        assert.strictEqual(calls, 1, 'Called more than once');
+        assert.deepEqual(request, expectedRequest, 'Unexpected request data');
     }
 
 }
