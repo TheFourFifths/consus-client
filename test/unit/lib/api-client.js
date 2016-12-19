@@ -18,10 +18,21 @@ import {
 
 describe('API Client', () => {
 
+    let mockServer = new MockServer();
+
     before(() => {
         changeProtocol('http');
         changeHost('localhost');
         changePort(8080);
+        return mockServer.start(8080);
+    });
+
+    beforeEach(() => {
+        mockServer.clearExpectations();
+    });
+
+    after(() => {
+        mockServer.stop();
     });
 
     it('checkIn', () => {
@@ -32,19 +43,18 @@ describe('API Client', () => {
                 modelName: 'Resistor'
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'post',
             endpoint: '/api/checkin',
-            response
-        }).then(() => {
-            return checkIn('123456', 'iGwEZUvfA');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 studentId: '123456',
                 itemAddress: 'iGwEZUvfA'
-            });
+            },
+            response
+        });
+        return checkIn('123456', 'iGwEZUvfA').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -52,19 +62,18 @@ describe('API Client', () => {
         let response = {
             status: 'success'
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            response
-        }).then(() => {
-            return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE']);
-        }).then(data => {
-            assert.isUndefined(data);
-            MockServer.validate({
+            request: {
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
-            });
+            },
+            response
+        });
+        return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+            assert.isUndefined(data);
+            mockServer.validate();
         });
     });
 
@@ -72,20 +81,19 @@ describe('API Client', () => {
         let response = {
             status: 'success'
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            response
-        }).then(() => {
-            return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 adminCode: 'abcdef'
-            });
+            },
+            response
+        });
+        return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -97,18 +105,17 @@ describe('API Client', () => {
                 modelName: 'Resistor'
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'post',
             endpoint: '/api/item',
-            response
-        }).then(() => {
-            return createItem('m8y7nEtAe');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 modelAddress: 'm8y7nEtAe'
-            });
+            },
+            response
+        });
+        return createItem('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -128,16 +135,10 @@ describe('API Client', () => {
                 count: 20
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'post',
             endpoint: '/api/model',
-            response
-        }).then(() => {
-            return createModel('Resistor', 'V = IR', 'Live', 'Mouzer', 'Shelf 14', false, '', 10.50, 20);
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 name: 'Resistor',
                 description: 'V = IR',
                 manufacturer: 'Live',
@@ -147,7 +148,12 @@ describe('API Client', () => {
                 faultDescription: '',
                 price: 10.50,
                 count: 20
-            });
+            },
+            response
+        });
+        return createModel('Resistor', 'V = IR', 'Live', 'Mouzer', 'Shelf 14', false, '', 10.50, 20).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -163,22 +169,21 @@ describe('API Client', () => {
                 modelName: 'Resistor'
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'delete',
             endpoint: '/api/item',
-            response
-        }).then(() => {
-            return deleteItem({
-                address: 'iGwEZUvfA',
-                modelAddress: 'm8y7nEtAe'
-            });
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
-            });
+            },
+            response
+        });
+        return deleteItem({
+            address: 'iGwEZUvfA',
+            modelAddress: 'm8y7nEtAe'
+        }).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -193,16 +198,15 @@ describe('API Client', () => {
                 }]
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'get',
             endpoint: '/api/item/all',
+            request: {},
             response
-        }).then(() => {
-            return getAllItems();
-        }).then(data => {
+        });
+        return getAllItems().then(data => {
             assert.deepEqual(data, response.data);
-            MockServer.validate({});
+            mockServer.validate();
         });
     });
 
@@ -224,16 +228,15 @@ describe('API Client', () => {
                 }]
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
+            request: {},
             response
-        }).then(() => {
-            return getAllModels();
-        }).then(data => {
+        });
+        return getAllModels().then(data => {
             assert.deepEqual(data, response.data);
-            MockServer.validate({});
+            mockServer.validate();
         });
     });
 
@@ -248,18 +251,17 @@ describe('API Client', () => {
                 }
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            response
-        }).then(() => {
-            return searchItem('iGwEZUvfA');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 address: 'iGwEZUvfA'
-            });
+            },
+            response
+        });
+        return searchItem('iGwEZUvfA').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -281,18 +283,17 @@ describe('API Client', () => {
                 }
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'get',
             endpoint: '/api/model',
-            response
-        }).then(() => {
-            return searchModel('m8y7nEtAe');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 address: 'm8y7nEtAe'
-            });
+            },
+            response
+        });
+        return searchModel('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 
@@ -307,18 +308,17 @@ describe('API Client', () => {
                 }
             }
         };
-        return MockServer.listen({
-            port: 8080,
+        mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            response
-        }).then(() => {
-            return searchStudent('123456');
-        }).then(data => {
-            assert.deepEqual(data, response.data);
-            MockServer.validate({
+            request: {
                 id: '123456'
-            });
+            },
+            response
+        })
+        return searchStudent('123456').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
         });
     });
 

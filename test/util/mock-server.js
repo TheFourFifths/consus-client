@@ -2,64 +2,78 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
 
-const NOT_LISTENING = 0;
-const LISTENING = 1;
-const AWAITING_VALIDATION = 2;
+const OFF = 0;
+const STARTING = 1;
+const ON = 2;
 
 /**
  * See: docs/Mock_Server.md
  */
-
-class MockServer {
+export default class MockServer {
 
     constructor() {
-        this.status = NOT_LISTENING;
         this.server = null;
-        this.request = null;
-        this.calls = 0;
+        this.status = OFF;
+        this.expectedCalls = [];
+        this.calls = [];
     }
 
-    listen(config) {
-        if (this.status === LISTENING) {
-            throw new Error('Mock server is already listening for a request.');
-        }
-        if (this.status === AWAITING_VALIDATION) {
-            throw new Error('Mock server is waiting for the request to be validated.');
-        }
-        this.status = LISTENING;
-        return new Promise(resolve => {
+    start(port) {
+        return new Promise((resolve, reject) => {
+            if (this.status !== OFF) {
+                reject(new Error('Server cannot be started unless it is off'));
+                return;
+            }
             let app = express();
             app.use(bodyParser.json());
-            app[config.method](config.endpoint, (req, res) => {
-                this.calls++;
-                this.status = AWAITING_VALIDATION;
-                this.request = ['get', 'delete'].indexOf(config.method) !== -1 ? req.query : req.body;
-                res.json(config.response);
+            app.use('*', (req, res) => {
+                let method = req.method.toLowerCase();
+                let endpoint = req.originalUrl;
+                let qsIndex = endpoint.indexOf('?');
+                if (qsIndex !== -1) {
+                    endpoint = endpoint.substring(0, qsIndex);
+                }
+                let request = ['get', 'delete'].indexOf(req.method.toLowerCase()) !== -1 ? req.query : req.body;
+                let response = {
+                    status: 'failure',
+                    message: 'Unexpected call'
+                };
+                if (this.expectedCalls.length > this.calls.length) {
+                    response = this.expectedCalls[this.calls.length].response;
+                }
+                this.calls.push({
+                    method,
+                    endpoint,
+                    request,
+                    response
+                });
+                res.json(response);
             });
-            this.server = app.listen(config.port || 80, resolve);
+            this.server = app.listen(port || 80, resolve);
         });
     }
 
-    validate(expectedRequest) {
-        if (this.status === LISTENING) {
-            throw new Error('Mock server has not received the request.');
-        }
-        if (this.status === NOT_LISTENING) {
-            throw new Error('Mock server is not listening for a request.');
-        }
-        this.status = NOT_LISTENING;
+    expect(call) {
+        assert.isString(call.method, 'Call method must be a string.');
+        assert.isString(call.endpoint, 'Call endpoint must be a string.');
+        assert.isObject(call.request, 'Call request must be an object.');
+        assert.isObject(call.response, 'Call response must be an object.');
+        this.expectedCalls.push(call);
+    }
+
+    validate() {
+        assert.deepEqual(this.calls, this.expectedCalls);
+        this.clearExpectations();
+    }
+
+    clearExpectations() {
+        this.expectedCalls = [];
+        this.calls = [];
+    }
+
+    stop() {
         this.server.close();
         this.server = null;
-        let request = this.request;
-        this.request = null;
-        let calls = this.calls;
-        this.calls = 0;
-        assert.strictEqual(calls, 1, 'Called more than once');
-        assert.deepEqual(request, expectedRequest, 'Unexpected request data');
     }
 
 }
-
-let mockServer = new MockServer();
-
-export default mockServer;

@@ -7,10 +7,15 @@ The mock server is used to return canned API responses to HTTP requests and vali
 ```javascript
 import MockServer from '../../util/mock-server';
 
-MockServer.listen({
-    port: 8080, // optional, defaults to 80
+let mockServer = new MockServer();
+
+// Expect the provided request, respond with the given response
+mockServer.expect({
     method: 'GET',
     endpoint: '/api/item',
+    request: {
+        address: 'iGwEZUvfA'
+    },
     response: {
         status: 'success',
         data: {
@@ -21,7 +26,10 @@ MockServer.listen({
             }
         }
     }
-}).then(() => {
+});
+
+// listen on port 8080, defaults to 80
+mockServer.listen(8080).then(() => {
     /**
      * Make the API Request
      * GET /api/item
@@ -30,8 +38,7 @@ MockServer.listen({
      * }
      */
 }).then(() => {
-    MockServer.validate({
-        address: 'iGwEZUvfA'
-    });
+    mockServer.validate();
+    mockServer.stop();
 });
 ```
