@@ -24,6 +24,7 @@ export default class MockServer {
                 reject(new Error('Server cannot be started unless it is off'));
                 return;
             }
+            this.status = STARTING;
             let app = express();
             app.use(bodyParser.json());
             app.use('*', (req, res) => {
@@ -49,7 +50,10 @@ export default class MockServer {
                 });
                 res.json(response);
             });
-            this.server = app.listen(port || 80, resolve);
+            this.server = app.listen(port || 80, () => {
+                this.status = ON;
+                resolve();
+            });
         });
     }
 
@@ -78,6 +82,7 @@ export default class MockServer {
         }
         this.server.close();
         this.server = null;
+        this.status = OFF;
     }
 
 }
