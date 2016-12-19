@@ -72,4 +72,9 @@ store.registerHandler('INVALID_CODE', () => {
     store.emitChange();
 });
 
+store.registerHandler('MODEL_UPDATED', data => {
+    addToast(data.model);
+    store.emitChange();
+});
+
 export default store;

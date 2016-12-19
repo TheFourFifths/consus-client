@@ -53,6 +53,22 @@ function post(endpoint, data) {
     });
 }
 
+function patch(endpoint, data) {
+    let options = {
+        uri: 'http://localhost/api/' + endpoint,
+        method: 'PATCH',
+        json: data
+    };
+    return new Promise((resolve, reject) => {
+        request(options, (error, response, body) => {
+            if (body.status === 'success') {
+                resolve(body.data);
+            } else {
+                reject(body.message);
+            }
+        });
+    });
+}
 //////////////////////
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
@@ -115,5 +131,18 @@ export function searchModel(address) {
 
 export function searchStudent(id) {
     return get('student', {id});
+}
+
+export function updateModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+    return patch('model', {
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price
+    });
 }
 
