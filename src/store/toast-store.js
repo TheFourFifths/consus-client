@@ -72,8 +72,8 @@ store.registerHandler('INVALID_CODE', () => {
     store.emitChange();
 });
 
-store.registerHandler('MODEL_UPDATED', data => {
-    addToast(data.model);
+store.registerHandler('MODEL_UPDATED', model => {
+    addToast(`${model.name} (${model.address}) was updated!`);
     store.emitChange();
 });
 

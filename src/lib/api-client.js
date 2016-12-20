@@ -133,8 +133,9 @@ export function searchStudent(id) {
     return get('student', {id});
 }
 
-export function updateModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
     return patch('model', {
+        address: address,
         name: name,
         description: description,
         manufacturer: manufacturer,

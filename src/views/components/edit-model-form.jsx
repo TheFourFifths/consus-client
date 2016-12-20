@@ -87,6 +87,7 @@ export default class EditModelForm extends React.Component {
     submit(e) {
         e.preventDefault();
         ModelFormController.updateModel(
+            this.state.model.address,
             this.state.name,
             this.state.description,
             this.state.manufacturer,

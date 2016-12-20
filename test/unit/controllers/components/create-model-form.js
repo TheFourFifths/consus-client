@@ -88,4 +88,44 @@ describe('ModelFormController', () => {
             getAllModels.restore();
         });
     });
+
+    describe("updateModel",() => {
+        let dispatcherSpy, updateModel;
+
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            updateModel = sinon.stub(api, "updateModel");
+
+        });
+
+        it('Dispatches "MODEL_UPDATED" when done',()=>{
+            updateModel.returns(
+                new Promise(resolve => {
+                    resolve();
+                })
+            );
+            return ModelFormController.updateModel().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'MODEL_UPDATED');
+            });
+        });
+
+        it('Should dispatch "ERROR" if update model fails', () => {
+            updateModel.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+            return ModelFormController.updateModel().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to update the model. Is the server down?');
+            })
+        });
+        afterEach(() => {
+            dispatcherSpy.restore();
+            updateModel.restore();
+        });
+    });
 });

@@ -8,7 +8,7 @@ export default class ModelFormController {
             hashHistory.push('/models');
         }).catch(() => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to create the item. Is the server down?'
+                error: 'The server was not able to create the model. Is the server down?'
             });
         });
     }
@@ -19,14 +19,14 @@ export default class ModelFormController {
             hashHistory.push('/models');
         });
     }
-    static updateModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
-        return updateModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
+
+    static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+        return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
             Dispatcher.handleAction('MODEL_UPDATED', model);
-            hashHistory.push('/models');
         }).catch(() => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to create the item. Is the server down?'
+                error: 'The server was not able to update the model. Is the server down?'
             });
-        })
+        });
     }
 }
