@@ -1,9 +1,5 @@
 import { Store } from 'consus-core/flux';
 
-/* eslint-disable no-unused-vars */
-let user = null;
-/* eslint-enable no-unused-vars */
-
 //Flag to bring up the input model for admin override.
 let overrideNeeded = false;
 
@@ -53,6 +49,12 @@ store.registerHandler('INVALID_CODE', () => {
 store.registerHandler('CLEAR_ADMIN_WINDOW', () => {
     adminCode = null;
     overrideNeeded = false;
+    store.emitChange();
+});
+
+store.registerHandler("CLEAR_ALL_DATA", () => {
+    overrideNeeded = false;
+    adminCode = null;
     store.emitChange();
 });
 

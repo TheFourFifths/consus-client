@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import { justGetAllModels } from '../../lib/api-client';
+import StudentPanelController from '../../controllers/components/student-panel';
 
 export default class StudentPanel extends ListenerComponent {
 
     componentWillMount(){
-        justGetAllModels();
+        StudentPanelController.getModels();
     }
 
     getStores() {
@@ -29,7 +29,7 @@ export default class StudentPanel extends ListenerComponent {
         return (
             <div>
                 {this.props.student.items.map((item, i) => {
-                    return <Link to={`/item/${item.address}`}  key={i} className={item.isOverdue ? 'link-nostyle overdue' : 'link-nostyle'}>
+                    return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderItemInfo(item)}
                         </div>
@@ -45,7 +45,7 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         }else{
             return <div>
-                {model.name} {item.isOverdue ? '(overdue)' : ''} <i>{item.address}</i>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
             </div>
         }
     }

@@ -1,7 +1,5 @@
 import React from 'react';
-import { createModel } from '../../lib/api-client';
-import { getAllModels } from '../../lib/api-client';
-import { hashHistory } from 'react-router';
+import ModelFormController from '../../controllers/components/create-model-form';
 
 export default class CreateModelForm extends React.Component {
 

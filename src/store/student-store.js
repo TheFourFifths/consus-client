@@ -1,6 +1,5 @@
 import { Store } from 'consus-core/flux';
 import CartStore from './cart-store';
-import { searchStudent } from '../lib/api-client';
 
 let student = null;
 
@@ -31,8 +30,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     student.items = student.items.concat(CartStore.getItems());
-    store.emitChange();//This isn't needed but you guys wanted it.
-    searchStudent(student.id);
+    store.emitChange();
 });
 
 store.registerHandler('CHECKIN_SUCCESS', data => {
@@ -42,7 +40,6 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
 
     student.items.splice(index, 1);
     store.emitChange();
-    searchStudent(student.id);
 });
 
 export default store;

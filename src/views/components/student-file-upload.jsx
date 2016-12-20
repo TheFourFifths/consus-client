@@ -1,5 +1,5 @@
 import React from 'react';
-import { submitStudentList } from '../../lib/api-client';
+import StudentFileUploadFormController from '../../controllers/components/student-file-upload-form';
 
 export default class StudentFileUpload extends React.Component {
 
@@ -9,12 +9,13 @@ export default class StudentFileUpload extends React.Component {
 
     submit(e) {
         e.preventDefault();
+        StudentFileUploadFormController.submitFile();
     }
 
     render() {
         return (
             <div className='file-upload-form'>
-              <form ref='uploadForm' onSubmit={this.submit.bind(this)}'>
+              <form ref='uploadForm' onSubmit={this.submit.bind(this)}>
                 <input type='file' onChange={this.changeFile.bind(this)}></input>
                 <input type='submit'></input>
               </form>
