@@ -7,12 +7,12 @@ import OmnibarController from '../../../../.dist/controllers/components/omnibar'
 
 describe("OmnibarController", () => {
     describe("getOmnibar",() => {
-        let spy, dispatcherSpy, searchStudent;
+        let hashHistorySpy, dispatcherSpy, searchStudent;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             searchStudent = sinon.stub(api, "searchStudent");
             router.hashHistory = {};
-            spy = router.hashHistory.push = sinon.spy();
+            hashHistorySpy = router.hashHistory.push = sinon.spy();
         });
 
         it('Dispatches "STUDENT_FOUND" when student is found',()=>{
@@ -27,9 +27,9 @@ describe("OmnibarController", () => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "STUDENT_FOUND");
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 1);
-                assert.strictEqual(spy.getCall(0).args[0], "/student");
+                assert.isTrue(hashHistorySpy.called);
+                assert.strictEqual(hashHistorySpy.getCall(0).args.length, 1);
+                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/student");
             });
 
         });

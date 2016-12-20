@@ -6,29 +6,29 @@ import ItemFormController from '../../../../.dist/controllers/components/create-
 
 describe('ItemFormController', () => {
     describe("createItem", () => {
-        let createItem;
+        let createItem, hashHistorySpy;
 
-        before(() => {
+        beforeEach(() => {
             createItem = sinon.stub(api, "createItem");
+            //Have to set up hashHistory because it currently doesn't exist without the browser.
+            router.hashHistory = {};
+            hashHistorySpy = router.hashHistory.push = sinon.spy();
+        });
+
+        it('Should push "/" to the hashHistory after item is created',() => {
             createItem.returns(
                 new Promise(resolve => {
                     resolve();
                 })
             );
-        });
-
-        it('Should push "/" to the hashHistory after item is created',() => {
-            //Have to set up hashHistory because it currently doesn't exist without the browser.
-            router.hashHistory = {};
-            let spy = router.hashHistory.push = sinon.spy();
             return ItemFormController.createItem('OIUIO').then(() => {
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 1);
-                assert.strictEqual(spy.getCall(0).args[0], "/");
+                assert.isTrue(hashHistorySpy.called);
+                assert.strictEqual(hashHistorySpy.getCall(0).args.length, 1);
+                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/");
             });
         });
 
-        after(() => {
+        afterEach(() => {
             createItem.restore();
         });
     });

@@ -7,96 +7,75 @@ import { Dispatcher } from 'consus-core/flux';
 describe("CartController", () => {
 
     describe('checkInItem',()=> {
+        let checkIn, dispatcherSpy;
 
         beforeEach(() => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456"}]});
-        });
-
-        after(() => {
-            Dispatcher.handleAction("CLEAR_ALL_DATA");
-            Dispatcher.handleAction("CLEAR_ERROR");
+            checkIn = sinon.stub(api, "checkIn");
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         });
 
         it('Should dispatch "CHECKIN_SUCCESS" on success', () => {
-            let checkIn = sinon.stub(api, "checkIn");
-            let spy = sinon.spy(Dispatcher, "handleAction");
-
             checkIn.returns(
                 new Promise(resolve => {
                     resolve({itemAddress: "123456"});
                 })
             );
-
-
             return CartController.checkInItem('123456', '123456').then(() => {
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 2);
-                assert.strictEqual(spy.getCall(0).args[0], "CHECKIN_SUCCESS");
-
-                checkIn.restore();
-                spy.restore();
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKIN_SUCCESS");
             });
-
-
         });
 
         it('Should dispatch "ERROR" on failure', ()=> {
-            let checkIn = sinon.stub(api, "checkIn");
-            let spy = sinon.spy(Dispatcher, "handleAction");
-
             checkIn.returns(
                 new Promise((resolve, reject) => {
                     reject("Something Wrong");
                 })
             );
-
             return CartController.checkInItem('123456', '123456').then(() => {
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 2);
-                assert.strictEqual(spy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(spy.getCall(0).args[1].error, 'Something Wrong');
-
-
-
-                checkIn.restore();
-                spy.restore();
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'Something Wrong');
             });
+        });
+
+        afterEach(() => {
+            checkIn.restore();
+            dispatcherSpy.restore();
+            Dispatcher.handleAction("CLEAR_ALL_DATA");
+            Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
 
     describe('getItem',()=> {
+        let dispatcherSpy, searchItem;
 
-        afterEach(() => {
-            Dispatcher.handleAction("CLEAR_ALL_DATA");
-            Dispatcher.handleAction("CLEAR_ERROR");
+        beforeEach(() => {
+            Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456"}]});
+            searchItem = sinon.stub(api, "searchItem");
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         });
 
         it('Should dispatch "CHECKOUT_ITEM_FOUND" on success', ()=> {
             Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456", timestamp:100000000000000}]});
-            let searchItem = sinon.stub(api, "searchItem");
-            let spy = sinon.spy(Dispatcher, "handleAction");
 
             searchItem.returns(
                 new Promise(resolve => {
                     resolve({status: "AVAILABLE"});
                 })
             );
-
             return CartController.getItem("123456").then(() => {
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 2);
-                assert.strictEqual(spy.getCall(0).args[0], "CHECKOUT_ITEM_FOUND");
-
-                searchItem.restore();
-                spy.restore();
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "CHECKOUT_ITEM_FOUND");
             })
         });
 
         it('Should dispatch "ERROR" if item is checked out', () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: []});
-            let searchItem = sinon.stub(api, "searchItem");
-            let spy = sinon.spy(Dispatcher, "handleAction");
-
             searchItem.returns(
                 new Promise(resolve => {
                     resolve({
@@ -108,14 +87,18 @@ describe("CartController", () => {
             );
 
             return CartController.getItem("iGwEZUvfA").then(() => {
-                assert.isTrue(spy.called);
-                assert.strictEqual(spy.getCall(0).args.length, 2);
-                assert.strictEqual(spy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(spy.getCall(0).args[1].error, 'This item is already checked out by another student.');
-
-                searchItem.restore();
-                spy.restore();
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'This item is already checked out by another student.');
             });
+        });
+
+        afterEach(() => {
+            searchItem.restore();
+            dispatcherSpy.restore();
+            Dispatcher.handleAction("CLEAR_ALL_DATA");
+            Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
 
@@ -130,7 +113,6 @@ describe("CartController", () => {
             assert.isTrue(spy.called);
             assert.strictEqual(spy.getCall(0).args.length, 2);
             assert.strictEqual(spy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(spy.getCall(0).args[1].error, "bad thing");
         });
 
         after(() => {
