@@ -218,7 +218,6 @@ export function deleteItem(item){
     }).catch(data => {
         Dispatcher.handleAction('ERROR', {
             error: data
->>>>>>> student-file-TFF102-story
         });
     });
 }
