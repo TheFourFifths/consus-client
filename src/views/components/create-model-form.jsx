@@ -61,7 +61,7 @@ export default class CreateModelForm extends React.Component {
 
     submit(e) {
         e.preventDefault();
-        createModel(
+        ModelFormController.createModel(
             this.state.name,
             this.state.description,
             this.state.manufacturer,
@@ -74,8 +74,8 @@ export default class CreateModelForm extends React.Component {
         );
     }
 
-    allModels(e) {
-        getAllModels();
+    allModels() {
+        ModelFormController.getAllModels();
     }
 
     render() {
