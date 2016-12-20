@@ -41,7 +41,6 @@ export default class EditModelForm extends React.Component {
         }
     }
     changeName(e) {
-        console.log(e.target.value);
         this.setState({
             name: e.target.value
         });
