@@ -1,14 +1,37 @@
 import request from 'request';
 
-function del(endpoint, data) {
+let PROTOCOL = 'http';
+let HOST = 'localhost';
+let PORT = 80;
+
+export function changeProtocol(protocol) {
+    PROTOCOL = protocol;
+}
+
+export function changeHost(host) {
+    HOST = host;
+}
+
+export function changePort(port) {
+    PORT = port;
+}
+
+function call(endpoint, method, qs, json) {
     let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'DELETE',
-        qs: data
+        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
+        method
     };
+    if (typeof qs !== 'undefined') {
+        options.qs = qs;
+    }
+    if (typeof json !== 'undefined') {
+        options.json = json;
+    }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
-            body = JSON.parse(body);
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
             if (body.status === 'success') {
                 resolve(body.data);
             } else {
@@ -16,41 +39,18 @@ function del(endpoint, data) {
             }
         });
     });
+}
+
+function del(endpoint, data) {
+    return call(endpoint, 'DELETE', data);
 }
 
 function get(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'GET',
-        qs: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            body = JSON.parse(body);
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'GET', data);
 }
 
 function post(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'POST',
-        json: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'POST', undefined, data);
 }
 
 function patch(endpoint, data) {
@@ -82,9 +82,9 @@ export function checkOutItems(studentId, itemAddresses, code){
         studentId,
         itemAddresses
     };
-
-    if (code) params.adminCode = code;
-
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
     return post('checkout', params);
 }
 
@@ -114,23 +114,29 @@ export function deleteItem(item){
 }
 
 export function getAllItems() {
-    return get('item/all', {});
+    return get('item/all');
 }
 
 export function getAllModels() {
-    return get('model/all', {});
+    return get('model/all');
 }
 
 export function searchItem(address) {
-    return get('item', {address});
+    return get('item', {
+        address
+    });
 }
 
 export function searchModel(address) {
-    return get('model', {address});
+    return get('model', {
+        address
+    });
 }
 
 export function searchStudent(id) {
-    return get('student', {id});
+    return get('student', {
+        id
+    });
 }
 
 export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {

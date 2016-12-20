@@ -11,7 +11,6 @@ describe('ModelFormController', () => {
 
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-
             createModel = sinon.stub(api, "createModel");
         });
 
@@ -42,12 +41,11 @@ describe('ModelFormController', () => {
                     reject('Bad things happened');
                 })
             );
-
             return ModelFormController.createModel('OIUIO').then(() => {
-                assert.fail;
-            }).catch((e) => {
-                assert.strictEqual(e.message, 'The server was not able to create the item. Is the server down?');
-            });
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'ERROR');
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to create the model. Is the server down?');
+            })
         });
 
         afterEach(() => {
@@ -59,19 +57,20 @@ describe('ModelFormController', () => {
 
     describe("getModels",() => {
         let dispatcherSpy, getAllModels;
-        before(() => {
+        beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             getAllModels = sinon.stub(api, "getAllModels");
-            getAllModels.returns(
-                new Promise(resolve => {
-                    resolve({models:[]});
-                })
-            );
+
         });
 
         it('Dispatches "MODELS_RECEIVED" when done and pushes "/models" to hashHistory',()=>{
             router.hashHistory = {};
             let spy = router.hashHistory.push = sinon.spy();
+            getAllModels.returns(
+                new Promise(resolve => {
+                    resolve({models:[]});
+                })
+            );
 
             return ModelFormController.getModels().then(() => {
                 assert.isTrue(spy.called);
@@ -83,7 +82,7 @@ describe('ModelFormController', () => {
             });
         });
 
-        after(() => {
+        afterEach(() => {
             dispatcherSpy.restore();
             getAllModels.restore();
         });
