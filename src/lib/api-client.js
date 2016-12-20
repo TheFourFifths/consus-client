@@ -206,19 +206,7 @@ export function getModelsForNewItem() {
         hashHistory.push('/items/new');
     });
 }
-<<<<<<< HEAD
 
-export function submitStudentList(upload) {
-    console.log(upload.entries()[0]);
-    post('student/upload', {
-        file: upload
-    }).then(data => {
-        Dispatcher.handleAction('FILE_UPLOADED', data);
-        hashHistory.push('/');
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'The provided file was rejected'
-=======
 export function deleteItem(item){
     return del('item', {
         itemAddress: item.address,
