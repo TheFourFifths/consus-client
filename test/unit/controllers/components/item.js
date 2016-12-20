@@ -7,12 +7,13 @@ import ItemController from '../../../../.dist/controllers/components/item';
 describe("ItemController", () => {
     describe("deleteItem",() => {
         let dispatcherSpy, deleteItem;
+
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             deleteItem = sinon.stub(api, "deleteItem");
         });
 
-        it('Dispatches "ITEMS_RECEIVED" after Item is deleted',()=>{
+        it('Dispatches "ITEMS_RECEIVED" after Item is deleted',() => {
             deleteItem.returns(
                 new Promise(resolve => {
                     resolve({items:[]});
@@ -37,7 +38,6 @@ describe("ItemController", () => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "NO");
             });
         });
         
@@ -49,12 +49,13 @@ describe("ItemController", () => {
     
     describe("getItem",() => {
         let dispatcherSpy, searchItem;
+
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             searchItem = sinon.stub(api, "searchItem");
         });
 
-        it('Dispatches "ITEM_FOUND" when Item is found',()=>{
+        it('Dispatches "ITEM_FOUND" when Item is found',() => {
 
             searchItem.returns(
                 new Promise(resolve => {
