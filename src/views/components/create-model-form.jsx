@@ -75,7 +75,7 @@ export default class CreateModelForm extends React.Component {
     }
 
     allModels() {
-        ModelFormController.getAllModels();
+        ModelFormController.getModels();
     }
 
     render() {
