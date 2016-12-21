@@ -19,12 +19,16 @@ export default class CartPanel extends React.Component {
         if(regex.test(e.target.value)) {
             try {
                 let result = readAddress(e.target.value);
-                assert.strictEqual(result.type, 'item');
                 let student = this.props.student;
-                if (student.items.some(item => item.address === e.target.value)) {
-                    CartController.checkInItem(student.id, e.target.value);
-                } else {
-                    CartController.getItem(e.target.value);
+                if(result.type == 'item') {
+                    if (student.items.some(item => item.address === e.target.value)) {
+                        CartController.checkInItem(student.id, e.target.value);
+                    } else {
+                        CartController.getItem(e.target.value);
+                    }
+                } else if(result.type == 'model') {
+                    CartController.getModel(e.target.value);
+                    // A model has been received.
                 }
                 this.setState({
                     address: ''
@@ -41,13 +45,13 @@ export default class CartPanel extends React.Component {
     }
 
     renderEquipment() {
-        if(this.props.itemAddresses.length === 0) {
+        if(this.props.equipmentAddresses.length === 0) {
             return <div><br/><i>Cart is empty.</i><br/><br/></div>;
         }
         return (
             <ul>
-                {this.props.itemAddresses.map((itemAddress, i) => {
-                    return <li key={i}>{itemAddress}</li>;
+                {this.props.equipmentAddresses.map((address, i) => {
+                    return <li key={i}>{address}</li>;
                 })}
             </ul>
         );

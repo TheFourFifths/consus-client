@@ -1,4 +1,4 @@
-import { checkOutItems, searchStudent } from '../../lib/api-client';
+import { checkOutContents, searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 
@@ -16,8 +16,8 @@ export default class StudentController{
         Dispatcher.handleAction('CLEAR_ITEMS');
     }
 
-    static checkout(id, items) {
-        return checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
+    static checkout(id, equipmentAddresses) {
+        return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);

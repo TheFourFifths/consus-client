@@ -1,4 +1,4 @@
-import { searchItem, checkIn} from '../../lib/api-client';
+import { searchItem, checkIn, searchModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class CartController {
@@ -22,6 +22,16 @@ export default class CartController {
                     error: 'This item is already checked out by another student.'
                 });
             Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", item);
+        });
+    }
+
+    static getModel(address) {
+        return searchModel(address).then(model => {
+            // if (model.inStock === 0)
+            //     return Dispatcher.handleAction('ERROR', {
+            //         error: 'All ' + model.name + 's have been checked out.'
+            //     });
+            Dispatcher.handleAction("CHECKOUT_MODEL_FOUND", model);
         });
     }
 

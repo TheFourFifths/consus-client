@@ -60,10 +60,10 @@ export function checkIn(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses, code){
+export function checkOutContents(studentId, equipmentAddresses, code){
     let params = {
         studentId,
-        itemAddresses
+        equipmentAddresses
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;

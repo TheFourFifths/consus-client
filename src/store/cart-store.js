@@ -1,8 +1,8 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
-import { checkOutItems } from '../lib/api-client';
+import { checkOutContents } from '../lib/api-client';
 
-let items = [];
+let contents = [];
 
 let timer = null;
 
@@ -12,8 +12,16 @@ function clearTimer() {
 }
 
 class CartStore extends Store {
-    getItems() {
-        return items;
+    getContents() {
+        return contents;
+    }
+
+    contains(equipment) {
+        contents.forEach((c) => {
+            if(equipment.address === c.address){
+                return true;
+            }
+        });
     }
 
     isOnTimeout(){
@@ -39,28 +47,47 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
         address: data.address,
         status: data.status
     };
-    items.push(item);
+    contents.push(item);
     timer = setTimeout(() => {
-        checkOutItems(StudentStore.getStudent().id, items.map(item => item.address));
+        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
         timer = null;
     }, store.TIMEOUT_TIME);
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
+    if(store.isOnTimeout()){
+        clearTimer();
+    }
+    let model = {
+        address: data.address
+    }
+    if(store.contains(model)) {
+        //Increment amount of model being checked out
+    } else {
+        contents.push(model);
+        timer = setTimeout(() => {
+            checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+            timer = null;
+        }, store.TIMEOUT_TIME);
+    }
     store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     clearTimer();
     store.waitFor(StudentStore);
-    items = [];
+    contents = [];
     store.emitChange();
 });
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
-    items = [];
+    contents = [];
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ITEMS', () => {
-    items = [];
+store.registerHandler('CLEAR_contents', () => {
+    contents = [];
     store.emitChange();
 });
 

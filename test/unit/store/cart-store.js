@@ -10,7 +10,7 @@ describe('CartStore', () => {
     });
 
     it('should instantiate without any items', () => {
-        assert.strictEqual(CartStore.getItems().length, 0);
+        assert.strictEqual(CartStore.getContents().length, 0);
     });
 
     it('should add item to list', () => {
@@ -18,8 +18,8 @@ describe('CartStore', () => {
             address: '123',
             status: 'AVAILABLE'
         });
-        assert.strictEqual(CartStore.getItems()[0].address, '123');
-        assert.strictEqual(CartStore.getItems()[0].status, 'AVAILABLE');
+        assert.strictEqual(CartStore.getContents()[0].address, '123');
+        assert.strictEqual(CartStore.getContents()[0].status, 'AVAILABLE');
     });
 
     it('should clear items on checkout',() => {
@@ -32,9 +32,9 @@ describe('CartStore', () => {
             address: '123',
             status: 'AVAILABLE'
         });
-        assert.strictEqual(CartStore.getItems()[0].address, '123');
+        assert.strictEqual(CartStore.getContents()[0].address, '123');
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
-        assert.strictEqual(CartStore.getItems().length,0);
+        assert.strictEqual(CartStore.getContents().length,0);
     });
 
     it('should clear items on cancel', () => {
@@ -47,9 +47,9 @@ describe('CartStore', () => {
           address: '123',
           status: 'AVAILABLE'
       });
-      assert.strictEqual(CartStore.getItems()[0].address, '123');
+      assert.strictEqual(CartStore.getContents()[0].address, '123');
       Dispatcher.handleAction('CLEAR_ITEMS');
-      assert.strictEqual(CartStore.getItems().length,0);
+      assert.strictEqual(CartStore.getContents().length,0);
     });
 
     it('times out', function(done) {
