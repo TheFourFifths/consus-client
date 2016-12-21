@@ -153,4 +153,16 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /Invalid Admin Code/);
     });
 
+    it('should add a toast when a model is updated', () => {
+        let modelName = 'What a name';
+        let modelAddres = 'Wowza';
+        Dispatcher.handleAction('MODEL_UPDATED', {
+            name: modelName,
+            address: modelAddres
+
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddres}) was updated!`);
+    });
+
 });
