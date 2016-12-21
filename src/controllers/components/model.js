@@ -20,10 +20,10 @@ export default class ModelController {
         }).then(() => {
             return getAllModels().then(models => {
                 Dispatcher.handleAction("MODELS_RECEIVED", models);
-            }).catch(error => {
-                Dispatcher.handleAction('ERROR', {
-                    error: error.message
-                });
+            });
+        }).catch(error => {
+            Dispatcher.handleAction('ERROR', {
+                error: error.message
             });
         });
     }

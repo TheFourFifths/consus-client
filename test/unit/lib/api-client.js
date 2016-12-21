@@ -13,7 +13,8 @@ import {
     getAllModels,
     searchItem,
     searchModel,
-    searchStudent
+    searchStudent,
+    deleteModel
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -297,6 +298,38 @@ describe('API Client', () => {
         });
     });
 
+    it('deleteModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                model: {
+                    address: 'm8y7nEtAe',
+                    name: 'Resistor',
+                    description: 'V = IR',
+                    manufacturer: 'Pancakes R Us',
+                    vendor: 'Mouzer',
+                    location: 'Shelf 14',
+                    isFaulty: false,
+                    faultDescription: '',
+                    price: 10.50,
+                    count: 20
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'delete',
+            endpoint: '/api/model',
+            request: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return deleteModel('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('searchStudent', () => {
         let response = {
             status: 'success',
@@ -315,11 +348,10 @@ describe('API Client', () => {
                 id: '123456'
             },
             response
-        })
+        });
         return searchStudent('123456').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
     });
-
 });
