@@ -47,7 +47,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkin',
-            request: {
+            json: {
                 studentId: '123456',
                 itemAddress: 'iGwEZUvfA'
             },
@@ -66,7 +66,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            request: {
+            json: {
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
             },
@@ -85,7 +85,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            request: {
+            json: {
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 adminCode: 'abcdef'
@@ -109,7 +109,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/item',
-            request: {
+            json: {
                 modelAddress: 'm8y7nEtAe'
             },
             response
@@ -139,7 +139,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/model',
-            request: {
+            json: {
                 name: 'Resistor',
                 description: 'V = IR',
                 manufacturer: 'Live',
@@ -173,7 +173,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'delete',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
             },
@@ -202,7 +202,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item/all',
-            request: {},
+            qs: {},
             response
         });
         return getAllItems().then(data => {
@@ -232,7 +232,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
-            request: {},
+            qs: {},
             response
         });
         return getAllModels().then(data => {
@@ -255,7 +255,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 address: 'iGwEZUvfA'
             },
             response
@@ -287,7 +287,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model',
-            request: {
+            qs: {
                 address: 'm8y7nEtAe'
             },
             response
@@ -312,7 +312,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response
@@ -326,7 +326,7 @@ describe('API Client', () => {
     it('updateModel', () => {
         let response = {
             status: 'success',
-            json: {
+            data: {
                 address: 'm8y7nEtAe',
                 name: 'Resistor',
                 description: 'V = IR',
