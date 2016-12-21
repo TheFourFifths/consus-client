@@ -3,8 +3,8 @@ import { hashHistory } from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class ModelFormController {
-    static createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-        return createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count).then(model=> {
+    static createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
+        return createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count).then(model=> {
             Dispatcher.handleAction("MODEL_CREATED", model);
             hashHistory.push('/models');
         }).catch(() => {
