@@ -54,21 +54,9 @@ function post(endpoint, data) {
 }
 
 function patch(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'PATCH',
-        json: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'PATCH', undefined, data);
 }
+
 //////////////////////
 export function checkIn(studentId, itemAddress){
     return post('checkin', {

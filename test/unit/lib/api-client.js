@@ -13,7 +13,8 @@ import {
     getAllModels,
     searchItem,
     searchModel,
-    searchStudent
+    searchStudent,
+    updateModel
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -315,8 +316,57 @@ describe('API Client', () => {
                 id: '123456'
             },
             response
-        })
+        });
         return searchStudent('123456').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('updateModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Pancakes R Us',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                isFaulty: false,
+                faultDescription: '',
+                price: 10.50,
+                count: 20,
+                items: [ "iGwEZUvfA", "iGwEZVHHE", "iGwEZVeaT"]
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: '/api/model',
+            request: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Pancakes R Us',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                isFaulty: false,
+                faultDescription: '',
+                price: 10.50
+            },
+            response
+        });
+        return updateModel(
+            'm8y7nEtAe',
+            'Resistor',
+            'V = IR',
+            'Pancakes R Us',
+            'Mouzer',
+            'Shelf 14',
+            false,
+            '',
+            10.50,
+        ).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
