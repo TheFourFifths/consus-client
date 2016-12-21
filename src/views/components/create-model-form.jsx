@@ -70,7 +70,6 @@ export default class CreateModelForm extends React.Component {
     submit(e) {
         e.preventDefault();
         let count = (this.state.allowCheckout) ? this.state.count : 0;
-        console.log(count);
         ModelFormController.createModel(
             this.state.name,
             this.state.description,
