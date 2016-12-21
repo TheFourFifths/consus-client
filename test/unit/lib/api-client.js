@@ -326,7 +326,7 @@ describe('API Client', () => {
     it('updateModel', () => {
         let response = {
             status: 'success',
-            data: {
+            json: {
                 address: 'm8y7nEtAe',
                 name: 'Resistor',
                 description: 'V = IR',
@@ -343,8 +343,10 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'patch',
             endpoint: '/api/model',
-            request: {
-                address: 'm8y7nEtAe',
+            qs: {
+                address: 'm8y7nEtAe'
+            },
+            json: {
                 name: 'Resistor',
                 description: 'V = IR',
                 manufacturer: 'Pancakes R Us',

@@ -53,8 +53,8 @@ function post(endpoint, data) {
     return call(endpoint, 'POST', undefined, data);
 }
 
-function patch(endpoint, data) {
-    return call(endpoint, 'PATCH', undefined, data);
+function patch(endpoint, qs, data) {
+    return call(endpoint, 'PATCH', qs, data);
 }
 
 //////////////////////
@@ -128,8 +128,7 @@ export function searchStudent(id) {
 }
 
 export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
-    return patch('model', {
-        address: address,
+    return patch('model', { address }, {
         name: name,
         description: description,
         manufacturer: manufacturer,

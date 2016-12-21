@@ -34,7 +34,7 @@ export default class MockServer {
                 if (qsIndex !== -1) {
                     endpoint = endpoint.substring(0, qsIndex);
                 }
-                let request = ['get', 'delete'].indexOf(req.method.toLowerCase()) !== -1 ? req.query : req.body;
+                let request = req.json + req.qs
                 let response = {
                     status: 'failure',
                     message: 'Unexpected call'
@@ -60,7 +60,10 @@ export default class MockServer {
     expect(call) {
         assert.isString(call.method, 'Call method must be a string.');
         assert.isString(call.endpoint, 'Call endpoint must be a string.');
-        assert.isObject(call.request, 'Call request must be an object.');
+        if(call.json !== undefined)
+            assert.isObject(call.json, 'Call json  must be an object.');
+        if(call.qs !== undefined)
+            assert.isObject(call.qs, 'Call query string must be an object');
         assert.isObject(call.response, 'Call response must be an object.');
         this.expectedCalls.push(call);
     }
