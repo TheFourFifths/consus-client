@@ -9,7 +9,7 @@ export default class ModelFormController {
             hashHistory.push('/models');
         }).catch(() => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to create the item. Is the server down?'
+                error: 'The server was not able to create the model. Is the server down?'
             });
         });
     }
