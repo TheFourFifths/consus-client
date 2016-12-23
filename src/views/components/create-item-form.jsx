@@ -1,8 +1,7 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import ModelStore from '../../store/model-store';
-import { createItem } from '../../lib/api-client';
+import ModelStore from '../../store/model-store'
+import ItemFormController from '../../controllers/components/create-item-form';
 
 export default class CreateItemForm extends ListenerComponent {
 
@@ -28,11 +27,9 @@ export default class CreateItemForm extends ListenerComponent {
     submit(e) {
         e.preventDefault();
         if (this.state.modelAddress === '') {
-            Dispatcher.handleAction('CREATE_TOAST', {
-                text: 'Please select a model.'
-            });
+            ItemFormController.popNoModelSelectedToast();
         } else {
-            createItem(this.state.modelAddress);
+            ItemFormController.createItem(this.state.modelAddress);
         }
     }
 

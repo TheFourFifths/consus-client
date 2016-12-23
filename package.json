@@ -1,7 +1,7 @@
 {
   "name": "consus-client",
   "description": "The client application for Consus, an inventory management system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "The Four Fiths",
   "contributors": [
     "Jordan Longato",
@@ -40,11 +40,13 @@
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.16.3",
     "babelify": "^7.3.0",
+    "body-parser": "^1.15.2",
     "chai": "3.5.0",
     "consus-core": "^0.5.6",
     "cross-env": "^3.1.1",
     "electron-prebuilt": "1.4.2",
     "eslint-plugin-react": "^6.3.0",
+    "express": "^4.14.0",
     "grunt": "1.0.1",
     "grunt-babel": "6.0.0",
     "grunt-browserify": "^5.0.0",
@@ -62,6 +64,7 @@
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-router": "^2.8.1",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "sinon": "^1.17.6"
   }
 }
