@@ -109,7 +109,7 @@ None.
 
 ## CLEAR_ITEMS
 
-Dispatched when all items should be removed. This name is it currently only removes items from the CartStore.
+Dispatched when all items should be removed. It currently only removes items from the CartStore.
 
 ### Data
 
