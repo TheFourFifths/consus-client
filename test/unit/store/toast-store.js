@@ -173,7 +173,7 @@ describe('ToastStore', () => {
             address: modelAddress
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName}(${modelAddress}) was deleted`)
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
     });
 
 });
