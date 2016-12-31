@@ -53,10 +53,16 @@ function post(endpoint, data) {
     return call(endpoint, 'POST', undefined, data);
 }
 
+function patch(endpoint, qs, data) {
+    return call(endpoint, 'PATCH', qs, data);
+}
+
 //////////////////////
 export function deleteModel(modelAddress) {
     return del('model', { modelAddress });
 }
+
+
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -126,3 +132,15 @@ export function searchStudent(id) {
     });
 }
 
+export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+    return patch('model', { address }, {
+        name: name,
+        description: description,
+        manufacturer: manufacturer,
+        vendor: vendor,
+        location: location,
+        isFaulty: isFaulty,
+        faultDescription: faultDescription,
+        price: price
+    });
+}

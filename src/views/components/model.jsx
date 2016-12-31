@@ -1,6 +1,7 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
+import { hashHistory } from 'react-router';
 
 export default class Model extends React.Component {
 
@@ -20,6 +21,9 @@ export default class Model extends React.Component {
                 });
             });
         }
+    }
+    editModel(){
+        hashHistory.push(`/model/edit/${this.state.model.address}`);
     }
 
     deleteModel() {
@@ -60,7 +64,7 @@ export default class Model extends React.Component {
                 </div>
                 <div className="actionArea">
                     <img src="../assets/images/add.svg" />
-                    <img src="../assets/images/edit.svg" />
+                    <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg" />
                     <img onClick={this.deleteModel.bind(this)} src="../assets/images/delete.svg" />
                 </div>
                 <div className="clear"> </div>
