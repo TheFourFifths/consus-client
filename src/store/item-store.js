@@ -2,6 +2,7 @@ import { Store } from 'consus-core/flux';
 
 let item = null;
 let items = [];
+let overdueItems = [];
 
 class ItemStore extends Store {
     isOverdue(item){
@@ -13,6 +14,9 @@ class ItemStore extends Store {
     }
     getAllItems(){
         return items;
+    }
+    getOverdueItems(){
+        return overdueItems;
     }
 }
 
