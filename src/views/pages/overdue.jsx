@@ -1,5 +1,5 @@
 import React from 'react';
-import ListenerComponent from '../../lib/listener-component';
+import ListenerComponent from '../../lib/listener-component.jsx';
 import Item from '../components/item.jsx';
 import OverdueItemsController from '../../controllers/pages/overdue';
 import { Link } from 'react-router';
