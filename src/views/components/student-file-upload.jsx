@@ -1,6 +1,5 @@
 import React from 'react';
 import StudentFileUploadFormController from '../../controllers/components/student-file-upload-form';
-import FileInput from 'react-simple-file-input';
 export default class StudentFileUpload extends React.Component {
 
     constructor(){
@@ -11,25 +10,31 @@ export default class StudentFileUpload extends React.Component {
     }
 
     changeFile(e) {
-        StudentFileUploadFormController.submitFile(e.target.value);
+        this.setState({
+            file: e.target.files[0]
+        });
     }
 
     submit(e) {
+        let reader =  new FileReader;
+        reader.onload = function(e) {
+            let data = reader.result;
+            console.log(data);
+            StudentFileUploadFormController.uploadStudents(data);
+        };
         e.preventDefault();
-        StudentFileUploadFormController.submitFile();
-    }
-    handleFileSelected(event, file){
-        console.log('test');
+        console.log(this.state.file);
+        reader.readAsDataURL(this.state.file);
+
     }
     render() {
         return(
             <div>
+                <form onSubmit={this.submit.bind(this)}>
                 To upload a file:
-                <FileInput
-                    readAs='binary'
-                    handleFileSelected= {this.handleFileSelected}>
-                    Click Here
-                </FileInput>
+                    <input type="file" onChange={this.changeFile.bind(this)} />
+                    <input type="submit" value="Submit" />
+                </form>
             </div>
         );
     }

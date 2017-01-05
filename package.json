@@ -65,7 +65,6 @@
     "react-dom": "^15.4.1",
     "react-router": "^2.8.1",
     "request": "^2.75.0",
-    "sinon": "^1.17.6",
-    "react-simple-file-input": "latest"
+    "sinon": "^1.17.6"
   }
 }

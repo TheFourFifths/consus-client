@@ -121,3 +121,7 @@ export function searchStudent(id) {
         id
     });
 }
+
+export function uploadStudents(data){
+    return get('model/all');
+}
