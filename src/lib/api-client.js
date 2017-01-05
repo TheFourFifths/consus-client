@@ -121,7 +121,3 @@ export function searchStudent(id) {
         id
     });
 }
-
-export function uploadStudents(filePath) {
-    return post('student', {});
-}
