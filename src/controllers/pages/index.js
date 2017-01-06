@@ -16,9 +16,9 @@ export default class IndexController {
             hashHistory.push('/models');
         });
     }
-    
+
     static getOverdueItems() {
-        return getOverdueItems.then(items => {
+        return getOverdueItems().then(items => {
             Dispatcher.handleAction("OVERDUE_ITEMS_RECEIVED", items);
             hashHistory.push('/overdue');
         });

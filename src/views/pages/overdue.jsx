@@ -1,5 +1,5 @@
 import React from 'react';
-import ListenerComponent from '../../lib/listener-component';
+import ListenerComponent from '../../lib/listener-component.jsx';
 import Item from '../components/item.jsx';
 import OverdueItemsController from '../../controllers/pages/overdue';
 import { Link } from 'react-router';
@@ -30,7 +30,7 @@ export default class OverdueItems extends ListenerComponent {
         return <div>
             <h1>Overdue Items</h1>
             <Link to="/">Home</Link>
-            {this.state.overdueItems( (item, key) => {
+            {this.state.overdueItems.map( (item, key) => {
                 return <div key={key}>
                     <Item item={item} />
                 </div>
