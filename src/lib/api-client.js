@@ -104,6 +104,10 @@ export function getAllModels() {
     return get('model/all');
 }
 
+export function getOverdueItems() {
+    return get('item/overdue');
+}
+
 export function searchItem(address) {
     return get('item', {
         address
