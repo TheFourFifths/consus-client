@@ -21,7 +21,6 @@ export default class OverdueItems extends ListenerComponent {
     }
 
     getState() {
-        console.log('Overdue', ItemStore.getOverdueItems());
         return {
             overdueItems: ItemStore.getOverdueItems()
         }
