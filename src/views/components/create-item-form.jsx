@@ -38,10 +38,13 @@ export default class CreateItemForm extends ListenerComponent {
             <div className='create-item-form'>
                 <h1>Create an Item</h1>
                 <form onSubmit={this.submit.bind(this)}>
-                    <select onChange={this.changeModel.bind(this)} >
-                        <option selected key='foo' value='bar' disabled>Choose a Model</option>
+                    <select defaultValue='default' onChange={this.changeModel.bind(this)} >
+                        <option key='def' value='default' disabled>Choose a Model</option>
                         {this.state.models.map((model, key) => {
-                            return <option key={key} value={model.address}>{ model.name }</option>
+                            console.log(key);
+                            if(!model.allowCheckout) {
+                                return <option key={key} value={model.address}>{ model.name }</option>
+                            }
                         })}
                     </select><br/>
                     <input type='submit' value='Create Item' />
