@@ -20,7 +20,9 @@ describe("OverdueItemsController", () => {
         it('Dispatches "OVERDUE_ITEMS_RECEIVED" upon receiving items', () => {
             overdueStub.returns(
                 new Promise( resolve => {
-                    resolve();
+                    resolve({
+                        items:[]
+                    });
                 })
             );
 

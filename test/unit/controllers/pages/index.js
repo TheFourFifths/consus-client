@@ -81,4 +81,41 @@ describe("IndexController", () => {
         });
     });
 
+    describe("getOverdueItems", () => {
+        let routerSpy, dispatcherSpy, getOverdueItems;
+
+        before(() => {
+            router.hashHistory = {};
+            routerSpy = router.hashHistory.push = sinon.spy();
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            getOverdueItems = sinon.stub(api, "getOverdueItems");
+        });
+
+
+        it('Dispatches "OVERDUE_ITEMS_RECEIVED" and pushes "/overdue" to hashHistory when items are received', () => {
+            getOverdueItems.returns(
+                new Promise(resolve => {
+                    resolve({
+                        items:[]
+                    });
+                })
+            );
+
+            return IndexController.getOverdueItems().then(() => {
+                assert.isTrue(routerSpy.called);
+                assert.isTrue(dispatcherSpy.called);
+                assert.lengthOf(routerSpy.getCall(0).args, 1);
+                assert.strictEqual(routerSpy.getCall(0).args[0], "/overdue");
+                assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "OVERDUE_ITEMS_RECEIVED");
+
+            });
+        });
+
+        after(() => {
+            dispatcherSpy.restore();
+            getOverdueItems.restore();
+        });
+    });
+
 });
