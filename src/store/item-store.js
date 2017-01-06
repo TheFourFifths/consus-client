@@ -27,6 +27,11 @@ store.registerHandler('ITEM_FOUND', data => {
     store.emitChange();
 });
 
+store.registerHandler("OVERDUE_ITEMS_RECEIVED", data => {
+    overdueItems = data.items;
+    store.emitChange();
+});
+
 store.registerHandler('NO_ITEM_FOUND', () => {
     item = null;
     store.emitChange();
