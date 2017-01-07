@@ -123,5 +123,5 @@ export function searchStudent(id) {
 }
 
 export function uploadStudents(data){
-    return get('model/all');
+    return post('student', {data});
 }

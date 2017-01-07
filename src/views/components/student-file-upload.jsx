@@ -16,23 +16,15 @@ export default class StudentFileUpload extends React.Component {
     }
 
     submit(e) {
-        let reader =  new FileReader;
-        reader.onload = function(e) {
-            let data = reader.result;
-            console.log(data);
-            StudentFileUploadFormController.uploadStudents(data);
-        };
         e.preventDefault();
-        console.log(this.state.file);
-        reader.readAsDataURL(this.state.file);
-
+        StudentFileUploadFormController.uploadStudents(this.state.file);
     }
     render() {
         return(
             <div>
                 <form onSubmit={this.submit.bind(this)}>
                 To upload a file:
-                    <input type="file" onChange={this.changeFile.bind(this)} />
+                    <input type="file" onChange={this.changeFile.bind(this)} accept=".xls,.xlsx, .xlsm" />
                     <input type="submit" value="Submit" />
                 </form>
             </div>

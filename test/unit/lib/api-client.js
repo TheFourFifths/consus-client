@@ -13,7 +13,8 @@ import {
     getAllModels,
     searchItem,
     searchModel,
-    searchStudent
+    searchStudent,
+    uploadStudents
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -315,8 +316,29 @@ describe('API Client', () => {
                 id: '123456'
             },
             response
-        })
+        });
         return searchStudent('123456').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('uploadStudents', () => {
+        let response = {
+            status: 'success',
+            data: {
+                id: '123456'
+            }
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: '/api/student',
+            request: {
+                data: '123456'
+            },
+            response
+        });
+        return uploadStudents('123456').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

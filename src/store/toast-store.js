@@ -72,4 +72,13 @@ store.registerHandler('INVALID_CODE', () => {
     store.emitChange();
 });
 
+store.registerHandler('STUDENTS_UPLOADED', () => {
+    addToast('Students uploaded successfully');
+    store.emitChange();
+});
+
+store.registerHandler('FILE_UNSUPPORTED', () => {
+    addToast('Unknown file extension. File must be in excel format!');
+    store.emitChange();
+});
 export default store;
