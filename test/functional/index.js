@@ -2,7 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 
-describe.only('application launch', function () {
+describe('application launch', function () {
 
     this.timeout(10000);
     let app;
