@@ -78,7 +78,7 @@ store.registerHandler('STUDENTS_UPLOADED', () => {
 });
 
 store.registerHandler('FILE_UNSUPPORTED', () => {
-    addToast('Unknown file extension. File must be in excel format!');
+    addToast('Unknown file extension. File must be in Excel format!');
     store.emitChange();
 });
 export default store;

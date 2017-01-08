@@ -162,7 +162,7 @@ describe('ToastStore', () => {
     it('should add a toast when students failed to uploaded', () => {
         Dispatcher.handleAction('FILE_UNSUPPORTED');
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in excel format!');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in Excel format!');
     });
 
 });
