@@ -41,3 +41,4 @@ npm start
         * `pages`: Entire pages
 * `test`: The project's tests
     * `unit`: Unit tests
+    * `functional`: Functional tests
