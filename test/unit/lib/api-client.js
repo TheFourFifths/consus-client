@@ -326,9 +326,6 @@ describe('API Client', () => {
     it('uploadStudents', () => {
         let response = {
             status: 'success',
-            data: {
-                id: '123456'
-            }
         };
         mockServer.expect({
             method: 'post',
