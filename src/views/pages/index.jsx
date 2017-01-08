@@ -8,7 +8,7 @@ export default class Index extends React.Component {
             <div id='index'>
                 <div id='links'>
                   <button onClick={IndexController.getModels}>View all models</button><br/>
-                  <button onClick={IndexController.getItems}>View all Items</button><br/>
+                  <button onClick={IndexController.getItems}>View all items</button><br/>
                 </div>
             </div>
         );

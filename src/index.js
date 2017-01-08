@@ -14,8 +14,10 @@ function createWindow() {
         show: false
     });
 
-    // Open developer tools
-    window.webContents.openDevTools();
+    // Open developer tools when in development mode
+    if (process.argv.indexOf('--dev') > -1) {
+        window.webContents.openDevTools();
+    }
 
     // Load the app's webpage
     window.loadURL('file://' + __dirname + '/index.html');
