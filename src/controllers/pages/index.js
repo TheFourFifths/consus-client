@@ -18,8 +18,9 @@ export default class IndexController {
     }
 
     static getOverdueItems() {
-        return getOverdueItems().then(items => {
-            Dispatcher.handleAction("OVERDUE_ITEMS_RECEIVED", items);
+        return Promise.all([getOverdueItems(), getAllModels()]).then(results => {
+            Dispatcher.handleAction("MODELS_RECEIVED", results[1]);
+            Dispatcher.handleAction("OVERDUE_ITEMS_RECEIVED", results[0]);
             hashHistory.push('/overdue');
         });
     }
