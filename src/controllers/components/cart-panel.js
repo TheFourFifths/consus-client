@@ -4,9 +4,10 @@ import { Dispatcher } from 'consus-core/flux';
 export default class CartController {
 
     static checkInItem(id, itemAddress) {
-        return checkIn(id, itemAddress).then(item => {
+        return checkIn(id, itemAddress).then(data => {
             Dispatcher.handleAction('CHECKIN_SUCCESS', {
-                itemAddress: item.itemAddress
+                itemAddress: data.itemAddress,
+                modelName: data.modelName
             });
         }).catch(error => {
             Dispatcher.handleAction('ERROR', {

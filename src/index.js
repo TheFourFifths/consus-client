@@ -19,8 +19,13 @@ function createWindow() {
         window.webContents.openDevTools();
     }
 
+    // Capture an optional port from the command line args
+    let port = process.argv.reduce((port, arg) => {
+        return (arg.match(/^--port=(\d+)$/) || [0, port])[1];
+    }, 80);
+
     // Load the app's webpage
-    window.loadURL('file://' + __dirname + '/index.html');
+    window.loadURL(`file://${__dirname}/index.html?port=${port}`);
 
     // Show the application once it's loaded
     window.once('ready-to-show', () => {

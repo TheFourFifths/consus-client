@@ -179,5 +179,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['eslint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
+    grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli']);
     grunt.registerTask('package', ['build', 'electron', 'compress']);
 };
