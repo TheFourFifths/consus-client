@@ -21,7 +21,7 @@ function createWindow() {
 
     // Capture an optional port from the command line args
     let port = process.argv.reduce((port, arg) => {
-        return (arg.match(/^--port[= ](\d+)$/) || [0, port])[1];
+        return (arg.match(/^--port=(\d+)$/) || [0, port])[1];
     }, 80);
 
     // Load the app's webpage
