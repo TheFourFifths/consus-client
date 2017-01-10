@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 
 describe.only('item checkout', function () {
 
-    this.timeout(100000);
+    this.timeout(10000);
     let app;
     let mockServer = new MockServer();
 
@@ -118,9 +118,7 @@ describe.only('item checkout', function () {
             endpoint: '/api/checkin',
             request: {
                 studentId: '123456',
-                items: [
-                    'iGwEZUvfA'
-                ]
+                itemAddress: 'iGwEZUvfA'
             },
             response: {
                 status: 'success',
