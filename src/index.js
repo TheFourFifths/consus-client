@@ -20,12 +20,9 @@ function createWindow() {
     }
 
     // Capture an optional port from the command line args
-    let port = 80;
-    process.argv.forEach(arg => {
-        if (arg.substring(0, 7) === '--port=') {
-            port = arg.substring(7);
-        }
-    });
+    let port = process.argv.reduce((port, arg) => {
+        return (arg.match(/^--port[= ](\d+)$/) || [0, port])[1];
+    }, 80);
 
     // Load the app's webpage
     window.loadURL(`file://${__dirname}/index.html?port=${port}`);
