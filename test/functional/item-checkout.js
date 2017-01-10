@@ -31,15 +31,6 @@ describe('item checkout', function () {
         mockServer.clearExpectations();
     });
 
-    it('loads the homepage', () => {
-        return app.client.getText('#links button:first-child').then(text => {
-            assert.strictEqual(text, 'View all models');
-            return app.client.getText('#links button:nth-of-type(2)');
-        }).then(text => {
-            assert.strictEqual(text, 'View all items');
-        });
-    });
-
     it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
