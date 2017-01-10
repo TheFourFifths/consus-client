@@ -31,6 +31,8 @@ function createWindow() {
     window.on('closed', () => {
         window = null;
     });
+
+    window.setMenu(null);
 }
 
 // Create window once Electron is initialized
