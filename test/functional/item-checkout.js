@@ -86,49 +86,92 @@ describe('item checkout', function () {
             return app.client.getText('#student .student .id');
         }).then(id => {
             assert.strictEqual(id, '123456');
-            return app.client.elements('#student .student .equipment .item-info');
-        }).then(items => {
-            assert.lengthOf(items.value, 1);
-            return app.client.getText('#student .student .equipment .item-info');
-        }).then(item => {
-            assert.include(item, 'Resistor');
-            assert.include(item, 'iGwEZUvfA');
             mockServer.validate();
         });
     });
 
     it('checks out the item', () => {
+
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/item',
+            request: {
+                address: 'iGwEZUvfA'
+            },
+            response:{
+                "status":"success",
+                "data":{
+                    "address":"iGwEZUvfA",
+                    "modelAddress":"m8y7nEtAe",
+                    "status":"AVAILABLE",
+                    "isFaulty":false,
+                    "faultDescription":""
+                }
+           }
+        });
+
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
             request: {
+                adminCode: null,
                 studentId: '123456',
-                itemAddress: 'iGwEZUvfA'
+                itemAddresses: ['iGwEZUvfA']
+            },
+            response: {
+                status: 'success'
+            }
+        });
+
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/student',
+            request: {
+              id: "123456"
             },
             response: {
                 status: 'success',
                 data: {
-                    itemAddress: 'iGwEZUvfA',
-                    modelName: 'Resistor'
+                    id: '123456',
+                    name: 'John von Neumann',
+                    status: 'C - Current',
+                    items: [
+                        {
+                            address: 'iGwEZUvfA',
+                            modelAddress: 'm8y7nEtAe',
+                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
+                        }
+                    ],
+                    email: 'vonneumann@msoe.edu',
+                    major: 'Chemical Engineering & Mathematics'
                 }
             }
         });
-        return app.client.keys('iGwEZUvfA').then(() => {
+
+
+        return app.client.waitForVisible('.cart input[type="text"]').then(() => {
+            return app.client.click('.cart input[type="text"]');
+        }).then(() => {
+            return app.client.keys('iGwEZUvfA');
+        }).then(() => {
+            return app.client.waitForVisible('.cart>ul>li');
+        }).then(() => {
+            return app.client.waitUntil(()  => {
+                return app.client.getText(".cart>ul>li").then(text => {
+                  return text === "iGwEZUvfA";
+                });
+            });
+        }).then(() => {
+            return app.client.click('.cart input[type="button"]');
+        }).then(() => {
             return app.client.waitForVisible('.toast');
         }).then(() => {
             return app.client.getText('.toast');
-        }).then(toast => {
-            assert.strictEqual(toast, 'Item checked in successfully: Resistor (iGwEZUvfA)');
-            return app.client.click('.toast');
-        }).then(() => {
-            return app.client.waitForVisible('.toast', false);
-        }).then(() => {
+        }).then(message => {
+            assert.strictEqual(message, "Checkout completed successfully!");
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
-            assert.lengthOf(items.value, 0);
-            return app.client.getText('#student .student .equipment-none');
-        }).then(equipment => {
-            assert.strictEqual(equipment, 'Student has no equipment checked out.');
+            assert.lengthOf(items.value, 1);
             mockServer.validate();
         });
     });
