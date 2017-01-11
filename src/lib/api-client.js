@@ -144,3 +144,10 @@ export function updateModel(address, name, description, manufacturer, vendor, lo
         price: price
     });
 }
+
+
+export function uploadStudents(data){
+    return post('student', {
+        data
+    });
+}
