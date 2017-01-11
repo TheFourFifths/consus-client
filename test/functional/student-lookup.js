@@ -186,4 +186,33 @@ describe('Student Lookup', function () {
           mockServer.validate();
       });
     });
+
+    it("Pops an error modal if the student ID doesn't exist", () => {
+      mockServer.expect({
+          method: 'get',
+          endpoint: '/api/student',
+          request: {
+              id: '000000'
+          },
+          response: {
+              status: 'failure',
+              message: 'An invalid student ID was scanned. The student could not be found.'
+          }
+      });
+
+      return app.client.click("#omnibar").then(() => {
+        return app.client.keys("000000");
+      }).then(() => {
+          return app.client.waitForVisible('#app .modal', 1000000);
+      }).then(() => {
+          return app.client.getText('#app .modal .modal-content p');
+      }).then(message => {
+          assert.strictEqual(message, "An invalid student ID was scanned. The student could not be found.");
+          return app.client.click("#app .modal .modal-content button");
+      }).then(() => {
+          //this checks that the modal goes away, the true "reverses" what it expects.
+          return app.client.waitForExist("#app .modal", 100, true);
+          mockServer.validate();
+      });
+    });
 });
