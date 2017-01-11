@@ -93,4 +93,17 @@ describe('CartStore', () => {
         assert.isFalse(CartStore.isOnTimeout());
     });
 
+    it('should add models to contents', () => {
+        let equipmentA = { address: '123', status: 'AVAILABLE' };
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND', {
+            address: '123'
+        });
+        assert.strictEqual(CartStore.getContents()[0].address, '123');
+    });
+
 });
