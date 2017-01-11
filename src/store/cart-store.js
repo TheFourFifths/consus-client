@@ -61,7 +61,7 @@ store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
     }
     let model = {
         address: data.address
-    }
+    };
     if(store.contains(model)) {
         //Increment amount of model being checked out
     } else {
@@ -86,7 +86,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_contents', () => {
+store.registerHandler('CLEAR_CONTENTS', () => {
     contents = [];
     store.emitChange();
 });

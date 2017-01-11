@@ -48,7 +48,7 @@ describe('CartStore', () => {
           status: 'AVAILABLE'
       });
       assert.strictEqual(CartStore.getContents()[0].address, '123');
-      Dispatcher.handleAction('CLEAR_ITEMS');
+      Dispatcher.handleAction('CLEAR_CONTENTS');
       assert.strictEqual(CartStore.getContents().length,0);
     });
 

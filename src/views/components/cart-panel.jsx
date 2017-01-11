@@ -27,8 +27,12 @@ export default class CartPanel extends React.Component {
                         CartController.getItem(e.target.value);
                     }
                 } else if(result.type == 'model') {
-                    CartController.getModel(e.target.value);
                     // A model has been received.
+                    if(this.props.equipmentAddresses.includes(e.target.value)){
+                        // A duplicate model was scanned
+                    } else {
+                        CartController.getModel(e.target.value);
+                    }
                 }
                 this.setState({
                     address: ''

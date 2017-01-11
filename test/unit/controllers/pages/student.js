@@ -43,7 +43,7 @@ describe("StudentController", () => {
     describe("checkout",() => {
         let checkOutItems;
         beforeEach(() => {
-            checkOutItems = sinon.stub(api, "checkOutItems");
+            checkOutItems = sinon.stub(api, "checkOutContents");
         });
 
         it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {

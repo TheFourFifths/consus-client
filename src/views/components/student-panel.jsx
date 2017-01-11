@@ -23,7 +23,7 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderEquipment() {
-        if(this.props.student.items.length === 0) {
+        if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
             return <i className='equipment-none'>Student has no equipment checked out.</i>;
         }
         return (
@@ -35,8 +35,21 @@ export default class StudentPanel extends ListenerComponent {
                         </div>
                     </Link>;
                 })}
+                {this.props.student.models.map((model, m)=>{
+                    return <Link to={`/model/${model.address}`}  key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                        <div className="item-info">
+                            {this.renderModelInfo(model)}
+                        </div>
+                    </Link>;
+                })}
             </div>
         );
+    }
+
+    renderModelInfo(model){
+        return <div>
+            {model.name} <i>{model.address}</i>
+        </div>
     }
 
     renderItemInfo(item){

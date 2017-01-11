@@ -27,10 +27,14 @@ export default class CartController {
 
     static getModel(address) {
         return searchModel(address).then(model => {
-            // if (model.inStock === 0)
-            //     return Dispatcher.handleAction('ERROR', {
-            //         error: 'All ' + model.name + 's have been checked out.'
-            //     });
+            if (model.inStock === 0)
+                return Dispatcher.handleAction('ERROR', {
+                    error: 'All ' + model.name + 's have been checked out.'
+                });
+            if(!model.allowCheckout)
+                return Dispatcher.handleAction('ERROR', {
+                    error: model.name + ' is not available for checkout.'
+                });
             Dispatcher.handleAction("CHECKOUT_MODEL_FOUND", model);
         });
     }
