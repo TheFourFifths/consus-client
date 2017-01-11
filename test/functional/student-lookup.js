@@ -215,4 +215,21 @@ describe('Student Lookup', function () {
           mockServer.validate();
       });
     });
+
+    it("Pops an error modal if an invalid character is typed.", () => {
+      return app.client.click("#omnibar").then(() => {
+        return app.client.keys(";");
+      }).then(() => {
+          return app.client.waitForVisible('#app .modal', 1000000);
+      }).then(() => {
+          return app.client.getText('#app .modal .modal-content p');
+      }).then(message => {
+          assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
+          return app.client.click("#app .modal .modal-content button");
+      }).then(() => {
+          //this checks that the modal goes away, the true "reverses" what it expects.
+          return app.client.waitForExist("#app .modal", 100, true);
+          mockServer.validate();
+      });
+    });
 });
