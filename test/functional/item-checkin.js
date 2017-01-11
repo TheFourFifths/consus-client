@@ -3,7 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 
-describe('item checkout', function () {
+describe('item checkin', function () {
 
     this.timeout(10000);
     let app;
