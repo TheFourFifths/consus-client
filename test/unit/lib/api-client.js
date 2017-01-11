@@ -14,7 +14,8 @@ import {
     searchItem,
     searchModel,
     searchStudent,
-    updateModel
+    updateModel,
+    uploadStudents
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -318,6 +319,24 @@ describe('API Client', () => {
             response
         });
         return searchStudent('123456').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('uploadStudents', () => {
+        let response = {
+            status: 'success',
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: '/api/student',
+            request: {
+                data: '123456'
+            },
+            response
+        });
+        return uploadStudents('123456').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

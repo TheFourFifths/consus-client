@@ -153,6 +153,18 @@ describe('ToastStore', () => {
         assert.match(ToastStore.getToasts()[3].text, /Invalid Admin Code/);
     });
 
+    it('should add a toast when students are uploaded', () => {
+        Dispatcher.handleAction('STUDENTS_UPLOADED');
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Students uploaded successfully');
+    });
+
+    it('should add a toast when students failed to uploaded', () => {
+        Dispatcher.handleAction('FILE_UNSUPPORTED');
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in Excel format!');
+    });
+
     it('should add a toast when a model is updated', () => {
         let modelName = 'What a name';
         let modelAddres = 'Wowza';
