@@ -181,58 +181,140 @@ describe('item checkout', function () {
           method: 'get',
           endpoint: '/api/item',
           request: {
-              address: 'iGwEZUvfA'
+              address: 'iGwEZVHHE'
           },
           response:{
               "status":"success",
               "data":{
-                  "address":"iGwEZUvfA",
+                  "address":"iGwEZVHHE",
                   "modelAddress":"m8y7nEtAe",
                   "status":"CHECKED_OUT",
                   "isFaulty":false,
                   "faultDescription":""
               }
          }
+     });
+
+     return app.client.setValue('.cart input[type="text"]','iGwEZVHHE').then(() => {
+          return app.client.waitForVisible('#app .modal .modal-content');
+      }).then(() => {
+          return app.client.getText('#app .modal .modal-content p');
+      }).then(message => {
+          assert.strictEqual(message, "This item is already checked out by another student.");
+          return app.client.click('#app .modal .modal-content button');
+      }).then(() => {
+          mockServer.validate();
+          return app.client.waitForExist("#app .modal", 100, true);
+      });
+    });
+
+    it("can check out multiple items at once.", () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/item',
+            request: {
+                address: 'iGwEZVeaT'
+            },
+            response:{
+                "status":"success",
+                "data":{
+                    "address":"iGwEZVeaT",
+                    "modelAddress":"m8y7nEtAe",
+                    "status":"AVAILABLE",
+                    "isFaulty":false,
+                    "faultDescription":""
+                }
+           }
+       });
+
+       mockServer.expect({
+           method: 'get',
+           endpoint: '/api/item',
+           request: {
+               address: 'iGwEZVHHE'
+           },
+           response:{
+               "status":"success",
+               "data":{
+                   "address":"iGwEZVHHE",
+                   "modelAddress":"m8y7nEtAe",
+                   "status":"AVAILABLE",
+                   "isFaulty":false,
+                   "faultDescription":""
+               }
+          }
+      });
+
+      mockServer.expect({
+          method: 'post',
+          endpoint: '/api/checkout',
+          request: {
+              adminCode: null,
+              studentId: '123456',
+              itemAddresses: ['iGwEZVeaT','iGwEZVHHE']
+          },
+          response: {
+              status: 'success'
+          }
       });
 
       mockServer.expect({
           method: 'get',
           endpoint: '/api/student',
           request: {
-            id: "888888"
+            id: "123456"
           },
           response: {
               status: 'success',
               data: {
-                  id: '888888',
-                  name: 'Bork Sporfminkle',
+                  id: '123456',
+                  name: 'John von Neumann',
                   status: 'C - Current',
-                  items: [],
+                  items: [
+                      {
+                          address: 'iGwEZVHHE',
+                          modelAddress: 'm8y7nEtAe',
+                          timestamp: Math.floor(Date.now() / 1000) + 1000000000
+                      },
+                      {
+                          address: 'iGwEZVeaT',
+                          modelAddress: 'm8y7nEtAe',
+                          timestamp: Math.floor(Date.now() / 1000) + 1000000000
+                      }
+                  ],
                   email: 'vonneumann@msoe.edu',
                   major: 'Chemical Engineering & Mathematics'
               }
           }
       });
 
-
-      return app.client.click('#omnibar').then(() => {
-          return app.client.keys('888888');
-      }).then(() => {
-          return app.client.waitForVisible('.cart input[type="text"]'
-      }).then(() => {
+      return app.client.waitForVisible('.cart input[type="text"]').then(() => {
           return app.client.click('.cart input[type="text"]');
       }).then(() => {
-          return app.client.keys('iGwEZUvfA');
+          return app.client.keys('iGwEZVeaT');
       }).then(() => {
-          return app.client.waitForVisible('#app .modal');
+          return app.client.waitForVisible('.cart>ul>li');
       }).then(() => {
-          return app.client.getText('#app .modal .modal-content p');
-      }).then(message => {
-          assert.strictEqual(message, "Item is checked out by another student.");
-          return app.client.click('#app .modal .modal-content button');
+          return app.client.waitUntil(()  => {
+              return app.client.getText(".cart>ul>li").then(text => {
+                return text === "iGwEZVeaT";
+              });
+          });
       }).then(() => {
-          app.client.waitForExist("#app .modal", 100, true);
+          return app.client.keys('iGwEZVHHE');
+      }).then(() => {
+          return app.client.click('.cart input[type="button"]');
+      }).then(() => {
+          return app.client.waitForVisible('.toast');
+      }).then(() => {
+          return app.client.getText('.toast');
+      }).then(messages => {
+          assert.strictEqual(messages, "Checkout completed successfully!");
+          return app.client.elements('#student .student .equipment .item-info');
+      }).then(items => {
+          assert.lengthOf(items.value, 2);
           mockServer.validate();
       });
+
     });
 });
