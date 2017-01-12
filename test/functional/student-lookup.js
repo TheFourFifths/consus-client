@@ -210,9 +210,9 @@ describe('Student Lookup', function () {
           assert.strictEqual(message, "An invalid student ID was scanned. The student could not be found.");
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
+          mockServer.validate();
           //this checks that the modal goes away, the true "reverses" what it expects.
           return app.client.waitForExist("#app .modal", 100, true);
-          mockServer.validate();
       });
     });
 
@@ -227,9 +227,9 @@ describe('Student Lookup', function () {
           assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
+          mockServer.validate();
           //this checks that the modal goes away, the true "reverses" what it expects.
           return app.client.waitForExist("#app .modal", 100, true);
-          mockServer.validate();
       });
     });
 });
