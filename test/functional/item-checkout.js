@@ -176,4 +176,63 @@ describe('item checkout', function () {
         });
     });
 
+    it("fails to checkout an item that's already checked out", () => {
+      mockServer.expect({
+          method: 'get',
+          endpoint: '/api/item',
+          request: {
+              address: 'iGwEZUvfA'
+          },
+          response:{
+              "status":"success",
+              "data":{
+                  "address":"iGwEZUvfA",
+                  "modelAddress":"m8y7nEtAe",
+                  "status":"CHECKED_OUT",
+                  "isFaulty":false,
+                  "faultDescription":""
+              }
+         }
+      });
+
+      mockServer.expect({
+          method: 'get',
+          endpoint: '/api/student',
+          request: {
+            id: "888888"
+          },
+          response: {
+              status: 'success',
+              data: {
+                  id: '888888',
+                  name: 'Bork Sporfminkle',
+                  status: 'C - Current',
+                  items: [],
+                  email: 'vonneumann@msoe.edu',
+                  major: 'Chemical Engineering & Mathematics'
+              }
+          }
+      });
+
+
+      return app.client.click('#omnibar').then(() => {
+          return app.client.keys('888888');
+      }).then(() => {
+          return app.client.waitForVisible('.cart input[type="text"]'
+      }).then(() => {
+          return app.client.click('.cart input[type="text"]');
+      }).then(() => {
+          return app.client.keys('iGwEZUvfA');
+      }).then(() => {
+          return app.client.waitForVisible('#app .modal');
+      }).then(() => {
+          return app.client.getText('#app .modal .modal-content p');
+      }).then(message => {
+          assert.strictEqual(message, "Item is checked out by another student.");
+          return app.client.click('#app .modal .modal-content button');
+      }).then(() => {
+          app.client.waitForExist("#app .modal", 100, true);
+          mockServer.validate();
+      });
+    });
 });
