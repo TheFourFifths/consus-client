@@ -228,7 +228,6 @@ describe('Student Lookup', function () {
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
           mockServer.validate();
-          //this checks that the modal goes away, the true "reverses" what it expects.
           return app.client.waitForExist("#app .modal", 100, true);
       });
     });
