@@ -309,12 +309,32 @@ describe('item checkout', function () {
       }).then(() => {
           return app.client.getText('.toast');
       }).then(messages => {
-          assert.strictEqual(messages, "Checkout completed successfully!");
+          assert.lengthOf(messages, 2);
+          assert.strictEqual(messages[0], "Checkout completed successfully!");
+          assert.strictEqual(messages[1], "Checkout completed successfully!");
           return app.client.elements('#student .student .equipment .item-info');
       }).then(items => {
           assert.lengthOf(items.value, 2);
           mockServer.validate();
       });
 
+    });
+
+    it("doesn't allow invalid characters in the item field", () => {
+        return app.client.waitForVisible('.cart input[type="text"]').then(() => {
+            return app.client.click('.cart input[type="text"]');
+        }).then(() => {
+            return app.client.keys(';');
+        }).then(() => {
+            return app.client.waitForVisible('#app .modal', 1000000);
+        }).then(() => {
+            return app.client.getText('#app .modal .modal-content p');
+        }).then(message => {
+            assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
+            return app.client.click("#app .modal .modal-content button");
+        }).then(() => {
+            mockServer.validate();
+            return app.client.waitForExist("#app .modal", 100, true);
+        });
     });
 });
