@@ -13,7 +13,7 @@ export default class StudentController{
     }
 
     static cancelCheckout() {
-        Dispatcher.handleAction('CLEAR_ITEMS');
+        Dispatcher.handleAction('CLEAR_CONTENTS');
     }
 
     static checkout(id, equipmentAddresses) {

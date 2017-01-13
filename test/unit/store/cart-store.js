@@ -72,6 +72,26 @@ describe('CartStore', () => {
         }, CartStore.TIMEOUT_TIME);
     });
 
+    it('times out for models', function(done){
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '111111',
+            name: 'Poe',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
+        CartStore.TIMEOUT_TIME = 10;
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
+        });
+        assert.isTrue(CartStore.isOnTimeout());
+        setTimeout(() => {
+            assert.isFalse(CartStore.isOnTimeout());
+            done();
+        }, CartStore.TIMEOUT_TIME);
+    });
+
     it('cancels timeout when new student is scanned', () => {
         Dispatcher.handleAction("STUDENT_FOUND", {
             id: '111111',
@@ -89,6 +109,28 @@ describe('CartStore', () => {
             id: '123432',
             name: 'Testy McTestface',
             items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
+    });
+
+    it('cancels timeout when new model is scanned', () => {
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '111111',
+            name: 'Poe',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout());
+        CartStore.TIMEOUT_TIME = 60000;
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
+        });
+        assert.isTrue(CartStore.isOnTimeout());
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
         });
         assert.isFalse(CartStore.isOnTimeout());
     });
