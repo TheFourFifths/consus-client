@@ -1,5 +1,6 @@
 import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import CartStore from '../../store/cart-store';
 
 export default class CartController {
 
@@ -22,6 +23,11 @@ export default class CartController {
                 return Dispatcher.handleAction('ERROR', {
                     error: 'This item is already checked out by another student.'
                 });
+            else if(CartStore.getItems().some(ele => ele.address === address)){
+                return Dispatcher.handleAction('ERROR', {
+                    error: 'This item is already in the cart.'
+                });
+            }
             Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", item);
         });
     }
