@@ -173,6 +173,8 @@ describe('item checkout', function () {
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
+        }).then(()=> {
+            return app.client.click('.toast');
         });
     });
 
@@ -308,10 +310,8 @@ describe('item checkout', function () {
           return app.client.waitForVisible('.toast');
       }).then(() => {
           return app.client.getText('.toast');
-      }).then(messages => {
-          assert.lengthOf(messages, 2);
-          assert.strictEqual(messages[0], "Checkout completed successfully!");
-          assert.strictEqual(messages[1], "Checkout completed successfully!");
+      }).then(message => {
+          assert.strictEqual(message, "Checkout completed successfully!");
           return app.client.elements('#student .student .equipment .item-info');
       }).then(items => {
           assert.lengthOf(items.value, 2);
@@ -337,4 +337,62 @@ describe('item checkout', function () {
             return app.client.waitForExist("#app .modal", 100, true);
         });
     });
+
+    it("doesn't allow the same items to be added to the cart twice", () => {
+
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/item',
+            request: {
+                address: 'iGwEZUvfA'
+            },
+            response:{
+                "status":"success",
+                "data":{
+                    "address":"iGwEZUvfA",
+                    "modelAddress":"m8y7nEtAe",
+                    "status":"AVAILABLE",
+                    "isFaulty":false,
+                    "faultDescription":""
+                }
+           }
+       });
+
+       mockServer.expect({
+           method: 'get',
+           endpoint: '/api/item',
+           request: {
+               address: 'iGwEZUvfA'
+           },
+           response:{
+               "status":"success",
+               "data":{
+                   "address":"iGwEZUvfA",
+                   "modelAddress":"m8y7nEtAe",
+                   "status":"AVAILABLE",
+                   "isFaulty":false,
+                   "faultDescription":""
+               }
+          }
+      });
+
+        return app.client.waitForVisible('.cart input[type="text"]').then(() => {
+            return app.client.click('.cart input[type="text"]');
+        }).then(() => {
+            return app.client.keys('iGwEZUvfA');
+        }).then(() => {
+            return app.client.keys('iGwEZUvfA');
+        }).then(() => {
+            return app.client.waitForVisible('#app .modal', 1000000);
+        }).then(() => {
+            return app.client.getText('#app .modal .modal-content p');
+        }).then(message => {
+            assert.strictEqual(message, "This item is already in the cart.");
+            return app.client.click("#app .modal .modal-content button");
+        }).then(() => {
+            mockServer.validate();
+            return app.client.waitForExist("#app .modal", 100, true);
+        });
+    })
+
 });
