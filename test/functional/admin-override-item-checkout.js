@@ -3,7 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 
-describe('admin override item checkout', function () {
+describe.only('admin override item checkout', function () {
 
     this.timeout(10000);
     let app;
@@ -100,6 +100,34 @@ describe('admin override item checkout', function () {
             assert.include(item, 'Resistor');
             assert.include(item, 'overdue');
             assert.include(item, 'iGwEZUvfA');
+            mockServer.validate();
+        });
+    });
+
+    it('adds an item to the cart', () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/item',
+            request: {
+                address: ''
+            },
+            response: {
+               status: 'success',
+               data: {
+                  address: 'iGwEZVHHE',
+                  modelAddress: 'm8y7nEtAe',
+                  status: 'AVAILABLE',
+                  isFaulty: false,
+                  faultDescription: ''
+               }
+            }
+        });
+        return app.client.keys('iGwEZVHHE').then(() => {
+            return app.client.waitForVisible('ul.items li.item');
+        }).then(() => {
+            return app.client.getText('ul.items li.item');
+        }).then(item => {
+            console.log(item);
             mockServer.validate();
         });
     });
