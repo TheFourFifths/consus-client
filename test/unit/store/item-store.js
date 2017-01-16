@@ -56,4 +56,17 @@ describe('ItemStore', () => {
         }
     });
 
+    it('should receive overdue items', () => {
+        Dispatcher.handleAction('OVERDUE_ITEMS_RECEIVED',{
+            items:[{
+                name: 'test1'
+            },{
+                name: 'test2'
+            },{
+                name: 'test3'
+            }]
+        });
+        assert.lengthOf(ItemStore.getOverdueItems(), 3);
+    });
+
 });

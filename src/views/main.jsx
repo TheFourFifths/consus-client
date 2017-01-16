@@ -15,6 +15,7 @@ import StudentFileUpload from './components/student-file-upload.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
 import Item from './components/item.jsx';
+import OverdueItems from './pages/overdue.jsx';
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path='/' component={App}>
@@ -24,9 +25,10 @@ ReactDOM.render((
             <Route path='/models/new' component={CreateModelForm} />
             <Route path="/model/:address" component={Model}/>
             <Route path='/items' component={Items} />
+            <Route path="/item/:address" component={Item}/>
+            <Route path="/overdue" component={OverdueItems} />
             <Route path='/items/new' component={CreateItemForm} />
-	    <Route path='/students/upload' component={StudentFileUpload} />
-	    <Route path="/item/:address" component={Item}/>
+            <Route path='/students/upload' component={StudentFileUpload} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
