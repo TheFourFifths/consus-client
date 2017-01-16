@@ -14,7 +14,9 @@ import {
     searchItem,
     searchModel,
     searchStudent,
-    updateModel
+    updateModel,
+    deleteModel,
+    uploadStudents
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -362,7 +364,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/student',
-            request: {
+            json: {
                 data: '123456'
             },
             response
