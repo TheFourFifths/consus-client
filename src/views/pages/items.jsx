@@ -20,7 +20,7 @@ export default class Models extends ListenerComponent {
 
     render() {
         return (
-            <div id="item">
+            <div id="items">
                 <h1>All Items</h1>
                 <button onClick={ItemController.newItemPage}>Make new Item</button>
                 {this.state.items.map((item) => {
