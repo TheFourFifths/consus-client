@@ -105,7 +105,7 @@ describe('Creating an Item', function () {
             }
         });
         return app.client.click('#view-items').then(() => {
-            return app.client.waitForVisible('#items', 2500);
+            return app.client.waitForVisible('#items', 5000);
         }).then(() => {
             return app.client.click('#items button');
         }).then(() => {
@@ -219,7 +219,7 @@ describe('Creating an Item', function () {
         return app.client.click('#omnibar img').then(() => {
             return app.client.click('#view-items');
         }).then(() => {
-            return app.client.waitForVisible('#items', 2500);
+            return app.client.waitForVisible('#items', 5000);
         }).then(() => {
             return app.client.click('#items button');
         }).then(() => {
