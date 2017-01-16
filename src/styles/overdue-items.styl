@@ -1,4 +1,4 @@
-.overdue-item
+.overdueItem
     background: lightblue
     display: block
     height: auto
@@ -11,35 +11,62 @@
     .picArea
         display: inline-block
         vertical-align: top
-        padding: 7px
+        padding: 1px 7px
 
         img
-            height: 75px
+            height: 50px
             width:inherit
 
-    .titleArea
+    .modelItemArea
         display: inline-block
         vertical-align: top
-        width: 10%
+        width:15%
 
         h2
             text-align: center
             margin: 0
 
-        .modelLink
-            display: block
-            text-align: center
+
+        .modelArea
+            display: inline-block
+            vertical-align: top
+            padding-right: 10px
+            width:50%
+
+
+            h3
+                text-align: left
+                margin: 0
+
+            p
+                margin: 0
+                padding-top: 5px
+        .itemArea
+            display: inline-block
+            vertical-align: top
+
+            h3
+                text-align: left
+                margin: 0
+
+            p
+                margin: 0
+                padding-top: 5px
 
     .infoArea
         display: inline-block
         vertical-align: top
-        width: 70%
+
+        h2
+            text-align: center
+            margin: 0
+
 
         .descriptionArea
             display: inline-block
             vertical-align: top
             padding-right: 10px
-            width: 40%
+
 
             h3
                 text-align: left
@@ -48,9 +75,8 @@
             p
                 margin: 0
                 padding-top: 5px
-        .faultArea
+        .dueOn
             display: inline-block
-            width: 30%
             vertical-align: top
 
             h3
@@ -61,11 +87,6 @@
                 margin: 0
                 padding-top: 5px
 
-        .miscArea
-            padding: 10px
-            display: inline-block
-            width: 20%
-            vertical-align: top
 
     .actionArea
         display: inline-block
