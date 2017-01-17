@@ -99,13 +99,13 @@ describe('item checkout', function () {
                 address: 'iGwEZUvfA'
             },
             response:{
-                "status":"success",
-                "data":{
-                    "address":"iGwEZUvfA",
-                    "modelAddress":"m8y7nEtAe",
-                    "status":"AVAILABLE",
-                    "isFaulty":false,
-                    "faultDescription":""
+                status: 'success',
+                data: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE',
+                    isFaulty: false,
+                    faultDescription: ''
                 }
            }
         });
@@ -127,7 +127,7 @@ describe('item checkout', function () {
             method: 'get',
             endpoint: '/api/student',
             request: {
-              id: "123456"
+              id: '123456'
             },
             response: {
                 status: 'success',
@@ -168,7 +168,7 @@ describe('item checkout', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, "Checkout completed successfully!");
+            assert.strictEqual(message, 'Checkout completed successfully!');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
@@ -186,13 +186,13 @@ describe('item checkout', function () {
               address: 'iGwEZVHHE'
           },
           response:{
-              "status":"success",
-              "data":{
-                  "address":"iGwEZVHHE",
-                  "modelAddress":"m8y7nEtAe",
-                  "status":"CHECKED_OUT",
-                  "isFaulty":false,
-                  "faultDescription":""
+              status: 'success',
+              data: {
+                  address: 'iGwEZVHHE',
+                  modelAddress: 'm8y7nEtAe',
+                  status: 'CHECKED_OUT',
+                  isFaulty: false,
+                  faultDescription: ''
               }
          }
      });
@@ -218,13 +218,13 @@ describe('item checkout', function () {
                 address: 'iGwEZVeaT'
             },
             response:{
-                "status":"success",
-                "data":{
-                    "address":"iGwEZVeaT",
-                    "modelAddress":"m8y7nEtAe",
-                    "status":"AVAILABLE",
-                    "isFaulty":false,
-                    "faultDescription":""
+                status: 'success',
+                data: {
+                    address: 'iGwEZVeaT',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE',
+                    isFaulty: false,
+                    faultDescription: ''
                 }
            }
        });
@@ -236,13 +236,13 @@ describe('item checkout', function () {
                address: 'iGwEZVHHE'
            },
            response:{
-               "status":"success",
-               "data":{
-                   "address":"iGwEZVHHE",
-                   "modelAddress":"m8y7nEtAe",
-                   "status":"AVAILABLE",
-                   "isFaulty":false,
-                   "faultDescription":""
+               status: 'success',
+               data: {
+                   address: 'iGwEZVHHE',
+                   modelAddress: 'm8y7nEtAe',
+                   status: 'AVAILABLE',
+                   isFaulty: false,
+                   faultDescription: ''
                }
           }
       });
@@ -264,7 +264,7 @@ describe('item checkout', function () {
           method: 'get',
           endpoint: '/api/student',
           request: {
-            id: "123456"
+            id: '123456'
           },
           response: {
               status: 'success',
@@ -347,13 +347,13 @@ describe('item checkout', function () {
                 address: 'iGwEZUvfA'
             },
             response:{
-                "status":"success",
-                "data":{
-                    "address":"iGwEZUvfA",
-                    "modelAddress":"m8y7nEtAe",
-                    "status":"AVAILABLE",
-                    "isFaulty":false,
-                    "faultDescription":""
+                status: 'success',
+                data: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE',
+                    isFaulty: false,
+                    faultDescription: ''
                 }
            }
        });
@@ -365,13 +365,13 @@ describe('item checkout', function () {
                address: 'iGwEZUvfA'
            },
            response:{
-               "status":"success",
-               "data":{
-                   "address":"iGwEZUvfA",
-                   "modelAddress":"m8y7nEtAe",
-                   "status":"AVAILABLE",
-                   "isFaulty":false,
-                   "faultDescription":""
+               status: 'success',
+               data: {
+                   address: 'iGwEZUvfA',
+                   modelAddress: 'm8y7nEtAe',
+                   status: 'AVAILABLE',
+                   isFaulty: false,
+                   faultDescription: ''
                }
           }
       });
