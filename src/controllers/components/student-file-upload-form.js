@@ -12,7 +12,7 @@ export default class StudentFileUploadFormController {
                 Dispatcher.handleAction('STUDENTS_UPLOADED', {});
             }).catch(error => {
                 Dispatcher.handleAction('ERROR', {
-                    error: error.message
+                    error: error
                 });
             });
         };
