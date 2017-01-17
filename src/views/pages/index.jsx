@@ -9,7 +9,7 @@ export default class Index extends React.Component {
             <div id='index'>
                 <div id='links'>
                   <button onClick={IndexController.getModels}>View all models</button><br/>
-                  <button onClick={IndexController.getItems}>View all items</button><br/>
+                  <button id="view-items" onClick={IndexController.getItems}>View all items</button><br/>
                   <Link to='/students/upload'>Upload Student List</Link>
                 </div>
             </div>
