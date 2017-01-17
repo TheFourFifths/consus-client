@@ -22,6 +22,7 @@ class CartStore extends Store {
                 return true;
             }
         });
+        return false;
     }
 
     isOnTimeout(){

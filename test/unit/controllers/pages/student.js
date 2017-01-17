@@ -33,10 +33,10 @@ describe("StudentController", () => {
     });
 
     describe("cancelCheckout", () => {
-        it('Dispatches "CLEAR_ITEMS" when called', () => {
+        it('Dispatches "CLEAR_CONTENTS" when called', () => {
             StudentController.cancelCheckout();
             assert.isTrue(dispatcherSpy.called);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_ITEMS");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_CONTENTS");
         });
     });
 
