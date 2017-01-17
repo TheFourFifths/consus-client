@@ -15,6 +15,7 @@ import {
     searchModel,
     searchStudent,
     updateModel,
+    deleteModel,
     uploadStudents
 } from '../../../.dist/lib/api-client';
 
@@ -299,6 +300,38 @@ describe('API Client', () => {
         });
     });
 
+    it('deleteModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                model: {
+                    address: 'm8y7nEtAe',
+                    name: 'Resistor',
+                    description: 'V = IR',
+                    manufacturer: 'Pancakes R Us',
+                    vendor: 'Mouzer',
+                    location: 'Shelf 14',
+                    isFaulty: false,
+                    faultDescription: '',
+                    price: 10.50,
+                    count: 20
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'delete',
+            endpoint: '/api/model',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return deleteModel('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('searchStudent', () => {
         let response = {
             status: 'success',
@@ -331,7 +364,7 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/student',
-            request: {
+            json: {
                 data: '123456'
             },
             response
