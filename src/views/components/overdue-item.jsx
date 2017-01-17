@@ -26,20 +26,20 @@ export default class OverdueItem extends React.Component {
                 <div className="picArea">
                     <img src="../assets/images/placeholder.jpg"/>
                 </div>
-                <div className="modelItemArea">
-                    <div className="modelArea">
-                        <h3>{this.state.model.name}</h3><p>{this.state.model.address}</p>
+                <div className="modelItemArea  displayBlock">
+                    <div className="modelArea subBlock">
+                        <h3>{this.state.model.name}</h3><p>({this.state.model.address})</p>
                     </div>
-                    <div className="itemArea">
-                        <h3>Address:</h3><p>{this.state.item.address}</p>
+                    <div className="itemArea subBlock">
+                        <h3>Item Address:</h3><p>{this.state.item.address}</p>
                     </div>
                 </div>
-                <div className="infoArea">
-                    <div className="descriptionArea">
+                <div className="infoArea  displayBlock">
+                    <div className="descriptionArea subBlock">
                         <h3>Checked Out To:</h3>
                         <p>{this.state.item.student.name} ({this.state.item.student.id})</p><br/>
                     </div>
-                    <div className="dueOn">
+                    <div className="dueOn subBlock">
                         <h3>Due on:</h3>
                         <p>{dueOn.toDateString()}</p>
                     </div>
