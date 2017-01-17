@@ -18,9 +18,9 @@ export default class ModelController {
                 error: error.message
             });
         }).then(() => {
-            return getAllModels().then(models => {
-                Dispatcher.handleAction("MODELS_RECEIVED", models);
-            });
+            return getAllModels();
+        }).then(models => {
+            Dispatcher.handleAction("MODELS_RECEIVED", models);
         }).catch(error => {
             Dispatcher.handleAction('ERROR', {
                 error: error.message
