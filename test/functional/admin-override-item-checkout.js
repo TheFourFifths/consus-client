@@ -3,7 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 
-describe.only('admin override item checkout', function () {
+describe('Admin override on item checkout', function () {
 
     this.timeout(10000);
     let app;
@@ -109,7 +109,7 @@ describe.only('admin override item checkout', function () {
             method: 'get',
             endpoint: '/api/item',
             request: {
-                address: ''
+                address: 'iGwEZVHHE'
             },
             response: {
                status: 'success',
@@ -127,7 +127,91 @@ describe.only('admin override item checkout', function () {
         }).then(() => {
             return app.client.getText('ul.items li.item');
         }).then(item => {
-            console.log(item);
+            assert.include(item, 'iGwEZVHHE');
+            mockServer.validate();
+        });
+    });
+
+    it('prompts for a pin to check out', () => {
+        mockServer.expect({
+            method: 'post',
+            endpoint: '/api/checkout',
+            request: {
+                adminCode: null,
+                studentId: '123456',
+                itemAddresses: ['iGwEZVHHE']
+            },
+            response: {
+                status: 'failure',
+                message: 'Student has overdue item'
+            }
+        });
+        return app.client.click('.cart input[type="button"]').then(() => {
+            return app.client.waitForVisible('.modal input');
+        }).then(() => {
+            return app.client.getText('.modal .modal-content p');
+        }).then(text => {
+            assert.include(text, 'Please Scan Admin ID or Enter Admin Pin');
+        });
+    });
+
+    it('completes the checkout with the admin pin', () => {
+        mockServer.expect({
+            method: 'post',
+            endpoint: '/api/checkout',
+            request: {
+                adminCode: '3214',
+                studentId: '123456',
+                itemAddresses: ['iGwEZVHHE']
+            },
+            response: {
+                status: 'success'
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/student',
+            request: {
+                id: '123456'
+            },
+            response: {
+                status: 'success',
+                data: {
+                    id: '123456',
+                    name: 'John von Neumann',
+                    status: 'C - Current',
+                    items: [
+                        {
+                            address: 'iGwEZUvfA',
+                            modelAddress: 'm8y7nEtAe',
+                            timestamp: Math.floor(Date.now() / 1000) - 1000000000
+                        },
+                        {
+                            address: 'iGwEZVHHE',
+                            modelAddress: 'm8y7nEtAe',
+                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
+                        }
+                    ],
+                    email: 'vonneumann@msoe.edu',
+                    major: 'Chemical Engineering & Mathematics'
+                }
+            }
+        });
+        return app.client.click('.modal .modal-content input').then(() => {
+            return app.client.keys('3214');
+        }).then(() => {
+            return app.client.click('.modal .modal-content button[type="button"]')
+        }).then(() => {
+            return app.client.waitForVisible('.toast');
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(toast => {
+            assert.strictEqual(toast, 'Checkout completed successfully!');
+            return app.client.elements('#student .student .equipment .item-info');
+        }).then(items => {
+            assert.lengthOf(items.value, 2);
+            return app.client.click('.toast');
+        }).then(()=> {
             mockServer.validate();
         });
     });
