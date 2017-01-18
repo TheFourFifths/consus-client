@@ -41,7 +41,7 @@ export default class OverdueItem extends React.Component {
                 </div>
                 <div className="infoArea  displayBlock">
                     <div className="descriptionArea subBlock">
-                        <h3>Chcked Out To:</h3>
+                        <h3>Checked Out To:</h3>
                         <p><span className='fakeLink' onClick={this.goToStudentPage.bind(this)}>{this.state.item.student.name} </span>({this.state.item.student.id})</p><br/>
                     </div>
                     <div className="dueOn subBlock">
