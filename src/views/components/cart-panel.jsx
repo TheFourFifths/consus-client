@@ -90,8 +90,8 @@ export default class CartPanel extends React.Component {
                 Long-term checkout? <input type="checkbox" onClick={this.changeIsLongterm.bind(this)}/><br />
                 {this.state.isLongterm === true ?
                     <div>
-                        Due date: <input type="date" onChange={this.changeLongtermDate.bind(this)} required/><br />
-                        Professor name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} required /><br />
+                        Due date: <input type="date" onChange={this.changeLongtermDate.bind(this)} defaultValue={this.state.longtermDate} /><br />
+                        Professor name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} defaultValue={this.state.longtermProfessor} /><br />
                     </div>: ""
                 }
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />

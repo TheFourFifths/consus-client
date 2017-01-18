@@ -42,12 +42,12 @@ export default class Student extends ListenerComponent {
             return;
         }
         let cartPanel = this.refs.cartPanel;
-        if(cartPanel.state.isLongterm === true){
-            if(cartPanel.state.longtermDate === undefined){
+        if(cartPanel.state.isLongterm === true) {
+            if (cartPanel.state.longtermDate === undefined) {
                 CartController.throwError('Please enter a long-term due date');
                 return;
             }
-            if (cartPanel.state.longtermProfessor === undefined){
+            if (cartPanel.state.longtermProfessor === undefined) {
                 CartController.throwError('A professor is required for long-term checkout!');
                 return;
             }
