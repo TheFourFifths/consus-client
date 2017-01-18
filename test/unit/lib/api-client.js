@@ -258,7 +258,6 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item/overdue',
-            request: {},
             response
         });
         return getOverdueItems().then(data => {
