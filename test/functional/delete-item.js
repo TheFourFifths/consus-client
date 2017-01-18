@@ -3,7 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 
-describe('Deleting an Item', function () {
+describe.only('Deleting an Item', function () {
 
     this.timeout(10000);
     let app;
@@ -63,7 +63,7 @@ describe('Deleting an Item', function () {
                 modelAddress: 'm8y7nEtAe'
             },
             response: {
-                status: 'failure',
+                status: 'success',
                 data: {
                     modelName: 'Resistor',
                     items: [
