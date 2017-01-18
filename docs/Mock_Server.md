@@ -13,7 +13,7 @@ let mockServer = new MockServer();
 mockServer.expect({
     method: 'GET',
     endpoint: '/api/item',
-    request: {
+    qs: {
         address: 'iGwEZUvfA'
     },
     response: {
