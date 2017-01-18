@@ -25,7 +25,6 @@ export default class OverdueItems extends ListenerComponent {
     render() {
         return <div>
             <h1>Overdue Items</h1>
-            <Link to="/">Home</Link>
             {this.state.overdueItems.map( (item, key) => {
                 return <div key={key}>
                     <OverdueItem item={item} />
