@@ -90,21 +90,18 @@ describe('Deleting an Item', function () {
             return app.client.elements('#items .item');
         }).then(elements => {
             assert.lengthOf(elements.value, 3);
-            console.log('----------CLICKING TRASH----------');
             return app.client.click('.item:nth-of-type(1) .actionArea img[src*="delete"]');
         }).then(() => {
-            console.log('----------WAITING FOR TOAST----------');
-            return app.client.waitForVisible('.toast', 50000);
+            return app.client.waitForVisible('.toast', 5000);
         }).then(() => {
             return app.client.getText('.toast');
         }).then(text => {
-            console.log('----------CHECKING TOAST MEANING----------');
             assert.strictEqual(text, 'An item was deleted: Resistor (iGwEZUvfA)');
             return app.client.click('.toast').then(() => {  /* don't pollute my toasts! */
-                return app.client.waitForVisible('.toast', 10000, true);
+                return app.client.waitForVisible('.toast', 5000, true);
             });
         }).then(() => {
-            return app.client.getElements('#items .item');
+            return app.client.elements('#items .item');
         }).then(elements => {
             assert.lengthOf(elements.value, 2);
             mockServer.validate();

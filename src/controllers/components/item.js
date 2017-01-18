@@ -10,7 +10,7 @@ export default class ItemController {
                 text: `An item was deleted: ${data.modelName} (${item.address})`
             });
         }).catch(error => {
-            Dispatcher.handleAction('ERROR', { error });
+            Dispatcher.handleAction('ERROR', { error: error.message });
         });
     }
 
