@@ -138,14 +138,27 @@ describe('CartStore', () => {
     // });
 
     it('should add models to contents', () => {
-        let equipmentA = { address: '123', status: 'AVAILABLE' };
+        let model = { address: '123', allowCheckout: true, inStock: 12 };
+        Dispatcher.handleAction('MOEDL_CREATED', model);
         Dispatcher.handleAction('STUDENT_FOUND', {
             id: '123456',
             name: 'Pope Francis',
             items: []
         });
-        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND', equipmentA);
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND', model);
         assert.strictEqual(CartStore.getContents()[0].address, '123');
+    });
+
+    it('should not add out-of-stock models to contents', () => {
+        let model = { address: '123', allowCheckout: true, inStock: 0 };
+        Dispatcher.handleAction('MOEDL_CREATED', model);
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: '123456',
+            name: 'Pope Francis',
+            items: []
+        });
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND', model);
+        assert.lengthOf(CartStore.getContents(), 0, 'No model should be in the cart');
     });
 
 });
