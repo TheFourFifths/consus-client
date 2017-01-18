@@ -3,7 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 
-describe.only('Deleting an Item', function () {
+describe('Deleting an Item', function () {
 
     this.timeout(10000);
     let app;
