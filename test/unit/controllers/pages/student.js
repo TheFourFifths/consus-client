@@ -61,7 +61,7 @@ describe("StudentController", () => {
                 })
             );
 
-            return StudentController.checkout().then(() => {
+            return StudentController.checkout(123456, [{address: '123', quantity: 5}, {address: '456'}]).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
                 searchStudent.restore();

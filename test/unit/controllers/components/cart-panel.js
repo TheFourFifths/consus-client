@@ -180,6 +180,42 @@ describe("CartController", () => {
         });
     });
 
+    describe('incrementModel',()=> {
+        let dispatcherSpy, searchModel;
+
+        beforeEach(() => {
+            Dispatcher.handleAction("STUDENT_FOUND", {items: [{itemAddress: "123456"}]});
+            Dispatcher.handleAction("CHECKOUT_MODEL_FOUND", {address:123456, allowCheckout: true, inStock: 2});
+            searchModel = sinon.stub(api, "searchModel");
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+        });
+
+        it('Should dispatch "CHECKOUT_DUPLICATE_MODEL" on success', ()=> {
+
+            searchModel.returns(
+                new Promise(resolve => {
+                    resolve({
+                        address: 123456,
+                        allowCheckout: true,
+                        inStock: 2
+                    })
+                })
+            );
+            return CartController.incrementModel("123456").then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_DUPLICATE_MODEL");
+            })
+        });
+
+        afterEach(() => {
+            searchModel.restore();
+            dispatcherSpy.restore();
+            Dispatcher.handleAction("CLEAR_ALL_DATA");
+            Dispatcher.handleAction("CLEAR_ERROR");
+        });
+    });
+
     describe("throwError", () => {
         let spy;
         before(() => {
