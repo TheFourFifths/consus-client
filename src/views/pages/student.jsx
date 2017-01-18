@@ -25,7 +25,6 @@ export default class Student extends ListenerComponent {
     getState() {
         return {
             student: StudentStore.getStudent(),
-            equipmentAddresses: CartStore.getContents().map(content => content.address),
             adminCodeRequired: AuthenticationStore.overrideNeeded(),
             equipment: CartStore.getContents()
         };

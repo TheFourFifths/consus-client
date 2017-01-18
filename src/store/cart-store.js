@@ -51,11 +51,13 @@ store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
     if(store.isOnTimeout()){
         clearTimer();
     }
-    let model = {
-        address: data.address,
-        quantity: 1
-    };
-    contents.push(model);
+    if(data.inStock > 0){
+        let model = {
+            address: data.address,
+            quantity: 1
+        };
+        contents.push(model);
+    }
     timer = setTimeout(() => {
         checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
         timer = null;
@@ -68,9 +70,13 @@ store.registerHandler('CHECKOUT_DUPLICATE_MODEL', data => {
         clearTimer();
     }
 
-    contents.find(content => {
+    let model = contents.find(content => {
         return content.address === data.address;
-    }).quantity++;
+    });
+
+    if(model.quantity < data.inStock){
+        model.quantity++;
+    }
 
     timer = setTimeout(() => {
         checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));

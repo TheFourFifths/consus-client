@@ -63,7 +63,7 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model){
-        return (<div>{model.name} <i>{model.address}</i> {model.quantity}</div>);
+        return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
     }
 
     renderItemInfo(item){
@@ -71,9 +71,9 @@ export default class StudentPanel extends ListenerComponent {
         if(!model){
             return null;
         }else{
-            return <div>
+            return (<div>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
-            </div>
+            </div>)
         }
     }
 

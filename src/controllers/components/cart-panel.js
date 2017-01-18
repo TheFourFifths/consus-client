@@ -27,7 +27,7 @@ export default class CartController {
 
     static getModel(address) {
         return searchModel(address).then(model => {
-            if (model.inStock === 0)
+            if (model.inStock <= 0)
                 return Dispatcher.handleAction('ERROR', {
                     error: 'All ' + model.name + 's have been checked out.'
                 });
