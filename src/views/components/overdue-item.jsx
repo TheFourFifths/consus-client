@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
+import OmnibarController from '../../controllers/components/omnibar';
 
 export default class OverdueItem extends React.Component {
 
@@ -16,6 +17,10 @@ export default class OverdueItem extends React.Component {
         }
     }
 
+    goToStudentPage() {
+        OmnibarController.getStudent(this.state.item.student.id);
+    }
+
     render() {
         let dueOn;
         dueOn = new Date(this.state.item.timestamp * 1000);
@@ -28,16 +33,16 @@ export default class OverdueItem extends React.Component {
                 </div>
                 <div className="modelItemArea  displayBlock">
                     <div className="modelArea subBlock">
-                        <h3>{this.state.model.name}</h3><p>({this.state.model.address})</p>
+                        <h3><Link to={`/model/${this.state.item.modelAddress}`}>{this.state.model.name}</Link></h3><p>({this.state.model.address})</p>
                     </div>
                     <div className="itemArea subBlock">
-                        <h3>Item Address:</h3><p>{this.state.item.address}</p>
+                        <h3>Item Address:</h3><p><Link to={`/item/${this.state.item.address}`}>{this.state.item.address}</Link></p>
                     </div>
                 </div>
                 <div className="infoArea  displayBlock">
                     <div className="descriptionArea subBlock">
-                        <h3>Checked Out To:</h3>
-                        <p>{this.state.item.student.name} ({this.state.item.student.id})</p><br/>
+                        <h3>Chcked Out To:</h3>
+                        <p><span className='fakeLink' onClick={this.goToStudentPage.bind(this)}>{this.state.item.student.name} </span>({this.state.item.student.id})</p><br/>
                     </div>
                     <div className="dueOn subBlock">
                         <h3>Due on:</h3>
