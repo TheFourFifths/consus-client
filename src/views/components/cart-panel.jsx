@@ -11,7 +11,9 @@ export default class CartPanel extends React.Component {
         this.state = {
             address: '',
             active: false,
-            isLongterm: false
+            isLongterm: false,
+            longtermProfessor: undefined,
+            longtermDate: undefined
         };
     }
 
@@ -65,6 +67,19 @@ export default class CartPanel extends React.Component {
             isLongterm: e.target.checked
         });
     }
+
+    changeLongtermDate(e){
+        this.setState({
+            longtermDate: e.target.value
+        });
+    }
+
+    changeLongtermProfessor(e){
+        this.setState({
+            longtermProfessor: e.target.value
+        });
+    }
+
     render() {
         return (
             <div className='cart'>
@@ -72,7 +87,13 @@ export default class CartPanel extends React.Component {
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
-                Long-term checkout? <input type="checkbox" onClick ={this.changeIsLongterm.bind(this)}/><br />
+                Long-term checkout? <input type="checkbox" onClick={this.changeIsLongterm.bind(this)}/><br />
+                {this.state.isLongterm === true ?
+                    <div>
+                        Due date: <input type="date" onChange={this.changeLongtermDate.bind(this)} required/><br />
+                        Professor name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} required /><br />
+                    </div>: ""
+                }
                 <input type='button' onClick={this.props.submit} value='Complete Checkout' />
                 <input type='button' onClick={this.props.cancel} value='Cancel' />
             </div>
