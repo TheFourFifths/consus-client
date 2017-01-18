@@ -16,7 +16,19 @@ export default class StudentController{
         Dispatcher.handleAction('CLEAR_CONTENTS');
     }
 
-    static checkout(id, equipmentAddresses) {
+    static checkout(id, equipment) {
+        let equipmentAddresses = [];
+        if(equipment){
+            equipment.forEach(e => {
+                if(e.quantity){
+                    for(let i=0; i<e.quantity; i++){
+                        equipmentAddresses.push(e.address);
+                    }
+                } else {
+                    equipmentAddresses.push(e.address);
+                }
+            });
+        }
         return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');

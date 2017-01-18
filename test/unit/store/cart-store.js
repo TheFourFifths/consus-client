@@ -145,8 +145,7 @@ describe('CartStore', () => {
             items: []
         });
         Dispatcher.handleAction('CHECKOUT_MODEL_FOUND', equipmentA);
-        //assert.strictEqual(CartStore.getContents()[0].address, '123');  I have no clue why this assertion fails
-        assert.isTrue(CartStore.contains(CartStore.getContents()[0]));
+        assert.strictEqual(CartStore.getContents()[0].address, '123');
     });
 
 });

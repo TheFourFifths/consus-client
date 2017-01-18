@@ -16,15 +16,6 @@ class CartStore extends Store {
         return contents;
     }
 
-    contains(equipment) {
-        contents.forEach((c) => {
-            if(equipment.address === c.address){
-                return true;
-            }
-        });
-        return false;
-    }
-
     isOnTimeout(){
         return timer !== null;
     }
@@ -61,17 +52,30 @@ store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
         clearTimer();
     }
     let model = {
-        address: data.address
+        address: data.address,
+        quantity: 1
     };
-    if(store.contains(model)) {
-        //Increment amount of model being checked out
-    } else {
-        contents.push(model);
-        timer = setTimeout(() => {
-            checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
-            timer = null;
-        }, store.TIMEOUT_TIME);
+    contents.push(model);
+    timer = setTimeout(() => {
+        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+        timer = null;
+    }, store.TIMEOUT_TIME);
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_DUPLICATE_MODEL', data => {
+    if(store.isOnTimeout()){
+        clearTimer();
     }
+
+    contents.find(content => {
+        return content.address === data.address;
+    }).quantity++;
+
+    timer = setTimeout(() => {
+        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+        timer = null;
+    }, store.TIMEOUT_TIME);
     store.emitChange();
 });
 

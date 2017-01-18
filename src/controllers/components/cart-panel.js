@@ -39,6 +39,12 @@ export default class CartController {
         });
     }
 
+    static incrementModel(address) {
+        return searchModel(address).then(model => {
+            Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
+        });
+    }
+
     static throwError(error){
         Dispatcher.handleAction("ERROR", { error });
     }

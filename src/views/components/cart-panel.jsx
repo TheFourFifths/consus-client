@@ -28,8 +28,8 @@ export default class CartPanel extends React.Component {
                     }
                 } else if(result.type == 'model') {
                     // A model has been received.
-                    if(this.props.equipmentAddresses.includes(e.target.value)){
-                        // A duplicate model was scanned
+                    if(this.props.equipment.find(content => { return content.address === e.target.value; })){
+                        CartController.incrementModel(e.target.value);
                     } else {
                         CartController.getModel(e.target.value);
                     }
@@ -49,13 +49,17 @@ export default class CartPanel extends React.Component {
     }
 
     renderEquipment() {
-        if(this.props.equipmentAddresses.length === 0) {
+        if(this.props.equipment.length === 0) {
             return <div><br/><i>Cart is empty.</i><br/><br/></div>;
         }
         return (
             <ul>
-                {this.props.equipmentAddresses.map((address, i) => {
-                    return <li key={i}>{address}</li>;
+                {this.props.equipment.map((content, i) => {
+                    if(content.quantity) {
+                        return <li key={i}>{content.address} x{content.quantity}</li>;
+                    } else {
+                        return <li key={i}>{content.address}</li>;
+                    }
                 })}
             </ul>
         );

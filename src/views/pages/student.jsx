@@ -26,7 +26,8 @@ export default class Student extends ListenerComponent {
         return {
             student: StudentStore.getStudent(),
             equipmentAddresses: CartStore.getContents().map(content => content.address),
-            adminCodeRequired: AuthenticationStore.overrideNeeded()
+            adminCodeRequired: AuthenticationStore.overrideNeeded(),
+            equipment: CartStore.getContents()
         };
     }
 
@@ -37,7 +38,7 @@ export default class Student extends ListenerComponent {
 
     checkOut() {
         if(CartStore.getContents().length > 0)
-            StudentController.checkout(this.state.student.id, this.state.equipmentAddresses);
+            StudentController.checkout(this.state.student.id, this.state.equipment);
         else StudentController.throwNoItemsError();
     }
 
@@ -45,7 +46,7 @@ export default class Student extends ListenerComponent {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} />
-                <CartPanel equipmentAddresses={this.state.equipmentAddresses} cancel={StudentController.cancelCheckout} submit={this.checkOut.bind(this)} student={this.state.student} />
+                <CartPanel equipment={this.state.equipment} cancel={StudentController.cancelCheckout} submit={this.checkOut.bind(this)} student={this.state.student} />
                 <div className='clear'></div>
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'

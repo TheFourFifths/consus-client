@@ -24,32 +24,46 @@ export default class StudentPanel extends ListenerComponent {
 
     renderEquipment() {
         if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
-            return <i className='equipment-none'>Student has no equipment checked out.</i>;
+            return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
+
+        let modelCounts = [];
+        this.props.student.models.forEach(model => {
+            let exists = false;
+            modelCounts.forEach(mc => {
+                if(model.address === mc.address && !exists){
+                    mc.quantity++;
+                    exists = true;
+                }
+            });
+            if(!exists){
+                modelCounts.push({address: model.address, name: model.name, quantity: 1});
+            }
+        });
+
         return (
             <div>
                 {this.props.student.items.map((item, i) => {
-                    return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderItemInfo(item)}
                         </div>
-                    </Link>;
+                    </Link>);
                 })}
-                {this.props.student.models.map((model, m)=>{
-                    return <Link to={`/model/${model.address}`}  key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+
+                {modelCounts.map((model, m) => {
+                    return (<Link to={`/model/${model.address}`} key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderModelInfo(model)}
                         </div>
-                    </Link>;
+                    </Link>);
                 })}
             </div>
         );
     }
 
     renderModelInfo(model){
-        return <div>
-            {model.name} <i>{model.address}</i>
-        </div>
+        return (<div>{model.name} <i>{model.address}</i> {model.quantity}</div>);
     }
 
     renderItemInfo(item){
