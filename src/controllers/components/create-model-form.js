@@ -23,6 +23,7 @@ export default class ModelFormController {
     static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
         return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
             Dispatcher.handleAction('MODEL_UPDATED', model);
+            hashHistory.push('/model/' + model.address);
         }).catch(() => {
             Dispatcher.handleAction('ERROR', {
                 error: 'The server was not able to update the model. Is the server down?'
