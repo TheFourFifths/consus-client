@@ -15,7 +15,7 @@ describe('ItemFormController', () => {
             hashHistorySpy = router.hashHistory.push = sinon.spy();
         });
 
-        it('Should push "/" to the hashHistory after item is created',() => {
+        it('Should push "/items" to the hashHistory after item is created', () => {
             createItem.returns(
                 new Promise(resolve => {
                     resolve();
@@ -24,7 +24,7 @@ describe('ItemFormController', () => {
             return ItemFormController.createItem('OIUIO').then(() => {
                 assert.isTrue(hashHistorySpy.called);
                 assert.strictEqual(hashHistorySpy.getCall(0).args.length, 1);
-                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/");
+                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/items");
             });
         });
 
