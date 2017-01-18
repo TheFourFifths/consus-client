@@ -28,10 +28,10 @@ export default class Models extends ListenerComponent {
             <div id="models">
                 <h1>All models</h1>
                 <Link to='/models/new'>Make new model</Link>
-                {this.state.models.map((model, key) => {
+                {this.state.models.map((model) => {
                     return (
-                        <div key= {key}>
-                            <Model model= {model} />
+                        <div key={model.address}>
+                            <Model model={model} />
                         </div>
                     );
                 })}
