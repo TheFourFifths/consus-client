@@ -120,3 +120,9 @@ export function searchStudent(id) {
         id
     });
 }
+
+export function uploadStudents(data){
+    return post('student', {
+        data
+    });
+}

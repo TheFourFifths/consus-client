@@ -18,6 +18,7 @@ This document describes the Flux actions used in the Consus client.
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
     - [ERROR](#error)
+    - [FILE_UNSUPPORTED](#file_unsupported)
     - [INFO](#info)
     - [INVALID_CODE](#invalid_code)
     - [ITEMS_RECEIVED](#items_received)
@@ -32,6 +33,7 @@ This document describes the Flux actions used in the Consus client.
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
     - [STUDENT_FOUND](#student_found)
+    - [STUDENTS_UPLOADED](#students_uploaded)
     - [WARN](#warn)
 
 ## ADMIN_CODE_ENTERED
@@ -161,6 +163,15 @@ Dispatched when an error modal must be shown to the user.
     "error": "ERROR! CATASTROPHIC MELTDOWN IMMANENT!"
 }
 ```
+
+
+## FILE_UNSUPPORTED
+
+Dispatched when the user tries to upload a file that is not supported
+
+### Data
+
+None.
 
 
 ## INFO
@@ -302,6 +313,13 @@ Dispatched when searching for a student has succeeded.
 
 The found student object.
 
+## STUDENTS_UPLOADED
+
+Dispatched when uploading excel doc has finished uploading to the server
+
+### Data
+
+None.
 
 ## WARN
 
