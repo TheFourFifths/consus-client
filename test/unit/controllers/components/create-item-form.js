@@ -18,7 +18,10 @@ describe('ItemFormController', () => {
         it('Should push "/" to the hashHistory after item is created',() => {
             createItem.returns(
                 new Promise(resolve => {
-                    resolve();
+                    resolve({
+                        address: 'iGwEZUvfA',
+                        modelName: 'resistor'
+                    });
                 })
             );
             return ItemFormController.createItem('OIUIO').then(() => {
