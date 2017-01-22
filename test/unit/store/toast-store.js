@@ -165,4 +165,27 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in Excel format!');
     });
 
+    it('should add a toast when a model is updated', () => {
+        let modelName = 'What a name';
+        let modelAddres = 'Wowza';
+        Dispatcher.handleAction('MODEL_UPDATED', {
+            name: modelName,
+            address: modelAddres
+
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddres}) was updated!`);
+    });
+
+    it('should add toast when model is deleted', () => {
+        let modelName = 'testerino';
+        let modelAddress = 'not really an address';
+        Dispatcher.handleAction('MODEL_DELETED', {
+            name: modelName,
+            address: modelAddress
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
+    });
+
 });
