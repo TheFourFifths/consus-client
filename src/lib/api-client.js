@@ -1,34 +1,37 @@
 import request from 'request';
-import { Dispatcher } from 'consus-core/flux';
-import { hashHistory } from 'react-router';
-import AuthStore from '../store/authentication-store';
 
-function get(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'GET',
-        qs: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            body = JSON.parse(body);
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+let PROTOCOL = 'http';
+let HOST = 'localhost';
+let PORT = 80;
+
+export function changeProtocol(protocol) {
+    PROTOCOL = protocol;
 }
 
-function post(endpoint, data) {
+export function changeHost(host) {
+    HOST = host;
+}
+
+export function changePort(port) {
+    PORT = port;
+}
+
+function call(endpoint, method, qs, json) {
     let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'POST',
-        json: data
+        uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
+        method
     };
+    if (typeof qs !== 'undefined') {
+        options.qs = qs;
+    }
+    if (typeof json !== 'undefined') {
+        options.json = json;
+    }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
             if (body.status === 'success') {
                 resolve(body.data);
             } else {
@@ -39,75 +42,102 @@ function post(endpoint, data) {
 }
 
 function del(endpoint, data) {
-    let options = {
-        uri: 'http://localhost/api/' + endpoint,
-        method: 'DELETE',
-        qs: data
-    };
-    return new Promise((resolve, reject) => {
-        request(options, (error, response, body) => {
-            body = JSON.parse(body);
-            if (body.status === 'success') {
-                resolve(body.data);
-            } else {
-                reject(body.message);
-            }
-        });
-    });
+    return call(endpoint, 'DELETE', data);
 }
 
-export function checkInItem(studentId, itemAddress){
-    post('checkin', {
+function get(endpoint, data) {
+    return call(endpoint, 'GET', data);
+}
+
+function post(endpoint, data) {
+    return call(endpoint, 'POST', undefined, data);
+}
+
+function patch(endpoint, qs, data) {
+    return call(endpoint, 'PATCH', qs, data);
+}
+
+//////////////////////
+export function deleteModel(modelAddress) {
+    return del('model', { modelAddress });
+}
+
+
+export function checkIn(studentId, itemAddress){
+    return post('checkin', {
         studentId,
         itemAddress
-    }).then(data => {
-        Dispatcher.handleAction('CHECKIN_SUCCESS', {
-            itemAddress,
-            modelName: data.modelName
-        });
-    }).catch(error => {
-        Dispatcher.handleAction('ERROR', {
-            error
-        });
     });
 }
 
-export function checkOutItems(studentId, itemAddresses){
+export function checkOutItems(studentId, itemAddresses, code){
     let params = {
         studentId,
         itemAddresses
     };
-
-    let code = AuthStore.getAdminCode();
-
-    if (code) params.adminCode = code;
-
-    post('checkout', params).then(() => {
-        Dispatcher.handleAction('CHECKOUT_SUCCESS');
-    }).catch(error => {
-        if (error === 'Student has overdue item'){
-            Dispatcher.handleAction('OVERRIDE_REQUIRED');
-        }else if(error === 'Invalid Admin'){
-            Dispatcher.handleAction('INVALID_CODE');
-        }else{
-            Dispatcher.handleAction('ERROR', {
-                error
-            });
-        }
-    });
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
+    return post('checkout', params);
 }
 
-export function createItem(modelAddress) {
-    return post('item', {
-        modelAddress
-    }).then(data => {
-        Dispatcher.handleAction('ITEM_CREATED', data);
-        hashHistory.push('/items');
-    });
+export function createItem(modelAddress){
+    return post('item', { modelAddress });
 }
 
 export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-    post('model', {
+    return post('model', {
+        name,
+        description,
+        manufacturer,
+        vendor,
+        location,
+        isFaulty,
+        faultDescription,
+        price,
+        count
+    });
+}
+
+export function deleteItem(item){
+    return del('item', {
+        itemAddress: item.address,
+        modelAddress: item.modelAddress
+    });
+}
+
+export function getAllItems() {
+    return get('item/all');
+}
+
+export function getAllModels() {
+    return get('model/all');
+}
+
+export function getOverdueItems() {
+    return get('item/overdue');
+}
+
+export function searchItem(address) {
+    return get('item', {
+        address
+    });
+}
+
+export function searchModel(address) {
+    return get('model', {
+        address
+    });
+}
+
+export function searchStudent(id) {
+    return get('student', {
+        id
+    });
+}
+
+export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+    return patch('model', { address }, {
         name: name,
         description: description,
         manufacturer: manufacturer,
@@ -115,108 +145,13 @@ export function createModel(name, description, manufacturer, vendor, location, i
         location: location,
         isFaulty: isFaulty,
         faultDescription: faultDescription,
-        price: price,
-        count: count
-    }).then(data => {
-        Dispatcher.handleAction('MODEL_CREATED', data);
-        hashHistory.push("/models");
-
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'The server was not able to create the item. Is the server down?'
-        });
+        price: price
     });
 }
 
-export function searchItem(address) {
-    return get('item', {
-        address
-    })
-    .then(data => {
-        Dispatcher.handleAction('ITEM_FOUND', data);
-    }).catch(() => {
-        Dispatcher.handleAction('NO_ITEM_FOUND');
-    });
-}
 
-export function searchItemForCheckout(address) {
-    get('item', {
-        address
-    }).then(data => {
-        if (data.status === 'CHECKED_OUT') {
-            return Dispatcher.handleAction('ERROR', {
-                error: 'This item is already checked out by another student.'
-            });
-        }
-        Dispatcher.handleAction('CHECKOUT_ITEM_FOUND', data);
-    });
-}
-
-export function searchModel(address) {
-    return get('model', {
-        address
-    })
-    .then(data => {
-        Dispatcher.handleAction('MODEL_FOUND', data);
-    }).catch(() => {
-        Dispatcher.handleAction('NO_MODEL_FOUND');
-    });
-}
-
-export function searchStudent(id) {
-    get('student', {
-        id
-    }).then(data => {
-        Dispatcher.handleAction('STUDENT_FOUND', data);
-        hashHistory.push('/student');
-    }).catch(() => {
-        Dispatcher.handleAction('ERROR', {
-            error: 'An invalid student ID was scanned. The student could not be found.'
-        });
-    });
-}
-
-export function justGetAllModels() {
-    get('model/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('MODELS_RECEIVED', data);
-    });
-}
-
-export function getAllModels() {
-    get('model/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('MODELS_RECEIVED', data);
-        hashHistory.push('/models');
-    });
-}
-
-export function getAllItems() {
-    get('item/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('ITEMS_RECEIVED', data);
-        hashHistory.push('/items');
-    });
-}
-
-export function getModelsForNewItem() {
-    get('model/all', {}
-    ).then(data => {
-        Dispatcher.handleAction('MODELS_RECEIVED', data);
-        hashHistory.push('/items/new');
-    });
-}
-export function deleteItem(item){
-    return del('item', {
-        itemAddress: item.address,
-        modelAddress: item.modelAddress
-    }).then(data => {
-        data.itemAddress = item.address;
-        Dispatcher.handleAction('ITEMS_RECEIVED', data);
-        Dispatcher.handleAction('ITEM_DELETED', data);
-    }).catch(data => {
-        Dispatcher.handleAction('ERROR', {
-            error: data
-        });
+export function uploadStudents(data){
+    return post('student', {
+        data
     });
 }
