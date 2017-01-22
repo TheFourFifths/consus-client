@@ -159,5 +159,5 @@ export function longTermCheckout(studentId, itemAddresses, adminCode, longtermDu
         adminCode,
         longtermDueDate,
         longtermProfessor
-    })
+    });
 }
