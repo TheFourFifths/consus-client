@@ -4,8 +4,9 @@ import { Dispatcher } from 'consus-core/flux';
 
 export default class ItemFormController {
     static createItem(modelAddress) {
-        return createItem(modelAddress).then(()=>{
+        return createItem(modelAddress).then(response => {
             hashHistory.push('/');
+            Dispatcher.handleAction('ITEM_CREATED', response);
         });
     }
 
