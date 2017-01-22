@@ -1,15 +1,23 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
-
+import { hashHistory } from 'react-router';
+import ConfirmModal from '../components/confirm-modal.jsx';
 export default class Model extends React.Component {
+
 
     constructor(props){
         super(props);
         if (props.model === undefined)
-            this.state = {model: null};
+            this.state = {
+                model: null,
+                needsConfirmationForDelete: false
+        };
         else
-            this.state = {model: props.model};
+            this.state = {
+                model: props.model,
+                needsConfirmationForDelete: false
+            };
     }
 
     componentDidMount(){
@@ -21,14 +29,41 @@ export default class Model extends React.Component {
             });
         }
     }
+    showConfirmModal(){
+        this.setState({
+            needsConfirmationForDelete: true
+        });
+    }
+    confirmDelete(bool){
+        if(bool === true) {
+            ModelController.deleteModel(this.state.model.address);
+        }
+        this.setState({
+            needsConfirmationForDelete: false
+        });
+    }
+    editModel(){
+        hashHistory.push(`/model/edit/${this.state.model.address}`);
+    }
+
+    deleteModel() {
+        ModelController.deleteModel(this.state.model.address);
+    }
 
     render() {
-        if(this.state.model === null)
+        if (this.state.model === null)
             return <i>Data is loading...</i>;
+        let confirmationText = `Are you sure you want to delete this model(${this.state.model.name})? WARNING: This will delete all
+                items associated with this model`;
         return (
             <div className='model'>
+                <ConfirmModal
+                    message={confirmationText}
+                    active={this.state.needsConfirmationForDelete}
+                    onSelect={bool => this.confirmDelete(bool)}
+                />
                 <div className="picArea">
-                    <img src="../assets/images/placeholder.jpg" />
+                    <img src="../assets/images/placeholder.jpg"/>
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.model.name}</h2>
@@ -55,13 +90,12 @@ export default class Model extends React.Component {
                     </div>
                 </div>
                 <div className="actionArea">
-                    <img src="../assets/images/add.svg" />
-                    <img src="../assets/images/edit.svg" />
-                    <img src="../assets/images/delete.svg" />
+                    <img src="../assets/images/add.svg"/>
+                    <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
+                    <img onClick={this.showConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
                 </div>
-                <div className="clear"> </div>
+                <div className="clear"></div>
             </div>
         );
     }
-
 }

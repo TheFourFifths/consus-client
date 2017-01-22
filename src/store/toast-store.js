@@ -81,4 +81,14 @@ store.registerHandler('FILE_UNSUPPORTED', () => {
     addToast('Unknown file extension. File must be in Excel format!');
     store.emitChange();
 });
+store.registerHandler('MODEL_UPDATED', model => {
+    addToast(`${model.name} (${model.address}) was updated!`);
+    store.emitChange();
+});
+
+store.registerHandler('MODEL_DELETED', model => {
+    addToast(`${model.name} (${model.address}) was deleted`);
+    store.emitChange();
+});
+
 export default store;
