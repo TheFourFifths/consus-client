@@ -124,9 +124,9 @@ describe('Creating an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'New item added: Resistor (iGwEZVvgu)');
-            return app.client.click('.toast').then(() => {  /* don't pollute my toasts! */
-                return app.client.waitForVisible('.toast', 10000, true);
-            });
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 10000, true);
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {
@@ -232,9 +232,9 @@ describe('Creating an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'Please select a model.');
-            return app.client.click('.toast').then(() => {  /* don't pollute my toasts! */
-                return app.client.waitForVisible('.toast', 10000, true);
-            });
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 10000, true);
         }).then(() => {
             return app.client.getValue('.create-item-form select option');
         }).then(vals => {
@@ -249,9 +249,9 @@ describe('Creating an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'New item added: Transistor (iGwEZW6nn)');
-            return app.client.click('.toast').then(() => {  /* don't pollute my toasts! */
-                return app.client.waitForVisible('.toast', 10000, true);
-            });
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 10000, true);
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {
