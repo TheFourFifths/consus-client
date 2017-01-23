@@ -74,9 +74,7 @@ store.registerHandler('CHECKOUT_DUPLICATE_MODEL', data => {
         return content.address === data.address;
     });
 
-    if(model.quantity < data.inStock){
-        model.quantity++;
-    }
+    model.quantity++;
 
     timer = setTimeout(() => {
         checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));

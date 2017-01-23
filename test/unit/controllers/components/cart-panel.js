@@ -147,7 +147,7 @@ describe("CartController", () => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
                 assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'All transistors have been checked out.');
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'transistor is out of stock.');
             });
         });
 

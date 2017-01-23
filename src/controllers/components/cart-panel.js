@@ -1,5 +1,6 @@
 import { searchItem, checkIn, searchModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import CartStore from '../../store/cart-store';
 
 export default class CartController {
 
@@ -29,7 +30,7 @@ export default class CartController {
         return searchModel(address).then(model => {
             if (model.inStock <= 0)
                 return Dispatcher.handleAction('ERROR', {
-                    error: 'All ' + model.name + 's have been checked out.'
+                    error: model.name + ' is out of stock.'
                 });
             if(!model.allowCheckout)
                 return Dispatcher.handleAction('ERROR', {
@@ -41,7 +42,17 @@ export default class CartController {
 
     static incrementModel(address) {
         return searchModel(address).then(model => {
-            Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
+            let storeModel = CartStore.getContents().find(content => {
+                return content.address === model.address;
+            });
+
+            if(storeModel.quantity < model.inStock) {
+                Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
+            } else {
+                return Dispatcher.handleAction('ERROR', {
+                    error: model.name + ' is out of stock.'
+                });
+            }
         });
     }
 
