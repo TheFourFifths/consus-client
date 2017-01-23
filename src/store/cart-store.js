@@ -6,6 +6,13 @@ let contents = [];
 
 let timer = null;
 
+function startTimer(period) {
+    timer = setTimeout(() => {
+        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+        clearTimer();
+    }, period);
+}
+
 function clearTimer() {
     clearTimeout(timer);
     timer = null;
@@ -40,10 +47,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
         status: data.status
     };
     contents.push(item);
-    timer = setTimeout(() => {
-        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
-        timer = null;
-    }, store.TIMEOUT_TIME);
+    startTimer(store.TIMEOUT_TIME);
     store.emitChange();
 });
 
@@ -58,10 +62,7 @@ store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
         };
         contents.push(model);
     }
-    timer = setTimeout(() => {
-        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
-        timer = null;
-    }, store.TIMEOUT_TIME);
+    startTimer(store.TIMEOUT_TIME);
     store.emitChange();
 });
 
@@ -76,10 +77,7 @@ store.registerHandler('CHECKOUT_DUPLICATE_MODEL', data => {
 
     model.quantity++;
 
-    timer = setTimeout(() => {
-        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
-        timer = null;
-    }, store.TIMEOUT_TIME);
+    startTimer(store.TIMEOUT_TIME);
     store.emitChange();
 });
 
