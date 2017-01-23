@@ -18,13 +18,9 @@ export default class StudentController{
 
     static checkout(id, equipment) {
         let equipmentAddresses = [];
-        if(equipment){
+        if (equipment) {
             equipment.forEach(e => {
-                if(e.quantity){
-                    for(let i=0; i<e.quantity; i++){
-                        equipmentAddresses.push(e.address);
-                    }
-                } else {
+                for (let i = 0; i < e.quantity; i++){
                     equipmentAddresses.push(e.address);
                 }
             });
@@ -35,11 +31,11 @@ export default class StudentController{
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
         }).catch(error => {
-            if (error === 'Student has overdue item'){
+            if (error === 'Student has overdue item') {
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
-            }else if(error === 'Invalid Admin'){
+            } else if(error === 'Invalid Admin') {
                 Dispatcher.handleAction('CLEAR_ADMIN_CODE');
-            }else{
+            } else {
                 Dispatcher.handleAction('ERROR', {
                     error
                 });
