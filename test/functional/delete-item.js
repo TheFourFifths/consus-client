@@ -27,7 +27,6 @@ describe('Deleting an Item', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -58,7 +57,7 @@ describe('Deleting an Item', function () {
         mockServer.expect({
             method: 'delete',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
             },

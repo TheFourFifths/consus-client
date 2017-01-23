@@ -35,7 +35,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response: {
@@ -53,7 +53,6 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -95,7 +94,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 address: 'iGwEZUvfA'
             },
             response:{
@@ -113,7 +112,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            request: {
+            json: {
                 adminCode: null,
                 studentId: '123456',
                 itemAddresses: ['iGwEZUvfA']
@@ -126,7 +125,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
               id: '123456'
             },
             response: {
@@ -182,7 +181,7 @@ describe('Checking an item out', function () {
       mockServer.expect({
           method: 'get',
           endpoint: '/api/item',
-          request: {
+          qs: {
               address: 'iGwEZVHHE'
           },
           response:{
@@ -214,7 +213,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 address: 'iGwEZVeaT'
             },
             response:{
@@ -232,7 +231,7 @@ describe('Checking an item out', function () {
        mockServer.expect({
            method: 'get',
            endpoint: '/api/item',
-           request: {
+           qs: {
                address: 'iGwEZVHHE'
            },
            response:{
@@ -250,7 +249,7 @@ describe('Checking an item out', function () {
       mockServer.expect({
           method: 'post',
           endpoint: '/api/checkout',
-          request: {
+          json: {
               adminCode: null,
               studentId: '123456',
               itemAddresses: ['iGwEZVeaT','iGwEZVHHE']
@@ -263,7 +262,7 @@ describe('Checking an item out', function () {
       mockServer.expect({
           method: 'get',
           endpoint: '/api/student',
-          request: {
+          qs: {
             id: '123456'
           },
           response: {
@@ -343,7 +342,7 @@ describe('Checking an item out', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 address: 'iGwEZUvfA'
             },
             response:{
@@ -361,7 +360,7 @@ describe('Checking an item out', function () {
        mockServer.expect({
            method: 'get',
            endpoint: '/api/item',
-           request: {
+           qs: {
                address: 'iGwEZUvfA'
            },
            response:{
