@@ -27,19 +27,7 @@ export default class StudentPanel extends ListenerComponent {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
 
-        let modelCounts = [];
-        this.props.student.models.forEach(model => {
-            let exists = false;
-            modelCounts.forEach(mc => {
-                if(model.address === mc.address && !exists){
-                    mc.quantity++;
-                    exists = true;
-                }
-            });
-            if(!exists){
-                modelCounts.push({address: model.address, name: model.name, quantity: 1});
-            }
-        });
+        let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
 
         return (
             <div>

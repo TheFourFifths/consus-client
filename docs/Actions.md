@@ -14,7 +14,7 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_ADMIN_WINDOW](#clear_admin_window)
     - [CLEAR_ALL_DATA](#clear_all_data)
     - [CLEAR_ERROR](#clear_error)
-    - [CLEAR_ITEMS](#clear_items)
+    - [CLEAR_CONTENTS](#clear_contents)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
     - [ERROR](#error)
@@ -109,9 +109,9 @@ Dispatched when an error should be cleared. Note that this also clears any "erro
 None.
 
 
-## CLEAR_ITEMS
+## CLEAR_CONTENTS
 
-Dispatched when all items should be removed. It currently only removes items from the CartStore.
+Dispatched when all contents of the current cart should be removed. It removes all items and models from the CartStore.
 
 ### Data
 

@@ -104,9 +104,9 @@ export default class CreateModelForm extends React.Component {
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
                     Price per unit:<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    Can it be checked out?:<br/>
+                    Can it be checked out?:
                     <input type='checkbox' value={this.state.allowCheckout} onChange={this.changeAllowCheckout.bind(this)} checked={this.state.checked} /><br/>
-                    {this.state.checked && <span>Amount in stock:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} placeholder='Count' required/></span>}<br/><br/>
+                    {this.state.checked && <span>Amount in stock:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} required/></span>}<br/><br/>
                     <input type='submit' value='Create Model' />
                 </form>
             </div>

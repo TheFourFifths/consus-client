@@ -7,7 +7,8 @@ export default class OmnibarController {
         return searchStudent(id).then(student =>{
             Dispatcher.handleAction("STUDENT_FOUND", student);
             hashHistory.push('/student');
-        }).catch(() => {
+        }).catch((e) => {
+            console.log(e);
             Dispatcher.handleAction("ERROR", {
                 error: "An invalid student ID was scanned. The student could not be found."
             });
