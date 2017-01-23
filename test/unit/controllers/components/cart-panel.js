@@ -205,7 +205,7 @@ describe("CartController", () => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_DUPLICATE_MODEL");
-            })
+            });
         });
 
         afterEach(() => {
