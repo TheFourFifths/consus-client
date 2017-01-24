@@ -2,7 +2,6 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
-// import ModelStore from '../../src/store/model-store';
 
 describe('View all models', function () {
 
