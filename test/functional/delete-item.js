@@ -27,7 +27,6 @@ describe('Deleting an Item', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -58,7 +57,7 @@ describe('Deleting an Item', function () {
         mockServer.expect({
             method: 'delete',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
             },
@@ -97,9 +96,9 @@ describe('Deleting an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'An item was deleted: Resistor (iGwEZUvfA)');
-            return app.client.click('.toast').then(() => {  /* don't pollute my toasts! */
-                return app.client.waitForVisible('.toast', 5000, true);
-            });
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 5000, true);
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {

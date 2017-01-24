@@ -35,7 +35,7 @@ describe('Checking an item in', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response: {
@@ -59,7 +59,6 @@ describe('Checking an item in', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -107,7 +106,7 @@ describe('Checking an item in', function () {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkin',
-            request: {
+            json: {
                 studentId: '123456',
                 itemAddress: 'iGwEZUvfA'
             },

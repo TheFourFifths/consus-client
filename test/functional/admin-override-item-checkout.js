@@ -35,7 +35,7 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response: {
@@ -59,7 +59,6 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -108,7 +107,7 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/item',
-            request: {
+            qs: {
                 address: 'iGwEZVHHE'
             },
             response: {
@@ -136,7 +135,7 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            request: {
+            json: {
                 adminCode: null,
                 studentId: '123456',
                 itemAddresses: ['iGwEZVHHE']
@@ -159,7 +158,7 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'post',
             endpoint: '/api/checkout',
-            request: {
+            json: {
                 adminCode: '3214',
                 studentId: '123456',
                 itemAddresses: ['iGwEZVHHE']
@@ -171,7 +170,7 @@ describe('Admin override on item checkout', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response: {

@@ -62,10 +62,8 @@ export default class MockServer {
     expect(call) {
         assert.isString(call.method, 'Call method must be a string.');
         assert.isString(call.endpoint, 'Call endpoint must be a string.');
-        if(call.json === undefined)
-            call.json = {};
-        if(call.qs === undefined)
-            call.qs = {};
+        call.json = call.json || {};
+        call.qs = call.qs || {};
         assert.isObject(call.response, 'Call response must be an object.');
         this.expectedCalls.push(call);
     }

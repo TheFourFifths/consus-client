@@ -35,7 +35,7 @@ describe('Student Lookup', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
-            request: {
+            qs: {
                 id: '123456'
             },
             response: {
@@ -59,7 +59,6 @@ describe('Student Lookup', function () {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/model/all',
-            request: {},
             response: {
                 status: 'success',
                 data: {
@@ -107,7 +106,7 @@ describe('Student Lookup', function () {
       mockServer.expect({
           method: 'get',
           endpoint: '/api/student',
-          request: {
+          qs: {
               id: '111111'
           },
           response: {
@@ -154,7 +153,7 @@ describe('Student Lookup', function () {
       mockServer.expect({
           method: 'get',
           endpoint: '/api/student',
-          request: {
+          qs: {
               id: '112994'
           },
           response: {
@@ -191,7 +190,7 @@ describe('Student Lookup', function () {
       mockServer.expect({
           method: 'get',
           endpoint: '/api/student',
-          request: {
+          qs: {
               id: '000000'
           },
           response: {
