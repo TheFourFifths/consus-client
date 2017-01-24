@@ -14,11 +14,18 @@ function createWindow() {
         show: false
     });
 
-    // Open developer tools
-    window.webContents.openDevTools();
+    // Open developer tools when in development mode
+    if (process.argv.indexOf('--dev') > -1) {
+        window.webContents.openDevTools();
+    }
+
+    // Capture an optional port from the command line args
+    let port = process.argv.reduce((port, arg) => {
+        return (arg.match(/^--port=(\d+)$/) || [0, port])[1];
+    }, 80);
 
     // Load the app's webpage
-    window.loadURL('file://' + __dirname + '/index.html');
+    window.loadURL(`file://${__dirname}/index.html?port=${port}`);
 
     // Show the application once it's loaded
     window.once('ready-to-show', () => {

@@ -27,7 +27,7 @@ export default class StudentPanel extends ListenerComponent {
             return <i className='equipment-none'>Student has no equipment checked out.</i>;
         }
         return (
-            <div>
+            <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
                     return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">

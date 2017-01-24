@@ -3,6 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { changePort } from '../lib/api-client';
+changePort(location.search.split('port=')[1]);
 
 import App from './app.jsx';
 import Index from './pages/index.jsx';
