@@ -3,6 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { changePort } from '../lib/api-client';
+changePort(location.search.split('port=')[1]);
 
 import App from './app.jsx';
 import Index from './pages/index.jsx';
@@ -16,6 +18,7 @@ import editModelForm from './components/edit-model-form.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
 import Item from './components/item.jsx';
+import OverdueItems from './pages/overdue.jsx';
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -27,9 +30,10 @@ ReactDOM.render((
             <Route path="/model/:address" component={Model}/>
             <Route path='/model/edit/:address' component={editModelForm} />
             <Route path='/items' component={Items} />
+            <Route path="/item/:address" component={Item}/>
+            <Route path="/overdue" component={OverdueItems} />
             <Route path='/items/new' component={CreateItemForm} />
-	    <Route path='/students/upload' component={StudentFileUpload} />
-	    <Route path="/item/:address" component={Item}/>
+            <Route path='/students/upload' component={StudentFileUpload} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
