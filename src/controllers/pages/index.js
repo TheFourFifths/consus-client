@@ -1,4 +1,4 @@
-import { getAllModels, getAllItems } from '../../lib/api-client';
+import { getAllModels, getAllItems, getOverdueItems } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 
@@ -14,6 +14,14 @@ export default class IndexController {
         return getAllModels().then(models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/models');
+        });
+    }
+
+    static getOverdueItems() {
+        return Promise.all([getOverdueItems(), getAllModels()]).then(results => {
+            Dispatcher.handleAction("MODELS_RECEIVED", results[1]);
+            Dispatcher.handleAction("OVERDUE_ITEMS_RECEIVED", results[0]);
+            hashHistory.push('/overdue');
         });
     }
 }

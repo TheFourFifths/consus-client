@@ -30,6 +30,7 @@ This document describes the Flux actions used in the Consus client.
     - [MODEL_FOUND](#model_found)
     - [NO_ITEM_FOUND](#no_item_found)
     - [NO_MODEL_FOUND](#no_model_found)
+    - [OVERDUE_ITEMS_RECEIVED](#overdue_items_received)
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
     - [STUDENT_FOUND](#student_found)
@@ -278,6 +279,13 @@ Dispatched when searching for an item failed.
 
 None.
 
+## OVERDUE_ITEM_RECEIVED
+
+Dispatched when the list of all overdue items is received from the server.
+
+###Data
+
+- `items`: the list of overdue items as JSON objects
 
 ## OVERRIDE_REQUIRED
 
