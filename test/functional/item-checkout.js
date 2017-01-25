@@ -41,7 +41,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
@@ -113,7 +113,7 @@ describe('Checking an item out', function () {
             endpoint: '/api/checkout',
             json: {
                 adminCode: null,
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZUvfA']
             },
             response: {
@@ -130,7 +130,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
@@ -250,7 +250,7 @@ describe('Checking an item out', function () {
           endpoint: '/api/checkout',
           json: {
               adminCode: null,
-              studentId: '123456',
+              studentId: 123456,
               itemAddresses: ['iGwEZVeaT','iGwEZVHHE']
           },
           response: {
@@ -267,7 +267,7 @@ describe('Checking an item out', function () {
           response: {
               status: 'success',
               data: {
-                  id: '123456',
+                  id: 123456,
                   name: 'John von Neumann',
                   status: 'C - Current',
                   items: [

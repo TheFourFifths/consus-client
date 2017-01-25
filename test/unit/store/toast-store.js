@@ -29,7 +29,7 @@ describe('ToastStore', () => {
 
     it('should add a toast message for successful checkins', () => {
         Dispatcher.handleAction('STUDENT_FOUND', {
-            id: '123456',
+            id: 123456,
             name: 'Pope Francis',
             items: []
         });
@@ -48,7 +48,7 @@ describe('ToastStore', () => {
 
     it('should add a toast message for successful checkouts', () => {
         Dispatcher.handleAction('STUDENT_FOUND', {
-            id: '123456',
+            id: 123456,
             name: 'Pope Francis',
             items: []
         });

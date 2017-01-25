@@ -51,12 +51,12 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkin',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 itemAddress: 'iGwEZUvfA'
             },
             response
         });
-        return checkIn('123456', 'iGwEZUvfA').then(data => {
+        return checkIn(123456, 'iGwEZUvfA').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
@@ -70,12 +70,12 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkout',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
             },
             response
         });
-        return checkOutContents('123456', ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -89,13 +89,13 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkout',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutContents('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -133,8 +133,9 @@ describe('API Client', () => {
                 manufacturer: 'Live',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
+                isFaulty: false,
+                faultDescription: '',
                 price: 10.50,
-                allowCheckout: true,
                 count: 20
             }
         };
@@ -358,7 +359,7 @@ describe('API Client', () => {
             status: 'success',
             data: {
                 student: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     items: []
                 }
@@ -372,7 +373,7 @@ describe('API Client', () => {
             },
             response
         });
-        return searchStudent('123456').then(data => {
+        return searchStudent(123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

@@ -25,7 +25,7 @@ describe('CartStore', () => {
 
     it('should clear items on checkout',() => {
         Dispatcher.handleAction('STUDENT_FOUND', {
-            id: '123456',
+            id: 123456,
             name: 'Pope Francis',
             items: []
         });
@@ -40,7 +40,7 @@ describe('CartStore', () => {
 
     it('should clear items on cancel', () => {
       Dispatcher.handleAction('STUDENT_FOUND', {
-          id: '123456',
+          id: 123456,
           name: 'Pope Francis',
           items: []
       });
@@ -55,7 +55,7 @@ describe('CartStore', () => {
 
     it('times out', function(done) {
         Dispatcher.handleAction("STUDENT_FOUND", {
-            id: '111111',
+            id: 111111,
             name: 'Poe',
             items: []
         });
@@ -95,7 +95,7 @@ describe('CartStore', () => {
 
     it('cancels timeout when new student is scanned', () => {
         Dispatcher.handleAction("STUDENT_FOUND", {
-            id: '111111',
+            id: 111111,
             name: 'Poe',
             items: []
         });
@@ -107,7 +107,7 @@ describe('CartStore', () => {
         });
         assert.isTrue(CartStore.isOnTimeout());
         Dispatcher.handleAction("STUDENT_FOUND", {
-            id: '123432',
+            id: 123432,
             name: 'Testy McTestface',
             items: []
         });
