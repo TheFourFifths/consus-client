@@ -19,6 +19,7 @@ export default class CartPanel extends React.Component {
         if(regex.test(e.target.value)) {
             try {
                 let result = readAddress(e.target.value);
+                assert.strictEqual(result.type, 'item');
                 let student = this.props.student;
                 if(result.type == 'item') {
                     if (student.items.some(item => item.address === e.target.value)) {
@@ -53,7 +54,7 @@ export default class CartPanel extends React.Component {
             return <div><br/><i>Cart is empty.</i><br/><br/></div>;
         }
         return (
-            <ul>
+            <ul className='items'>
                 {this.props.equipment.map((content, i) => {
                     if(content.quantity) {
                         return <li key={i}>{content.address} x{content.quantity}</li>;
