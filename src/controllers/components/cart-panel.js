@@ -30,7 +30,7 @@ export default class CartController {
         return searchModel(address).then(model => {
             if (model.inStock <= 0)
                 return Dispatcher.handleAction('ERROR', {
-                    error: ${model.name} + ' is out of stock.'
+                    error: `${model.name} is out of stock.`
                 });
             if(!model.allowCheckout)
                 return Dispatcher.handleAction('ERROR', {
@@ -50,7 +50,7 @@ export default class CartController {
                 Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
             } else {
                 return Dispatcher.handleAction('ERROR', {
-                    error: ${model.name} + ' is out of stock.'
+                    error: `${model.name} is out of stock.`
                 });
             }
         });
