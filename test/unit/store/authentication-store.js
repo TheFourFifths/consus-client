@@ -23,7 +23,7 @@ describe('AuthStore', () => {
 
     it('Should clear override required on checkout success', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432345',
+            id: 432345,
             name: 'Poe',
             items: [{address:1},{address:2},{address:3},{address:4}]
         });
