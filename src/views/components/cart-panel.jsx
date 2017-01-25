@@ -19,7 +19,7 @@ export default class CartPanel extends React.Component {
         if(regex.test(e.target.value)) {
             try {
                 let result = readAddress(e.target.value);
-                assert.strictEqual(result.type, 'item');
+                assert(result.type === 'item' || result.type === 'model');
                 let student = this.props.student;
                 if(result.type == 'item') {
                     if (student.items.some(item => item.address === e.target.value)) {

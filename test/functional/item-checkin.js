@@ -70,8 +70,7 @@ describe('Checking an item in', function () {
                             manufacturer: 'Manufacturer',
                             vendor: 'Mouzer',
                             location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
+                            allowCheckout: false,
                             price: 10.5,
                             count: 20,
                             items: [

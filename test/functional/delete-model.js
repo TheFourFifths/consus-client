@@ -38,8 +38,7 @@ describe('Deleting a model', function () {
                             manufacturer: 'Manufacturer',
                             vendor: 'Mouzer',
                             location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
+                            allowCheckout: false,
                             price: 10.5,
                             count: 20,
                             items: [
@@ -53,8 +52,7 @@ describe('Deleting a model', function () {
                             manufacturer: 'Vroom Industries',
                             vendor: 'Fankserrogatoman Inc',
                             location: 'Shelf 2',
-                            isFaulty: false,
-                            faultDescription: '',
+                            allowCheckout: false,
                             price: 4.00,
                             count: 10,
                             items: [
@@ -92,8 +90,7 @@ describe('Deleting a model', function () {
                         manufacturer: 'Pancakes R\' Us',
                         vendor: 'Mouzer',
                         location: 'Shelf 14',
-                        isFaulty: false,
-                        faultDescription: '',
+                        allowCheckout: false,
                         price: 10.5,
                         count: 20,
                         items: [
@@ -117,8 +114,7 @@ describe('Deleting a model', function () {
                             manufacturer: 'Vroom Industries',
                             vendor: 'Fankserrogatoman Inc',
                             location: 'Shelf 2',
-                            isFaulty: false,
-                            faultDescription: '',
+                            allowCheckout: false,
                             price: 4.00,
                             count: 10,
                             items: [
