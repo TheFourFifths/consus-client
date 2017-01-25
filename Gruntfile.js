@@ -78,9 +78,14 @@ module.exports = function(grunt) {
             options: {
                 reporter: 'spec'
             },
-            all: {
+            unit: {
                 files: {
-                    src: ['.test/**/*.js']
+                    src: ['.test/unit/**/*.js']
+                }
+            },
+            functional: {
+                files: {
+                    src: ['.test/functional/**/*.js']
                 }
             }
         },
