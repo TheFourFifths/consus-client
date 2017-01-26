@@ -3,12 +3,12 @@ import { hashHistory } from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 export default class ModelFormController {
     static createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
-        return createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count).then(model=> {
+        return createModel(name, description, manufacturer, vendor, location, allowCheckout, parseFloat(price), parseInt(count)).then(model => {
             Dispatcher.handleAction("MODEL_CREATED", model);
             hashHistory.push('/models');
-        }).catch(() => {
+        }).catch(e => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to create the model. Is the server down?'
+                error: e
             });
         });
     }
@@ -24,9 +24,9 @@ export default class ModelFormController {
         return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
             Dispatcher.handleAction('MODEL_UPDATED', model);
             hashHistory.push('/model/' + model.address);
-        }).catch(() => {
+        }).catch(e => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to update the model. Is the server down?'
+                error: e
             });
         });
     }

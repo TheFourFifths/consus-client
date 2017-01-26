@@ -20,7 +20,11 @@ export default class StudentController{
         let equipmentAddresses = [];
         if (equipment) {
             equipment.forEach(e => {
-                for (let i = 0; i < e.quantity; i++){
+                if(e.quantity){
+                    for (let i = 0; i < e.quantity; i++){
+                        equipmentAddresses.push(e.address);
+                    }
+                } else {
                     equipmentAddresses.push(e.address);
                 }
             });
