@@ -186,7 +186,7 @@ describe('Creating an Item', function () {
                             address: 'm8y7nFLsT',
                             count: 10,
                             description: 'Something used in computers',
-                            allowCheckou: false,
+                            allowCheckout: false,
                             items: [],
                             location: 'Shelf 2',
                             manufacturer: 'Vroom Industries',

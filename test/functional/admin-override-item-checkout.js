@@ -31,7 +31,7 @@ describe('Admin override on item checkout', function () {
         mockServer.clearExpectations();
     });
 
-    it('navigates to the student page', () => {
+    it.only('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
