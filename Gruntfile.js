@@ -87,6 +87,16 @@ module.exports = function(grunt) {
                 files: {
                     src: ['.test/functional/**/*.js']
                 }
+            },
+            integration: {
+                options: {
+                    env: {
+                        test: 'integration'
+                    }
+                },
+                files: {
+                    src: ['.test/functional/**/*.js']
+                }
             }
         },
         clean: {
@@ -183,7 +193,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['eslint']);
-    grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
-    grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli']);
+    grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
+    grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
+    grunt.registerTask('integration-test', ['build', 'clean:test', 'babel:test', 'mochacli:integration']);
     grunt.registerTask('package', ['build', 'electron', 'compress']);
 };

@@ -17,6 +17,7 @@
     "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
     "test": "grunt test",
     "lintless-test": "grunt lintless-test",
+    "integration-test": "grunt integration-test",
     "lint": "grunt lint",
     "package": "grunt package"
   },
