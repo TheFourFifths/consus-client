@@ -35,8 +35,7 @@ export default class Student extends ListenerComponent {
         this.checkOut();
     }
 
-    checkOut(e) {
-        e.preventDefault();
+    checkOut() {
         if(CartStore.getItems().length <= 0){
             StudentController.throwNoItemsError();
             return;
