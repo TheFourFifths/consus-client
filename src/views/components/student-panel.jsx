@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
-
+import Moment from 'moment-timezone';
 export default class StudentPanel extends ListenerComponent {
 
     componentWillMount(){
@@ -21,19 +21,31 @@ export default class StudentPanel extends ListenerComponent {
             models: ModelStore.getAllModels()
         }
     }
+    renderDueDate(item){
+       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm:ss a')
 
+        return (
+            <div>Due date: {timeString}</div>
+        )
+
+    }
+    changeDueDate(item){
+        console.log('changing due date for: ' + item.address);
+    }
     renderEquipment() {
         if(this.props.student.items.length === 0) {
             return <i className='equipment-none'>Student has no equipment checked out.</i>;
         }
+
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
-                    return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
+                    return <div className="item-info"  key={i}>
+                        <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                             {this.renderItemInfo(item)}
+                        </Link>
+                        <div onClick={this.changeDueDate.bind(this, item)}>{this.renderDueDate(item)}</div>
                         </div>
-                    </Link>;
                 })}
             </div>
         );
