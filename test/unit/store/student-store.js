@@ -14,12 +14,12 @@ describe('StudentStore', () => {
 
     it('should get the student', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432345',
+            id: 432345,
             name: 'Poe',
             items: []
         });
         let student = StudentStore.getStudent();
-        assert.strictEqual(student.id,'432345');
+        assert.strictEqual(student.id, 432345);
         assert.strictEqual(student.name,'Poe');
     });
 
@@ -31,7 +31,7 @@ describe('StudentStore', () => {
     it("should remove an item from a student's list when it's checked in", () =>{
         //Set Up Test State
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432345',
+            id: 432345,
             name: 'Poe',
             items: [{address:1},{address:2},{address:3},{address:4}]
         });
@@ -50,7 +50,7 @@ describe('StudentStore', () => {
 
     it("should add item to student's list on checkout success", () => {
         Dispatcher.handleAction("STUDENT_FOUND", {
-            id: "32423",
+            id: 32423,
             name: "Poe",
             items: []
         });
@@ -70,7 +70,7 @@ describe('StudentStore', () => {
     it("Should know if the student has an overdue item", () => {
         //Test that it will find an overdue item
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432432432423432432432432432',
+            id: 432432432423432432432432432,
             name: 'Poe',
             items: [{
                 address: 1,
@@ -85,7 +85,7 @@ describe('StudentStore', () => {
 
         //Test that it will not say an item is overdue if it's not.
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432432432423432432432432432',
+            id: 432432432423432432432432432,
             name: 'Poe',
             items: [{
                 address: 1,
