@@ -1,10 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
+import { changePort, call } from '../../.dist/lib/api-client';
 
 const OFF = 0;
 const STARTING = 1;
 const ON = 2;
+
+if (process.env.test === 'integration') {
+    changePort(8081);
+}
 
 /**
  * See: docs/Mock_Server.md
@@ -50,7 +55,25 @@ export default class MockServer {
                     json,
                     response
                 });
-                res.json(response);
+                if (process.env.test !== 'integration') {
+                    return res.json(response);
+                }
+                endpoint = endpoint.substring(5);
+                call(endpoint, method, qs, json).then(data => {
+                    data = {
+                        status: 'success',
+                        data
+                    };
+                    try {
+                        assert.deepEqual(data, response);
+                    } catch (e) {
+                        response = {
+                            status: 'failure',
+                            message: 'Unexpected response'
+                        };
+                    }
+                    res.json(response);
+                });
             });
             this.server = app.listen(port || 80, () => {
                 this.status = ON;
@@ -64,6 +87,7 @@ export default class MockServer {
         assert.isString(call.endpoint, 'Call endpoint must be a string.');
         call.json = call.json || {};
         call.qs = call.qs || {};
+        call.endpoint = '/api/' + call.endpoint;
         assert.isObject(call.response, 'Call response must be an object.');
         this.expectedCalls.push(call);
     }

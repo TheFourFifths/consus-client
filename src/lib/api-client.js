@@ -16,7 +16,7 @@ export function changePort(port) {
     PORT = port;
 }
 
-function call(endpoint, method, qs, json) {
+export function call(endpoint, method, qs, json) {
     let options = {
         uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
         method

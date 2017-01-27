@@ -26,7 +26,7 @@ describe('Creating an Item', function () {
     it('creates a new item', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item/all',
+            endpoint: 'item/all',
             response: {
                 status: 'success',
                 data: {
@@ -56,7 +56,7 @@ describe('Creating an Item', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -92,7 +92,7 @@ describe('Creating an Item', function () {
         });
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/item',
+            endpoint: 'item',
             json: {
                 modelAddress: 'm8y7nEtAe'
             },
@@ -138,7 +138,7 @@ describe('Creating an Item', function () {
     it('tells the user to select a model', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item/all',
+            endpoint: 'item/all',
             response: {
                 status: 'success',
                 data: {
@@ -168,7 +168,7 @@ describe('Creating an Item', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -204,7 +204,7 @@ describe('Creating an Item', function () {
         });
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/item',
+            endpoint: 'item',
             json: {
                 modelAddress: 'm8y7nFLsT'
             },
