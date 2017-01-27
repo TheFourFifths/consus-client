@@ -52,12 +52,12 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkin',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 itemAddress: 'iGwEZUvfA'
             },
             response
         });
-        return checkIn('123456', 'iGwEZUvfA').then(data => {
+        return checkIn(123456, 'iGwEZUvfA').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
@@ -71,12 +71,12 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkout',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
             },
             response
         });
-        return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+        return checkOutItems(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -90,13 +90,13 @@ describe('API Client', () => {
             method: 'post',
             endpoint: '/api/checkout',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutItems('123456', ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        return checkOutItems(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -361,7 +361,7 @@ describe('API Client', () => {
             status: 'success',
             data: {
                 student: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     items: []
                 }
@@ -375,7 +375,7 @@ describe('API Client', () => {
             },
             response
         });
-        return searchStudent('123456').then(data => {
+        return searchStudent(123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
