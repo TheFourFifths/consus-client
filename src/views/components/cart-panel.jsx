@@ -28,7 +28,6 @@ export default class CartPanel extends React.Component {
                         CartController.getItem(e.target.value);
                     }
                 } else if(result.type == 'model') {
-                    // A model has been received.
                     if(this.props.equipment.find(content => { return content.address === e.target.value; })){
                         CartController.incrementModel(e.target.value);
                     } else {
@@ -57,9 +56,9 @@ export default class CartPanel extends React.Component {
             <ul className='items'>
                 {this.props.equipment.map((content, i) => {
                     if(content.quantity) {
-                        return <li key={i}>{content.address} x{content.quantity}</li>;
+                        return <li className="model" key={i}>{content.address} x{content.quantity}</li>;
                     } else {
-                        return <li key={i}>{content.address}</li>;
+                        return <li className="item" key={i}>{content.address}</li>;
                     }
                 })}
             </ul>

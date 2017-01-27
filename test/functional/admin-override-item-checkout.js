@@ -31,7 +31,7 @@ describe('Admin override on item checkout', function () {
         mockServer.clearExpectations();
     });
 
-    it.only('navigates to the student page', () => {
+    it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
             endpoint: '/api/student',
@@ -51,6 +51,7 @@ describe('Admin override on item checkout', function () {
                             timestamp: Math.floor(Date.now() / 1000) - 1000000000
                         }
                     ],
+                    models: [],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -161,7 +162,7 @@ describe('Admin override on item checkout', function () {
             json: {
                 adminCode: '3214',
                 studentId: 123456,
-                itemAddresses: ['iGwEZVHHE']
+                equipmentAddresses: ['iGwEZVHHE']
             },
             response: {
                 status: 'success'

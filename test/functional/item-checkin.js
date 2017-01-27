@@ -51,6 +51,7 @@ describe('Checking an item in', function () {
                             timestamp: Math.floor(Date.now() / 1000) + 1000000000
                         }
                     ],
+                    models: [],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
