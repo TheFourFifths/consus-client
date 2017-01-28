@@ -33,22 +33,24 @@ describe('Creating an Item', function () {
                     items: [
                         {
                             address: 'iGwEZUvfA',
-                            faultDesctiption: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nEtAe',
-                            status: 'AVAILABLE'
-                        }, {
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
+                        },
+                        {
                             address: 'iGwEZVHHE',
-                            faultDescription: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }, {
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
+                        },
+                        {
                             address: 'iGwEZVeaT',
-                            faultDescription: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
                         }
                     ]
                 }
@@ -63,28 +65,33 @@ describe('Creating an Item', function () {
                     models: [
                         {
                             address: 'm8y7nEtAe',
-                            count: 20,
-                            description: 'V = IR',
-                            faultDescription: '',
-                            isFaulty: false,
-                            items: [ 'iGwEXUvfA', 'iGwEZVHHE', 'iGwEZVeaT' ],
-                            location: 'Shelf 14',
-                            manufacturer: "Pancakes R' Us",
                             name: 'Resistor',
-                            price: 10.5,
-                            vendor: 'Mouzer'
-                        }, {
-                            address: 'm8y7nFLsT',
-                            count: 10,
-                            description: 'Something used in computers',
-                            faultDescription: '',
+                            description: 'V = IR',
+                            manufacturer: 'Pancakes R\' Us',
+                            vendor: 'Mouzer',
+                            location: 'Shelf 14',
                             isFaulty: false,
-                            items: [],
-                            location: 'Shelf 2',
-                            manufacturer: 'Vroom Industries',
+                            faultDescription: '',
+                            price: 10.5,
+                            count: 20,
+                            items: [
+                                'iGwEZUvfA',
+                                'iGwEZVHHE',
+                                'iGwEZVeaT'
+                            ]
+                        },
+                        {
+                            address: 'm8y7nFLsT',
                             name: 'Transistor',
+                            description: 'Something used in computers',
+                            manufacturer: 'Vroom Industries',
+                            vendor: 'Fankserrogatoman Inc',
+                            location: 'Shelf 2',
+                            isFaulty: false,
+                            faultDescription: '',
                             price: 4,
-                            vendor: 'Fankserrogatoman Inc'
+                            count: 10,
+                            items: []
                         }
                     ]
                 }
@@ -145,22 +152,31 @@ describe('Creating an Item', function () {
                     items: [
                         {
                             address: 'iGwEZUvfA',
-                            faultDesctiption: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nEtAe',
-                            status: 'AVAILABLE'
-                        }, {
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
+                        },
+                        {
                             address: 'iGwEZVHHE',
-                            faultDescription: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }, {
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
+                        },
+                        {
                             address: 'iGwEZVeaT',
-                            faultDescription: '',
-                            isFaulty: false,
                             modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
+                        },
+                        {
+                            address: 'iGwEZVvgu',
+                            modelAddress: 'm8y7nEtAe',
+                            status: 'AVAILABLE',
+                            isFaulty: false,
+                            faultDescription: ''
                         }
                     ]
                 }
@@ -175,28 +191,33 @@ describe('Creating an Item', function () {
                     models: [
                         {
                             address: 'm8y7nEtAe',
-                            count: 20,
-                            description: 'V = IR',
-                            faultDescription: '',
-                            isFaulty: false,
-                            items: [ 'iGwEXUvfA', 'iGwEZVHHE', 'iGwEZVeaT' ],
-                            location: 'Shelf 14',
-                            manufacturer: "Pancakes R' Us",
                             name: 'Resistor',
-                            price: 10.5,
-                            vendor: 'Mouzer'
-                        }, {
-                            address: 'm8y7nFLsT',
-                            count: 10,
-                            description: 'Something used in computers',
-                            faultDescription: '',
+                            description: 'V = IR',
+                            manufacturer: 'Pancakes R\' Us',
+                            vendor: 'Mouzer',
+                            location: 'Shelf 14',
                             isFaulty: false,
-                            items: [],
-                            location: 'Shelf 2',
-                            manufacturer: 'Vroom Industries',
+                            faultDescription: '',
+                            price: 10.5,
+                            count: 21,
+                            items: [
+                                'iGwEZUvfA',
+                                'iGwEZVHHE',
+                                'iGwEZVeaT'
+                            ]
+                        },
+                        {
+                            address: 'm8y7nFLsT',
                             name: 'Transistor',
+                            description: 'Something used in computers',
+                            manufacturer: 'Vroom Industries',
+                            vendor: 'Fankserrogatoman Inc',
+                            location: 'Shelf 2',
+                            isFaulty: false,
+                            faultDescription: '',
                             price: 4,
-                            vendor: 'Fankserrogatoman Inc'
+                            count: 10,
+                            items: []
                         }
                     ]
                 }
@@ -255,7 +276,7 @@ describe('Creating an Item', function () {
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {
-            assert.lengthOf(elements.value, 3);
+            assert.lengthOf(elements.value, 4);
             mockServer.validate();
         });
     });

@@ -95,7 +95,9 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    src: ['.test/functional/**/*.js']
+                    src: [
+                        '.test/functional/create-item.js'
+                    ]
                 }
             }
         },

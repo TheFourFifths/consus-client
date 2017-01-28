@@ -34,7 +34,7 @@ describe('Student Lookup', function () {
     it('Looks up a student', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -58,7 +58,7 @@ describe('Student Lookup', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -105,7 +105,7 @@ describe('Student Lookup', function () {
     it("Displays if an item is overdue", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
               id: '111111'
           },
@@ -152,7 +152,7 @@ describe('Student Lookup', function () {
     it("Displays message if student has no items", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
               id: '112994'
           },
@@ -189,7 +189,7 @@ describe('Student Lookup', function () {
     it("Pops an error modal if the student ID doesn't exist", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
               id: '000000'
           },

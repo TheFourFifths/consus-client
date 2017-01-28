@@ -27,7 +27,7 @@ describe('View all models', function () {
         let models;
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {

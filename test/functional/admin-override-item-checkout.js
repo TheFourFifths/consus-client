@@ -34,7 +34,7 @@ describe('Admin override on item checkout', function () {
     it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -58,7 +58,7 @@ describe('Admin override on item checkout', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -106,7 +106,7 @@ describe('Admin override on item checkout', function () {
     it('adds an item to the cart', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZVHHE'
             },
@@ -134,7 +134,7 @@ describe('Admin override on item checkout', function () {
     it('prompts for a pin to check out', () => {
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: null,
                 studentId: '123456',
@@ -157,7 +157,7 @@ describe('Admin override on item checkout', function () {
     it('completes the checkout with the admin pin', () => {
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: '3214',
                 studentId: '123456',
@@ -169,7 +169,7 @@ describe('Admin override on item checkout', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },

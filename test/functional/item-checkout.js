@@ -34,7 +34,7 @@ describe('Checking an item out', function () {
     it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -52,7 +52,7 @@ describe('Checking an item out', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -93,7 +93,7 @@ describe('Checking an item out', function () {
 
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZUvfA'
             },
@@ -111,7 +111,7 @@ describe('Checking an item out', function () {
 
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: null,
                 studentId: '123456',
@@ -124,7 +124,7 @@ describe('Checking an item out', function () {
 
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
               id: '123456'
             },
@@ -146,8 +146,6 @@ describe('Checking an item out', function () {
                 }
             }
         });
-
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -180,7 +178,7 @@ describe('Checking an item out', function () {
     it("fails to checkout an item that's already checked out", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/item',
+          endpoint: 'item',
           qs: {
               address: 'iGwEZVHHE'
           },
@@ -195,7 +193,6 @@ describe('Checking an item out', function () {
               }
          }
      });
-
      return app.client.setValue('.cart input[type="text"]','iGwEZVHHE').then(() => {
           return app.client.waitForVisible('#app .modal .modal-content');
       }).then(() => {
@@ -212,7 +209,7 @@ describe('Checking an item out', function () {
     it("can check out multiple items at once.", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZVeaT'
             },
@@ -230,7 +227,7 @@ describe('Checking an item out', function () {
 
        mockServer.expect({
            method: 'get',
-           endpoint: '/api/item',
+           endpoint: 'item',
            qs: {
                address: 'iGwEZVHHE'
            },
@@ -248,7 +245,7 @@ describe('Checking an item out', function () {
 
       mockServer.expect({
           method: 'post',
-          endpoint: '/api/checkout',
+          endpoint: 'checkout',
           json: {
               adminCode: null,
               studentId: '123456',
@@ -261,7 +258,7 @@ describe('Checking an item out', function () {
 
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
             id: '123456'
           },
@@ -338,10 +335,9 @@ describe('Checking an item out', function () {
     });
 
     it("doesn't allow the same items to be added to the cart twice", () => {
-
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZUvfA'
             },
@@ -354,27 +350,25 @@ describe('Checking an item out', function () {
                     isFaulty: false,
                     faultDescription: ''
                 }
-           }
-       });
-
-       mockServer.expect({
-           method: 'get',
-           endpoint: '/api/item',
-           qs: {
-               address: 'iGwEZUvfA'
-           },
-           response:{
-               status: 'success',
-               data: {
-                   address: 'iGwEZUvfA',
-                   modelAddress: 'm8y7nEtAe',
-                   status: 'AVAILABLE',
-                   isFaulty: false,
-                   faultDescription: ''
-               }
-          }
-      });
-
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'item',
+            qs: {
+                address: 'iGwEZUvfA'
+            },
+            response:{
+                status: 'success',
+                data: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE',
+                    isFaulty: false,
+                    faultDescription: ''
+                }
+            }
+        });
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -392,6 +386,6 @@ describe('Checking an item out', function () {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
         });
-    })
+    });
 
 });

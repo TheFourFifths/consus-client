@@ -26,7 +26,7 @@ describe('Deleting a model', function () {
     it('navigates to the models page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -78,7 +78,7 @@ describe('Deleting a model', function () {
     it('deletes a model', () => {
         mockServer.expect({
             method: 'delete',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 modelAddress: 'm8y7nEtAe'
             },
@@ -105,7 +105,7 @@ describe('Deleting a model', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
