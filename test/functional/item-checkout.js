@@ -141,6 +141,7 @@ describe('Checking an item out', function () {
                             timestamp: Math.floor(Date.now() / 1000) + 1000000000
                         }
                     ],
+                    models: [],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -252,7 +253,7 @@ describe('Checking an item out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                itemAddresses: ['iGwEZVeaT','iGwEZVHHE']
+                equipmentAddresses: ['iGwEZVeaT','iGwEZVHHE']
             },
             response: {
                 status: 'success'
@@ -283,6 +284,7 @@ describe('Checking an item out', function () {
                             timestamp: Math.floor(Date.now() / 1000) + 1000000000
                         }
                     ],
+                    models: [],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }

@@ -407,8 +407,7 @@ describe('API Client', () => {
                 manufacturer: 'Pancakes R Us',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
-                isFaulty: false,
-                faultDescription: '',
+                allowCheckout: false,
                 price: 10.50,
                 count: 20,
                 items: [ "iGwEZUvfA", "iGwEZVHHE", "iGwEZVeaT"]
@@ -426,8 +425,7 @@ describe('API Client', () => {
                 manufacturer: 'Pancakes R Us',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
-                isFaulty: false,
-                faultDescription: '',
+                allowCheckout: false,
                 price: 10.50
             },
             response
@@ -440,8 +438,7 @@ describe('API Client', () => {
             'Mouzer',
             'Shelf 14',
             false,
-            '',
-            10.50,
+            10.50
         ).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();

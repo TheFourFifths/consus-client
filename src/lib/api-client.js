@@ -135,16 +135,18 @@ export function searchStudent(id) {
     });
 }
 
-export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+export function updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock) {
     return patch('model', { address }, {
         name: name,
         description: description,
         manufacturer: manufacturer,
         vendor: vendor,
         location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
-        price: price
+        allowCheckout: allowCheckout,
+        price: price,
+        count: count,
+        changeStock: changeStock,
+        inStock: inStock
     });
 }
 

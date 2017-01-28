@@ -20,8 +20,8 @@ export default class ModelFormController {
         });
     }
 
-    static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
-        return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
+    static updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock) {
+        return updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, parseFloat(price), parseInt(count), changeStock, parseInt(inStock)).then(model => {
             Dispatcher.handleAction('MODEL_UPDATED', model);
             hashHistory.push('/model/' + model.address);
         }).catch(e => {

@@ -152,23 +152,24 @@ describe('Student Lookup', function () {
     });
 
     it("Displays message if student has no items", () => {
-      mockServer.expect({
-          method: 'get',
-          endpoint: '/api/student',
-          qs: {
-              id: '112994'
-          },
-          response: {
-              status: 'success',
-              data: {
-                  id: 112994,
-                  name: 'Ms Steak',
-                  status: 'C - Current',
-                  items: [],
-                  email: 'vonneumann@msoe.edu',
-                  major: 'Chemical Engineering & Mathematics'
-              }
-          }
+        mockServer.expect({
+            method: 'get',
+            endpoint: '/api/student',
+            qs: {
+                id: '112994'
+            },
+            response: {
+                status: 'success',
+                data: {
+                    id: 112994,
+                    name: 'Ms Steak',
+                    status: 'C - Current',
+                    items: [],
+                    models: [],
+                    email: 'vonneumann@msoe.edu',
+                    major: 'Chemical Engineering & Mathematics'
+                }
+            }
       });
       return app.client.click("#omnibar").then(() => {
         return app.client.keys('112994');
