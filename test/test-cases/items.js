@@ -1,0 +1,30 @@
+export default [
+    {
+        address: 'iGwEZUvfA',
+        modelAddress: 'm8y7nEtAe',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
+    },
+    {
+        address: 'iGwEZVHHE',
+        modelAddress: 'm8y7nFLsT',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
+    },
+    {
+        address: 'iGwEZVeaT',
+        modelAddress: 'm8y7nFLsT',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
+    },
+    {
+        address: 'iGwEZVvgu',
+        modelAddress: 'm8y7nEtAe',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
+    }
+]

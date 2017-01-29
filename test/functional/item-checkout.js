@@ -2,6 +2,8 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Checking an item out', function () {
 
@@ -40,14 +42,7 @@ describe('Checking an item out', function () {
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    email: 'neumannJ@msoe.edu',
-                    major: 'Software Engineering',
-                    items: []
-                }
+                data: students[0]
             }
         });
         mockServer.expect({
@@ -56,23 +51,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        }
-                    ]
+                    models: models.slice(0, 2)
                 }
             }
         });

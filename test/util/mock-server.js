@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
 import { changePort, call } from '../../.dist/lib/api-client';
+import changesets from 'diff-json';
 
 const OFF = 0;
 const STARTING = 1;
@@ -64,13 +65,11 @@ export default class MockServer {
                         status: 'success',
                         data
                     };
+                    console.log(endpoint);
                     try {
                         assert.deepEqual(data, response);
                     } catch (e) {
-                        console.log('Expected response:');
-                        console.log(JSON.stringify(response, null, 4));
-                        console.log('Actual response:');
-                        console.log(JSON.stringify(data, null, 4));
+                        console.log(JSON.stringify(changesets.diff(data, response), null, 2));
                         response = {
                             status: 'failure',
                             message: 'Unexpected response'
