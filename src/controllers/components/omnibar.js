@@ -9,7 +9,7 @@ export default class OmnibarController {
             hashHistory.push('/student');
         }).catch(e => {
             Dispatcher.handleAction("ERROR", {
-                error: e.message
+                error: e
             });
         });
     }

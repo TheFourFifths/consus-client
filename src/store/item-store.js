@@ -55,4 +55,14 @@ store.registerHandler('STUDENT_FOUND', data => {
     }
     store.emitChange();
 });
+
+store.registerHandler('ITEM_DUEDATE_UPDATED', item => {
+    for(let i = 0; i < items.length; i++){
+        if(items[i].address === item.address){
+            item.isOverdue = store.isOverdue(item);
+            items[i] = item;
+        }
+    }
+    store.emitChange();
+});
 export default store;

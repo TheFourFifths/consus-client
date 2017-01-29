@@ -91,4 +91,9 @@ store.registerHandler('MODEL_DELETED', model => {
     store.emitChange();
 });
 
+
+store.registerHandler('ITEM_DUEDATE_UPDATED', () => {
+    addToast(`Due date changed successfully`);
+    store.emitChange();
+});
 export default store;

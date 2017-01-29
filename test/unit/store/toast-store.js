@@ -188,4 +188,9 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
     });
 
+    it('should add toast when item due date is updated', () => {
+        Dispatcher.handleAction('ITEM_DUEDATE_UPDATED', {});
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `Due date changed successfully`)
+    });
 });
