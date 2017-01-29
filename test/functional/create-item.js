@@ -7,7 +7,7 @@ import models from '../test-cases/models';
 
 describe('Creating an Item', function () {
 
-    this.timeout(20000);
+    this.timeout(10000);
     let app;
     let mockServer = new MockServer();
 
@@ -50,7 +50,7 @@ describe('Creating an Item', function () {
             method: 'post',
             endpoint: 'item',
             json: {
-                modelAddress: 'm8y7nEtAe'
+                modelAddress: models[0].address
             },
             response: {
                 status: 'success',
@@ -60,6 +60,7 @@ describe('Creating an Item', function () {
                 }
             }
         });
+        models[0].count ++;
         return app.client.click('#view-items').then(() => {
             return app.client.waitForVisible('#items', 5000);
         }).then(() => {
@@ -69,9 +70,9 @@ describe('Creating an Item', function () {
         }).then(() => {
             return app.client.getValue('.create-item-form select option');
         }).then(vals => {
-            assert.include(vals, 'm8y7nEtAe');
-            assert.include(vals, 'm8y7nFLsT');
-            return app.client.selectByValue('.create-item-form select', 'm8y7nEtAe');
+            assert.include(vals, models[0].address);
+            assert.include(vals, models[1].address);
+            return app.client.selectByValue('.create-item-form select', models[0].address);
         }).then(() => {
             return app.client.submitForm('.create-item-form form');
         }).then(() => {
@@ -80,7 +81,6 @@ describe('Creating an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'New item added: Resistor (iGwEZVvgu)');
-            models[0].count ++;
             return app.client.click('.toast');
         }).then(() => {
             return app.client.waitForVisible('.toast', 10000, true);
@@ -117,7 +117,7 @@ describe('Creating an Item', function () {
             method: 'post',
             endpoint: 'item',
             json: {
-                modelAddress: 'm8y7nFLsT'
+                modelAddress: models[1].address
             },
             response: {
                 status: 'success',
@@ -127,6 +127,7 @@ describe('Creating an Item', function () {
                 }
             }
         });
+        models[1].count ++;
         return app.client.click('#omnibar img').then(() => {
             return app.client.click('#view-items');
         }).then(() => {
@@ -149,9 +150,9 @@ describe('Creating an Item', function () {
         }).then(() => {
             return app.client.getValue('.create-item-form select option');
         }).then(vals => {
-            assert.include(vals, 'm8y7nEtAe');
-            assert.include(vals, 'm8y7nFLsT');
-            return app.client.selectByValue('.create-item-form select', 'm8y7nFLsT');
+            assert.include(vals, models[0].address);
+            assert.include(vals, models[1].address);
+            return app.client.selectByValue('.create-item-form select', models[1].address);
         }).then(() => {
             return app.client.submitForm('.create-item-form form');
         }).then(() => {
@@ -160,7 +161,6 @@ describe('Creating an Item', function () {
             return app.client.getText('.toast');
         }).then(text => {
             assert.strictEqual(text, 'New item added: Transistor (iGwEZW6nn)');
-            models[1].count ++;
             return app.client.click('.toast');
         }).then(() => {
             return app.client.waitForVisible('.toast', 10000, true);

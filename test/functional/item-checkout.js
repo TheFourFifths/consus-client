@@ -9,7 +9,7 @@ import students from '../test-cases/students';
 
 describe('Checking an item out', function () {
 
-    this.timeout(30000);
+    this.timeout(10000);
     let app;
     let mockServer = new MockServer();
 
@@ -94,6 +94,8 @@ describe('Checking an item out', function () {
                 status: 'success'
             }
         });
+        items[0].status = 'CHECKED_OUT';
+        items[0].timestamp = getNextDueTimestamp();
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
@@ -107,14 +109,7 @@ describe('Checking an item out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: getNextDueTimestamp(),
-                            status: 'CHECKED_OUT',
-                            isFaulty: false,
-                            faultDescription: ''
-                        }
+                        items[0]
                     ],
                     email: 'neumannJ@msoe.edu',
                     major: 'Software Engineering'
@@ -141,8 +136,6 @@ describe('Checking an item out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, 'Checkout completed successfully!');
-            items[0].status === 'CHECKED_OUT';
-            items[0].timestamp = getNextDueTimestamp();
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
@@ -215,6 +208,10 @@ describe('Checking an item out', function () {
               status: 'success'
           }
       });
+      items[1].status = 'CHECKED_OUT';
+      items[1].timestamp = getNextDueTimestamp();
+      items[3].status = 'CHECKED_OUT';
+      items[3].timestamp = getNextDueTimestamp();
       mockServer.expect({
           method: 'get',
           endpoint: 'student',
@@ -259,10 +256,6 @@ describe('Checking an item out', function () {
           return app.client.getText('.toast');
       }).then(message => {
           assert.strictEqual(message, "Checkout completed successfully!");
-          items[1].status = 'CHECKED_OUT';
-          items[1].timestamp = getNextDueTimestamp();
-          items[3].status = 'CHECKED_OUT';
-          items[3].timestamp = getNextDueTimestamp();
           return app.client.elements('#student .student .equipment .item-info');
       }).then(items => {
           assert.lengthOf(items.value, 3);

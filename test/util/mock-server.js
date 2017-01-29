@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import { assert } from 'chai';
 import { changePort, call } from '../../.dist/lib/api-client';
 import changesets from 'diff-json';
+import clone from 'consus-core/clone';
 
 const OFF = 0;
 const STARTING = 1;
@@ -90,7 +91,7 @@ export default class MockServer {
         call.qs = call.qs || {};
         call.endpoint = '/api/' + call.endpoint;
         assert.isObject(call.response, 'Call response must be an object.');
-        this.expectedCalls.push(call);
+        this.expectedCalls.push(clone(call));
     }
 
     validate() {
