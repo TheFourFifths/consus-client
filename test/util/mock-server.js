@@ -61,15 +61,19 @@ export default class MockServer {
                 }
                 endpoint = endpoint.substring(5);
                 call(endpoint, method, qs, json).then(data => {
-                    data = {
-                        status: 'success',
-                        data
+                    let serverResponse = {
+                        status: 'success'
                     };
+                    if (data !== undefined) {
+                        serverResponse.data = data;
+                    }
                     console.log(endpoint);
                     try {
-                        assert.deepEqual(data, response);
+                        assert.deepEqual(serverResponse, response);
                     } catch (e) {
-                        console.log(JSON.stringify(changesets.diff(data, response), null, 2));
+                        console.log(JSON.stringify(changesets.diff(serverResponse, response), null, 2));
+                        console.log(serverResponse);
+                        console.log(response);
                         response = {
                             status: 'failure',
                             message: 'Unexpected response'

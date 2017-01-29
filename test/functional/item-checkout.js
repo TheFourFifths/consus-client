@@ -69,7 +69,6 @@ describe('Checking an item out', function () {
     });
 
     it('checks out the item', () => {
-
         mockServer.expect({
             method: 'get',
             endpoint: 'item',
@@ -87,7 +86,6 @@ describe('Checking an item out', function () {
                 }
            }
         });
-
         mockServer.expect({
             method: 'post',
             endpoint: 'checkout',
@@ -100,7 +98,6 @@ describe('Checking an item out', function () {
                 status: 'success'
             }
         });
-
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
