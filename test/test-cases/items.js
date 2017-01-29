@@ -16,7 +16,7 @@ export default [
     {
         address: 'iGwEZVeaT',
         modelAddress: 'm8y7nFLsT',
-        status: 'AVAILABLE',
+        status: 'CHECKED_OUT',
         isFaulty: false,
         faultDescription: ''
     },

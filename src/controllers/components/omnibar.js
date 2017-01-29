@@ -4,6 +4,9 @@ import { hashHistory } from 'react-router';
 
 export default class OmnibarController {
     static getStudent(id) {
+        if (typeof id === 'string') {
+            id = parseInt(id);
+        }
         return searchStudent(id).then(student =>{
             Dispatcher.handleAction("STUDENT_FOUND", student);
             hashHistory.push('/student');
