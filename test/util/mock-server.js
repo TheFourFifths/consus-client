@@ -67,6 +67,10 @@ export default class MockServer {
                     try {
                         assert.deepEqual(data, response);
                     } catch (e) {
+                        console.log('Expected response:');
+                        console.log(JSON.stringify(response, null, 4));
+                        console.log('Actual response:');
+                        console.log(JSON.stringify(data, null, 4));
                         response = {
                             status: 'failure',
                             message: 'Unexpected response'

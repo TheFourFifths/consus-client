@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 
 describe('Creating an Item', function () {
 
-    this.timeout(10000);
+    this.timeout(20000);
     let app;
     let mockServer = new MockServer();
 

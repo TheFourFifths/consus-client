@@ -96,7 +96,8 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [
-                        '.test/functional/create-item.js'
+                        '.test/functional/create-item.js',
+                        '.test/functional/item-checkout.js'
                     ]
                 }
             }

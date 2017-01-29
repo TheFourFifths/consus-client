@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 
 describe('Checking an item out', function () {
 
-    this.timeout(10000);
+    this.timeout(30000);
     let app;
     let mockServer = new MockServer();
 
@@ -41,12 +41,12 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
-                    items: [],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
+                    email: 'neumannJ@msoe.edu',
+                    major: 'Software Engineering',
+                    items: []
                 }
             }
         });
@@ -114,7 +114,7 @@ describe('Checking an item out', function () {
             endpoint: 'checkout',
             json: {
                 adminCode: null,
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZUvfA']
             },
             response: {
@@ -131,7 +131,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
@@ -141,8 +141,8 @@ describe('Checking an item out', function () {
                             timestamp: Math.floor(Date.now() / 1000) + 1000000000
                         }
                     ],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
+                    email: 'neumannJ@msoe.edu',
+                    major: 'Software Engineering'
                 }
             }
         });
@@ -248,7 +248,7 @@ describe('Checking an item out', function () {
           endpoint: 'checkout',
           json: {
               adminCode: null,
-              studentId: '123456',
+              studentId: 123456,
               itemAddresses: ['iGwEZVeaT','iGwEZVHHE']
           },
           response: {
