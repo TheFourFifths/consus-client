@@ -265,7 +265,7 @@ describe('Checking an item out', function () {
           response: {
               status: 'success',
               data: {
-                  id: '123456',
+                  id: 123456,
                   name: 'John von Neumann',
                   status: 'C - Current',
                   items: [

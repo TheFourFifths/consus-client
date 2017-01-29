@@ -41,7 +41,7 @@ describe('Checking an item in', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
@@ -107,7 +107,7 @@ describe('Checking an item in', function () {
             method: 'post',
             endpoint: 'checkin',
             json: {
-                studentId: '123456',
+                studentId: 123456,
                 itemAddress: 'iGwEZUvfA'
             },
             response: {

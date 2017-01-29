@@ -41,7 +41,7 @@ describe('Admin override on item checkout', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
@@ -137,7 +137,7 @@ describe('Admin override on item checkout', function () {
             endpoint: 'checkout',
             json: {
                 adminCode: null,
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZVHHE']
             },
             response: {
@@ -160,7 +160,7 @@ describe('Admin override on item checkout', function () {
             endpoint: 'checkout',
             json: {
                 adminCode: '3214',
-                studentId: '123456',
+                studentId: 123456,
                 itemAddresses: ['iGwEZVHHE']
             },
             response: {
@@ -176,7 +176,7 @@ describe('Admin override on item checkout', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [

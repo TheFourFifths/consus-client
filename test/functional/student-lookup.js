@@ -41,7 +41,7 @@ describe('Student Lookup', function () {
             response: {
                 status: 'success',
                 data: {
-                    id: '123456',
+                    id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [
@@ -112,7 +112,7 @@ describe('Student Lookup', function () {
           response: {
               status: 'success',
               data: {
-                  id: '111111',
+                  id: 111111,
                   name: 'Boaty McBoatface',
                   status: 'C - Current',
                   items: [
@@ -159,7 +159,7 @@ describe('Student Lookup', function () {
           response: {
               status: 'success',
               data: {
-                  id: '112994',
+                  id: 112994,
                   name: 'Ms Steak',
                   status: 'C - Current',
                   items: [],
