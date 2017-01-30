@@ -40,11 +40,13 @@ export default class StudentPanel extends ListenerComponent {
                 })}
 
                 {modelCounts.map((model, m) => {
-                    return (<Link to={`/model/${model.address}`} key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderModelInfo(model)}
-                        </div>
-                    </Link>);
+                    return (
+                        <div className="item-info" key={m}>
+                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderModelInfo(model)}
+                            </Link>
+                            {this.renderCheckinButtons(model)}
+                        </div>);
                 })}
             </div>
         );
@@ -52,6 +54,14 @@ export default class StudentPanel extends ListenerComponent {
 
     renderModelInfo(model){
         return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
+    }
+
+    renderCheckinButtons(model){
+        return (
+            <div className='checkin-buttons'>
+                <button onClick={() => this.props.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+            </div>
+        );
     }
 
     renderItemInfo(item){

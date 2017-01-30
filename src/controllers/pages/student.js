@@ -1,4 +1,4 @@
-import { checkOutContents, searchStudent } from '../../lib/api-client';
+import { checkOutContents, searchStudent, checkInModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 
@@ -44,6 +44,19 @@ export default class StudentController{
                     error
                 });
             }
+        });
+    }
+
+    static checkInModel(id, modelAddress, quantity){
+        return checkInModel(id, modelAddress, quantity).then(data => {
+            return searchStudent(id).then(student => {
+                Dispatcher.handleAction('MODEL_CHECKIN_SUCCESS', {
+                    modelAddress: data.modelAddress,
+                    modelName: data.modelName,
+                    quantity: data.quantity
+                });
+                Dispatcher.handleAction("STUDENT_FOUND", student);
+            });
         });
     }
 

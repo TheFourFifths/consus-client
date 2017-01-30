@@ -70,6 +70,14 @@ export function checkIn(studentId, itemAddress){
     });
 }
 
+export function checkInModel(studentId, modelAddress, quantity){
+    return post('checkin/model', {
+        studentId,
+        modelAddress,
+        quantity
+    });
+}
+
 export function checkOutContents(studentId, equipmentAddresses, code){
     let params = {
         studentId,

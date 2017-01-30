@@ -41,10 +41,14 @@ export default class Student extends ListenerComponent {
         else StudentController.throwNoItemsError();
     }
 
+    checkInModel(studentId, modelAddress, quantity){
+        StudentController.checkInModel(studentId, modelAddress, quantity);
+    }
+
     render() {
         return (
             <div id='student'>
-                <StudentPanel student={this.state.student} />
+                <StudentPanel student={this.state.student} checkInModel={this.checkInModel.bind(this)}/>
                 <CartPanel equipment={this.state.equipment} cancel={StudentController.cancelCheckout} submit={this.checkOut.bind(this)} student={this.state.student} />
                 <div className='clear'></div>
                 <InputModal

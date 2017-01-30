@@ -42,4 +42,13 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     store.emitChange();
 });
 
+store.registerHandler('MODEL_CHECKIN_SUCCESS', data => {
+    for(let i = 0; i < student.items.length; i++){
+        if(student.items[i].address === data.modelAddress)
+            student.items.splice(i, 1);
+            i--;
+    }
+    store.emitChange();
+});
+
 export default store;
