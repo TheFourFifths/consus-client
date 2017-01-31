@@ -45,9 +45,9 @@ export default class CartPanel extends React.Component {
             return <div><br/><i>Cart is empty.</i><br/><br/></div>;
         }
         return (
-            <ul className='items'>
+            <ul className='cartItems'>
                 {this.props.itemAddresses.map((itemAddress, i) => {
-                    return <li className='item' key={i}>{itemAddress}</li>;
+                    return <li className='cartItem' key={i}>{itemAddress}</li>;
                 })}
             </ul>
         );
