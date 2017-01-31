@@ -6,6 +6,13 @@ import StudentPanelController from '../../controllers/components/student-panel';
 
 export default class StudentPanel extends ListenerComponent {
 
+    constructor() {
+        super();
+        this.state = {
+            checkinNum: 1
+        }
+    }
+
     componentWillMount(){
         StudentPanelController.getModels();
     }
@@ -20,6 +27,19 @@ export default class StudentPanel extends ListenerComponent {
         return {
             models: ModelStore.getAllModels()
         }
+    }
+
+    changeCheckinNum(e) {
+        this.setState({
+            checkinNum: e.target.value
+        });
+    }
+
+    checkInModel(studentId, modelAddress, quantity) {
+        this.props.checkInModel(studentId, modelAddress, quantity);
+        this.setState({
+            checkinNum: 1
+        });
     }
 
     renderEquipment() {
@@ -59,7 +79,9 @@ export default class StudentPanel extends ListenerComponent {
     renderCheckinButtons(model){
         return (
             <div className='checkin-buttons'>
-                <button onClick={() => this.props.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this)} min='1' max={model.quantity} placeholder='Price' />
+                <button onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
+                <button onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
             </div>
         );
     }
