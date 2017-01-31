@@ -96,6 +96,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [
+                        '.test/functional/student-lookup.js',
                         '.test/functional/create-item.js',
                         '.test/functional/item-checkout.js'
                     ]

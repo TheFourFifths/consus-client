@@ -75,6 +75,20 @@ export default class MockServer {
                         console.log(JSON.stringify(changesets.diff(response, serverResponse), null, 2));
                     }
                     res.json(response);
+                }).catch(message => {
+                    let serverResponse = {
+                        status: 'failure'
+                    };
+                    if (message !== undefined) {
+                        serverResponse.message = message;
+                    }
+                    console.log(endpoint);
+                    try {
+                        assert.deepEqual(response, serverResponse);
+                    } catch (e) {
+                        console.log(JSON.stringify(changesets.diff(response, serverResponse), null, 2));
+                    }
+                    res.json(response);
                 });
             });
             this.server = app.listen(port || 80, () => {
