@@ -26,5 +26,19 @@ export default [
         status: 'AVAILABLE',
         isFaulty: false,
         faultDescription: ''
+    },
+    {
+        address: 'iGwEZW6nn',
+        modelAddress: 'm8y7nFLsT',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
+    },
+    {
+        address: 'iGwEZWXhn',
+        modelAddress: 'm8y7nFLsT',
+        status: 'AVAILABLE',
+        isFaulty: false,
+        faultDescription: ''
     }
 ]

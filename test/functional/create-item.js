@@ -172,6 +172,61 @@ describe('Creating an Item', function () {
         });
     });
 
+    it('creates another new item', () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models: models.slice(0, 2)
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item',
+            json: {
+                modelAddress: models[1].address
+            },
+            response: {
+                status: 'success',
+                data: {
+                    address: 'iGwEZWXhn',
+                    modelName: 'Transistor'
+                }
+            }
+        });
+        models[1].count ++;
+        return app.client.waitForVisible('#items', 5000).then(() => {
+            return app.client.click('#items button');
+        }).then(() => {
+            return app.client.waitForVisible('.create-item-form', 1000);
+        }).then(() => {
+            return app.client.getValue('.create-item-form select option');
+        }).then(vals => {
+            assert.include(vals, models[0].address);
+            assert.include(vals, models[1].address);
+            return app.client.selectByValue('.create-item-form select', models[1].address);
+        }).then(() => {
+            return app.client.submitForm('.create-item-form form');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 2500);
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(text => {
+            assert.strictEqual(text, 'New item added: Transistor (iGwEZWXhn)');
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 10000, true);
+        }).then(() => {
+            return app.client.elements('#items .item');
+        }).then(elements => {
+            assert.lengthOf(elements.value, 4);
+            mockServer.validate();
+        });
+    });
+
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

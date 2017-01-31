@@ -261,7 +261,6 @@ describe('Checking an item out', function () {
           assert.lengthOf(items.value, 3);
           mockServer.validate();
       });
-
     });
 
     it("doesn't allow invalid characters in the item field", () => {
@@ -282,47 +281,35 @@ describe('Checking an item out', function () {
         });
     });
 
-    it.skip("doesn't allow the same items to be added to the cart twice", () => {
+    it("doesn't allow the same items to be added to the cart twice", () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'item',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'iGwEZW6nn'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZUvfA',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[4]
             }
         });
         mockServer.expect({
             method: 'get',
             endpoint: 'item',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'iGwEZW6nn'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZUvfA',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[4]
             }
         });
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('iGwEZUvfA');
+            return app.client.keys('iGwEZW6nn');
         }).then(() => {
-            return app.client.keys('iGwEZUvfA');
+            return app.client.keys('iGwEZW6nn');
         }).then(() => {
             return app.client.waitForVisible('#app .modal', 1000000);
         }).then(() => {
