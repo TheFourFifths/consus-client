@@ -2,6 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
 
 describe('View all models', function () {
 
@@ -24,7 +25,7 @@ describe('View all models', function () {
     });
 
     it('shows a list of all models', () => {
-        let models;
+        let modelList;
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
@@ -32,31 +33,8 @@ describe('View all models', function () {
                 status: 'success',
                 data: {
                     models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            count: 20,
-                            description: 'V = IR',
-                            faultDescription: '',
-                            isFaulty: false,
-                            items: [ 'iGwEXUvfA', 'iGwEZVHHE', 'iGwEZVeaT' ],
-                            location: 'Shelf 14',
-                            manufacturer: "Pancakes R' Us",
-                            name: 'Resistor',
-                            price: 10.5,
-                            vendor: 'Mouzer'
-                        }, {
-                            address: 'm8y7nFLsT',
-                            count: 10,
-                            description: 'Something used in computers',
-                            faultDescription: '',
-                            isFaulty: false,
-                            items: [],
-                            location: 'Shelf 2',
-                            manufacturer: 'Vroom Industries',
-                            name: 'Transistor',
-                            price: 4,
-                            vendor: 'Fankserrogatoman Inc'
-                        }
+                        models[0],
+                        models[1]
                     ]
                 }
             }
@@ -69,18 +47,18 @@ describe('View all models', function () {
             assert.match(headerTxt, /All models/);
             return app.client.elements('#models .model');
         }).then(resp => {
-            models = resp.value;
-            assert.lengthOf(models, 2);
+            modelList = resp.value;
+            assert.lengthOf(modelList, 2);
             return app.client.getText('#models:first-child');
         }).then(model => {
             assert.include(model, 'Resistor');
             assert.include(model, 'm8y7nEtAe');
             assert.include(model, 'V = IR');
             return app.client.getText('#models .model:nth-of-type(1)');
-        }).then(models => {
-            assert.include(models[1], 'Transistor');
-            assert.include(models[1], 'm8y7nFLsT');
-            assert.include(models[1], 'Something used in computers');
+        }).then(modelList => {
+            assert.include(modelList[1], 'Transistor');
+            assert.include(modelList[1], 'm8y7nFLsT');
+            assert.include(modelList[1], 'Something used in computers');
             mockServer.validate();
         });
     });
