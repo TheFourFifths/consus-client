@@ -30,27 +30,7 @@ describe('Deleting an Item', function () {
             response: {
                 status: 'success',
                 data: {
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nEtAe',
-                            status: 'AVAILABLE'
-                        }, {
-                            address: 'iGwEZVHHE',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }, {
-                            address: 'iGwEZVeaT',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }
-                    ]
+                    items
                 }
             }
         });

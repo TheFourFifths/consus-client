@@ -53,7 +53,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: models.slice(0, 2)
+                    models
                 }
             }
         });

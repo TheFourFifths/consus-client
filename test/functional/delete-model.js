@@ -2,6 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
 
 describe('Deleting a model', function () {
 
@@ -30,38 +31,7 @@ describe('Deleting a model', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        },
-                        {
-                            address: 'm8y7nFLsT',
-                            name: 'Transistor',
-                            description: 'Something used in computers',
-                            manufacturer: 'Vroom Industries',
-                            vendor: 'Fankserrogatoman Inc',
-                            location: 'Shelf 2',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 4.00,
-                            count: 10,
-                            items: [
-                                'iGwEZVHHE'
-                            ]
-                        }
-                    ]
+                    models
                 }
             }
         });
@@ -80,61 +50,32 @@ describe('Deleting a model', function () {
             method: 'delete',
             endpoint: 'model',
             qs: {
-                modelAddress: 'm8y7nEtAe'
+                modelAddress: models[1].address
             },
             response: {
                 status: 'success',
                 data: {
-                    deletedModel: {
-                        address: 'm8y7nEtAe',
-                        name: 'Resistor',
-                        description: 'V = IR',
-                        manufacturer: 'Pancakes R\' Us',
-                        vendor: 'Mouzer',
-                        location: 'Shelf 14',
-                        isFaulty: false,
-                        faultDescription: '',
-                        price: 10.5,
-                        count: 20,
-                        items: [
-                            'iGwEZUvfA'
-                        ]
-                    }
+                    deletedModel: models[1]
                 }
             }
         });
+        models.splice(1);
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nFLsT',
-                            name: 'Transistor',
-                            description: 'Something used in computers',
-                            manufacturer: 'Vroom Industries',
-                            vendor: 'Fankserrogatoman Inc',
-                            location: 'Shelf 2',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 4.00,
-                            count: 10,
-                            items: [
-                                'iGwEZVHHE'
-                            ]
-                        }
-                    ]
+                    models
                 }
             }
         });
-        return app.client.click('#models .model:first-child img[src="../assets/images/delete.svg"]').then(() => {
+        return app.client.click('#models div:nth-of-type(2) .model img[src="../assets/images/delete.svg"]').then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
             return app.client.getText('.modal p');
         }).then(text => {
-            assert.include(text, 'Resistor');
+            assert.include(text, 'Transistor');
             return app.client.click('.modal button[type="button"]');
         }).then(() => {
             return app.client.waitForVisible('.modal', 2500, true);
@@ -143,7 +84,7 @@ describe('Deleting a model', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toast => {
-            assert.strictEqual(toast, 'Resistor (m8y7nEtAe) was deleted');
+            assert.strictEqual(toast, 'Transistor (m8y7nFLsT) was deleted');
         }).then(() => {
             return app.client.elements('#models .model');
         }).then(elements => {

@@ -42,7 +42,7 @@ describe('Creating an Item', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: models.slice(0, 2)
+                    models
                 }
             }
         });
@@ -109,7 +109,7 @@ describe('Creating an Item', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: models.slice(0, 2)
+                    models
                 }
             }
         });
@@ -179,7 +179,7 @@ describe('Creating an Item', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: models.slice(0, 2)
+                    models
                 }
             }
         });

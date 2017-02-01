@@ -52,10 +52,7 @@ describe('Checking an item in', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        models[0],
-                        models[1]
-                    ]
+                    models
                 }
             }
         });
