@@ -2,6 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import items from '../test-cases/items';
 import models from '../test-cases/models';
 
 describe('Deleting a model', function () {
@@ -85,6 +86,10 @@ describe('Deleting a model', function () {
             return app.client.getText('.toast');
         }).then(toast => {
             assert.strictEqual(toast, 'Transistor (m8y7nFLsT) was deleted');
+            items.splice(5, 1);
+            items.splice(4, 1);
+            items.splice(2, 1);
+            items.splice(1, 1);
         }).then(() => {
             return app.client.elements('#models .model');
         }).then(elements => {
