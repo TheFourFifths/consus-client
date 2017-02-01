@@ -99,7 +99,8 @@ module.exports = function(grunt) {
                         '.test/functional/student-lookup.js',
                         '.test/functiona/view-models.js',
                         '.test/functional/create-item.js',
-                        '.test/functional/item-checkout.js'
+                        '.test/functional/item-checkout.js',
+                        '.test/functional/item-checkin.js'
                     ]
                 }
             }

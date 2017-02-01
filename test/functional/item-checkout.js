@@ -96,6 +96,7 @@ describe('Checking an item out', function () {
         });
         items[0].status = 'CHECKED_OUT';
         items[0].timestamp = getNextDueTimestamp();
+        students[0].items.push(items[0]);
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
@@ -104,16 +105,7 @@ describe('Checking an item out', function () {
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        items[0]
-                    ],
-                    email: 'neumannJ@msoe.edu',
-                    major: 'Software Engineering'
-                }
+                data: students[0]
             }
         });
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
@@ -212,6 +204,8 @@ describe('Checking an item out', function () {
       items[1].timestamp = getNextDueTimestamp();
       items[3].status = 'CHECKED_OUT';
       items[3].timestamp = getNextDueTimestamp();
+      students[0].items.push(items[1]);
+      students[0].items.push(items[3]);
       mockServer.expect({
           method: 'get',
           endpoint: 'student',
@@ -220,18 +214,7 @@ describe('Checking an item out', function () {
           },
           response: {
               status: 'success',
-              data: {
-                  id: 123456,
-                  name: 'John von Neumann',
-                  status: 'C - Current',
-                  items: [
-                      items[0],
-                      items[1],
-                      items[3]
-                  ],
-                  email: 'neumannJ@msoe.edu',
-                  major: 'Software Engineering'
-              }
+              data: students[0]
           }
       });
       return app.client.waitForVisible('.cart input[type="text"]').then(() => {

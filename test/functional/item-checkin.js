@@ -2,6 +2,8 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Checking an item in', function () {
 
@@ -40,20 +42,7 @@ describe('Checking an item in', function () {
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        }
-                    ],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[0]
             }
         });
         mockServer.expect({
@@ -63,21 +52,8 @@ describe('Checking an item in', function () {
                 status: 'success',
                 data: {
                     models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        }
+                        models[0],
+                        models[1]
                     ]
                 }
             }
@@ -93,16 +69,11 @@ describe('Checking an item in', function () {
             assert.strictEqual(id, '123456');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
-            assert.lengthOf(items.value, 1);
-            return app.client.getText('#student .student .equipment .item-info');
-        }).then(item => {
-            assert.include(item, 'Resistor');
-            assert.include(item, 'iGwEZUvfA');
-            mockServer.validate();
+            assert.lengthOf(items.value, 3);
         });
     });
 
-    it('checks in the item', () => {
+    it('checks in one item', () => {
         mockServer.expect({
             method: 'post',
             endpoint: 'checkin',
@@ -124,13 +95,79 @@ describe('Checking an item in', function () {
             return app.client.getText('.toast');
         }).then(toast => {
             assert.strictEqual(toast, 'Item checked in successfully: Resistor (iGwEZUvfA)');
+            students[0].items.shift();
             return app.client.click('.toast');
         }).then(() => {
-            return app.client.waitForVisible('.toast', false);
+            return app.client.waitForVisible('.toast', 5000, true);
         }).then(() => {
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
-            assert.lengthOf(items.value, 0);
+            assert.lengthOf(items.value, 2);
+        });
+    });
+
+    it('checks in the remaining items', () => {
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkin',
+            json: {
+                studentId: 123456,
+                itemAddress: 'iGwEZVHHE'
+            },
+            response: {
+                status: 'success',
+                data: {
+                    itemAddress: 'iGwEZVHHE',
+                    modelName: 'Transistor'
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkin',
+            json: {
+                studentId: 123456,
+                itemAddress: 'iGwEZVvgu'
+            },
+            response: {
+                status: 'success',
+                data: {
+                    itemAddress: 'iGwEZVvgu',
+                    modelName: 'Resistor'
+                }
+            }
+        });
+        return app.client.click('.cart input[type="text"]').then(() => {
+            return app.client.keys('iGwEZVHHE');
+        }).then(() => {
+            return app.client.waitForVisible('.toast');
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(toast => {
+            assert.strictEqual(toast, 'Item checked in successfully: Transistor (iGwEZVHHE)');
+            students[0].items.shift();
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 5000, true);
+        }).then(() => {
+            return app.client.click('.cart input[type="text"]');
+        }).then(() => {
+            return app.client.elements('#student .student .equipment .item-info');
+        }).then(items => {
+            assert.lengthOf(items.value, 1);
+        }).then(() => {
+            return app.client.keys('iGwEZVvgu');
+        }).then(() => {
+            return app.client.waitForVisible('.toast');
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(toast => {
+            assert.strictEqual(toast, 'Item checked in successfully: Resistor (iGwEZVvgu)');
+            students[0].items.shift();
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.waitForVisible('.toast', 5000, true);
+        }).then(items => {
             return app.client.getText('#student .student .equipment-none');
         }).then(equipment => {
             assert.strictEqual(equipment, 'Student has no equipment checked out.');
