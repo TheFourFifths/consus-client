@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
 import { changePort, call } from '../../.dist/lib/api-client';
-import changesets from 'diff-json';
 import clone from 'consus-core/clone';
 
 const OFF = 0;
@@ -68,12 +67,7 @@ export default class MockServer {
                     if (data !== undefined) {
                         serverResponse.data = data;
                     }
-                    console.log(endpoint);
-                    try {
-                        assert.deepEqual(response, serverResponse);
-                    } catch (e) {
-                        console.log(JSON.stringify(changesets.diff(response, serverResponse), null, 2));
-                    }
+                    assert.deepEqual(response, serverResponse);
                     res.json(response);
                 }).catch(message => {
                     let serverResponse = {
@@ -82,12 +76,7 @@ export default class MockServer {
                     if (message !== undefined) {
                         serverResponse.message = message;
                     }
-                    console.log(endpoint);
-                    try {
-                        assert.deepEqual(response, serverResponse);
-                    } catch (e) {
-                        console.log(JSON.stringify(changesets.diff(response, serverResponse), null, 2));
-                    }
+                    assert.deepEqual(response, serverResponse);
                     res.json(response);
                 });
             });
