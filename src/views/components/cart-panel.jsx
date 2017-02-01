@@ -55,7 +55,7 @@ export default class CartPanel extends React.Component {
             <ul className='cartItems'>
                 {this.props.equipment.map((content, i) => {
                     if(content.quantity) {
-                        return <li className="model" key={i}>{content.address} x{content.quantity}</li>;
+                        return <li className="cartModel" key={i}>{content.address} x{content.quantity}</li>;
                     } else {
                         return <li className="cartItem" key={i}>{content.address}</li>;
                     }
