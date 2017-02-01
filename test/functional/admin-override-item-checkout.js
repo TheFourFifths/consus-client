@@ -82,30 +82,30 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'item',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'iGwEZVHHE'
             },
             response: {
                status: 'success',
-               data: items[0]
+               data: items[1]
             }
         });
-        return app.client.keys('iGwEZUvfA').then(() => {
+        return app.client.keys('iGwEZVHHE').then(() => {
             return app.client.waitForVisible('ul.cartItems li.cartItem');
         }).then(() => {
             return app.client.getText('ul.cartItems li.cartItem');
         }).then(item => {
-            assert.include(item, 'iGwEZUvfA');
+            assert.include(item, 'iGwEZVHHE');
             mockServer.validate();
         });
     });
 
-    it.skip('prompts for a pin to check out', () => {
+    it('prompts for a pin to check out', () => {
         mockServer.expect({
             method: 'post',
             endpoint: 'checkout',
             json: {
                 adminCode: null,
-                studentId: 123456,
+                studentId: 111111,
                 itemAddresses: ['iGwEZVHHE']
             },
             response: {
@@ -122,46 +122,30 @@ describe('Admin override on item checkout', function () {
         });
     });
 
-    it.skip('completes the checkout with the admin pin', () => {
+    it('completes the checkout with the admin pin', () => {
         mockServer.expect({
             method: 'post',
             endpoint: 'checkout',
             json: {
                 adminCode: '3214',
-                studentId: 123456,
+                studentId: 111111,
                 itemAddresses: ['iGwEZVHHE']
             },
             response: {
                 status: 'success'
             }
         });
+        items[1].status = 'CHECKED_OUT';
+        students[1].items.push(items[1]);
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                id: '111111'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) - 1000000000
-                        },
-                        {
-                            address: 'iGwEZVHHE',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        }
-                    ],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[1]
             }
         });
         return app.client.click('.modal .modal-content input').then(() => {

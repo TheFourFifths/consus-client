@@ -1,3 +1,5 @@
+import items from './items';
+
 export default [
     {
         id: 123456,
@@ -13,12 +15,6 @@ export default [
         status: 'C - Current',
         email: 'mcboatfaceb@msoe.edu',
         major: 'Hyperdimensional Nautical Machines Engineering',
-        items: [
-            {
-                address: 'iGwEZVeaT',
-                modelAddress: 'm8y7nFLsT',
-                timestamp: 0
-            }
-        ]
+        items: [items[2]]
     }
 ]

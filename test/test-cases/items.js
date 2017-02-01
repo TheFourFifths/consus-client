@@ -18,7 +18,8 @@ export default [
         modelAddress: 'm8y7nFLsT',
         status: 'CHECKED_OUT',
         isFaulty: false,
-        faultDescription: ''
+        faultDescription: '',
+        timestamp: 0
     },
     {
         address: 'iGwEZVvgu',
