@@ -2,6 +2,9 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import items from '../test-cases/items';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Admin override on item checkout', function () {
 
@@ -36,24 +39,11 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                id: '111111'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) - 1000000000
-                        }
-                    ],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[1]
             }
         });
         mockServer.expect({
@@ -62,43 +52,27 @@ describe('Admin override on item checkout', function () {
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        }
-                    ]
+                    models
                 }
             }
         });
-        return app.client.keys('123456').then(() => {
+        return app.client.keys('111111').then(() => {
             return app.client.waitForVisible('#student', 1000000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
-            assert.strictEqual(name, 'John von Neumann');
+            assert.strictEqual(name, students[1].name);
             return app.client.getText('#student .student .id');
         }).then(id => {
-            assert.strictEqual(id, '123456');
+            assert.strictEqual(id, '111111');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             return app.client.getText('#student .student .equipment .item-info');
         }).then(item => {
-            assert.include(item, 'Resistor');
+            assert.include(item, 'Transistor');
             assert.include(item, 'overdue');
-            assert.include(item, 'iGwEZUvfA');
+            assert.include(item, 'iGwEZVeaT');
             mockServer.validate();
         });
     });
@@ -108,30 +82,24 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'item',
             qs: {
-                address: 'iGwEZVHHE'
+                address: 'iGwEZUvfA'
             },
             response: {
                status: 'success',
-               data: {
-                  address: 'iGwEZVHHE',
-                  modelAddress: 'm8y7nEtAe',
-                  status: 'AVAILABLE',
-                  isFaulty: false,
-                  faultDescription: ''
-               }
+               data: items[0]
             }
         });
-        return app.client.keys('iGwEZVHHE').then(() => {
+        return app.client.keys('iGwEZUvfA').then(() => {
             return app.client.waitForVisible('ul.cartItems li.cartItem');
         }).then(() => {
             return app.client.getText('ul.cartItems li.cartItem');
         }).then(item => {
-            assert.include(item, 'iGwEZVHHE');
+            assert.include(item, 'iGwEZUvfA');
             mockServer.validate();
         });
     });
 
-    it('prompts for a pin to check out', () => {
+    it.skip('prompts for a pin to check out', () => {
         mockServer.expect({
             method: 'post',
             endpoint: 'checkout',
@@ -154,7 +122,7 @@ describe('Admin override on item checkout', function () {
         });
     });
 
-    it('completes the checkout with the admin pin', () => {
+    it.skip('completes the checkout with the admin pin', () => {
         mockServer.expect({
             method: 'post',
             endpoint: 'checkout',

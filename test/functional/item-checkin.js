@@ -2,6 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import items from '../test-cases/items';
 import models from '../test-cases/models';
 import students from '../test-cases/students';
 
@@ -95,6 +96,7 @@ describe('Checking an item in', function () {
             return app.client.getText('.toast');
         }).then(toast => {
             assert.strictEqual(toast, 'Item checked in successfully: Resistor (iGwEZUvfA)');
+            items[0].status = 'AVAILABLE';
             students[0].items.shift();
             return app.client.click('.toast');
         }).then(() => {
@@ -145,6 +147,7 @@ describe('Checking an item in', function () {
             return app.client.getText('.toast');
         }).then(toast => {
             assert.strictEqual(toast, 'Item checked in successfully: Transistor (iGwEZVHHE)');
+            items[1].status = 'AVAILABLE';
             students[0].items.shift();
             return app.client.click('.toast');
         }).then(() => {
@@ -163,6 +166,7 @@ describe('Checking an item in', function () {
             return app.client.getText('.toast');
         }).then(toast => {
             assert.strictEqual(toast, 'Item checked in successfully: Resistor (iGwEZVvgu)');
+            items[3].status = 'AVAILABLE';
             students[0].items.shift();
             return app.client.click('.toast');
         }).then(() => {
