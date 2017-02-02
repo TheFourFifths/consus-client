@@ -9,7 +9,8 @@ export default class StudentPanel extends ListenerComponent {
     constructor() {
         super();
         this.state = {
-            checkinNum: 1
+            checkinNum: 1,
+            models: ModelStore.getAllModels()
         }
     }
 
