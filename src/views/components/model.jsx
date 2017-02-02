@@ -51,8 +51,8 @@ export default class Model extends React.Component {
     }
 
     renderDescription() {
-        return this.state.model.description.split(/[\r\n]/g).map(line => {
-            return <span>{line}<br/></span>
+        return this.state.model.description.split(/[\r\n]/g).map((line, index) => {
+            return <span key={index}>{line}<br/></span>;
         });
     }
 
