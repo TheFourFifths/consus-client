@@ -24,11 +24,11 @@ export default class StudentPanel extends ListenerComponent {
         }
     }
     renderDueDate(item){
-       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm:ss a')
+       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm:ss a');
 
         return (
-            <div>Due date: {timeString}</div>
-        )
+            <div title="Click to change due date" onClick={this.showDateModal.bind(this, item)}>Due date: {timeString}</div>
+        );
 
     }
     showDateModal(){
@@ -60,7 +60,7 @@ export default class StudentPanel extends ListenerComponent {
                         <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                             {this.renderItemInfo(item)}
                         </Link>
-                        <div title="Click to change due date" onClick={this.showDateModal.bind(this, item)}>{this.renderDueDate(item)}</div>
+                        {this.renderDueDate(item)}
                         </div>
                 })}
             </div>
