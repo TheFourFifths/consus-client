@@ -122,9 +122,9 @@ describe('Admin override on item checkout', function () {
             }
         });
         return app.client.keys('iGwEZVHHE').then(() => {
-            return app.client.waitForVisible('ul.items li.item');
+            return app.client.waitForVisible('ul.cartItems li.cartItem');
         }).then(() => {
-            return app.client.getText('ul.items li.item');
+            return app.client.getText('ul.cartItems li.cartItem');
         }).then(item => {
             assert.include(item, 'iGwEZVHHE');
             mockServer.validate();
