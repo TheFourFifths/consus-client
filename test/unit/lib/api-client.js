@@ -17,7 +17,8 @@ import {
     searchStudent,
     updateModel,
     deleteModel,
-    uploadStudents
+    uploadStudents,
+    longTermCheckout
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -449,4 +450,31 @@ describe('API Client', () => {
         });
     });
 
+    it('longTermCheckout', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: '/api/checkout/longterm',
+            json: {
+                studentId: '123456',
+                itemAddresses: ['iGwEZUvfA'],
+                adminCode: null,
+                longtermDueDate: '2017-8-11',
+                longtermProfessor: 'Prof. Com'
+            },
+            response
+        });
+        return longTermCheckout(
+            '123456',
+            ['iGwEZUvfA'],
+            null,
+            '2017-8-11',
+            'Prof. Com'
+        ).then(data => {
+            assert.isUndefined(data);
+            mockServer.validate();
+        });
+    });
 });

@@ -127,6 +127,82 @@ describe("StudentController", () => {
         });
     });
 
+    describe("longTermCheckout",() => {
+        let longTermCheckout;
+        beforeEach(() => {
+            longTermCheckout = sinon.stub(api, "longTermCheckout");
+        });
+
+        it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
+            longTermCheckout.returns(
+                new Promise(resolve => {
+                    resolve();
+                })
+            );
+
+            let searchStudent = sinon.stub(api, "searchStudent");
+
+            searchStudent.returns(
+                new Promise(resolve => {
+                    resolve({student:{items:[]}});
+                })
+            );
+
+            return StudentController.longTermCheckout().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
+                searchStudent.restore();
+            });
+        });
+
+        it('Dispatches "OVERRIDE_REQUIRED" if student has overdue item', () => {
+            longTermCheckout.returns(
+                new Promise((resolve, reject) => {
+                    reject("Student has overdue item");
+                })
+            );
+
+            return StudentController.longTermCheckout().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "OVERRIDE_REQUIRED");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        it('Dispatches "CLEAR_ADMIN_CODE" if admin is invalid', () => {
+            longTermCheckout.returns(
+                new Promise((resolve, reject) => {
+                    reject("Invalid Admin");
+                })
+            );
+
+            return StudentController.longTermCheckout().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_ADMIN_CODE");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        it('Dispatches "ERROR" if another error comes up', () => {
+            longTermCheckout.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+
+            return StudentController.longTermCheckout().then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "NO");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        afterEach(() => {
+            longTermCheckout.restore();
+        });
+    });
+
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");

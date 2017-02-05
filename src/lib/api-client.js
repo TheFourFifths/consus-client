@@ -155,3 +155,13 @@ export function uploadStudents(data){
         data
     });
 }
+
+export function longTermCheckout(studentId, itemAddresses, adminCode, longtermDueDate, longtermProfessor){
+    return post('checkout/longterm', {
+        studentId,
+        itemAddresses,
+        adminCode,
+        longtermDueDate,
+        longtermProfessor
+    });
+}
