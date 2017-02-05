@@ -66,26 +66,6 @@ describe("StudentPanelController",() => {
             });
         });
 
-        it("dispatches ERROR", () => {
-            patchItemDueDate.returns(
-                new Promise(resolve => {
-                    resolve({models:[]});
-                })
-            );
-            studentStore.returns({
-                id: 123456
-            });
-            let today = Moment.tz('America/Chicago');
-            let item = {
-                timestamp: today.format('X')
-            };
-            let newDate = today.add(-1,'days');
-            StudentPanelController.changeDueDate(newDate, item);
-            assert.isTrue(dispatcherSpy.called);
-            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-        });
-
         afterEach(() => {
             dispatcherSpy.restore();
             patchItemDueDate.restore();

@@ -1,6 +1,5 @@
 import { getAllModels, patchItemDueDate } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
-import Moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
 
 export default class StudentPanelController{

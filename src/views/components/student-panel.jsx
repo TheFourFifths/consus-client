@@ -24,10 +24,16 @@ export default class StudentPanel extends ListenerComponent {
         }
     }
     renderDueDate(item){
-       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm:ss a');
+       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm a');
 
         return (
-            <div title="Click to change due date" onClick={this.showDateModal.bind(this, item)}>Due date: {timeString}</div>
+            <div>
+                Due date: {timeString}(
+                <div className="longtermDateInput" title="Click to change due date" onClick={this.showDateModal.bind(this, item)}>
+                     Change date
+                </div>
+                )
+            </div>
         );
 
     }
@@ -42,12 +48,12 @@ export default class StudentPanel extends ListenerComponent {
             showDateModal: false
         });
         StudentPanelController.changeDueDate(date, item);
+
     }
     renderEquipment() {
         if(this.props.student.items.length === 0) {
             return <i className='equipment-none'>Student has no equipment checked out.</i>;
         }
-
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
