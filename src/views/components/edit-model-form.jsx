@@ -22,6 +22,7 @@ export default class EditModelForm extends React.Component {
                 faultDescription: props.model.faultDescription
             };
     }
+
     componentDidMount(){
         if(this.state.model === null) {
             ModelController.getModel(this.props.params.address).then(() => {
@@ -40,11 +41,13 @@ export default class EditModelForm extends React.Component {
             });
         }
     }
+
     changeName(e) {
         this.setState({
             name: e.target.value
         });
     }
+
     changeDescription(e) {
         this.setState({
             description: e.target.value
@@ -74,16 +77,31 @@ export default class EditModelForm extends React.Component {
             price: e.target.value
         });
     }
+
     changeIsFaulty(e){
         this.setState({
             isFaulty: e.target.value
         });
     }
+
     changeFaultDescription(e) {
         this.setState({
             faultDescription: e.target.value
         });
     }
+
+    changePhoto(e) {
+        let photo = e.target.files[0];
+        this.setState({ photo });
+
+        let img = document.getElementById('thumbnail-preview');
+        img.file = photo;
+
+        let reader = new FileReader();
+        reader.onload = ((anImg) => { return (e) => { anImg.src = e.target.result; }; })(img);
+        reader.readAsDataURL(file);
+    }
+
     submit(e) {
         e.preventDefault();
         ModelFormController.updateModel(
@@ -96,6 +114,7 @@ export default class EditModelForm extends React.Component {
             this.state.isFaulty,
             this.state.faultDescription,
             this.state.price,
+            this.state.photo
         );
     }
 
@@ -126,6 +145,10 @@ export default class EditModelForm extends React.Component {
                     Faulty? <input type="checkbox" value={this.state.isFaulty} onChange={this.changeIsFaulty.bind(this)} /><br/>
                     Fault Description:<br/>
                     <textarea rows="4" cols="50"  value={this.state.faultDescription} onChange={this.changeFaultDescription.bind(this)} placeholder='Description' /><br/><br/>
+                    <p>Model photo thumbnail:</p>
+                    <input type='file' accept='image/*' onchange={this.changePhoto.bind(this)} capture />
+                    <img id='thumbnail-preview' />
+                    <br/>
                     <input type='submit' value='Update Model' />
                 </form>
             </div>

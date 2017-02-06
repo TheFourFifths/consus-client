@@ -136,7 +136,8 @@ export function searchStudent(id) {
     });
 }
 
-export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, base64Photo) {
+    // TODO file stuff
     return patch('model', { address }, {
         name: name,
         description: description,
@@ -145,7 +146,8 @@ export function updateModel(address, name, description, manufacturer, vendor, lo
         location: location,
         isFaulty: isFaulty,
         faultDescription: faultDescription,
-        price: price
+        price: price,
+        photo: base64Photo
     });
 }
 
