@@ -99,4 +99,6 @@ describe('StudentStore', () => {
         assert.isFalse(student.hasOverdueItem);
     });
 
+    it("Should ")
+
 });

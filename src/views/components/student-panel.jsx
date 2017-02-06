@@ -30,14 +30,28 @@ export default class StudentPanel extends ListenerComponent {
         }
     }
 
-    changeCheckinNum(e) {
-        this.setState({
-            checkinNum: e.target.value
-        });
+    changeCheckinNum(maxCheckin, e) {
+        if(parseInt(e.target.value) < 1){
+            this.setState({
+                checkinNum: 1
+            });
+        } else if(parseInt(e.target.value) > maxCheckin) {
+            this.setState({
+                checkinNum: maxCheckin
+            });
+        } else {
+            this.setState({
+                checkinNum: e.target.value
+            });
+        }
     }
 
     checkInModel(studentId, modelAddress, quantity) {
-        this.props.checkInModel(studentId, modelAddress, quantity);
+        if(isNaN(parseInt(quantity))){
+            StudentPanelController.thrownNotANumberError();
+        } else {
+            this.props.checkInModel(studentId, modelAddress, quantity);
+        }
         this.setState({
             checkinNum: 1
         });
@@ -80,7 +94,7 @@ export default class StudentPanel extends ListenerComponent {
     renderCheckinButtons(model){
         return (
             <div className='checkin-buttons'>
-                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this)} min='1' max={model.quantity} placeholder='Price' />
+                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} placeholder='Price' />
                 <button onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
                 <button onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
             </div>
