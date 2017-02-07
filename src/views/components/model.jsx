@@ -4,7 +4,6 @@ import ModelController from '../../controllers/components/model';
 import PrinterController from '../../controllers/pages/printer';
 import { hashHistory } from 'react-router';
 import ConfirmModal from '../components/confirm-modal.jsx';
-import { getDataUri } from '../../lib/qr';
 
 export default class Model extends React.Component {
 
@@ -100,7 +99,7 @@ export default class Model extends React.Component {
                     <img src="../assets/images/add.svg"/>
                     <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
                     <img onClick={this.showConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
-                    <img onClick={this.openQr.bind(this)} src={getDataUri(this.state.model.address)} />
+                    <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
             </div>
