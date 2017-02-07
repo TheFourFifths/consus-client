@@ -19,9 +19,4 @@ describe('PrinterStore', () => {
         assert.strictEqual(PrinterStore.getText(), 'm8y7nEtAe');
     });
 
-    it('should close the printer', () => {
-        Dispatcher.handleAction('CLOSE_PRINTER');
-        assert.isUndefined(PrinterStore.getText());
-    });
-
 });

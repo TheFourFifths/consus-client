@@ -22,9 +22,4 @@ store.registerHandler('PROMPT_TO_PRINT', data => {
     store.emitChange();
 });
 
-store.registerHandler('CLOSE_PRINTER', () => {
-    text = undefined;
-    store.emitChange();
-});
-
 export default store;
