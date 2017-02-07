@@ -14,7 +14,8 @@ export default class Printer extends ListenerComponent {
 
     getState() {
         return {
-            text: PrinterStore.getText()
+            text: PrinterStore.getText(),
+            size: 10
         };
     }
 
@@ -22,10 +23,22 @@ export default class Printer extends ListenerComponent {
         Dispatcher.handleAction('CLOSE_PRINTER');
     }
 
+    handleSizeChange(e) {
+        this.setState({
+            size: e.target.value
+        });
+    }
+
     render() {
+        let imgStyles = {
+            width: this.state.size + 'mm',
+            height: this.state.size + 'mm'
+        }
         return (
             <div id='printer'>
-                <img src={getDataUri(this.state.text)} />
+                Width (mm):
+                <input type='number' value={this.state.size} onChange={this.handleSizeChange.bind(this)} />
+                <img src={getDataUri(this.state.text)} style={imgStyles} />
             </div>
         );
     }
