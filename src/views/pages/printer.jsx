@@ -15,7 +15,7 @@ export default class Printer extends ListenerComponent {
     getState() {
         return {
             text: PrinterStore.getText(),
-            size: 10
+            size: 50
         };
     }
 
@@ -36,8 +36,10 @@ export default class Printer extends ListenerComponent {
         }
         return (
             <div id='printer'>
-                Width (mm):
-                <input type='number' value={this.state.size} onChange={this.handleSizeChange.bind(this)} />
+                Width (mm): <input type='number' value={this.state.size} onChange={this.handleSizeChange.bind(this)} />
+                <br />
+                <button>Print</button>
+                <button>Cancel</button>
                 <img src={getDataUri(this.state.text)} style={imgStyles} />
             </div>
         );
