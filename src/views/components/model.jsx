@@ -1,8 +1,11 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
+import QrController from '../../controllers/components/qr';
 import { hashHistory } from 'react-router';
 import ConfirmModal from '../components/confirm-modal.jsx';
+import { getDataUri } from '../../lib/qr';
+
 export default class Model extends React.Component {
 
 
@@ -50,6 +53,10 @@ export default class Model extends React.Component {
         ModelController.deleteModel(this.state.model.address);
     }
 
+    openQr() {
+        QrController.promptToPrint(this.state.model.address);s
+    }
+
     render() {
         if (this.state.model === null)
             return <i>Data is loading...</i>;
@@ -93,6 +100,7 @@ export default class Model extends React.Component {
                     <img src="../assets/images/add.svg"/>
                     <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
                     <img onClick={this.showConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.openQr.bind(this)} src={getDataUri(this.state.model.address)} />
                 </div>
                 <div className="clear"></div>
             </div>
