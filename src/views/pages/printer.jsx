@@ -20,14 +20,19 @@ export default class Printer extends ListenerComponent {
         };
     }
 
-    close() {
-        PrinterController.close();
-    }
-
     handleSizeChange(e) {
         this.setState({
             size: e.target.value
         });
+    }
+
+    close() {
+        PrinterController.close();
+    }
+
+    print() {
+        // Use the global print function
+        print();
     }
 
     render() {
@@ -39,7 +44,7 @@ export default class Printer extends ListenerComponent {
             <div id='printer'>
                 Width (mm): <input type='number' value={this.state.size} onChange={this.handleSizeChange.bind(this)} />
                 <br />
-                <button>Print</button>
+                <button onClick={this.print}>Print</button>
                 <button onClick={this.close}>Cancel</button>
                 <img src={getDataUri(this.state.text)} style={imgStyles} />
             </div>
