@@ -42,10 +42,14 @@ export default class Printer extends ListenerComponent {
         }
         return (
             <div id='printer'>
-                Width (mm): <input type='number' value={this.state.size} onChange={this.handleSizeChange.bind(this)} />
+                <span className='no-print'>Width (mm): </span>
+                <input type='number'
+                    className='no-print'
+                    value={this.state.size}
+                    onChange={this.handleSizeChange.bind(this)} />
                 <br />
-                <button onClick={this.print}>Print</button>
-                <button onClick={this.close}>Cancel</button>
+                <button onClick={this.print} className='no-print'>Print</button>
+                <button onClick={this.close} className='no-print'>Cancel</button>
                 <img src={getDataUri(this.state.text)} style={imgStyles} />
             </div>
         );
