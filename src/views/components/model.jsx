@@ -1,7 +1,7 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
-import QrController from '../../controllers/components/qr';
+import PrinterController from '../../controllers/pages/printer';
 import { hashHistory } from 'react-router';
 import ConfirmModal from '../components/confirm-modal.jsx';
 import { getDataUri } from '../../lib/qr';
@@ -54,7 +54,7 @@ export default class Model extends React.Component {
     }
 
     openQr() {
-        QrController.promptToPrint(this.state.model.address);s
+        PrinterController.promptToPrint(this.state.model.address);s
     }
 
     render() {

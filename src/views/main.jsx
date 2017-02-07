@@ -19,7 +19,6 @@ import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
 import Item from './components/item.jsx';
 import OverdueItems from './pages/overdue.jsx';
-import Printer from './pages/printer.jsx';
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -35,7 +34,6 @@ ReactDOM.render((
             <Route path='/overdue' component={OverdueItems} />
             <Route path='/items/new' component={CreateItemForm} />
             <Route path='/students/upload' component={StudentFileUpload} />
-            <Route path='/printer' component={Printer} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
