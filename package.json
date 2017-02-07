@@ -68,5 +68,8 @@
     "request": "^2.75.0",
     "sinon": "^1.17.6",
     "spectron": "^3.4.1"
+  },
+  "dependencies": {
+    "qr-image": "^3.2.0"
   }
 }
