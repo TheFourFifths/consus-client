@@ -22,12 +22,6 @@ export default class Printer extends ListenerComponent {
         Dispatcher.handleAction('CLOSE_PRINTER');
     }
 
-    renderImage() {
-        if (this.state.text === undefined) {
-            return false;
-        }
-    }
-
     render() {
         return (
             <div id='printer'>
