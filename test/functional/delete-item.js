@@ -2,6 +2,7 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import items from '../test-cases/items';
 
 describe('Deleting an Item', function () {
 
@@ -26,37 +27,18 @@ describe('Deleting an Item', function () {
     it('deletes an item', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item/all',
+            endpoint: 'item/all',
             response: {
                 status: 'success',
                 data: {
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nEtAe',
-                            status: 'AVAILABLE'
-                        }, {
-                            address: 'iGwEZVHHE',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }, {
-                            address: 'iGwEZVeaT',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }
-                    ]
+                    items
                 }
             }
         });
+        items.splice(0, 1);
         mockServer.expect({
             method: 'delete',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
@@ -65,21 +47,7 @@ describe('Deleting an Item', function () {
                 status: 'success',
                 data: {
                     modelName: 'Resistor',
-                    items: [
-                        {
-                            address: 'iGwEZVHHE',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }, {
-                            address: 'iGwEZVeaT',
-                            faultDescription: '',
-                            isFaulty: false,
-                            modelAddress: 'm8y7nFLsT',
-                            status: 'AVAILABLE'
-                        }
-                    ]
+                    items
                 }
             }
         });
@@ -88,7 +56,7 @@ describe('Deleting an Item', function () {
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {
-            assert.lengthOf(elements.value, 3);
+            assert.lengthOf(elements.value, 2);
             return app.client.click('.item:nth-of-type(1) .actionArea img[src*="delete"]');
         }).then(() => {
             return app.client.waitForVisible('.toast', 5000);
@@ -102,7 +70,7 @@ describe('Deleting an Item', function () {
         }).then(() => {
             return app.client.elements('#items .item');
         }).then(elements => {
-            assert.lengthOf(elements.value, 2);
+            assert.lengthOf(elements.value, 1);
             mockServer.validate();
         });
     });

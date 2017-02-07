@@ -49,7 +49,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkin',
+            endpoint: 'checkin',
             json: {
                 studentId: 123456,
                 itemAddress: 'iGwEZUvfA'
@@ -68,7 +68,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 studentId: 123456,
                 equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
@@ -87,7 +87,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 studentId: 123456,
                 equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
@@ -111,7 +111,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/item',
+            endpoint: 'item',
             json: {
                 modelAddress: 'm8y7nEtAe'
             },
@@ -141,7 +141,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/model',
+            endpoint: 'model',
             json: {
                 name: 'Resistor',
                 description: 'V = IR',
@@ -174,7 +174,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'delete',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 itemAddress: 'iGwEZUvfA',
                 modelAddress: 'm8y7nEtAe'
@@ -203,7 +203,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item/all',
+            endpoint: 'item/all',
             qs: {},
             response
         });
@@ -233,7 +233,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             qs: {},
             response
         });
@@ -256,7 +256,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item/overdue',
+            endpoint: 'item/overdue',
             response
         });
         return getOverdueItems().then(data => {
@@ -278,7 +278,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZUvfA'
             },
@@ -310,7 +310,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 address: 'm8y7nEtAe'
             },
@@ -342,7 +342,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'delete',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 modelAddress: 'm8y7nEtAe'
             },
@@ -367,7 +367,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -385,7 +385,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/student',
+            endpoint: 'student',
             json: {
                 data: '123456'
             },
@@ -415,7 +415,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'patch',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 address: 'm8y7nEtAe'
             },
