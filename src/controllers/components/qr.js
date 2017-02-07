@@ -1,4 +1,5 @@
 import { Dispatcher } from 'consus-core/flux';
+import { hashHistory } from 'react-router';
 
 export default class QrController {
 
@@ -6,6 +7,7 @@ export default class QrController {
         Dispatcher.handleAction('PROMPT_TO_PRINT', {
             text
         });
+        hashHistory.push('/printer');
     }
 
 }

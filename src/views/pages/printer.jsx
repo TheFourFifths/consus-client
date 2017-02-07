@@ -3,9 +3,8 @@ import { Dispatcher } from 'consus-core/flux';
 import { getDataUri } from '../../lib/qr';
 import PrinterStore from '../../store/printer-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import Modal from './modal.jsx';
 
-export default class PrinterModal extends ListenerComponent {
+export default class Printer extends ListenerComponent {
 
     getStores() {
         return [
@@ -27,16 +26,13 @@ export default class PrinterModal extends ListenerComponent {
         if (this.state.text === undefined) {
             return false;
         }
-        return (
-            <img src={getDataUri(this.state.text)} />
-        );
     }
 
     render() {
         return (
-            <Modal active={this.state.text !== undefined} onClose={this.close}>
-                {this.renderImage()}
-            </Modal>
-        )
+            <div id='printer'>
+                <img src={getDataUri(this.state.text)} />
+            </div>
+        );
     }
 }
