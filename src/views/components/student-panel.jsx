@@ -48,7 +48,7 @@ export default class StudentPanel extends ListenerComponent {
 
     checkInModel(studentId, modelAddress, quantity) {
         if(isNaN(parseInt(quantity))){
-            StudentPanelController.thrownNotANumberError();
+            StudentPanelController.throwNotANumberError();
         } else {
             this.props.checkInModel(studentId, modelAddress, quantity);
         }

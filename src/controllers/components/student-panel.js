@@ -29,6 +29,6 @@ export default class StudentPanelController{
     static throwNotANumberError() {
         Dispatcher.handleAction("ERROR", {
             error: "Input was not a number"
-        })
+        });
     }
 }
