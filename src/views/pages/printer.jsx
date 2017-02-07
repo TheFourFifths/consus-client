@@ -31,9 +31,6 @@ export default class Printer extends ListenerComponent {
     }
 
     render() {
-        if (this.state.text === undefined) {
-            return false;
-        }
         let imgStyles = {
             width: this.state.size + 'mm',
             height: this.state.size + 'mm'

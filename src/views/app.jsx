@@ -45,7 +45,6 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <Printer />
                 <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} message={this.state.errorMessage} />
                 <Toasts toasts={this.state.toasts} />
                 <Omnibar />

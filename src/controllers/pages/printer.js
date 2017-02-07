@@ -7,10 +7,11 @@ export default class PrinterController {
         Dispatcher.handleAction('PROMPT_TO_PRINT', {
             text
         });
+        hashHistory.push('/printer');
     }
 
     static close() {
-        Dispatcher.handleAction('CLOSE_PRINTER');
+        hashHistory.goBack();
     }
 
 }
