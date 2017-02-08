@@ -167,7 +167,7 @@ describe('Checking an item out longterm', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, 'Checkout completed successfully!');ad
+            assert.strictEqual(message, 'Checkout completed successfully!');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
