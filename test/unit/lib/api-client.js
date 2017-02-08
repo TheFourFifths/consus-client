@@ -74,7 +74,7 @@ describe('API Client', () => {
         };
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkin/model',
+            endpoint: 'checkin/model',
             json: {
                 studentId: 123456,
                 modelAddress: 'm8y7nEtAe',
