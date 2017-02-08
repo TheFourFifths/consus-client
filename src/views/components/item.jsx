@@ -2,6 +2,7 @@ import React from 'react';
 import ItemStore from '../../store/item-store';
 import { Link } from 'react-router';
 import ItemController from '../../controllers/components/item';
+import PrinterController from '../../controllers/pages/printer';
 
 export default class Item extends React.Component {
 
@@ -25,6 +26,10 @@ export default class Item extends React.Component {
 
     deleteItem() {
         ItemController.deleteItem(this.state.item);
+    }
+
+    openQr() {
+        PrinterController.promptToPrint(this.state.item.address);s
     }
 
     render() {
@@ -56,6 +61,7 @@ export default class Item extends React.Component {
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
                     <img onClick={this.deleteItem.bind(this)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
             </div>
