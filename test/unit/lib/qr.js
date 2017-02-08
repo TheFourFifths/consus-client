@@ -4,7 +4,9 @@ import { getDataUri } from '../../../.dist/lib/qr';
 describe('QR', () => {
 
     it('gets a data URI', () => {
-        assert.isString(getDataUri('pretend that this is an address'));
+        let dataUri = getDataUri('pretend that this is an address');
+        assert.isString(dataUri);
+        assert.strictEqual(dataUri.indexOf('data:image/png;base64,'), 0);
     });
 
 });
