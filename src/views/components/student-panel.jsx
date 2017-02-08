@@ -23,20 +23,35 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderEquipment() {
-        if(this.props.student.items.length === 0) {
-            return <i className='equipment-none'>Student has no equipment checked out.</i>;
+        if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+            return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
+
+        let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
+
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
-                    return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderItemInfo(item)}
                         </div>
-                    </Link>;
+                    </Link>);
+                })}
+
+                {modelCounts.map((model, m) => {
+                    return (<Link to={`/model/${model.address}`} key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                        <div className="item-info">
+                            {this.renderModelInfo(model)}
+                        </div>
+                    </Link>);
                 })}
             </div>
         );
+    }
+
+    renderModelInfo(model){
+        return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
     }
 
     renderItemInfo(item){
@@ -44,9 +59,9 @@ export default class StudentPanel extends ListenerComponent {
         if(!model){
             return null;
         }else{
-            return <div>
+            return (<div>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
-            </div>
+            </div>)
         }
     }
 

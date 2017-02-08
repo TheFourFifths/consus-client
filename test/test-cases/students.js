@@ -7,7 +7,8 @@ export default [
         status: 'C - Current',
         email: 'neumannJ@msoe.edu',
         major: 'Software Engineering',
-        items: []
+        items: [],
+        models: []
     },
     {
         id: 111111,
@@ -15,6 +16,7 @@ export default [
         status: 'C - Current',
         email: 'mcboatfaceb@msoe.edu',
         major: 'Hyperdimensional Nautical Machines Engineering',
-        items: [items[2]]
+        items: [items[2]],
+        models: []
     }
 ]

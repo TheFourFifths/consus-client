@@ -1,4 +1,4 @@
-import { searchItem, checkIn} from '../../lib/api-client';
+import { searchItem, checkIn, searchModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import CartStore from '../../store/cart-store';
 
@@ -23,12 +23,44 @@ export default class CartController {
                 return Dispatcher.handleAction('ERROR', {
                     error: 'This item is already checked out by another student.'
                 });
-            } else if(CartStore.getItems().some(ele => ele.address === address)){
+            } else if(CartStore.getContents().some(ele => ele.address === address)){
                 return Dispatcher.handleAction('ERROR', {
                     error: 'This item is already in the cart.'
                 });
             }
             Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", item);
+        });
+    }
+
+    static getModel(address) {
+        return searchModel(address).then(model => {
+            if (model.inStock <= 0) {
+                return Dispatcher.handleAction('ERROR', {
+                    error: `${model.name} is out of stock.`
+                });
+            }
+            if(!model.allowCheckout) {
+                return Dispatcher.handleAction('ERROR', {
+                    error: `${model.name} is not available for checkout.`
+                });
+            }
+            Dispatcher.handleAction("CHECKOUT_MODEL_FOUND", model);
+        });
+    }
+
+    static incrementModel(address) {
+        return searchModel(address).then(model => {
+            let storeModel = CartStore.getContents().find(content => {
+                return content.address === model.address;
+            });
+
+            if(storeModel.quantity < model.inStock) {
+                Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
+            } else {
+                return Dispatcher.handleAction('ERROR', {
+                    error: `${model.name} is out of stock.`
+                });
+            }
         });
     }
 

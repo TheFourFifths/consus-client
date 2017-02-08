@@ -129,7 +129,7 @@ describe('Admin override on item checkout', function () {
             json: {
                 adminCode: '3214',
                 studentId: 111111,
-                itemAddresses: ['iGwEZVHHE']
+                equipmentAddresses: ['iGwEZVHHE']
             },
             response: {
                 status: 'success'
