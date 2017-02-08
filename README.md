@@ -27,6 +27,8 @@ npm start
 
 * `npm test`: Run the test suite
 * `npm run lint`: Run the linter
+* `npm run integration-test`: Run the integration tests (requires server listening on port 8081)
+* `npm run lintless-test`: Run the test suite without linting
 * `npm run build`: Build the usable .dist directory
 * `npm run coverage`: Generate a code coverage report
 
@@ -40,5 +42,7 @@ npm start
         * `components`: Smaller components
         * `pages`: Entire pages
 * `test`: The project's tests
-    * `unit`: Unit tests
     * `functional`: Functional tests
+    * `test-cases`: Test case values
+    * `unit`: Unit tests
+    * `util`: Testing utilities

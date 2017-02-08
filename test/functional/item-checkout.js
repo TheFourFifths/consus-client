@@ -1,7 +1,11 @@
 import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
+import { getNextDueTimestamp } from '../../.dist/lib/clock';
 import MockServer from '../util/mock-server';
+import items from '../test-cases/items';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Checking an item out', function () {
 
@@ -34,45 +38,22 @@ describe('Checking an item out', function () {
     it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [],
-                    models: [],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[0]
             }
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            allowCheckout: false,
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        }
-                    ]
+                    models
                 }
             }
         });
@@ -90,28 +71,21 @@ describe('Checking an item out', function () {
     });
 
     it('checks out the item', () => {
-
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZUvfA'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZUvfA',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[0]
            }
         });
 
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: null,
                 studentId: 123456,
@@ -121,30 +95,18 @@ describe('Checking an item out', function () {
                 status: 'success'
             }
         });
-
+        items[0].status = 'CHECKED_OUT';
+        items[0].timestamp = getNextDueTimestamp();
+        students[0].items.push(items[0]);
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
               id: '123456'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        }
-                    ],
-                    models: [],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[0]
             }
         });
 
@@ -181,24 +143,17 @@ describe('Checking an item out', function () {
     it("fails to checkout an item that's already checked out", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
-                address: 'iGwEZVHHE'
+                address: 'iGwEZVeaT'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZVHHE',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'CHECKED_OUT',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[2]
             }
         });
-
-        return app.client.setValue('.cart input[type="text"]','iGwEZVHHE').then(() => {
-            return app.client.waitForVisible('#app .modal .modal-content');
+        return app.client.setValue('.cart input[type="text"]','iGwEZVeaT').then(() => {
+        return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
             return app.client.getText('#app .modal .modal-content p');
         }).then(message => {
@@ -213,52 +168,87 @@ describe('Checking an item out', function () {
     it("can check out multiple items at once.", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
-            qs: {
-                address: 'iGwEZVeaT'
-            },
-            response:{
-                status: 'success',
-                data: {
-                    address: 'iGwEZVeaT',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
-            }
-        });
-
-        mockServer.expect({
-            method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
                 address: 'iGwEZVHHE'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZVHHE',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
-            }
-        });
+                data: items[1]
+           }
+       });
 
         mockServer.expect({
-            method: 'post',
-            endpoint: '/api/checkout',
-            json: {
-                adminCode: null,
-                studentId: 123456,
-                equipmentAddresses: ['iGwEZVeaT','iGwEZVHHE']
+            method: 'get',
+            endpoint: 'item',
+            qs: {
+                address: 'iGwEZVvgu'
             },
-            response: {
-                status: 'success'
-            }
-        });
+            response:{
+                status: 'success',
+                data: items[3]
+           }
+       });
+      mockServer.expect({
+          method: 'post',
+          endpoint: 'checkout',
+          json: {
+              adminCode: null,
+              studentId: 123456,
+              equipmentAddresses: [
+                  'iGwEZVHHE',
+                  'iGwEZVvgu'
+              ]
+          },
+          response: {
+              status: 'success'
+          }
+      });
+      items[1].status = 'CHECKED_OUT';
+      items[1].timestamp = getNextDueTimestamp();
+      items[3].status = 'CHECKED_OUT';
+      items[3].timestamp = getNextDueTimestamp();
+      students[0].items.push(items[1]);
+      students[0].items.push(items[3]);
+      mockServer.expect({
+          method: 'get',
+          endpoint: 'student',
+          qs: {
+            id: '123456'
+          },
+          response: {
+              status: 'success',
+              data: students[0]
+          }
+      });
+
+      return app.client.waitForVisible('.cart input[type="text"]').then(() => {
+          return app.client.click('.cart input[type="text"]');
+      }).then(() => {
+          return app.client.keys('iGwEZVHHE');
+      }).then(() => {
+          return app.client.waitForVisible('.cart>ul>li');
+      }).then(() => {
+          return app.client.waitUntil(()  => {
+              return app.client.getText(".cart>ul>li").then(text => {
+                return text === "iGwEZVHHE";
+              });
+          });
+      }).then(() => {
+          return app.client.keys('iGwEZVvgu');
+      }).then(() => {
+          return app.client.click('.cart input[type="button"]');
+      }).then(() => {
+          return app.client.waitForVisible('.toast');
+      }).then(() => {
+          return app.client.getText('.toast');
+      }).then(message => {
+          assert.strictEqual(message, "Checkout completed successfully!");
+          return app.client.elements('#student .student .equipment .item-info');
+      }).then(items => {
+          assert.lengthOf(items.value, 3);
+          mockServer.validate();
+      });
 
         mockServer.expect({
             method: 'get',
@@ -341,46 +331,32 @@ describe('Checking an item out', function () {
     it("doesn't allow the same items to be added to the cart twice", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'iGwEZW6nn'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZUvfA',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[4]
             }
         });
-
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/item',
+            endpoint: 'item',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'iGwEZW6nn'
             },
             response:{
                 status: 'success',
-                data: {
-                    address: 'iGwEZUvfA',
-                    modelAddress: 'm8y7nEtAe',
-                    status: 'AVAILABLE',
-                    isFaulty: false,
-                    faultDescription: ''
-                }
+                data: items[4]
             }
         });
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('iGwEZUvfA');
+            return app.client.keys('iGwEZW6nn');
         }).then(() => {
-            return app.client.keys('iGwEZUvfA');
+            return app.client.keys('iGwEZW6nn');
         }).then(() => {
             return app.client.waitForVisible('#app .modal', 1000000);
         }).then(() => {
@@ -392,5 +368,6 @@ describe('Checking an item out', function () {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
         });
-    })
+    });
+
 });

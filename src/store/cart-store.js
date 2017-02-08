@@ -93,7 +93,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_CONTENTS', () => {
+store.registerHandler('CLEAR_CART_CONTENTS', () => {
     contents = [];
     store.emitChange();
 });

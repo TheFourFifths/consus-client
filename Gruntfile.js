@@ -78,9 +78,42 @@ module.exports = function(grunt) {
             options: {
                 reporter: 'spec'
             },
-            all: {
+            unit: {
                 files: {
-                    src: ['.test/**/*.js']
+                    src: ['.test/unit/**/*.js']
+                }
+            },
+            functional: {
+                files: {
+                    src: [
+                        '.test/functional/student-lookup.js',
+                        '.test/functiona/view-models.js',
+                        '.test/functional/create-item.js',
+                        '.test/functional/item-checkout.js',
+                        '.test/functional/item-checkin.js',
+                        '.test/functional/admin-override-item-checkout.js',
+                        '.test/functional/delete-model.js',
+                        '.test/functional/delete-item.js'
+                    ]
+                }
+            },
+            integration: {
+                options: {
+                    env: {
+                        test: 'integration'
+                    }
+                },
+                files: {
+                    src: [
+                        '.test/functional/student-lookup.js',
+                        '.test/functiona/view-models.js',
+                        '.test/functional/create-item.js',
+                        '.test/functional/item-checkout.js',
+                        '.test/functional/item-checkin.js',
+                        '.test/functional/admin-override-item-checkout.js',
+                        '.test/functional/delete-model.js',
+                        '.test/functional/delete-item.js'
+                    ]
                 }
             }
         },
@@ -178,7 +211,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['eslint']);
-    grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli']);
-    grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli']);
+    grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
+    grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
+    grunt.registerTask('integration-test', ['build', 'clean:test', 'babel:test', 'mochacli:integration']);
     grunt.registerTask('package', ['build', 'electron', 'compress']);
 };
