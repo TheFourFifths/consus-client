@@ -53,7 +53,7 @@ export default class Model extends React.Component {
     }
 
     openQr() {
-        PrinterController.promptToPrint(this.state.model.address);s
+        PrinterController.promptToPrint(this.state.model.address);
     }
 
     render() {
