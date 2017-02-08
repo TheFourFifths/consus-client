@@ -2,6 +2,8 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Student Lookup', function () {
 
@@ -34,51 +36,22 @@ describe('Student Lookup', function () {
     it('Looks up a student', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZUvfA',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        }
-                    ],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[0]
             }
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            isFaulty: false,
-                            faultDescription: '',
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        }
-                    ]
+                    models
                 }
             }
         });
@@ -93,38 +66,20 @@ describe('Student Lookup', function () {
             assert.strictEqual(id, '123456');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
-            assert.lengthOf(items.value, 1);
-            return app.client.getText('#student .student .equipment .item-info');
-        }).then(item => {
-            assert.include(item, 'Resistor');
-            assert.include(item, 'iGwEZUvfA');
-            mockServer.validate();
+            assert.lengthOf(items.value, 0);
         });
     });
 
     it("Displays if an item is overdue", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
               id: '111111'
           },
           response: {
               status: 'success',
-              data: {
-                  id: 111111,
-                  name: 'Boaty McBoatface',
-                  status: 'C - Current',
-                  items: [
-                      {
-                          address: 'iGwEZUvfA',
-                          modelAddress: 'm8y7nEtAe',
-                          timestamp: 0
-                      }
-                  ],
-                  email: 'vonneumann@msoe.edu',
-                  major: 'Chemical Engineering & Mathematics'
-              }
+              data: students[1]
           }
       });
       return app.client.click("#omnibar").then(() => {
@@ -143,8 +98,8 @@ describe('Student Lookup', function () {
           assert.lengthOf(items.value, 1);
           return app.client.getText('#student .student .equipment .overdue');
       }).then(item => {
-          assert.include(item, 'Resistor');
-          assert.include(item, 'iGwEZUvfA');
+          assert.include(item, 'Transistor');
+          assert.include(item, 'iGwEZVeaT');
           mockServer.validate();
       });
     });
@@ -152,33 +107,26 @@ describe('Student Lookup', function () {
     it("Displays message if student has no items", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
-              id: '112994'
+              id: '123456'
           },
           response: {
               status: 'success',
-              data: {
-                  id: 112994,
-                  name: 'Ms Steak',
-                  status: 'C - Current',
-                  items: [],
-                  email: 'vonneumann@msoe.edu',
-                  major: 'Chemical Engineering & Mathematics'
-              }
+              data: students[0]
           }
       });
       return app.client.click("#omnibar").then(() => {
-        return app.client.keys('112994');
+        return app.client.keys('123456');
       }).then(() => {
           return app.client.waitForVisible('#student', 1000000);
       }).then(() => {
           return app.client.getText('#student .student .name');
       }).then(name => {
-          assert.strictEqual(name, 'Ms Steak');
+          assert.strictEqual(name, students[0].name);
           return app.client.getText('#student .student .id');
       }).then(id => {
-          assert.strictEqual(id, '112994');
+          assert.strictEqual(id, '123456');
           return app.client.getText('#student .student .equipment-none');
       }).then(message => {
           assert.strictEqual(message, "Student has no equipment checked out.");
@@ -189,18 +137,17 @@ describe('Student Lookup', function () {
     it("Pops an error modal if the student ID doesn't exist", () => {
       mockServer.expect({
           method: 'get',
-          endpoint: '/api/student',
+          endpoint: 'student',
           qs: {
-              id: '000000'
+              id: '314159'
           },
           response: {
               status: 'failure',
-              message: 'An invalid student ID was scanned. The student could not be found.'
+              message: 'The student could not be found.'
           }
       });
-
       return app.client.click("#omnibar").then(() => {
-        return app.client.keys("000000");
+        return app.client.keys("314159");
       }).then(() => {
           return app.client.waitForVisible('#app .modal', 1000000);
       }).then(() => {
