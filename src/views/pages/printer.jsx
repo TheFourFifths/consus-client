@@ -48,8 +48,8 @@ export default class Printer extends ListenerComponent {
                     value={this.state.size}
                     onChange={this.handleSizeChange.bind(this)} />
                 <br />
-                <button onClick={this.print} className='no-print'>Print</button>
-                <button onClick={this.close} className='no-print'>Cancel</button>
+                <button onClick={this.print} className='no-print print'>Print</button>
+                <button onClick={this.close} className='no-print cancel'>Cancel</button>
                 <img src={getDataUri(this.state.text)} style={imgStyles} />
             </div>
         );
