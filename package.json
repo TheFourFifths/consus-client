@@ -67,6 +67,7 @@
     "react-router": "^2.8.1",
     "request": "^2.75.0",
     "sinon": "^1.17.6",
-    "spectron": "^3.4.1"
+    "spectron": "^3.4.1",
+    "moment-timezone": "^0.5.9"
   }
 }

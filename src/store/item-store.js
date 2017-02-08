@@ -55,4 +55,15 @@ store.registerHandler('STUDENT_FOUND', data => {
     }
     store.emitChange();
 });
+
+store.registerHandler('ITEM_DUEDATE_UPDATED', item => {
+    items.findIndex(index => {
+        if(index < 0){
+            throw new Error('Item was not in the item store.' + item);
+        }
+        item.isOverdue = store.isOverdue(item);
+        items[index] = item;
+    });
+    store.emitChange();
+});
 export default store;

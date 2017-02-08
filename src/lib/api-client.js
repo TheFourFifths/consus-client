@@ -165,3 +165,10 @@ export function longTermCheckout(studentId, itemAddresses, adminCode, longtermDu
         longtermProfessor
     });
 }
+
+export function patchItemDueDate(studentId, address, date){
+    return patch('student/item', {studentId}, {
+        itemAddress: address,
+        date: date
+    });
+}

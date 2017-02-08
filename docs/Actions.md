@@ -24,6 +24,7 @@ This document describes the Flux actions used in the Consus client.
     - [ITEMS_RECEIVED](#items_received)
     - [ITEM_CREATED](#item_created)
     - [ITEM_DELETED](#item_deleted)
+    - [ITEM_DUEDATE_UPDATED](#item_duedate_updated)
     - [ITEM_FOUND](#item_found)
     - [MODELS_RECEIVED](#models_received)
     - [MODEL_CREATED](#model_created)
@@ -224,6 +225,15 @@ Dispatched after an item has successfully been deleted.
 ### Data
 
 The item object that was deleted.
+
+## ITEM_DUEDATE_UPDATED
+
+Dispatched after an item's duedate has successfully been upadted.
+
+### Data
+
+The student the item belongs to
+
 
 
 ## ITEM_FOUND

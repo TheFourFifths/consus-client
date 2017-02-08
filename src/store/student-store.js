@@ -42,4 +42,10 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     store.emitChange();
 });
 
+
+store.registerHandler('ITEM_DUEDATE_UPDATED', data => {
+    student = data;
+    store.emitChange();
+});
+
 export default store;

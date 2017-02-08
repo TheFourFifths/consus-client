@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import Moment from 'moment-timezone';
+import DateModal from '../components/date-modal.jsx';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -21,7 +23,33 @@ export default class StudentPanel extends ListenerComponent {
             models: ModelStore.getAllModels()
         }
     }
+    renderDueDate(item){
+       let timeString = Moment.tz(item.timestamp * 1000, 'America/Chicago').format('MMMM Do YYYY, h:mm a');
 
+        return (
+            <div>
+                Due date: {timeString}(
+                <div className="longtermDateInput" title="Click to change due date" onClick={this.showDateModal.bind(this, item)}>
+                     Change date
+                </div>
+                )
+            </div>
+        );
+
+    }
+    showDateModal(){
+        this.setState({
+            showDateModal: true
+        });
+    }
+
+    changeDueDate(date, item){
+        this.setState({
+            showDateModal: false
+        });
+        StudentPanelController.changeDueDate(date, item);
+
+    }
     renderEquipment() {
         if(this.props.student.items.length === 0) {
             return <i className='equipment-none'>Student has no equipment checked out.</i>;
@@ -29,11 +57,17 @@ export default class StudentPanel extends ListenerComponent {
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
-                    return <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
+                    return <div className="item-info"  key={i}>
+                        <DateModal
+                            message='Select new due date'
+                            active={this.state.showDateModal}
+                            onDateSelected={date => this.changeDueDate(date, item)}
+                        />
+                        <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                             {this.renderItemInfo(item)}
+                        </Link>
+                        {this.renderDueDate(item)}
                         </div>
-                    </Link>;
                 })}
             </div>
         );
