@@ -9,6 +9,7 @@ changePort(location.search.split('port=')[1]);
 import App from './app.jsx';
 import Index from './pages/index.jsx';
 import Student from './pages/student.jsx';
+import Students from './pages/students.jsx';
 import Models from './pages/models.jsx';
 
 import CreateModelForm from './components/create-model-form.jsx';
@@ -34,6 +35,7 @@ ReactDOM.render((
             <Route path="/overdue" component={OverdueItems} />
             <Route path='/items/new' component={CreateItemForm} />
             <Route path='/students/upload' component={StudentFileUpload} />
+            <Route path='/students' component={Students} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));
