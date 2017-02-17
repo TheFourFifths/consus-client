@@ -31,6 +31,10 @@ store.registerHandler('STUDENT_FOUND', data => {
 
 store.registerHandler("STUDENTS_FOUND", data => {
     students = data;
+    students.forEach(student => {
+        console.log(student.items);
+        student.hasOverdueItem = store.hasOverdueItems(student.items);
+    });
     store.emitChange();
 });
 

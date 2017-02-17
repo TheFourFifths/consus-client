@@ -11,8 +11,8 @@ export default class Index extends React.Component {
                   <button id='view-models' onClick={IndexController.getModels}>View all models</button><br/>
                   <button id='view-items' onClick={IndexController.getItems}>View all items</button><br/>
                   <button onClick={IndexController.getOverdueItems}>Overdue Items</button><br/>
+                  <button onClick={IndexController.getStudents}>View All Students</button><br/>
                   <Link to='/students/upload'>Upload Student List</Link>
-                  <Link to='/students'>View All Students</Link>
                 </div>
             </div>
         );

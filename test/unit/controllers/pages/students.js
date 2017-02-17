@@ -19,7 +19,7 @@ describe("StudentPageController", () => {
         it("Gets all students", () => {
             getStudents.returns(
                 new Promise(resolve => {
-                    resolve([{id: 123456},{ id: 123456}]);
+                    resolve([{id: 123456, items:[]},{ id: 123456, items:[]}]);
                 })
             );
 

@@ -15,7 +15,7 @@ class ModelStore extends Store {
     getModelByAddress(address){
         return models.find(model => model.address === address);
     }
-    
+
 }
 
 const store = new ModelStore();
@@ -37,6 +37,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 
 store.registerHandler('MODELS_RECEIVED', data => {
     models = data.models;
+    console.log(models);
     store.emitChange();
 });
 
