@@ -7,7 +7,8 @@ export default class Student extends ListenerComponent {
         return (
             <div className='student'>
                 <div className="titleArea">
-                    <h2>{this.props.student.id}</h2>
+                    <h2>{this.props.student.name}</h2>
+                    <h3>{this.props.student.id}</h3>
                 </div>
                 <div className="infoArea">
                     <div className="descriptionArea">
