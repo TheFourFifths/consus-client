@@ -52,6 +52,12 @@ export default class Model extends React.Component {
         ModelController.deleteModel(this.state.model.address);
     }
 
+    renderDescription() {
+        return this.state.model.description.split(/[\r\n]/g).map((line, index) => {
+            return <span key={index}>{line}<br/></span>;
+        });
+    }
+
     openQr() {
         PrinterController.promptToPrint(this.state.model.address);
     }
@@ -78,7 +84,7 @@ export default class Model extends React.Component {
                 <div className="infoArea">
                     <div className="descriptionArea">
                         <h3>Description</h3>
-                        <p>{this.state.model.description}</p>
+                        <p>{this.renderDescription()}</p>
                     </div>
                     <div className="faultArea">
                         <h3>Fault</h3>
