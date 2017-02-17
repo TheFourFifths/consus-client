@@ -29,7 +29,7 @@ export default class Item extends React.Component {
     }
 
     openQr() {
-        PrinterController.promptToPrint(this.state.item.address);s
+        PrinterController.promptToPrint(this.state.item.address);
     }
 
     render() {

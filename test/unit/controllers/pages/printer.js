@@ -15,7 +15,7 @@ describe('PrinterController', () => {
             router.hashHistory = {};
         });
 
-        it('Dispatches "PROMPT_TO_PRINT"',() => {
+        it('Dispatches "PROMPT_TO_PRINT"', () => {
             spy = router.hashHistory.push = sinon.spy();
             PrinterController.promptToPrint('pretend that this is a model address');
             assert.isTrue(dispatcherSpy.calledOnce);
@@ -27,7 +27,7 @@ describe('PrinterController', () => {
             assert.isTrue(spy.called);
         });
 
-        it('Closes',() => {
+        it('Closes', () => {
             spy = router.hashHistory.goBack = sinon.spy();
             PrinterController.close();
             assert.isTrue(spy.called);
@@ -36,5 +36,5 @@ describe('PrinterController', () => {
         after(() => {
             dispatcherSpy.restore();
         });
-    })
+    });
 });
