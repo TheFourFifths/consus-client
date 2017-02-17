@@ -37,7 +37,6 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 
 store.registerHandler('MODELS_RECEIVED', data => {
     models = data.models;
-    console.log(models);
     store.emitChange();
 });
 
