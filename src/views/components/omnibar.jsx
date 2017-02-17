@@ -31,7 +31,7 @@ export default class Omnibar extends React.Component {
 
     render() {
         return (
-            <div id='omnibar'>
+            <div id='omnibar' className='no-print'>
                 <Link to='/'>
                   <img src='../assets/icons/consus-logo.png'/>
                 </Link>
