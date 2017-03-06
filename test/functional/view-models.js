@@ -60,6 +60,38 @@ describe('View all models', function () {
         });
     });
 
+    it.only('adds a new item to the model', () => {
+        let modelList;
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        return app.client.click('#view-models').then(() => {
+            return app.client.waitForVisible('#models', 5000);
+        }).then(() => {
+            return app.client.getText('#models h1');
+        }).then(headerTxt => {
+            assert.match(headerTxt, /All models/);
+            return app.client.elements('#models .model');
+        }).then(resp => {
+            modelList = resp.value;
+            assert.lengthOf(modelList, 2);
+            return app.client.getText('#models:first-child');
+        }).then(model => {
+            return app.client.click('.btnAddItemToModel:nth-of-type(1)');
+        }).then(modelList => {
+            assert.include(modelList[1], 'Transistor');
+            assert.include(modelList[1], 'm8y7nFLsT');
+            assert.include(modelList[1], 'Something used in computers');
+            mockServer.validate();
+        });
+    });
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {
