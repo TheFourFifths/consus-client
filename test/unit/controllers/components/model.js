@@ -48,7 +48,7 @@ describe("ModelController", () => {
         });
     });
 
-    describe.only('addItemToModel', () => {
+    describe('addItemToModel', () => {
         let dispatcherSpy, createItem;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
