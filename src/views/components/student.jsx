@@ -33,6 +33,8 @@ export default class Student extends ListenerComponent {
                 return (
                     <div key={item.address}>
                         {ModelStore.getModelByAddress(item.modelAddress).name}({item.modelAddress}){item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''}
+                        <br/>
+                        Item Address: {item.address}
                     </div>
                 );
             });
