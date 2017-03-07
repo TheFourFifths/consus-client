@@ -1,6 +1,7 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
 import { checkOutItems } from '../lib/api-client';
+import StudentController from '../controllers/pages/student';
 
 let items = [];
 
@@ -41,7 +42,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     };
     items.push(item);
     timer = setTimeout(() => {
-        checkOutItems(StudentStore.getStudent().id, items.map(item => item.address));
+        StudentController.checkout(StudentStore.getStudent().id, items.map(item => item.address));
         timer = null;
     }, store.TIMEOUT_TIME);
     store.emitChange();
