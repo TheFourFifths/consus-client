@@ -13,6 +13,10 @@ export default class ModelController {
     static addItemToModel(modelAddress){
         return createItem(modelAddress).then(item => {
             Dispatcher.handleAction('ITEM_CREATED', item);
+        }).then(()=>{
+            return getAllModels();
+        }).then(models =>{
+            Dispatcher.handleAction("MODELS_RECEIVED", models);
         }).catch(e => {
             Dispatcher.handleAction('ERROR', { error: e.message });
         });

@@ -75,6 +75,16 @@ describe('View all models', function () {
                 }
             }
         });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
         return app.client.click('.btnAddItemToModel:nth-of-type(1)').then(() => {
             return app.client.waitForVisible('.modal', 5000);
         }).then(() => {
