@@ -37,6 +37,7 @@ This document describes the Flux actions used in the Consus client.
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
     - [WARN](#warn)
+    - [PROMPT_TO_PRINT](#prompt_to_print)
 
 ## ADMIN_CODE_ENTERED
 
@@ -349,5 +350,19 @@ Dispatched when a warning message must be shown the user.
 ```json
 {
     "warn": "Warning! Something mildly abnormal occured!"
+}
+```
+
+## PROMPT_TO_PRINT
+
+Dispatched when the user wishes to print a QR code.
+
+### Data
+
+- `text`: the text to be encoded into a QR code
+
+```json
+{
+    "text": "m8y7nEtAe"
 }
 ```

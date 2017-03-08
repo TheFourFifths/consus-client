@@ -6,7 +6,7 @@ import ToastStore from '../store/toast-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
-import Models from './pages/models.jsx';
+import Printer from './pages/printer.jsx';
 import ErrorModal from './components/error-modal.jsx';
 import Toasts from './components/toasts.jsx';
 
