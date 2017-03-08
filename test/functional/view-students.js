@@ -3,6 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import students from '../test-cases/students';
+import models from '../test-cases/models';
 
 describe('View all students', function () {
 
@@ -31,69 +32,13 @@ describe('View all students', function () {
             response: {
                 "status":"success",
                 "data":{
-                    "models":[
-                        {
-                            "address":"m8y7nEtAe",
-                            "name":"Resistor",
-                            "description":"V = IR",
-                            "manufacturer":"Pancakes R' Us",
-                            "vendor":"Mouzer",
-                            "location":"Shelf 14",
-                            "isFaulty":false,
-                            "faultDescription":"",
-                            "price":10.5,
-                            "count":22,
-                            "items":["iGwEZUvfA","iGwEZVHHE","iGwEZVeaT"]
-                        },{
-                            "address":"m8y7nFLsT",
-                            "name":"Transistor",
-                            "description":"Something used in computers",
-                            "manufacturer":"Vroom Industries",
-                            "vendor":"Fankserrogatoman Inc",
-                            "location":"Shelf 2",
-                            "isFaulty":false,
-                            "faultDescription":"",
-                            "price":4,
-                            "count":10,
-                            "items":[]
-                        }
-                    ]
+                    models
                 }
             }
         });
         let response = {
             "status":"success",
-            "data":[
-                {
-                    "id":111111,
-                    "name":"Boaty McBoatface",
-                    "status":"C - Current",
-                    "email":"mcboatfaceb@msoe.edu",
-                    "major":"Hyperdimensional Nautical Machines Engineering",
-                    "items":[
-                        {
-                            "address":"iGwEZVeaT",
-                            "studentAddress":"m8y7nFLsT",
-                            "status":"CHECKED_OUT",
-                            "isFaulty":false,
-                            "faultDescription":"",
-                            "timestamp":0,
-                            "student":{
-                                "name":"Boaty McBoatface",
-                                "id":111111
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id":123456,
-                    "name":"John von Neumann",
-                    "status":"C - Current",
-                    "email":"neumannJ@msoe.edu",
-                    "major":"Software Engineering",
-                    "items":[]
-                }
-            ]
+            "data": students
         };
         mockServer.expect({
             method: 'get',
@@ -107,6 +52,9 @@ describe('View all students', function () {
             return app.client.getText('#students h1');
         }).then(headerTxt => {
             assert.equal(headerTxt, 'All Students');
+            return app.client.elements('.student');
+        }).then(resp => {
+            assert.lengthOf(resp.value, 2);
             return mockServer.validate();
         });
     });
