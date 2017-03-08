@@ -23,6 +23,47 @@ describe('StudentStore', () => {
         assert.strictEqual(student.name,'Poe');
     });
 
+    it('should get all students', () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                id: 432432,
+                name: "Sporf Bigby",
+                items: []
+            },
+            {
+                id:654321,
+                name: "Bruce Glasgow",
+                items: []
+            }
+        ]);
+        let students = StudentStore.getAllStudents();
+        assert.lengthOf(students, 2);
+        assert.strictEqual(students[0].id, 432432);
+        assert.strictEqual(students[1].id, 654321);
+    });
+
+    it('should know if students have overdue items', () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                id: 432432,
+                name: "Sporf Bigby",
+                items: [{
+                    timestamp : 0
+                }]
+            },
+            {
+                id:654321,
+                name: "Bruce Glasgow",
+                items: []
+            }
+        ]);
+        let students = StudentStore.getAllStudents();
+        assert.lengthOf(students, 2);
+        assert.strictEqual(students[0].id, 432432);
+        assert.isTrue(students[0].hasOverdueItem);
+        assert.isFalse(students[1].hasOverdueItem);
+    });
+
     it('should handle a student not being found', () => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
         assert.strictEqual(StudentStore.getStudent(), null);
