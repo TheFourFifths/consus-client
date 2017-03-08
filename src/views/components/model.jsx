@@ -16,12 +16,15 @@ export default class Model extends React.Component {
                 needsConfirmationForDelete: false,
                 needsConfirmationForAdd: false
         };
-        else
+        else {
+            let tModel = props.model;
+            tModel.count = props.count;
             this.state = {
-                model: props.model,
+                model: tModel,
                 needsConfirmationForDelete: false,
                 needsConfirmationForAdd: false
             };
+        }
     }
 
     componentDidMount(){
