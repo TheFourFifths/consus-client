@@ -26,7 +26,7 @@ export default class Models extends ListenerComponent {
         return (
             <div id="students">
                 <h1>All Students</h1>
-                {this.state.students.sort(this.studentSort).map((student) => {
+                {this.state.students.map((student) => {
                     return (
                         <div key={student.id}>
                             <Student student={student}  />
@@ -37,12 +37,4 @@ export default class Models extends ListenerComponent {
         );
     }
 
-    studentSort(a, b){
-        let splitA, splitB, lastA, lastB;
-        splitA = a.name.split();
-        lastA = splitA[splitA.length - 1];
-        splitB = b.name.split();
-        lastB = splitB[splitB.length - 1];
-        return lastA.localeCompare(lastB);
-    }
 }
