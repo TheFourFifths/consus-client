@@ -15,7 +15,6 @@ export default class ModelController {
             Dispatcher.handleAction('ITEM_CREATED', item);
             return getAllModels();
         }).then(models => {
-            //Could do a hashhistory push to same page to force update?
             Dispatcher.handleAction("MODELS_RECEIVED", models);
         }).catch(e => {
             Dispatcher.handleAction('ERROR', { error: e.message });
