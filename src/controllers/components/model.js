@@ -13,9 +13,9 @@ export default class ModelController {
     static addItemToModel(modelAddress){
         return createItem(modelAddress).then(item => {
             Dispatcher.handleAction('ITEM_CREATED', item);
-        }).then(()=>{
             return getAllModels();
-        }).then(models =>{
+        }).then(models => {
+            //Could do a hashhistory push to same page to force update?
             Dispatcher.handleAction("MODELS_RECEIVED", models);
         }).catch(e => {
             Dispatcher.handleAction('ERROR', { error: e.message });

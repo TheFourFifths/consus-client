@@ -59,7 +59,7 @@ describe("ModelController", () => {
             let modelAddress = 'fake';
             createItem.returns(
                 new Promise((resolve, reject) => {
-                    resolve('nothing');
+                    resolve({status:"AVAILABLE"});
                 })
             );
 
