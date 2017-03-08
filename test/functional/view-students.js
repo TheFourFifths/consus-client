@@ -24,15 +24,14 @@ describe('View all students', function () {
         mockServer.clearExpectations();
     });
 
-    it('navigates to the students page', () => {
-        let studentList;
+    it('shows a list of all students', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
             response: {
                 "status":"success",
                 "data":{
-                    "students":[
+                    "models":[
                         {
                             "address":"m8y7nEtAe",
                             "name":"Resistor",
