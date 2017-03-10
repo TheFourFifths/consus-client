@@ -2,6 +2,7 @@ import { Store } from 'consus-core/flux';
 import CartStore from './cart-store';
 
 let student = null;
+let students = [];
 
 class StudentStore extends Store{
     hasOverdueItems(items){
@@ -9,6 +10,10 @@ class StudentStore extends Store{
             let now = Math.floor(Date.now() / 1000);
             return element.timestamp < now;
         });
+    }
+
+    getAllStudents(){
+        return students;
     }
 
     getStudent() {
@@ -24,8 +29,18 @@ store.registerHandler('STUDENT_FOUND', data => {
     store.emitChange();
 });
 
+store.registerHandler("STUDENTS_FOUND", data => {
+    students = data;
+    students.forEach(student => {
+        student.hasOverdueItem = store.hasOverdueItems(student.items);
+    });
+    store.emitChange();
+});
+
+
 store.registerHandler('CLEAR_ALL_DATA', () => {
     student = null;
+    students = [];
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
