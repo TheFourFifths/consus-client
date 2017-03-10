@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
 
-describe('View all models', function () {
+describe.only('View all models', function () {
 
     this.timeout(10000);
     let app;
@@ -92,6 +92,9 @@ describe('View all models', function () {
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
         }).then(() => {
+            return app.client.getText('.model:nth-of-type(1)')
+        }).then(modelList => {
+            assert.include(modelList[1], 'Quantity: 10');
             mockServer.validate();
         });
     });
