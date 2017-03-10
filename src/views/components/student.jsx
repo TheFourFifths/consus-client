@@ -8,7 +8,7 @@ export default class Student extends React.Component {
         super(props);
         this.state = {
             editMode: false,
-            student: StudentStore.getAllStudents()[props.studentId]
+            student: StudentStore.getStudentById(props.studentId)
         };
     }
 

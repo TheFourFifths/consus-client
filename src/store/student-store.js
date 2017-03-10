@@ -19,12 +19,17 @@ class StudentStore extends Store{
     getStudent() {
         return student;
     }
+
+    getStudentById(studentId){
+        return students[studentId];
+    }
 }
 
 const store = new StudentStore();
 
 store.registerHandler('STUDENT_FOUND', data => {
     student = data;
+    students[student.id] = student;
     student.hasOverdueItem = store.hasOverdueItems(data.items);
     store.emitChange();
 });

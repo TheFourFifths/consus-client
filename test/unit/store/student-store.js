@@ -23,6 +23,17 @@ describe('StudentStore', () => {
         assert.strictEqual(student.name,'Poe');
     });
 
+    it('should get student by Id', () => {
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            id: 432345,
+            name: 'Poe',
+            items: []
+        });
+        let student = StudentStore.getStudentById(432345);
+        assert.strictEqual(student.id, 432345);
+        assert.strictEqual(student.name,'Poe');
+    })
+
     it('should get all students', () => {
         Dispatcher.handleAction("STUDENTS_FOUND", [
             {
@@ -155,7 +166,7 @@ describe('StudentStore', () => {
 
         assert.lengthOf(Object.keys(StudentStore.getAllStudents()), 1);
         Dispatcher.handleAction("STUDENT_UPDATED", {id: 111111, name:"Sporf McDougal"})
-        assert.strictEqual(StudentStore.getAllStudents()[111111].name, "Sporf McDougal");
+        assert.strictEqual(StudentStore.getStudentById(111111).name, "Sporf McDougal");
     });
 
 });
