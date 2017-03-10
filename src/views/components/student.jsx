@@ -1,5 +1,6 @@
 import React from 'react';
 import ModelStore from '../../store/model-store';
+import StudentStore from '../../store/student-store';
 import StudentController from '../../controllers/components/student';
 
 export default class Student extends React.Component {
@@ -7,7 +8,7 @@ export default class Student extends React.Component {
         super(props);
         this.state = {
             editMode: false,
-            student: props.student
+            student: StudentStore.getAllStudents()[props.studentId]
         };
     }
 

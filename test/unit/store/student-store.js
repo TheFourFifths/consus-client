@@ -37,9 +37,9 @@ describe('StudentStore', () => {
             }
         ]);
         let students = StudentStore.getAllStudents();
-        assert.lengthOf(students, 2);
-        assert.strictEqual(students[0].id, 432432);
-        assert.strictEqual(students[1].id, 654321);
+        assert.lengthOf(Object.keys(students), 2);
+        assert.isDefined(students[432432]);
+        assert.isDefined(students[654321]);
     });
 
     it('should know if students have overdue items', () => {
@@ -58,10 +58,11 @@ describe('StudentStore', () => {
             }
         ]);
         let students = StudentStore.getAllStudents();
-        assert.lengthOf(students, 2);
-        assert.strictEqual(students[0].id, 432432);
-        assert.isTrue(students[0].hasOverdueItem);
-        assert.isFalse(students[1].hasOverdueItem);
+        assert.lengthOf(Object.keys(students), 2);
+        assert.isDefined(students[432432]);
+        assert.isDefined(students[654321]);
+        assert.isTrue(students[432432].hasOverdueItem);
+        assert.isFalse(students[654321].hasOverdueItem);
     });
 
     it('should handle a student not being found', () => {
@@ -138,6 +139,23 @@ describe('StudentStore', () => {
 
         assert.strictEqual(student.items.length, 1);
         assert.isFalse(student.hasOverdueItem);
+    });
+
+    it("Should update the student", () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                "id":111111,
+                "name":"Boaty McBoatface",
+                "status":"C - Current",
+                "email":"mcboatfaceb@msoe.edu",
+                "major":"Hyperdimensional Nautical Machines Engineering",
+                "items":[]
+            }
+        ]);
+
+        assert.lengthOf(Object.keys(StudentStore.getAllStudents()), 1);
+        Dispatcher.handleAction("STUDENT_UPDATED", {id: 111111, name:"Sporf McDougal"})
+        assert.strictEqual(StudentStore.getAllStudents()[111111].name, "Sporf McDougal");
     });
 
 });
