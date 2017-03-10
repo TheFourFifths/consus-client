@@ -19,6 +19,7 @@ export default class Student extends React.Component {
         let updated = this.state.student;
         updated.name = this.refs.newStudentName.value;
         updated.major = this.refs.newStudentMajor.value;
+        updated.email = this.refs.newStudentEmail.value;
         this.setState({
             editMode: false,
             student: updated
@@ -34,7 +35,17 @@ export default class Student extends React.Component {
                     <h3>{this.state.student.id}</h3>
                 </div>
                 <div className="infoArea">
-                    <h5>Major:</h5><span>{this.state.editMode ? <input id="majorArea" ref="newStudentMajor" placeholder= {this.state.student.major} /> : this.state.student.major}</span>
+                    <div className="editableInfo">
+                        <span className="inline">
+                            <h5>Major:</h5>
+                            <span>{this.state.editMode ? <input id="majorArea" ref="newStudentMajor" placeholder= {this.state.student.major} /> : this.state.student.major}</span>
+                        </span>
+                        <span className="inline">
+                            <h5>Email:</h5>
+                            <span>{this.state.editMode ? <input id="emailArea" ref="newStudentEmail" placeholder= {this.state.student.email} /> : this.state.student.email}</span>
+                        </span>
+                        <span className="clear"></span>
+                    </div>
                     <hr/>
                     <h5>Items: </h5>
                     <div className="descriptionArea">
