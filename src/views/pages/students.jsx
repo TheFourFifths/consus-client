@@ -28,7 +28,7 @@ export default class Models extends ListenerComponent {
                 <h1>All Students</h1>
                 {this.state.students.map((student) => {
                     return (
-                        <div key={student.id}>
+                        <div key={'' + student.id + student.name}>
                             <Student student={student}  />
                         </div>
                     );
