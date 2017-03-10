@@ -149,6 +149,9 @@ export function updateModel(address, name, description, manufacturer, vendor, lo
     });
 }
 
+export function updateStudent(student){
+    return patch('student', null, student);
+}
 
 export function uploadStudents(data){
     return post('student', {
