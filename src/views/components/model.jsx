@@ -13,15 +13,17 @@ export default class Model extends React.Component {
         if (props.model === undefined)
             this.state = {
                 model: null,
-                needsConfirmationForDelete: false
+                needsConfirmationForDelete: false,
+                needsConfirmationForAdd: false
         };
-        else
+        else {
             this.state = {
-                model: props.model,
-                needsConfirmationForDelete: false
+                model: this.props.model,
+                needsConfirmationForDelete: false,
+                needsConfirmationForAdd: false
             };
+        }
     }
-
     componentDidMount(){
         if(this.state.model === null) {
             ModelController.getModel(this.props.params.address).then(() => {
@@ -31,17 +33,33 @@ export default class Model extends React.Component {
             });
         }
     }
-    showConfirmModal(){
+    showDeleteConfirmModal(){
         this.setState({
             needsConfirmationForDelete: true
         });
     }
+
+    showAddItemConfirmModal(){
+        this.setState({
+            needsConfirmationForAdd: true
+        });
+    }
+
     confirmDelete(bool){
         if(bool === true) {
             ModelController.deleteModel(this.state.model.address);
         }
         this.setState({
             needsConfirmationForDelete: false
+        });
+    }
+
+    confirmAddItem(bool){
+        if(bool === true) {
+            ModelController.addItemToModel(this.state.model.address);
+        }
+        this.setState({
+            needsConfirmationForAdd: false
         });
     }
     editModel(){
@@ -65,14 +83,20 @@ export default class Model extends React.Component {
     render() {
         if (this.state.model === null)
             return <i>Data is loading...</i>;
-        let confirmationText = `Are you sure you want to delete this model(${this.state.model.name})? WARNING: This will delete all
+        let deleteConfirmationText = `Are you sure you want to delete this model(${this.state.model.name})? WARNING: This will delete all
                 items associated with this model`;
+        let addConfirmationText = `Create new item for model(${this.state.model.name})?`;
         return (
             <div className='model'>
                 <ConfirmModal
-                    message={confirmationText}
+                    message={deleteConfirmationText}
                     active={this.state.needsConfirmationForDelete}
                     onSelect={bool => this.confirmDelete(bool)}
+                />
+                <ConfirmModal
+                    message={addConfirmationText}
+                    active={this.state.needsConfirmationForAdd}
+                    onSelect={bool => this.confirmAddItem(bool)}
                 />
                 <div className="picArea">
                     <img src="../assets/images/placeholder.jpg"/>
@@ -102,9 +126,9 @@ export default class Model extends React.Component {
                     </div>
                 </div>
                 <div className="actionArea">
-                    <img src="../assets/images/add.svg"/>
+                    <img className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
                     <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
-                    <img onClick={this.showConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
                     <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
