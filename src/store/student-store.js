@@ -40,7 +40,7 @@ store.registerHandler("STUDENTS_FOUND", data => {
 store.registerHandler("STUDENT_UPDATED", student => {
     students[student.id] == student;
     store.emitChange();
-})
+});
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
     student = null;
