@@ -33,17 +33,17 @@ describe("StudentController", () => {
     });
 
     describe("cancelCheckout", () => {
-        it('Dispatches "CLEAR_ITEMS" when called', () => {
+        it('Dispatches "CLEAR_CART_CONTENTS" when called', () => {
             StudentController.cancelCheckout();
             assert.isTrue(dispatcherSpy.called);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_ITEMS");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_CART_CONTENTS");
         });
     });
 
     describe("checkout",() => {
         let checkOutItems;
         beforeEach(() => {
-            checkOutItems = sinon.stub(api, "checkOutItems");
+            checkOutItems = sinon.stub(api, "checkOutContents");
         });
 
         it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
@@ -61,7 +61,7 @@ describe("StudentController", () => {
                 })
             );
 
-            return StudentController.checkout().then(() => {
+            return StudentController.checkout(123456, [{address: '123', quantity: 5}, {address: '456'}]).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
                 searchStudent.restore();

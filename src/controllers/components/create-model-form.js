@@ -2,13 +2,13 @@ import { createModel, getAllModels, updateModel } from '../../lib/api-client';
 import { hashHistory } from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 export default class ModelFormController {
-    static createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
-        return createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count).then(model=> {
+    static createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
+        return createModel(name, description, manufacturer, vendor, location, allowCheckout, parseFloat(price), parseInt(count)).then(model => {
             Dispatcher.handleAction("MODEL_CREATED", model);
             hashHistory.push('/models');
-        }).catch(() => {
+        }).catch(e => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to create the model. Is the server down?'
+                error: e
             });
         });
     }
@@ -20,13 +20,13 @@ export default class ModelFormController {
         });
     }
 
-    static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
-        return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price).then(model => {
+    static updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock) {
+        return updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, parseFloat(price), parseInt(count), changeStock, parseInt(inStock)).then(model => {
             Dispatcher.handleAction('MODEL_UPDATED', model);
             hashHistory.push('/model/' + model.address);
-        }).catch(() => {
+        }).catch(e => {
             Dispatcher.handleAction('ERROR', {
-                error: 'The server was not able to update the model. Is the server down?'
+                error: e
             });
         });
     }

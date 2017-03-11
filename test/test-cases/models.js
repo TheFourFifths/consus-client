@@ -6,9 +6,8 @@ export default [
         manufacturer: 'Pancakes R\' Us',
         vendor: 'Mouzer',
         location: 'Shelf 14',
-        isFaulty: false,
-        faultDescription: '',
         price: 10.5,
+        allowCheckout: false,
         count: 20,
         items: [
             'iGwEZUvfA',
@@ -23,10 +22,21 @@ export default [
         manufacturer: 'Vroom Industries',
         vendor: 'Fankserrogatoman Inc',
         location: 'Shelf 2',
-        isFaulty: false,
-        faultDescription: '',
         price: 4,
+        allowCheckout: false,
         count: 10,
         items: []
+    },
+    {
+        address: 'm8y7nFLsT',
+        name: 'Transistor',
+        description: 'Something used in computers',
+        manufacturer: 'Vroom Industries',
+        vendor: 'Fankserrogatoman Inc',
+        location: 'Shelf 2',
+        allowCheckout: true,
+        price: 4.00,
+        count: 20,
+        inStock: 20
     }
 ]

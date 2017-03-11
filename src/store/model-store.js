@@ -15,7 +15,7 @@ class ModelStore extends Store {
     getModelByAddress(address){
         return models.find(model => model.address === address);
     }
-    
+
 }
 
 const store = new ModelStore();

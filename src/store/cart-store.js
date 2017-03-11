@@ -1,10 +1,17 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
-import { checkOutItems } from '../lib/api-client';
+import { checkOutContents } from '../lib/api-client';
 
-let items = [];
+let contents = [];
 
 let timer = null;
+
+function startTimer(period) {
+    timer = setTimeout(() => {
+        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+        clearTimer();
+    }, period);
+}
 
 function clearTimer() {
     clearTimeout(timer);
@@ -12,8 +19,8 @@ function clearTimer() {
 }
 
 class CartStore extends Store {
-    getItems() {
-        return items;
+    getContents() {
+        return contents;
     }
 
     isOnTimeout(){
@@ -39,28 +46,55 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
         address: data.address,
         status: data.status
     };
-    items.push(item);
-    timer = setTimeout(() => {
-        checkOutItems(StudentStore.getStudent().id, items.map(item => item.address));
-        timer = null;
-    }, store.TIMEOUT_TIME);
+    contents.push(item);
+    startTimer(store.TIMEOUT_TIME);
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
+    if(store.isOnTimeout()){
+        clearTimer();
+    }
+    if(data.inStock > 0){
+        let model = {
+            address: data.address,
+            quantity: 1
+        };
+        contents.push(model);
+    }
+    startTimer(store.TIMEOUT_TIME);
+    store.emitChange();
+});
+
+store.registerHandler('CHECKOUT_DUPLICATE_MODEL', data => {
+    if(store.isOnTimeout()){
+        clearTimer();
+    }
+
+    let model = contents.find(content => {
+        return content.address === data.address;
+    });
+
+    model.quantity++;
+
+    startTimer(store.TIMEOUT_TIME);
     store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     clearTimer();
     store.waitFor(StudentStore);
-    items = [];
+    contents = [];
     store.emitChange();
 });
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
-    items = [];
+    contents = [];
     store.emitChange();
 });
 
-store.registerHandler('CLEAR_ITEMS', () => {
-    items = [];
+store.registerHandler('CLEAR_CART_CONTENTS', () => {
+    contents = [];
     store.emitChange();
 });
 

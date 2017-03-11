@@ -1,4 +1,4 @@
-import { checkOutItems, searchStudent } from '../../lib/api-client';
+import { checkOutContents, searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 
@@ -13,21 +13,33 @@ export default class StudentController{
     }
 
     static cancelCheckout() {
-        Dispatcher.handleAction('CLEAR_ITEMS');
+        Dispatcher.handleAction('CLEAR_CART_CONTENTS');
     }
 
-    static checkout(id, items) {
-        return checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
+    static checkout(id, equipment) {
+        let equipmentAddresses = [];
+        if (equipment) {
+            equipment.forEach(e => {
+                if(e.quantity){
+                    for (let i = 0; i < e.quantity; i++){
+                        equipmentAddresses.push(e.address);
+                    }
+                } else {
+                    equipmentAddresses.push(e.address);
+                }
+            });
+        }
+        return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
         }).catch(error => {
-            if (error === 'Student has overdue item'){
+            if (error === 'Student has overdue item') {
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
-            }else if(error === 'Invalid Admin'){
+            } else if(error === 'Invalid Admin') {
                 Dispatcher.handleAction('CLEAR_ADMIN_CODE');
-            }else{
+            } else {
                 Dispatcher.handleAction('ERROR', {
                     error
                 });

@@ -44,7 +44,7 @@ describe('ModelFormController', () => {
             return ModelFormController.createModel('OIUIO').then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'ERROR');
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to create the model. Is the server down?');
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'Bad things happened');
             })
         });
 
@@ -119,7 +119,7 @@ describe('ModelFormController', () => {
             return ModelFormController.updateModel().then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to update the model. Is the server down?');
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'NO');
             })
         });
         afterEach(() => {
