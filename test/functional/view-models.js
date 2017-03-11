@@ -60,6 +60,44 @@ describe('View all models', function () {
         });
     });
 
+    it('adds a new item to the model', () => {
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item',
+            json: {
+                modelAddress: models[0].address
+            },
+            response: {
+                status: 'success',
+                data: {
+                    address: 'iGwEZVvgu',
+                    modelName: 'Resistor'
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        return app.client.click('.btnAddItemToModel:nth-of-type(1)').then(() => {
+            return app.client.waitForVisible('.modal', 5000);
+        }).then(() => {
+            return app.client.click('.modal .modal-content button[type="button"]');
+        }).then(()=> {
+            return app.client.waitForVisible('.toast', 1000);
+        }).then(() => {
+            return app.client.getText('.model:nth-of-type(1)')
+        }).then(modelList => {
+            assert.include(modelList[1], 'Quantity: 10');
+            mockServer.validate();
+        });
+    });
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

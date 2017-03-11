@@ -86,8 +86,9 @@ module.exports = function(grunt) {
             functional: {
                 files: {
                     src: [
+                        '.test/functional/print-qr.js',
                         '.test/functional/student-lookup.js',
-                        '.test/functiona/view-models.js',
+                        '.test/functional/view-models.js',
                         '.test/functional/create-item.js',
                         '.test/functional/item-checkout.js',
                         '.test/functional/item-checkin.js',
@@ -107,6 +108,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [
+                        '.test/functional/print-qr.js',
                         '.test/functional/student-lookup.js',
                         '.test/functiona/view-models.js',
                         '.test/functional/create-item.js',
