@@ -2,6 +2,8 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
+import students from '../test-cases/students';
 
 describe('Checking a model out', function () {
 
@@ -34,57 +36,22 @@ describe('Checking a model out', function () {
     it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
             response: {
                 status: 'success',
-                data: {
-                    id: 123456,
-                    name: 'John von Neumann',
-                    status: 'C - Current',
-                    items: [],
-                    models: [],
-                    email: 'vonneumann@msoe.edu',
-                    major: 'Chemical Engineering & Mathematics'
-                }
+                data: students[0]
             }
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
-                    models: [
-                        {
-                            address: 'm8y7nFLsT',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            allowCheckout: false,
-                            price: 10.5,
-                            count: 20,
-                            items: [
-                                'iGwEZUvfA'
-                            ]
-                        },
-                        {
-                            address: 'm8y7nEtAe',
-                            name: 'Resistor',
-                            description: 'V = IR',
-                            manufacturer: 'Manufacturer',
-                            vendor: 'Mouzer',
-                            location: 'Shelf 14',
-                            allowCheckout: true,
-                            price: 10.5,
-                            count: 20,
-                            inStock: 20
-                        }
-                    ]
+                    models: models
                 }
             }
         });
@@ -104,34 +71,23 @@ describe('Checking a model out', function () {
     it('checks out the model', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
-                address: 'm8y7nEtAe'
+                address: 'm8y7nFnMs'
             },
-            response:{
+            response: {
                 status: 'success',
-                data: {
-                    address: 'm8y7nEtAe',
-                    name: 'Resistor',
-                    description: 'V = IR',
-                    manufacturer: 'Manufacturer',
-                    vendor: 'Mouzer',
-                    location: 'Shelf 14',
-                    allowCheckout: true,
-                    price: 10.5,
-                    count: 20,
-                    inStock: 20
-                }
+                data: models[2]
            }
         });
 
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nEtAe']
+                equipmentAddresses: ['m8y7nFnMs']
             },
             response: {
                 status: 'success'
@@ -140,7 +96,7 @@ describe('Checking a model out', function () {
 
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
               id: '123456'
             },
@@ -151,18 +107,7 @@ describe('Checking a model out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [{
-                        address: 'm8y7nEtAe',
-                        name: 'Resistor',
-                        description: 'V = IR',
-                        manufacturer: 'Manufacturer',
-                        vendor: 'Mouzer',
-                        location: 'Shelf 14',
-                        allowCheckout: true,
-                        price: 10.5,
-                        count: 20,
-                        inStock: 20
-                    }],
+                    models: [ models[2] ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -173,13 +118,13 @@ describe('Checking a model out', function () {
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('m8y7nEtAe');
+            return app.client.keys('m8y7nFnMs');
         }).then(() => {
             return app.client.waitForVisible('.cart>ul>li');
         }).then(() => {
             return app.client.waitUntil(()  => {
                 return app.client.getText(".cart>ul>li").then(text => {
-                  return text === "m8y7nEtAe x1";
+                  return text === "m8y7nFnMs x1";
                 });
             });
         }).then(() => {
@@ -202,57 +147,35 @@ describe('Checking a model out', function () {
     it("can check out multiple of the same model at once", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
-                address: 'm8y7nEtAe'
+                address: 'm8y7nFnMs'
             },
-            response:{
+            response: {
                 status: 'success',
-                data: {
-                    address: 'm8y7nEtAe',
-                    name: 'Resistor',
-                    description: 'V = IR',
-                    manufacturer: 'Manufacturer',
-                    vendor: 'Mouzer',
-                    location: 'Shelf 14',
-                    allowCheckout: true,
-                    price: 10.5,
-                    count: 20,
-                    inStock: 20
-                }
+                data: models[2]
            }
         });
 
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
-                address: 'm8y7nEtAe'
+                address: 'm8y7nFnMs'
             },
-            response:{
+            response: {
                 status: 'success',
-                data: {
-                    address: 'm8y7nEtAe',
-                    name: 'Resistor',
-                    description: 'V = IR',
-                    manufacturer: 'Manufacturer',
-                    vendor: 'Mouzer',
-                    location: 'Shelf 14',
-                    allowCheckout: true,
-                    price: 10.5,
-                    count: 20,
-                    inStock: 20
-                }
+                data: models[2]
            }
         });
 
         mockServer.expect({
             method: 'post',
-            endpoint: '/api/checkout',
+            endpoint: 'checkout',
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nEtAe','m8y7nEtAe']
+                equipmentAddresses: ['m8y7nFnMs','m8y7nFnMs']
             },
             response: {
                 status: 'success'
@@ -261,7 +184,7 @@ describe('Checking a model out', function () {
 
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -272,30 +195,7 @@ describe('Checking a model out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [{
-                        address: 'm8y7nEtAe',
-                        name: 'Resistor',
-                        description: 'V = IR',
-                        manufacturer: 'Manufacturer',
-                        vendor: 'Mouzer',
-                        location: 'Shelf 14',
-                        allowCheckout: true,
-                        price: 10.5,
-                        count: 20,
-                        inStock: 20
-                    },
-                    {
-                        address: 'm8y7nEtAe',
-                        name: 'Resistor',
-                        description: 'V = IR',
-                        manufacturer: 'Manufacturer',
-                        vendor: 'Mouzer',
-                        location: 'Shelf 14',
-                        allowCheckout: true,
-                        price: 10.5,
-                        count: 20,
-                        inStock: 20
-                    }],
+                    models: [models[2], models[2]],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -305,21 +205,21 @@ describe('Checking a model out', function () {
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('m8y7nEtAe');
+            return app.client.keys('m8y7nFnMs');
         }).then(() => {
             return app.client.waitForVisible('.cart>ul>li');
         }).then(() => {
             return app.client.waitUntil(()  => {
                 return app.client.getText(".cart>ul>li").then(text => {
-                    return text === "m8y7nEtAe x1";
+                    return text === "m8y7nFnMs x1";
                 });
             });
         }).then(() => {
-            return app.client.keys('m8y7nEtAe');
+            return app.client.keys('m8y7nFnMs');
         }).then(() => {
             return app.client.waitUntil(()  => {
                 return app.client.getText(".cart>ul>li").then(text => {
-                    return text === "m8y7nEtAe x2";
+                    return text === "m8y7nFnMs x2";
                 });
             });
         }).then(() => {
@@ -340,26 +240,13 @@ describe('Checking a model out', function () {
     it("fails to checkout a serialized model", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 address: 'm8y7nFLsT'
             },
-            response:{
+            response: {
                 status: 'success',
-                data: {
-                    address: 'm8y7nFLsT',
-                    name: 'Resistor',
-                    description: 'V = IR',
-                    manufacturer: 'Manufacturer',
-                    vendor: 'Mouzer',
-                    location: 'Shelf 14',
-                    allowCheckout: false,
-                    price: 10.5,
-                    count: 20,
-                    items: [
-                        'iGwEZUvfA'
-                    ]
-                }
+                data: models[0]
             }
         });
         return app.client.setValue('.cart input[type="text"]','m8y7nFLsT').then(() => {
@@ -378,27 +265,16 @@ describe('Checking a model out', function () {
     it("fails to checkout an out of stock model", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
-                address: 'm8y7nEtAe'
+                address: 'm8y7nFnMs'
             },
-            response:{
+            response: {
                 status: 'success',
-                data: {
-                    address: 'm8y7nEtAe',
-                    name: 'Resistor',
-                    description: 'V = IR',
-                    manufacturer: 'Manufacturer',
-                    vendor: 'Mouzer',
-                    location: 'Shelf 14',
-                    allowCheckout: true,
-                    price: 10.5,
-                    count: 20,
-                    inStock: 0
-                }
-           }
+                data: models[3]
+            }
         });
-        return app.client.setValue('.cart input[type="text"]','m8y7nEtAe').then(() => {
+        return app.client.setValue('.cart input[type="text"]','m8y7nFnMs').then(() => {
             return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
             return app.client.getText('#app .modal .modal-content p');

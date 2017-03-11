@@ -45,7 +45,7 @@ describe('View all models', function () {
             return app.client.elements('#models .model');
         }).then(resp => {
             modelList = resp.value;
-            assert.lengthOf(modelList, 2);
+            assert.lengthOf(modelList, 4);
             return app.client.getText('#models:first-child');
         }).then(model => {
             assert.include(model, 'Resistor');
