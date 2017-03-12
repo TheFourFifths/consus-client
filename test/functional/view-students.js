@@ -118,13 +118,13 @@ describe.only('View all students', function () {
         }).then(() => {
             return app.client.keys("This dude");
         }).then(() => {
-            return app.client.waitForVisible('.student button');
+            return app.client.waitForVisible('#TESTING');
         }).then(() => {
             console.log('THIRD');
-            return app.client.click('.student .clear button');
+            return app.client.click('#TESTING');
         }).then(() => {
             console.log('FOURTH');
-            app.client.waitForVisible('div.titleArea h2');
+            return app.client.waitForVisible('div.titleArea h2');
         }).then(() => {
             console.log('FIfTH');
             return app.client.getText('div.titleArea h2');
