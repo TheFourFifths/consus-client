@@ -30,14 +30,14 @@ describe('View all students', function () {
             method: 'get',
             endpoint: 'model/all',
             response: {
-                "status":"success",
-                "data":{
+                "status": "success",
+                "data": {
                     models
                 }
             }
         });
         let response = {
-            "status":"success",
+            "status": "success",
             "data": students
         };
         mockServer.expect({
@@ -76,22 +76,38 @@ describe('View all students', function () {
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
+            qs: {
+                id: '111111'
+            },
             json: {
-                id: 123456,
-                name: 'This dude'
+                "items": [{
+                    address: 'iGwEZVeaT',
+                    faultDescription: "",
+                    isFaulty: false,
+                    modelAddress: 'm8y7nFLsT',
+                    status: 'CHECKED_OUT',
+                    timestamp: 0
+                }],
+                major: 'Hyperdimensional Nautical Machines Engineering',
+                status: 'C - Current',
+                name: 'This dude',
+                email: 'mcboatfaceb@msoe.edu',
+                id: 111111
             },
             response
         });
 
         let response2 = response;
         response2.student = students[0];
-
+        let json2 = students[1];
+        json2.name = 'John von Neumann';
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
-            json: students[0],
+            qs: {
+                id: '111111'
+            },
+            json: json2,
             response: response2
         });
 
@@ -125,6 +141,7 @@ describe('View all students', function () {
             return app.client.getText('div.titleArea h2');
         }).then(text => {
             assert.strictEqual(text[0], "John von Neumann");
+            return mockServer.validate();
         });
     });
 

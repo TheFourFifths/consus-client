@@ -512,7 +512,9 @@ describe('API Client', () => {
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
+            qs: {
+                id: '123456'
+            },
             json: {
                 id: 123456,
                 name: 'This dude'
