@@ -59,6 +59,71 @@ describe('View all students', function () {
         });
     });
 
+    it("can edit a student's name", () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: 123456,
+                    name: "This dude",
+                    major: students[0].major,
+                    email: students[0].email,
+                    items: []
+                }
+            }
+        };
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: {
+                id: 123456,
+                name: 'This dude'
+            },
+            response
+        });
+
+        let response2 = response;
+        response2.student = students[0];
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: students[0],
+            response: response2
+        });
+
+        return app.client.click('.student .actionArea img').then(() => {
+            return app.client.click('input#nameArea');
+        }).then(() => {
+            return app.client.keys("This dude");
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            app.client.waitForVisible('div.titleArea h2');
+        }).then(() => {
+            return app.client.getText('div.titleArea h2');
+        }).then(text => {
+            assert.strictEqual(text[0], "This dude");
+        }).then(() => {
+            return app.client.click('.student .actionArea img');
+        }).then(() => {
+            return app.client.click('input#nameArea');
+        }).then(() => {
+            return app.client.keys("John von Neumann");
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            app.client.waitForVisible('div.titleArea h2');
+        }).then(() => {
+            return app.client.getText('div.titleArea h2');
+        }).then(text => {
+            assert.strictEqual(text[0], "John von Neumann");
+        });
+    });
+
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

@@ -515,11 +515,11 @@ describe('API Client', () => {
             qs: null,
             json: {
                 id: 123456,
-                name: 'Stupid McBitch'
+                name: 'This dude'
             },
             response
         });
-        return updateStudent({id:123456, name:"Stupid McBitch"}).then(data => {
+        return updateStudent({id:123456, name:"This dude"}).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

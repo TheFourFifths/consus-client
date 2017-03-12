@@ -18,9 +18,9 @@ export default class Student extends React.Component {
 
     saveChanges(){
         let updated = this.state.student;
-        updated.name = this.refs.newStudentName.value;
-        updated.major = this.refs.newStudentMajor.value;
-        updated.email = this.refs.newStudentEmail.value;
+        updated.name = this.refs.newStudentName.value.length === 0 ? this.state.student.name : this.refs.newStudentName.value;
+        updated.major = this.refs.newStudentMajor.value.length === 0 ? this.state.student.major : this.refs.newStudentMajor.value;
+        updated.email = this.refs.newStudentEmail.value.length === 0 ? this.state.student.email : this.refs.newStudentEmail.value;
         this.setState({
             editMode: false,
             student: updated

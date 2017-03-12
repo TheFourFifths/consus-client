@@ -32,7 +32,7 @@ describe('StudentStore', () => {
         let student = StudentStore.getStudentById(432345);
         assert.strictEqual(student.id, 432345);
         assert.strictEqual(student.name,'Poe');
-    })
+    });
 
     it('should get all students', () => {
         Dispatcher.handleAction("STUDENTS_FOUND", [
