@@ -123,21 +123,26 @@ describe.only('View all students', function () {
             console.log('THIRD');
             return app.client.click('.student button');
         }).then(() => {
+            console.log('FOURTH');
             app.client.waitForVisible('div.titleArea h2');
         }).then(() => {
+            console.log('FIfTH');
             return app.client.getText('div.titleArea h2');
         }).then(text => {
+            console.log('SIXTH');
             assert.strictEqual(text[0], "This dude");
         }).then(() => {
+            console.log('SEVENTH');
             return app.client.click('.student .actionArea img');
         }).then(() => {
+            console.log('EIGHT');
             return app.client.click('input#nameArea');
         }).then(() => {
             return app.client.keys("John von Neumann");
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
-            console.log('FOURTH');
+
             return app.client.click('.student button');
         }).then(() => {
             app.client.waitForVisible('div.titleArea h2');
