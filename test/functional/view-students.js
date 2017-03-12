@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import students from '../test-cases/students';
 import models from '../test-cases/models';
 
-describe('View all students', function () {
+describe.only('View all students', function () {
 
     this.timeout(10000);
     let app;
@@ -47,6 +47,7 @@ describe('View all students', function () {
             response
         });
         return app.client.click('#view-students').then(() => {
+            console.log('FIRST');
             return app.client.waitForVisible('div#students', 5000);
         }).then(() => {
             return app.client.getText('#students h1');
@@ -112,12 +113,14 @@ describe('View all students', function () {
         });
 
         return app.client.click('.student .actionArea img').then(() => {
+            console.log('SECOND');
             return app.client.click('input#nameArea');
         }).then(() => {
             return app.client.keys("This dude");
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
+            console.log('THIRD');
             return app.client.click('.student button');
         }).then(() => {
             app.client.waitForVisible('div.titleArea h2');
@@ -134,6 +137,7 @@ describe('View all students', function () {
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
+            console.log('FOURTH');
             return app.client.click('.student button');
         }).then(() => {
             app.client.waitForVisible('div.titleArea h2');
