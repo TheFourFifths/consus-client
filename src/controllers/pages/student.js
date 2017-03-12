@@ -1,14 +1,14 @@
-import { checkOutItems, searchStudent } from '../../lib/api-client';
-import { Dispatcher } from 'consus-core/flux';
+import {checkOutItems, searchStudent} from '../../lib/api-client';
+import {Dispatcher} from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
-
-export default class StudentController{
-    static acceptAdminModal(adminCode){
+import { hashHistory } from 'react-router';
+export default class StudentController {
+    static acceptAdminModal(adminCode) {
         if (adminCode.length > 0)
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
     }
 
-    static cancelAdminModal(){
+    static cancelAdminModal() {
         Dispatcher.handleAction("CLEAR_ADMIN_WINDOW");
     }
 
@@ -23,17 +23,19 @@ export default class StudentController{
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
         }).catch(error => {
-            if (error === 'Student has overdue item'){
+            if (error === 'Student has overdue item') {
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
-            }else if(error === 'Invalid Admin'){
+            } else if (error === 'Invalid Admin') {
                 Dispatcher.handleAction('CLEAR_ADMIN_CODE');
-            }else{
+            } else {
                 Dispatcher.handleAction('ERROR', {
                     error
                 });
             }
         });
+
     }
+
 
     static throwNoItemsError() {
         Dispatcher.handleAction('ERROR', {
