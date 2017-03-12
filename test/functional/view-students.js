@@ -121,7 +121,7 @@ describe.only('View all students', function () {
             return app.client.waitForVisible('.student button');
         }).then(() => {
             console.log('THIRD');
-            return app.client.click('.student button');
+            return app.client.click('.student .clear button');
         }).then(() => {
             console.log('FOURTH');
             app.client.waitForVisible('div.titleArea h2');
