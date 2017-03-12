@@ -1,7 +1,6 @@
 import {checkOutItems, searchStudent} from '../../lib/api-client';
 import {Dispatcher} from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
-import { hashHistory } from 'react-router';
 export default class StudentController {
     static acceptAdminModal(adminCode) {
         if (adminCode.length > 0)
