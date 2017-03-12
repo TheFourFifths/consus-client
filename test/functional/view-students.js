@@ -165,17 +165,23 @@ describe('View all students', function () {
         }).then(() => {
             return app.client.keys("stuff");
         }).then(() => {
+            return app.client.waitForVisible('.student button');
+        }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
             return app.client.getText('.major');
         }).then(text => {
             assert.strictEqual(text[0], "Major:\nstuff");
         }).then(() => {
+            return app.client.waitForVisible('.student .actionArea img');
+        }).then(() => {
             return app.client.click('.student .actionArea img');
         }).then(() => {
             return app.client.click('input#majorArea');
         }).then(() => {
             return app.client.keys(students[0].major);
+        }).then(() => {
+            return app.client.waitForVisible('.student button');
         }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
