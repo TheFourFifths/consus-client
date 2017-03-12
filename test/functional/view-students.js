@@ -124,6 +124,128 @@ describe('View all students', function () {
         });
     });
 
+    it("can edit a student's major", () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: 123456,
+                    name: students[0].name,
+                    major: students[0].major,
+                    email: "email@email.com",
+                    items: []
+                }
+            }
+        };
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: {
+                id: 123456,
+                major: 'stuff'
+            },
+            response
+        });
+
+        let response2 = response;
+        response2.student = students[0];
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: students[0],
+            response: response2
+        });
+
+        return app.client.click('.student .actionArea img').then(() => {
+            return app.client.click('input#majorArea');
+        }).then(() => {
+            return app.client.keys("stuff");
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            return app.client.getText('.major');
+        }).then(text => {
+            assert.strictEqual(text[0], "Major:\nstuff");
+        }).then(() => {
+            return app.client.click('.student .actionArea img');
+        }).then(() => {
+            return app.client.click('input#majorArea');
+        }).then(() => {
+            return app.client.keys(students[0].major);
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            return app.client.getText('.major');
+        }).then(text => {
+            assert.strictEqual(text[0], 'Major:\n' + students[0].major);
+        });
+    });
+
+    it("can edit a student's email", () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: 123456,
+                    name: students[0].name,
+                    major: students[0].major,
+                    email: "email@email.com",
+                    items: []
+                }
+            }
+        };
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: {
+                id: 123456,
+                email: 'email@email.com'
+            },
+            response
+        });
+
+        let response2 = response;
+        response2.student = students[0];
+
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: null,
+            json: students[0],
+            response: response2
+        });
+
+        return app.client.click('.student .actionArea img').then(() => {
+            return app.client.click('input#emailArea');
+        }).then(() => {
+            return app.client.keys("email@email.com");
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            return app.client.getText('.email');
+        }).then(text => {
+            assert.strictEqual(text[0], "Email:\nemail@email.com");
+        }).then(() => {
+            return app.client.click('.student .actionArea img');
+        }).then(() => {
+            return app.client.click('input#emailArea');
+        }).then(() => {
+            return app.client.keys(students[0].email);
+        }).then(() => {
+            return app.client.click('.student button');
+        }).then(() => {
+            return app.client.getText('.email');
+        }).then(text => {
+            assert.strictEqual(text[0], 'Email:\n' + students[0].email);
+        });
+    });
+
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

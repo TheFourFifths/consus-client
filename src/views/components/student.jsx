@@ -37,11 +37,11 @@ export default class Student extends React.Component {
                 </div>
                 <div className="infoArea">
                     <div className="editableInfo">
-                        <span className="inline">
+                        <span className="inline major">
                             <h5>Major:</h5>
                             <span>{this.state.editMode ? <input id="majorArea" ref="newStudentMajor" placeholder= {this.state.student.major} /> : this.state.student.major}</span>
                         </span>
-                        <span className="inline">
+                        <span className="inline email">
                             <h5>Email:</h5>
                             <span>{this.state.editMode ? <input id="emailArea" ref="newStudentEmail" placeholder= {this.state.student.email} /> : this.state.student.email}</span>
                         </span>
