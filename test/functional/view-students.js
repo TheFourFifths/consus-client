@@ -100,6 +100,8 @@ describe('View all students', function () {
         }).then(() => {
             return app.client.keys("This dude");
         }).then(() => {
+            return app.client.waitForVisible('.student button');
+        }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
             app.client.waitForVisible('div.titleArea h2');
@@ -113,6 +115,8 @@ describe('View all students', function () {
             return app.client.click('input#nameArea');
         }).then(() => {
             return app.client.keys("John von Neumann");
+        }).then(() => {
+            return app.client.waitForVisible('.student button');
         }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
@@ -232,6 +236,8 @@ describe('View all students', function () {
         }).then(() => {
             return app.client.keys("email@email.com");
         }).then(() => {
+            return app.client.waitForVisible('.student button');
+        }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
             return app.client.getText('.email');
@@ -243,6 +249,8 @@ describe('View all students', function () {
             return app.client.click('input#emailArea');
         }).then(() => {
             return app.client.keys(students[0].email);
+        }).then(() => {
+            return app.client.waitForVisible('.student button');
         }).then(() => {
             return app.client.click('.student button');
         }).then(() => {
