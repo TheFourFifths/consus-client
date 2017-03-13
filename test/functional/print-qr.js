@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import items from '../test-cases/items';
 import models from '../test-cases/models';
 
-describe('Printing QR codes', function () {
+describe.only('Printing QR codes', function () {
 
     this.timeout(10000);
     let app;
@@ -41,7 +41,7 @@ describe('Printing QR codes', function () {
         }).then(() => {
             return app.client.elements('#models .model');
         }).then(elements => {
-            assert.lengthOf(elements.value, 2);
+            assert.lengthOf(elements.value, 4);
             mockServer.validate();
         });
     });
