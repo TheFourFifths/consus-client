@@ -17,7 +17,6 @@ export default class OmnibarController {
             if(CartStore.getItems().length !== 0){
                 return StudentController.checkout(currentStudentId, CartStore.getItems().map(item => item.address)).then(() => {
                     if(CartStore.getItems().length === 0) {
-                        Dispatcher.handleAction("STUDENT_FOUND", student);
                         hashHistory.push('/student');
                     }
                 });

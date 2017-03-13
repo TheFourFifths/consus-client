@@ -93,8 +93,10 @@ module.exports = function(grunt) {
                         '.test/functional/item-checkout.js',
                         '.test/functional/item-checkin.js',
                         '.test/functional/admin-override-item-checkout.js',
+                        '.test/functional/item-checkin-student-scanned.js',
                         '.test/functional/delete-model.js',
-                        '.test/functional/delete-item.js'
+                        '.test/functional/delete-item.js',
+
                     ]
                 }
             },
