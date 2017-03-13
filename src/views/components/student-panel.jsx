@@ -94,7 +94,7 @@ export default class StudentPanel extends ListenerComponent {
     renderCheckinButtons(model){
         return (
             <div className='checkin-buttons'>
-                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} placeholder='Price' />
+                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
                 <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
                 <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
             </div>
