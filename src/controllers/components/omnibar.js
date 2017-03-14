@@ -2,7 +2,22 @@ import { searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 
+let warnBeforeExiting = false;
+
 export default class OmnibarController {
+
+    static setWarnBeforeExiting(bool){
+        warnBeforeExiting = bool;
+    }
+
+    static getWarning(){
+        return warnBeforeExiting;
+    }
+
+    static leavePage(){
+        hashHistory.push('/');
+    }
+
     static getStudent(id) {
         if (typeof id === 'string') {
             id = parseInt(id);

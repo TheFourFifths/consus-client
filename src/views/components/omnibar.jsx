@@ -1,13 +1,14 @@
 import React from 'react';
 import OmnibarController from '../../controllers/components/omnibar';
-import { Link } from 'react-router';
+import ConfirmModal from './confirm-modal.jsx';
 
 export default class Omnibar extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            query: ''
+            query: '',
+            confirmExit: false
         };
     }
 
@@ -29,13 +30,26 @@ export default class Omnibar extends React.Component {
         }
     }
 
+    clickLogo() {
+        if (OmnibarController.getWarning()) this.setState({confirmExit: true});
+        else OmnibarController.leavePage();
+    }
+
+    handleConfirmModal(bool){
+        this.setState({confirmExit: false});
+        if(bool) OmnibarController.leavePage();
+    }
+
     render() {
         return (
             <div id='omnibar' className='no-print'>
-                <Link to='/'>
-                  <img src='../assets/icons/consus-logo.png'/>
-                </Link>
-                <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
+              <ConfirmModal
+                  message="Are you sure you wish to leave the page? Unsaved changes will be lost."
+                  active = {this.state.confirmExit}
+                  onSelect = {bool => this.handleConfirmModal(bool)}
+              />
+              <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
+              <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );
     }

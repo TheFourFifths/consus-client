@@ -2,7 +2,8 @@ import React from 'react';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
-import ConfirmModal from '../components/confirm-modal.jsx';
+import ConfirmModal from './confirm-modal.jsx';
+import OmnibarController from '../../controllers/components/omnibar';
 
 export default class EditModelForm extends React.Component {
 
@@ -41,7 +42,13 @@ export default class EditModelForm extends React.Component {
                 });
             });
         }
+        OmnibarController.setWarnBeforeExiting(true);
     }
+
+    componentWillUnmount(){
+        OmnibarController.setWarnBeforeExiting(false);
+    }
+
     changeName(e) {
         this.setState({
             name: e.target.value
@@ -121,7 +128,7 @@ export default class EditModelForm extends React.Component {
         return (
             <div className='create-model-form'>
                 <ConfirmModal
-                    message="WARNING: This will cause you to lose any unsaved changes."
+                    message="Are you sure you wish to leave the page? Unsaved changes will be lost."
                     active = {this.state.popConfirmModal}
                     onSelect = {bool => this.handleConfirmModal(bool)}
                 />
