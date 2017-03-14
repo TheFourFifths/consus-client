@@ -19,7 +19,8 @@ export default class EditModelForm extends React.Component {
                 location: props.model.location,
                 price: props.model.price,
                 isFaulty: props.model.isFaulty,
-                faultDescription: props.model.faultDescription
+                faultDescription: props.model.faultDescription,
+                photo: props.model.photo
             };
     }
 
@@ -36,7 +37,8 @@ export default class EditModelForm extends React.Component {
                     location: model.location,
                     price: model.price,
                     isFaulty: model.isFaulty,
-                    faultDescription: model.faultDescription
+                    faultDescription: model.faultDescription,
+                    photo: model.photo
                 });
             });
         }
@@ -91,15 +93,18 @@ export default class EditModelForm extends React.Component {
     }
 
     changePhoto(e) {
-        let photo = e.target.files[0];
-        this.setState({ photo });
-
         let img = document.getElementById('thumbnail-preview');
-        img.file = photo;
-
         let reader = new FileReader();
-        reader.onload = ((anImg) => { return (e) => { anImg.src = e.target.result; }; })(img);
-        reader.readAsDataURL(file);
+        reader.onload = ((anImgTag) => {
+            return (e) => {
+                let b64StartIdx = e.target.result.indexOf('base64,') + 'base64,'.length;
+                this.setState({
+                    photo: e.target.result.substring(b64StartIdx)
+                });
+                anImgTag.src = e.target.result;
+            };
+        })(img);
+        reader.readAsDataURL(e.target.files[0]);
     }
 
     submit(e) {
@@ -132,22 +137,31 @@ export default class EditModelForm extends React.Component {
                 <form onSubmit={this.submit.bind(this)}>
                     Name:<br/>
                     <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
+
                     Description:<br/>
                     <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
+
                     Manufacturer:<br/>
                     <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+
                     Vendor:<br/>
                     <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+
                     Storage location:<br/>
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+
                     Price per unit:<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+
                     Faulty? <input type="checkbox" value={this.state.isFaulty} onChange={this.changeIsFaulty.bind(this)} /><br/>
+
                     Fault Description:<br/>
                     <textarea rows="4" cols="50"  value={this.state.faultDescription} onChange={this.changeFaultDescription.bind(this)} placeholder='Description' /><br/><br/>
-                    <p>Model photo thumbnail:</p>
-                    <input type='file' accept='image/*' onchange={this.changePhoto.bind(this)} capture />
-                    <img id='thumbnail-preview' />
+
+                    Model photo thumbnail:<br/>
+                    <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
+                    <br/>
+                    <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
                     <br/>
                     <input type='submit' value='Update Model' />
                 </form>

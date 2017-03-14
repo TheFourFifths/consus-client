@@ -8,16 +8,17 @@ export default class Model extends React.Component {
 
     constructor(props){
         super(props);
-        if (props.model === undefined)
+        if (props.model === undefined) {
             this.state = {
                 model: null,
                 needsConfirmationForDelete: false
-        };
-        else
+            };
+        } else {
             this.state = {
                 model: props.model,
                 needsConfirmationForDelete: false
             };
+        }
     }
 
     componentDidMount(){
@@ -29,11 +30,13 @@ export default class Model extends React.Component {
             });
         }
     }
+
     showConfirmModal(){
         this.setState({
             needsConfirmationForDelete: true
         });
     }
+
     confirmDelete(bool){
         if(bool === true) {
             ModelController.deleteModel(this.state.model.address);
@@ -42,6 +45,7 @@ export default class Model extends React.Component {
             needsConfirmationForDelete: false
         });
     }
+
     editModel(){
         hashHistory.push(`/model/edit/${this.state.model.address}`);
     }
@@ -63,7 +67,7 @@ export default class Model extends React.Component {
                     onSelect={bool => this.confirmDelete(bool)}
                 />
                 <div className="picArea">
-                    <img src="../assets/images/placeholder.jpg"/>
+                    <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.model.name}</h2>

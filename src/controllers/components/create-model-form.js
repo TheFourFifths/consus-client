@@ -22,22 +22,14 @@ export default class ModelFormController {
         });
     }
 
-    static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, photo) {
-        let reader = new FileReader();
-
-        reader.onload = () => {
-            let b64Photo = Buffer.from(reader.result).toString('base64');
-
-            return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, b64Photo).then(model => {
-                Dispatcher.handleAction('MODEL_UPDATED', model);
-                hashHistory.push('/model/' + model.address);
-            }).catch(() => {
-                Dispatcher.handleAction('ERROR', {
-                    error: 'The server was not able to update the model. Is the server down?'
-                });
+    static updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, b64Photo) {
+        return updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, b64Photo).then(model => {
+            Dispatcher.handleAction('MODEL_UPDATED', model);
+            hashHistory.push(`/model/${model.address}`);
+        }).catch(e => {
+            Dispatcher.handleAction('ERROR', {
+                error: e
             });
-        };
-
-        reader.readAsBinaryString(photo);
+        });
     }
 }

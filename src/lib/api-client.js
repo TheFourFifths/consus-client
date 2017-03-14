@@ -29,6 +29,9 @@ function call(endpoint, method, qs, json) {
     }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            if (response.statusCode !== 200) {
+                return reject(body);
+            }
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
@@ -137,7 +140,6 @@ export function searchStudent(id) {
 }
 
 export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, base64Photo) {
-    // TODO file stuff
     return patch('model', { address }, {
         name: name,
         description: description,
