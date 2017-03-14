@@ -114,6 +114,12 @@ export function getAllModels() {
     return get('model/all');
 }
 
+export function getModelAndItems(address) {
+    return get('model/children', {
+        modelAddress: address
+    });
+}
+
 export function getOverdueItems() {
     return get('item/overdue');
 }

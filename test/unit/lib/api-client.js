@@ -11,6 +11,7 @@ import {
     deleteItem,
     getAllItems,
     getAllModels,
+    getModelAndItems,
     getOverdueItems,
     searchItem,
     searchModel,
@@ -242,6 +243,32 @@ describe('API Client', () => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
+    });
+
+    it('getModelAndItems', () => {
+        let response = {
+            status: 'success',
+            data: {
+                model: 'm8y7nEtAe',
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }]
+            }
+        }
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/children',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return getModelAndItems('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        })
     });
 
     it('getOverdueItems', () => {

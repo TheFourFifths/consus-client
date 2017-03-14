@@ -17,6 +17,7 @@ import StudentFileUpload from './components/student-file-upload.jsx';
 import EditModelForm from './components/edit-model-form.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
+import ModelPage from './pages/model.jsx';
 import Item from './components/item.jsx';
 import OverdueItems from './pages/overdue.jsx';
 import Printer from './pages/printer.jsx';
@@ -29,6 +30,7 @@ ReactDOM.render((
             <Route path='/models' component={Models} />
             <Route path='/models/new' component={CreateModelForm} />
             <Route path='/model/:address' component={Model}/>
+            <Route path='/model' component={ModelPage}/>
             <Route path='/model/edit/:address' component={EditModelForm} />
             <Route path='/items' component={Items} />
             <Route path='/item/:address' component={Item}/>
