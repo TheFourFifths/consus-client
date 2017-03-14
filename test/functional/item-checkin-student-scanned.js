@@ -83,18 +83,6 @@ describe('Checking an item out when new student scanned', function () {
             }
         });
         mockServer.expect({
-            method: 'get',
-            endpoint: 'student',
-            qs: {
-                id: '123456'
-            },
-            json: {},
-            response: {
-                status: 'success',
-                data: students[0]
-            }
-        });
-        mockServer.expect({
             method: 'post',
             endpoint: 'checkout',
             json: {
@@ -109,6 +97,17 @@ describe('Checking an item out when new student scanned', function () {
         items[0].status = 'CHECKED_OUT';
         items[0].timestamp = getNextDueTimestamp();
         students[0].items.push(items[0]);
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'student',
+            qs: {
+                id: '123456'
+            },
+            response: {
+                status: 'success',
+                data: students[0]
+            }
+        });
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
@@ -135,7 +134,7 @@ describe('Checking an item out when new student scanned', function () {
         }).then(() => {
             return app.client.click('#omnibar input');
         }).then(() => {
-            return app.client.keys('123456');
+            return app.client.keys('123456')
         }).then(() => {
             return app.client.waitForVisible('.toast');
         }).then(() => {
@@ -146,6 +145,8 @@ describe('Checking an item out when new student scanned', function () {
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
+        }).then(()=> {
+            return app.client.click('.toast');
         });
     });
 
