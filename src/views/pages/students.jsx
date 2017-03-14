@@ -26,10 +26,10 @@ export default class Models extends ListenerComponent {
         return (
             <div id="students">
                 <h1>All Students</h1>
-                {this.state.students.map((student) => {
+                {Object.keys(this.state.students).map((studentId) => {
                     return (
-                        <div key={student.id}>
-                            <Student student={student}  />
+                        <div key={studentId}>
+                            <Student studentId={studentId}  />
                         </div>
                     );
                 })}

@@ -16,6 +16,7 @@ import {
     searchItem,
     searchModel,
     searchStudent,
+    updateStudent,
     updateModel,
     deleteModel,
     uploadStudents
@@ -497,4 +498,32 @@ describe('API Client', () => {
         });
     });
 
+    it('updateStudent', () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: 123456,
+                    name: 'John von Neumann',
+                    items: []
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: {
+                id: '123456'
+            },
+            json: {
+                id: 123456,
+                name: 'This dude'
+            },
+            response
+        });
+        return updateStudent({id:123456, name:"This dude"}).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
 });

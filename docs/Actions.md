@@ -34,6 +34,7 @@ This document describes the Flux actions used in the Consus client.
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
     - [STUDENT_FOUND](#student_found)
+    - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
     - [WARN](#warn)
@@ -322,6 +323,15 @@ Dispatched when searching for a student has succeeded.
 ### Data
 
 The found student object.
+
+
+## STUDENT_UPDATED
+
+Dispatched when updating student information.
+
+## Data
+
+An object containing the updated student information.
 
 ##STUDENTS_FOUND
 
