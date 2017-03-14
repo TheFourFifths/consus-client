@@ -2,6 +2,7 @@ import React from 'react';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
+import ConfirmModal from '../components/confirm-modal.jsx';
 
 export default class EditModelForm extends React.Component {
 
@@ -19,7 +20,8 @@ export default class EditModelForm extends React.Component {
                 location: props.model.location,
                 price: props.model.price,
                 isFaulty: props.model.isFaulty,
-                faultDescription: props.model.faultDescription
+                faultDescription: props.model.faultDescription,
+                popConfirmModal: false
             };
     }
     componentDidMount(){
@@ -100,7 +102,17 @@ export default class EditModelForm extends React.Component {
     }
 
     allModels() {
-        ModelFormController.getModels();
+        this.setState({
+            popConfirmModal: true
+        });
+    }
+
+    handleConfirmModal(bool){
+        if(bool){
+            ModelFormController.getModels();
+        }else{
+            this.setState({popConfirmModal: false});
+        }
     }
 
     render() {
@@ -108,6 +120,11 @@ export default class EditModelForm extends React.Component {
             return <div>Loading form...</div>;
         return (
             <div className='create-model-form'>
+                <ConfirmModal
+                    message="WARNING: This will cause you to lose any unsaved changes."
+                    active = {this.state.popConfirmModal}
+                    onSelect = {bool => this.handleConfirmModal(bool)}
+                />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
