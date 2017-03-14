@@ -56,7 +56,7 @@ export default class Student extends React.Component {
                 <div className="actionArea">
                     <img src="../assets/images/edit.svg" onClick={this.toggleEditMode.bind(this)}/>
                 </div>
-                <div className="clear">{this.state.editMode ? <button id="TESTING" onClick={this.saveChanges.bind(this)}>SAVE CHANGES</button> : null}</div>
+                {this.state.editMode ?<div className="clear buttonContainer"> <button id="TESTING" onClick={this.saveChanges.bind(this)}>SAVE CHANGES</button></div> : null}
             </div>
         );
     }
