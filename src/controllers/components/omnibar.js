@@ -17,6 +17,7 @@ export default class OmnibarController {
             if(CartStore.getItems().length !== 0){
                 return StudentController.checkout(currentStudentId, CartStore.getItems().map(item => item.address)).then(() => {
                     if(CartStore.getItems().length === 0) {
+                        Dispatcher.handleAction("STUDENT_FOUND", student);
                         hashHistory.push('/student');
                     }
                 });
@@ -24,7 +25,6 @@ export default class OmnibarController {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
                 hashHistory.push('/student');
             }
-            Dispatcher.handleAction("STUDENT_FOUND", student);
         }).catch(() => {
             Dispatcher.handleAction("ERROR", {
                 error: "An invalid student ID was scanned. The student could not be found."
