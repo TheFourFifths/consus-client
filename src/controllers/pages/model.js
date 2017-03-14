@@ -9,7 +9,7 @@ export default class ModelController {
             Dispatcher.handleAction("MODEL_FOUND", data.model);
             Dispatcher.handleAction("ITEMS_RECEIVED", data);
             hashHistory.push('/model');
-        }).catch(error => {
+        }).catch(() => {
             Dispatcher.handleAction("ERROR", { error: 'The model requested does not exist' });
         });
     }
