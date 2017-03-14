@@ -4,6 +4,8 @@ import * as api from '../../../../.dist/lib/api-client';
 import * as router from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 import OmnibarController from '../../../../.dist/controllers/components/omnibar';
+import CartStore from '../../../../.dist/store/cart-store';
+import items from '../../../test-cases/items';
 
 describe("OmnibarController", () => {
     describe("getOmnibar",() => {
@@ -73,6 +75,27 @@ describe("OmnibarController", () => {
 
         afterEach(() => {
             dispatcherSpy.restore();
+            Dispatcher.handleAction("CLEAR_ERROR");
+        });
+    });
+
+    describe("getStudent Cart has item", () => {
+        let dispatcherSpy, getItems;
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            getItems = sinon.spy(CartStore, "getItems")
+        });
+
+        it.only('Dispatches "ERROR" when called', () => {
+            getItems.returns(items[0]);
+            OmnibarController.getStudent(123456);
+            assert.isTrue(dispatcherSpy.called);
+            assert.isTrue(getItems.called);
+        });
+
+        afterEach(() => {
+            dispatcherSpy.restore();
+            getItems.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });

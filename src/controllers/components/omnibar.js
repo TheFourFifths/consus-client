@@ -4,6 +4,7 @@ import {hashHistory} from 'react-router';
 import CartStore from '../../store/cart-store';
 import StudentController from '../pages/student';
 export default class OmnibarController {
+
     static getStudent(id) {
         if (typeof id === 'string') {
             id = parseInt(id);

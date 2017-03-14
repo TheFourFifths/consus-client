@@ -6,8 +6,9 @@ import MockServer from '../util/mock-server';
 import items from '../test-cases/items';
 import models from '../test-cases/models';
 import students from '../test-cases/students';
-
-describe('Checking an item out when new student scanned', function () {
+import CartStore from '../../.dist/store/cart-store';
+import StudentStore from '../../.dist/store/student-store';
+describe.only('Checking an item out when new student scanned', function () {
 
     this.timeout(10000);
     let app;
@@ -120,6 +121,8 @@ describe('Checking an item out when new student scanned', function () {
             }
         });
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
+            console.log('-------');
+            console.log(CartStore.getItems().length);
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
             return app.client.keys('iGwEZUvfA');
