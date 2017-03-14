@@ -15,6 +15,7 @@ export default class Omnibar extends React.Component {
 
     changeQuery(e) {
         let regex = new RegExp("^[a-zA-Z0-9]*$");
+        let regexOnlyNums = new RegExp("^[0-9]*$");
         if(regex.test(e.target.value)) {
             try {
                 let result = readAddress(e.target.value);
@@ -27,7 +28,7 @@ export default class Omnibar extends React.Component {
                     OmnibarController.displayItem(e.target.value);
                 }
             } catch (f) {
-                if (e.target.value.length === 6) {
+                if (e.target.value.length === 6 && regexOnlyNums.test(e.target.value)) {
                     this.setState({
                         query: ''
                     });
