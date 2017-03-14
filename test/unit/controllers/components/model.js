@@ -47,4 +47,53 @@ describe("ModelController", () => {
             searchModel.restore();
         });
     });
+
+    describe('addItemToModel', () => {
+        let dispatcherSpy, createItem, getAllModels;
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            createItem = sinon.stub(api, "createItem");
+            getAllModels = sinon.stub(api, "getAllModels");
+        });
+
+        it('Dispatches "ITEM_CREATED" when item is created for model', () => {
+            let modelAddress = 'fake';
+            createItem.returns(
+                new Promise((resolve, reject) => {
+                    resolve('nothing');
+                })
+            );
+            getAllModels.returns(
+                new Promise((resolve, reject) => {
+                    resolve({status:"AVAILABLE"});
+                })
+            );
+            return ModelController.addItemToModel(modelAddress).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ITEM_CREATED");
+            });
+        });
+
+        it('Dispatches "ERROR" when item is created for model', () => {
+            let modelAddress = 'fake';
+            createItem.returns(
+                new Promise((resolve, reject) => {
+                    reject('nothing');
+                })
+            );
+
+            return ModelController.addItemToModel(modelAddress).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+            });
+        });
+
+        afterEach(() => {
+            getAllModels.restore();
+            dispatcherSpy.restore();
+            createItem.restore();
+        });
+    });
 });
