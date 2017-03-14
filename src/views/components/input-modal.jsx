@@ -48,7 +48,7 @@ export default class InputModal extends React.Component {
                 <input
                     maxLength="30"
                     type={this.props.textHidden? 'password' : 'text'}
-                    onChange={this.update.bind(this)}
+                    onChange={this.props.update === undefined ? this.update.bind(this) : this.props.update.bind(this)}
                     value={this.state.input}/>
                 <br/>
                 {this.renderWarning()}

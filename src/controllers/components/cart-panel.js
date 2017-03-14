@@ -1,7 +1,7 @@
 import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import CartStore from '../../store/cart-store';
-
+import { readAddress } from 'consus-core/identifiers';
 export default class CartController {
 
     static checkInItem(id, itemAddress) {
@@ -34,5 +34,17 @@ export default class CartController {
 
     static throwError(error){
         Dispatcher.handleAction("ERROR", { error });
+    }
+
+    static turnInLostEquipment(equipmentAddress){
+        let result;
+        try{
+            result = readAddress(equipmentAddress);
+        }catch(error){
+            Dispatcher.handleAction('ERROR', {
+                error: 'Address is incorrectly formatted please check for spelling mistakes. Caps are important!'
+            });
+        }
+        console.log(result);
     }
 }
