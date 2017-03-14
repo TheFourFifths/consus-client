@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import students from '../test-cases/students';
 import models from '../test-cases/models';
 
-describe.only('View all students', function () {
+describe('View all students', function () {
 
     this.timeout(10000);
     let app;
@@ -47,7 +47,6 @@ describe.only('View all students', function () {
             response
         });
         return app.client.click('#view-students').then(() => {
-            console.log('FIRST');
             return app.client.waitForVisible('div#students', 5000);
         }).then(() => {
             return app.client.getText('#students h1');
@@ -65,14 +64,14 @@ describe.only('View all students', function () {
             status: 'success',
             data: {
                 student: {
-                    id: 123456,
+                    id: 111111,
                     name: "This dude",
-                    major: students[0].major,
-                    email: students[0].email,
-                    items: []
+                    major: students[1].major,
+                    email: students[1].email
                 }
             }
         };
+
 
         mockServer.expect({
             method: 'patch',
@@ -99,9 +98,9 @@ describe.only('View all students', function () {
         });
 
         let response2 = response;
-        response2.student = students[0];
+        response2.student = students[1];
         let json2 = students[1];
-        json2.name = 'John von Neumann';
+        json2.name = 'Boaty McBoatface';
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
@@ -113,43 +112,35 @@ describe.only('View all students', function () {
         });
 
         return app.client.click('.student .actionArea img').then(() => {
-            console.log('SECOND');
             return app.client.click('input#nameArea');
         }).then(() => {
             return app.client.keys("This dude");
         }).then(() => {
-            return app.client.waitForVisible('#TESTING');
+            return app.client.waitForVisible('.buttonContainer button');
         }).then(() => {
-            console.log('THIRD');
-            return app.client.click('#TESTING');
+            return app.client.click('.buttonContainer button');
         }).then(() => {
-            console.log('FOURTH');
             return app.client.waitForVisible('div.titleArea h2');
         }).then(() => {
-            console.log('FIfTH');
             return app.client.getText('div.titleArea h2');
         }).then(text => {
-            console.log('SIXTH');
             assert.strictEqual(text[0], "This dude");
         }).then(() => {
-            console.log('SEVENTH');
             return app.client.click('.student .actionArea img');
         }).then(() => {
-            console.log('EIGHT');
             return app.client.click('input#nameArea');
         }).then(() => {
-            return app.client.keys("John von Neumann");
+            return app.client.keys("Boaty McBoatface");
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
-
             return app.client.click('.student button');
         }).then(() => {
             app.client.waitForVisible('div.titleArea h2');
         }).then(() => {
             return app.client.getText('div.titleArea h2');
         }).then(text => {
-            assert.strictEqual(text[0], "John von Neumann");
+            assert.strictEqual(text[0], "Boaty McBoatface");
             return mockServer.validate();
         });
     });
@@ -159,11 +150,19 @@ describe.only('View all students', function () {
             status: 'success',
             data: {
                 student: {
-                    id: 123456,
-                    name: students[0].name,
-                    major: students[0].major,
-                    email: "email@email.com",
-                    items: []
+                    "items": [{
+                        address: 'iGwEZVeaT',
+                        faultDescription: "",
+                        isFaulty: false,
+                        modelAddress: 'm8y7nFLsT',
+                        status: 'CHECKED_OUT',
+                        timestamp: 0
+                    }],
+                    major: 'stuff',
+                    status: 'C - Current',
+                    name: 'Boaty McBoatface',
+                    email: 'mcboatfaceb@msoe.edu',
+                    id: 111111
                 }
             }
         };
@@ -171,22 +170,37 @@ describe.only('View all students', function () {
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
+            qs: {
+                id: '111111'
+            },
             json: {
-                id: 123456,
-                major: 'stuff'
+                "items": [{
+                    address: 'iGwEZVeaT',
+                    faultDescription: "",
+                    isFaulty: false,
+                    modelAddress: 'm8y7nFLsT',
+                    status: 'CHECKED_OUT',
+                    timestamp: 0
+                }],
+                major: 'stuff',
+                status: 'C - Current',
+                name: 'Boaty McBoatface',
+                email: 'mcboatfaceb@msoe.edu',
+                id: 111111
             },
             response
         });
 
         let response2 = response;
-        response2.student = students[0];
+        response2.student = students[1];
 
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
-            json: students[0],
+            qs: {
+                id: '111111'
+            },
+            json: students[1],
             response: response2
         });
 
@@ -209,7 +223,7 @@ describe.only('View all students', function () {
         }).then(() => {
             return app.client.click('input#majorArea');
         }).then(() => {
-            return app.client.keys(students[0].major);
+            return app.client.keys(students[1].major);
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
@@ -217,7 +231,8 @@ describe.only('View all students', function () {
         }).then(() => {
             return app.client.getText('.major');
         }).then(text => {
-            assert.strictEqual(text[0], 'Major:\n' + students[0].major);
+            assert.strictEqual(text[0], 'Major:\n' + students[1].major);
+            return mockServer.validate();
         });
     });
 
@@ -226,9 +241,9 @@ describe.only('View all students', function () {
             status: 'success',
             data: {
                 student: {
-                    id: 123456,
-                    name: students[0].name,
-                    major: students[0].major,
+                    id: 111111,
+                    name: students[1].name,
+                    major: students[1].major,
                     email: "email@email.com",
                     items: []
                 }
@@ -238,22 +253,37 @@ describe.only('View all students', function () {
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
+            qs: {
+                id: '111111'
+            },
             json: {
-                id: 123456,
-                email: 'email@email.com'
+                "items": [{
+                    address: 'iGwEZVeaT',
+                    faultDescription: "",
+                    isFaulty: false,
+                    modelAddress: 'm8y7nFLsT',
+                    status: 'CHECKED_OUT',
+                    timestamp: 0
+                }],
+                major: 'Hyperdimensional Nautical Machines Engineering',
+                status: 'C - Current',
+                name: 'Boaty McBoatface',
+                email: 'email@email.com',
+                id: 111111
             },
             response
         });
 
         let response2 = response;
-        response2.student = students[0];
+        response2.student = students[1];
 
         mockServer.expect({
             method: 'patch',
             endpoint: 'student',
-            qs: null,
-            json: students[0],
+            qs: {
+                id: '111111'
+            },
+            json: students[1],
             response: response2
         });
 
@@ -274,7 +304,7 @@ describe.only('View all students', function () {
         }).then(() => {
             return app.client.click('input#emailArea');
         }).then(() => {
-            return app.client.keys(students[0].email);
+            return app.client.keys(students[1].email);
         }).then(() => {
             return app.client.waitForVisible('.student button');
         }).then(() => {
@@ -282,7 +312,8 @@ describe.only('View all students', function () {
         }).then(() => {
             return app.client.getText('.email');
         }).then(text => {
-            assert.strictEqual(text[0], 'Email:\n' + students[0].email);
+            assert.strictEqual(text[0], 'Email:\n' + students[1].email);
+            mockServer.validate();
         });
     });
 
