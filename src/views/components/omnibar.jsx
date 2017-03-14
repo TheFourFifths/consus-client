@@ -1,5 +1,7 @@
 import React from 'react';
+import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
+import ModelController from '../../controllers/pages/model';
 import { Link } from 'react-router';
 
 export default class Omnibar extends React.Component {
@@ -14,15 +16,27 @@ export default class Omnibar extends React.Component {
     changeQuery(e) {
         let regex = new RegExp("^[a-zA-Z0-9]*$");
         if(regex.test(e.target.value)) {
-            if (e.target.value.length === 6) {
+            try {
+                let result = readAddress(e.target.value);
                 this.setState({
                     query: ''
                 });
-                OmnibarController.getStudent(e.target.value);
-            } else {
-                this.setState({
-                    query: e.target.value
-                });
+                if(result.type === 'model') {
+                    ModelController.getModelAndItems(e.target.value);
+                } else if (result.type === 'item') {
+                    OmnibarController.displayItem(e.target.value);
+                }
+            } catch (f) {
+                if (e.target.value.length === 6) {
+                    this.setState({
+                        query: ''
+                    });
+                    OmnibarController.getStudent(e.target.value);
+                } else {
+                    this.setState({
+                        query: e.target.value
+                    });
+                }
             }
         }else{
             OmnibarController.throwInvalidCharacterError();

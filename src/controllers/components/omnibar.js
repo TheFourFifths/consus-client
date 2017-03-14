@@ -17,6 +17,10 @@ export default class OmnibarController {
         });
     }
 
+    static displayItem(itemAddress) {
+        hashHistory.push('/item/' + itemAddress);
+    }
+
     static throwInvalidCharacterError() {
         Dispatcher.handleAction("ERROR", {
             error: "Please only enter Alphanumeric Characters."
