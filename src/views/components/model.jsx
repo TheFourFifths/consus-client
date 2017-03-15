@@ -40,6 +40,12 @@ export default class Model extends React.Component {
         });
     }
 
+    showDeleteConfirmModal(){
+        this.setState({
+            needsConfirmationForDelete: true
+        });
+    }
+
     showAddItemConfirmModal(){
         this.setState({
             needsConfirmationForAdd: true
