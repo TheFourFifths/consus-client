@@ -43,4 +43,15 @@ export default class OmnibarController {
             error: "Please only enter Alphanumeric Characters."
         });
     }
+
+    static navigateToIndex() {
+        if (CartStore.getItems().length === 0) {
+            hashHistory.push('/');
+        } else {
+            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getItems().map(item => item.address)
+            ).then(() => {
+                hashHistory.push('/');
+            });
+        }
+    }
 }

@@ -6,7 +6,9 @@ import { Dispatcher } from 'consus-core/flux';
 import OmnibarController from '../../../../.dist/controllers/components/omnibar';
 import CartStore from '../../../../.dist/store/cart-store';
 import items from '../../../test-cases/items';
+import students from '../../../test-cases/students';
 import StudentController from '../../../../.dist/controllers/pages/student';
+import StudentStore from '../../../../.dist/store/student-store';
 describe("OmnibarController", () => {
 
     describe("getOmnibar",() => {
@@ -132,4 +134,48 @@ describe("OmnibarController", () => {
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
+
+
+    describe("navigateToIndex", () => {
+        let dispatcherSpy, getItems, checkout, getStudent, hashHistorySpy;
+
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            getItems = sinon.stub(CartStore, "getItems");
+            checkout = sinon.stub(StudentController, "checkout");
+            getStudent = sinon.stub(StudentStore, "getStudent");
+            router.hashHistory = {};
+            hashHistorySpy = router.hashHistory.push = sinon.spy();
+        });
+
+        it('Items in cart', () => {
+            getItems.returns([items[0]]);
+            checkout.returns(new Promise(resolve => {
+                resolve({status:"AVAILABLE"});
+            }));
+            getStudent.returns({items:[]});
+            return OmnibarController.navigateToIndex().then(() => {
+                assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
+                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(checkout.called, 'checkout not called');
+                assert.isTrue(getStudent.called, 'getStudent not called');
+            });
+
+        });
+
+        it('No student in store', () => {
+            getItems.returns([]);
+            OmnibarController.navigateToIndex();
+            assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
+
+        });
+        afterEach(() => {
+            dispatcherSpy.restore();
+            getItems.restore();
+            checkout.restore();
+            getStudent.restore();
+            Dispatcher.handleAction("CLEAR_ERROR");
+        });
+    });
+
 });

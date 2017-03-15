@@ -32,9 +32,7 @@ export default class Omnibar extends React.Component {
     render() {
         return (
             <div id='omnibar' className='no-print'>
-                <Link to='/'>
-                  <img src='../assets/icons/consus-logo.png'/>
-                </Link>
+                <img id='logo' onClick={OmnibarController.navigateToIndex} src='../assets/icons/consus-logo.png'/>
                 <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );
