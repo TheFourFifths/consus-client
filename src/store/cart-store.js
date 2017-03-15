@@ -1,7 +1,6 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
 import { checkOutContents } from '../lib/api-client';
-import StudentController from '../controllers/pages/student';
 
 let contents = [];
 

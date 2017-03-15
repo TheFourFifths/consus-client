@@ -164,7 +164,7 @@ describe("StudentController", () => {
             return StudentController.checkInModel(123456, '123', 4).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args[0], "MODEL_CHECKIN_SUCCESS");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "STUDENT_FOUND");
+                assert.strictEqual(dispatcherSpy.getCall(2).args[0], "STUDENT_FOUND");
                 searchStudent.restore();
             });
         });
@@ -178,8 +178,8 @@ describe("StudentController", () => {
 
             return StudentController.checkInModel(123456, '123', 4).then(() => {
                 assert.isTrue(dispatcherSpy.called);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Model checkin has failed");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, "Model checkin has failed");
             });
         });
 
