@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import items from '../test-cases/items';
 import models from '../test-cases/models';
 
-describe('Deleting a model', function () {
+describe('Printing QR codes', function () {
 
     this.timeout(10000);
     let app;
@@ -46,55 +46,55 @@ describe('Deleting a model', function () {
         });
     });
 
-    it('deletes a model', () => {
-        mockServer.expect({
-            method: 'delete',
-            endpoint: 'model',
-            qs: {
-                modelAddress: models[1].address
-            },
-            response: {
-                status: 'success',
-                data: {
-                    deletedModel: models[1]
-                }
-            }
+    it('opens the page to print a model QR code', () => {
+        return app.client.click('#models div:nth-of-type(1) .model img[src="../assets/images/qr.svg"]').then(() => {
+            return app.client.waitForVisible('#printer');
+        }).then(() => {
+            return app.client.waitForVisible('#printer img');
         });
-        models.splice(1);
+    });
+
+    it('returns to the models page', () => {
+        return app.client.click('#printer .cancel').then(() => {
+            return app.client.waitForVisible('#models');
+        });
+    });
+
+    it('returns to the home page', () => {
+        return app.client.click('#omnibar img').then(() => {
+            return app.client.waitForVisible('#index');
+        });
+    });
+
+    it('navigates to the items page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: 'model/all',
+            endpoint: 'item/all',
             response: {
                 status: 'success',
                 data: {
-                    models
+                    items
                 }
             }
         });
-        return app.client.click('#models div:nth-of-type(2) .model img[src="../assets/images/delete.svg"]').then(() => {
-            return app.client.waitForVisible('.modal');
+        return app.client.click('#view-items').then(() => {
+            return app.client.waitForVisible('#items', 5000);
         }).then(() => {
-            return app.client.getText('.modal p');
-        }).then(text => {
-            assert.include(text, 'Transistor');
-            return app.client.click('.modal button[type="button"]');
-        }).then(() => {
-            return app.client.waitForVisible('.modal', 2500, true);
-        }).then(() => {
-            return app.client.waitForVisible('.toast');
-        }).then(() => {
-            return app.client.getText('.toast');
-        }).then(toast => {
-            assert.strictEqual(toast, 'Transistor (m8y7nFLsT) was deleted');
-            items.splice(5, 1);
-            items.splice(4, 1);
-            items.splice(2, 1);
-            items.splice(1, 1);
-        }).then(() => {
-            return app.client.elements('#models .model');
-        }).then(elements => {
-            assert.lengthOf(elements.value, 1);
             mockServer.validate();
+        });
+    });
+
+    it('opens the page to print an item QR code', () => {
+        return app.client.click('.item:nth-of-type(1) .actionArea img[src="../assets/images/qr.svg"]').then(() => {
+            return app.client.waitForVisible('#printer');
+        }).then(() => {
+            return app.client.waitForVisible('#printer img');
+        });
+    });
+
+    it('returns to the items page', () => {
+        return app.client.click('#printer .cancel').then(() => {
+            return app.client.waitForVisible('#items');
         });
     });
 

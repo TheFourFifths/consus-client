@@ -1,10 +1,16 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
+import { changePort, call } from '../../.dist/lib/api-client';
+import clone from 'consus-core/clone';
 
 const OFF = 0;
 const STARTING = 1;
 const ON = 2;
+
+if (process.env.test === 'integration') {
+    changePort(8081);
+}
 
 /**
  * See: docs/Mock_Server.md
@@ -50,7 +56,29 @@ export default class MockServer {
                     json,
                     response
                 });
-                res.json(response);
+                if (process.env.test !== 'integration') {
+                    return res.json(response);
+                }
+                endpoint = endpoint.substring(5);
+                call(endpoint, method, qs, json).then(data => {
+                    let serverResponse = {
+                        status: 'success'
+                    };
+                    if (data !== undefined) {
+                        serverResponse.data = data;
+                    }
+                    assert.deepEqual(response, serverResponse);
+                    res.json(response);
+                }).catch(message => {
+                    let serverResponse = {
+                        status: 'failure'
+                    };
+                    if (message !== undefined) {
+                        serverResponse.message = message;
+                    }
+                    assert.deepEqual(response, serverResponse);
+                    res.json(response);
+                });
             });
             this.server = app.listen(port || 80, () => {
                 this.status = ON;
@@ -64,8 +92,9 @@ export default class MockServer {
         assert.isString(call.endpoint, 'Call endpoint must be a string.');
         call.json = call.json || {};
         call.qs = call.qs || {};
+        call.endpoint = '/api/' + call.endpoint;
         assert.isObject(call.response, 'Call response must be an object.');
-        this.expectedCalls.push(call);
+        this.expectedCalls.push(clone(call));
     }
 
     validate() {
