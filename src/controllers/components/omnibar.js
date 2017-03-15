@@ -14,8 +14,8 @@ export default class OmnibarController {
         return warnBeforeExiting;
     }
 
-    static leavePage(){
-        hashHistory.push('/');
+    static leavePage(route){
+        hashHistory.push(route);
     }
 
     static getStudent(id) {

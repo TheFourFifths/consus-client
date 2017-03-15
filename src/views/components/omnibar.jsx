@@ -19,7 +19,11 @@ export default class Omnibar extends React.Component {
                 this.setState({
                     query: ''
                 });
-                OmnibarController.getStudent(e.target.value);
+                if(OmnibarController.getWarning()){
+                    this.setState({confirmExit: true, next: "student", studentID: e.target.value});
+                }else{
+                    OmnibarController.getStudent(e.target.value);
+                }
             } else {
                 this.setState({
                     query: e.target.value
@@ -31,13 +35,23 @@ export default class Omnibar extends React.Component {
     }
 
     clickLogo() {
-        if (OmnibarController.getWarning()) this.setState({confirmExit: true});
-        else OmnibarController.leavePage();
+        if (OmnibarController.getWarning()) this.setState({confirmExit: true, next:"home"});
+        else OmnibarController.leavePage('/');
     }
 
     handleConfirmModal(bool){
         this.setState({confirmExit: false});
-        if(bool) OmnibarController.leavePage();
+        if(bool) {
+            switch(this.state.next){
+                case "student":
+                    OmnibarController.getStudent(this.state.studentID);
+                    break;
+                case "home":
+                    OmnibarController.leavePage('/');
+                default:
+                    OmnibarController.leavePage('/');
+            }
+        }
     }
 
     render() {

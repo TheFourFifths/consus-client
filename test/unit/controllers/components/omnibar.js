@@ -28,7 +28,7 @@ describe("OmnibarController", () => {
         });
 
         it('pushes "/" to hashHistory', () => {
-            OmnibarController.leavePage();
+            OmnibarController.leavePage('/');
             assert.isTrue(hashHistorySpy.called);
             assert.lengthOf(hashHistorySpy.getCall(0).args, 1);
             assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/");
