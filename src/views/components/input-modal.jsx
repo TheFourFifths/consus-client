@@ -13,7 +13,7 @@ export default class InputModal extends React.Component {
 
     onAccept(){
         this.setState({input:''});
-        this.props.onAccept(this.state.input);
+        this.props.onAccept(this.props.input === undefined ? this.state.input : this.props.input);
     }
 
     update(e){
@@ -31,8 +31,8 @@ export default class InputModal extends React.Component {
     }
 
     renderWarning(){
-        if(this.state.invalid){
-            return <span className="invalidText">Please only use Alphanumeric characters.<br/></span>;
+        if(this.state.invalid === undefined ? this.state.invalid : this.props.invalid){
+            return <span className="invalidText">{this.props.errorMessage === undefined ? 'Please only use Alphanumeric characters.' : this.props.errorMessage}<br/></span>;
         }else{
             return '';
         }
@@ -43,13 +43,15 @@ export default class InputModal extends React.Component {
             <Modal
                 active={this.props.active}
                 buttonText={this.props.acceptText}
-                onClose={this.onAccept.bind(this)}>
+                onClose={this.onAccept.bind(this)}
+                acceptDisabled={this.props.acceptDisabled}>
                 <p>{this.props.message}</p><br/>
                 <input
                     maxLength="30"
                     type={this.props.textHidden? 'password' : 'text'}
                     onChange={this.props.update === undefined ? this.update.bind(this) : this.props.update.bind(this)}
-                    value={this.state.input}/>
+                    value={this.props.input === undefined ? this.state.input : this.props.input}
+                />
                 <br/>
                 {this.renderWarning()}
                 <button onClick={this.onCancel.bind(this)}>Cancel</button>

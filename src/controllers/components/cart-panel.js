@@ -37,14 +37,19 @@ export default class CartController {
     }
 
     static turnInLostEquipment(equipmentAddress){
-        let result;
-        try{
-            result = readAddress(equipmentAddress);
-        }catch(error){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Address is incorrectly formatted please check for spelling mistakes. Caps are important!'
+        let result = readAddress(equipmentAddress);
+        if (result.type === 'model' ) {
+            //this is where checkin for model logic would go
+        } else if (result.type === 'item'){
+            return searchItem(equipmentAddress).then(item => {
+                if(item.isCheckedOutTo === null || item.isCheckedOutTo === undefined){
+                    Dispatcher.handleAction('ERROR', {
+                        error: 'The item is not checked out by anyone.'
+                    });
+                } else{
+                    return CartController.checkInItem(parseInt(item.isCheckedOutTo), item.address);
+                }
             });
         }
-        console.log(result);
     }
 }

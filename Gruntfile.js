@@ -210,10 +210,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-electron');
     grunt.loadNpmTasks('grunt-contrib-compress');
-
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline']);
     grunt.registerTask('lint', ['eslint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
+    grunt.registerTask('test-unit', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:unit']);
+    grunt.registerTask('test-functional', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:functional']);
     grunt.registerTask('lintless-test', ['build', 'clean:test', 'babel:test', 'mochacli:unit', 'mochacli:functional']);
     grunt.registerTask('integration-test', ['build', 'clean:test', 'babel:test', 'mochacli:integration']);
     grunt.registerTask('package', ['build', 'electron', 'compress']);
