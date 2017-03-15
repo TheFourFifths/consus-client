@@ -169,7 +169,22 @@ describe("StudentController", () => {
             });
         });
 
+        it('Dispatches ERROR when checkin fails', () => {
+            checkInModel.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+
+            return StudentController.checkInModel(123456, '123', 4).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Model checkin has failed");
+            });
+        });
+
         afterEach(() => {
+            dispatcherSpy.restore();
             checkInModel.restore();
         });
     });

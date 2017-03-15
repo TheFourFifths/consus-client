@@ -57,6 +57,10 @@ export default class StudentController{
                 });
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
+        }).catch(() => {
+            Dispatcher.handleAction("ERROR", {
+                error: 'Model checkin has failed'
+            });
         });
     }
 

@@ -38,7 +38,7 @@ describe('Checking a model in', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                id: '999999'
             },
             response: {
                 status: 'success',
