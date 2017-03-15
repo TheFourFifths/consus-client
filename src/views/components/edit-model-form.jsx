@@ -135,34 +135,44 @@ export default class EditModelForm extends React.Component {
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
-                    Name:<br/>
-                    <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
-
-                    Description:<br/>
-                    <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
-
-                    Manufacturer:<br/>
-                    <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
-
-                    Vendor:<br/>
-                    <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
-
-                    Storage location:<br/>
-                    <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
-
-                    Price per unit:<br/>
-                    <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    <label id="name">
+                        Name:<br/>
+                        <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
+                    </label>
+                    <label id="description">
+                        Description:<br/>
+                        <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
+                    </label>
+                    <label id="manufacturer">
+                        Manufacturer:<br/>
+                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+                    </label>
+                    <label id="vendor">
+                        Vendor:<br/>
+                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+                    </label>
+                    <label id="location">
+                        Storage location:<br/>
+                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+                    </label>
+                    <label id="price">
+                        Price per unit:<br/>
+                        <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    </label>
 
                     Faulty? <input type="checkbox" value={this.state.isFaulty} onChange={this.changeIsFaulty.bind(this)} /><br/>
 
                     Fault Description:<br/>
                     <textarea rows="4" cols="50"  value={this.state.faultDescription} onChange={this.changeFaultDescription.bind(this)} placeholder='Description' /><br/><br/>
 
-                    Model photo thumbnail:<br/>
-                    <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
-                    <br/>
-                    <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
-                    <br/>
+                    <label id="photo">
+                        Model photo thumbnail:<br/>
+                        <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
+                        <br/>
+                        <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
+                        <br/>
+                    </label>
+
                     <input type='submit' value='Update Model' />
                 </form>
             </div>
