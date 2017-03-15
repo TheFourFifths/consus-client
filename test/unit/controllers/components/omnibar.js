@@ -6,8 +6,9 @@ import { Dispatcher } from 'consus-core/flux';
 import OmnibarController from '../../../../.dist/controllers/components/omnibar';
 import CartStore from '../../../../.dist/store/cart-store';
 import items from '../../../test-cases/items';
-
+import StudentController from '../../../../.dist/controllers/pages/student';
 describe("OmnibarController", () => {
+
     describe("getOmnibar",() => {
         let hashHistorySpy, dispatcherSpy, searchStudent;
         beforeEach(() => {
@@ -79,23 +80,55 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("getStudent Cart has item", () => {
-        let dispatcherSpy, getItems;
+    describe("getStudent", () => {
+        let dispatcherSpy, getItems, checkout, searchStudent, hashHistorySpy;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getItems = sinon.spy(CartStore, "getItems")
+            getItems = sinon.stub(CartStore, "getItems");
+            checkout = sinon.stub(StudentController, "checkout");
+            searchStudent = sinon.stub(api, "searchStudent");
+            router.hashHistory = {};
+            hashHistorySpy = router.hashHistory.push = sinon.spy();
         });
 
-        it.only('Dispatches "ERROR" when called', () => {
-            getItems.returns(items[0]);
-            OmnibarController.getStudent(123456);
-            assert.isTrue(dispatcherSpy.called);
-            assert.isTrue(getItems.called);
+        it('Checks out item if in cart', () => {
+            getItems.onFirstCall().returns([items[0]]);
+            getItems.onSecondCall().returns([items[0]]);
+            getItems.returns([]);
+            checkout.returns(new Promise(resolve => {
+                resolve({status:"AVAILABLE"});
+            }));
+            searchStudent.returns(new Promise(resolve => {
+                resolve({items:[]});
+            }));
+            return OmnibarController.getStudent(123456).then(() => {
+                assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
+                assert.isTrue(dispatcherSpy.called, 'dispatcher not called');
+                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(checkout.called, 'checkout not called');
+                assert.isTrue(searchStudent.called, 'searchStudent not called');
+            });
+
         });
 
+        it('getsStudent', () => {
+            getItems.returns([]);
+            searchStudent.returns(new Promise(resolve => {
+                resolve({items:[]});
+            }));
+            return OmnibarController.getStudent(123456).then(() => {
+                assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
+                assert.isTrue(dispatcherSpy.called, 'dispatcher not called');
+                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(searchStudent.called, 'searchStudent not called');
+            });
+
+        });
         afterEach(() => {
             dispatcherSpy.restore();
             getItems.restore();
+            checkout.restore();
+            searchStudent.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
