@@ -32,7 +32,7 @@ export default class OmnibarController {
             if (StudentStore.getStudent() !== null) {
                 currentStudentId = StudentStore.getStudent().id;
             }
-            return StudentController.checkout(currentStudentId, CartStore.getContents().map(item => item.address)).then(() => {
+            return StudentController.checkout(currentStudentId, CartStore.getContents()).then(() => {
                 if (CartStore.getContents().length === 0) {
                     return (searchStudent(id));
                 }
@@ -78,7 +78,7 @@ export default class OmnibarController {
 
     static emptyCart() {
         if (CartStore.getContents().length !== 0) {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents().map(item => item.address));
+            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
         }
     }
 }
