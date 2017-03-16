@@ -58,11 +58,6 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
-export function deleteModel(modelAddress) {
-    return del('model', { modelAddress });
-}
-
-
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -106,6 +101,10 @@ export function deleteItem(item){
     });
 }
 
+export function deleteModel(modelAddress) {
+    return del('model', { modelAddress });
+}
+
 export function getAllItems() {
     return get('item/all');
 }
@@ -118,6 +117,10 @@ export function getModelAndItems(address) {
     return get('model/children', {
         modelAddress: address
     });
+}
+
+export function getAllStudents() {
+    return get('student/all');
 }
 
 export function getOverdueItems() {
@@ -155,6 +158,9 @@ export function updateModel(address, name, description, manufacturer, vendor, lo
     });
 }
 
+export function updateStudent(student){
+    return patch('student', {id: student.id}, student);
+}
 
 export function uploadStudents(data){
     return post('student', {
