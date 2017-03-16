@@ -1,8 +1,9 @@
-import {checkOutItems, searchStudent} from '../../lib/api-client';
-import {Dispatcher} from 'consus-core/flux';
+import { checkOutContents, searchStudent, checkInModel } from '../../lib/api-client';
+import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
-export default class StudentController {
-    static acceptAdminModal(adminCode) {
+
+export default class StudentController{
+    static acceptAdminModal(adminCode){
         if (adminCode.length > 0)
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
     }
@@ -12,11 +13,23 @@ export default class StudentController {
     }
 
     static cancelCheckout() {
-        Dispatcher.handleAction('CLEAR_ITEMS');
+        Dispatcher.handleAction('CLEAR_CART_CONTENTS');
     }
 
-    static checkout(id, items) {
-        return checkOutItems(id, items, AuthStore.getAdminCode()).then(() => {
+    static checkout(id, equipment) {
+        let equipmentAddresses = [];
+        if (equipment) {
+            equipment.forEach(e => {
+                if(e.quantity){
+                    for (let i = 0; i < e.quantity; i++){
+                        equipmentAddresses.push(e.address);
+                    }
+                } else {
+                    equipmentAddresses.push(e.address);
+                }
+            });
+        }
+        return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);
@@ -32,9 +45,24 @@ export default class StudentController {
                 });
             }
         });
-
     }
 
+    static checkInModel(id, modelAddress, quantity){
+        return checkInModel(id, modelAddress, quantity).then(data => {
+            return searchStudent(id).then(student => {
+                Dispatcher.handleAction('MODEL_CHECKIN_SUCCESS', {
+                    modelAddress: data.modelAddress,
+                    modelName: data.modelName,
+                    quantity: data.quantity
+                });
+                Dispatcher.handleAction("STUDENT_FOUND", student);
+            });
+        }).catch(() => {
+            Dispatcher.handleAction("ERROR", {
+                error: 'Model checkin has failed'
+            });
+        });
+    }
 
     static throwNoItemsError() {
         Dispatcher.handleAction('ERROR', {

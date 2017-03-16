@@ -6,9 +6,8 @@ export default [
         manufacturer: 'Pancakes R\' Us',
         vendor: 'Mouzer',
         location: 'Shelf 14',
-        isFaulty: false,
-        faultDescription: '',
         price: 10.5,
+        allowCheckout: false,
         count: 20,
         items: [
             'iGwEZUvfA',
@@ -23,10 +22,33 @@ export default [
         manufacturer: 'Vroom Industries',
         vendor: 'Fankserrogatoman Inc',
         location: 'Shelf 2',
-        isFaulty: false,
-        faultDescription: '',
         price: 4,
+        allowCheckout: false,
         count: 10,
         items: []
+    },
+    {
+        address: 'm8y7nFnMs',
+        name: 'Resistor',
+        description: 'V = IR',
+        manufacturer: 'Manufacturer',
+        vendor: 'Mouzer',
+        location: 'Shelf 14',
+        allowCheckout: true,
+        price: 10.5,
+        count: 20,
+        inStock: 20
+    },
+    {
+        address: 'm8y7nGAEV',
+        name: 'Resistor',
+        description: 'V = IR',
+        manufacturer: 'Manufacturer',
+        vendor: 'Mouzer',
+        location: 'Shelf 14',
+        allowCheckout: true,
+        price: 10.5,
+        count: 20,
+        inStock: 0
     }
 ]

@@ -41,7 +41,7 @@ describe('Deleting a model', function () {
         }).then(() => {
             return app.client.elements('#models .model');
         }).then(elements => {
-            assert.lengthOf(elements.value, 2);
+            assert.lengthOf(elements.value, 4);
             mockServer.validate();
         });
     });

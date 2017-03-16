@@ -54,7 +54,7 @@ describe('View all students', function () {
             assert.equal(headerTxt, 'All Students');
             return app.client.elements('.student');
         }).then(resp => {
-            assert.lengthOf(resp.value, 2);
+            assert.lengthOf(resp.value, 3);
             return mockServer.validate();
         });
     });
@@ -88,6 +88,7 @@ describe('View all students', function () {
                     status: 'CHECKED_OUT',
                     timestamp: 0
                 }],
+                models: [],
                 major: 'Hyperdimensional Nautical Machines Engineering',
                 status: 'C - Current',
                 name: 'This dude',
@@ -158,6 +159,7 @@ describe('View all students', function () {
                         status: 'CHECKED_OUT',
                         timestamp: 0
                     }],
+                    models: [],
                     major: 'stuff',
                     status: 'C - Current',
                     name: 'Boaty McBoatface',
@@ -182,6 +184,7 @@ describe('View all students', function () {
                     status: 'CHECKED_OUT',
                     timestamp: 0
                 }],
+                models: [],
                 major: 'stuff',
                 status: 'C - Current',
                 name: 'Boaty McBoatface',
@@ -265,6 +268,7 @@ describe('View all students', function () {
                     status: 'CHECKED_OUT',
                     timestamp: 0
                 }],
+                models: [],
                 major: 'Hyperdimensional Nautical Machines Engineering',
                 status: 'C - Current',
                 name: 'Boaty McBoatface',

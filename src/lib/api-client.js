@@ -68,10 +68,18 @@ export function checkIn(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses, code){
+export function checkInModel(studentId, modelAddress, quantity){
+    return post('checkin/model', {
+        studentId,
+        modelAddress,
+        quantity
+    });
+}
+
+export function checkOutContents(studentId, equipmentAddresses, code){
     let params = {
         studentId,
-        itemAddresses
+        equipmentAddresses
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;
@@ -83,15 +91,14 @@ export function createItem(modelAddress){
     return post('item', { modelAddress });
 }
 
-export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
+export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
     return post('model', {
         name,
         description,
         manufacturer,
         vendor,
         location,
-        isFaulty,
-        faultDescription,
+        allowCheckout,
         price,
         count
     });
@@ -148,16 +155,19 @@ export function searchStudent(id) {
     });
 }
 
-export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, base64Photo) {
+
+export function updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock, base64Photo) {
     return patch('model', { address }, {
         name: name,
         description: description,
         manufacturer: manufacturer,
         vendor: vendor,
         location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
+        allowCheckout: allowCheckout,
         price: price,
+        count: count,
+        changeStock: changeStock,
+        inStock: inStock,
         photo: base64Photo
     });
 }

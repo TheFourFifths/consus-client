@@ -27,17 +27,17 @@ export default class OmnibarController {
             id = parseInt(id);
         }
 
-        if (CartStore.getItems().length !== 0) {
+        if (CartStore.getContents().length !== 0) {
             let currentStudentId;
             if (StudentStore.getStudent() !== null) {
                 currentStudentId = StudentStore.getStudent().id;
             }
-            return StudentController.checkout(currentStudentId, CartStore.getItems().map(item => item.address)).then(() => {
-                if (CartStore.getItems().length === 0) {
+            return StudentController.checkout(currentStudentId, CartStore.getContents()).then(() => {
+                if (CartStore.getContents().length === 0) {
                     return (searchStudent(id));
                 }
             }).then(student => {
-                if (CartStore.getItems().length === 0) {
+                if (CartStore.getContents().length === 0) {
                     Dispatcher.handleAction("STUDENT_FOUND", student);
                     hashHistory.push('/student');
                 }
@@ -77,8 +77,8 @@ export default class OmnibarController {
     }
 
     static emptyCart() {
-        if (CartStore.getItems().length !== 0) {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getItems().map(item => item.address));
+        if (CartStore.getContents().length !== 0) {
+            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
         }
     }
 }

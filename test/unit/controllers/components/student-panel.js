@@ -33,4 +33,14 @@ describe("StudentPanelController",() => {
             Dispatcher.handleAction("CLEAR_ALL_DATA");
         });
     });
+
+    describe("countDuplicateModels",() => {
+        it("accurately counts models", () => {
+            let models = [{address: 1, name: 'one'}, {address: 2, name: 'two'}, {address: 3, name: 'three'}, {address: 1, name: 'one'}];
+
+            assert.strictEqual(StudentPanelController.countDuplicateModels(models)[0].quantity, 2);
+            assert.strictEqual(StudentPanelController.countDuplicateModels(models)[1].quantity, 1);
+            assert.strictEqual(StudentPanelController.countDuplicateModels(models)[2].quantity, 1);
+        });
+    });
 });

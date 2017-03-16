@@ -5,7 +5,8 @@ import {
     changeHost,
     changePort,
     checkIn,
-    checkOutItems,
+    checkInModel,
+    checkOutContents,
     createItem,
     createModel,
     deleteItem,
@@ -65,7 +66,32 @@ describe('API Client', () => {
         });
     });
 
-    it('checkOutItems', () => {
+    it('checkInModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                modelAddress: 'm8y7nEtAe',
+                modelName: 'Name',
+                quantity: 4
+            }
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkin/model',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe',
+                quantity: 4
+            },
+            response
+        });
+        return checkInModel(123456, 'm8y7nEtAe', 4).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        })
+    });
+
+    it('checkOutContents', () => {
         let response = {
             status: 'success'
         };
@@ -74,17 +100,17 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
+                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
             },
             response
         });
-        return checkOutItems(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
     });
 
-    it('checkOutItems (with code)', () => {
+    it('checkOutContents (with code)', () => {
         let response = {
             status: 'success'
         };
@@ -93,12 +119,12 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                itemAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutItems(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -151,14 +177,13 @@ describe('API Client', () => {
                 manufacturer: 'Live',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
-                isFaulty: false,
-                faultDescription: '',
                 price: 10.50,
+                allowCheckout: true,
                 count: 20
             },
             response
         });
-        return createModel('Resistor', 'V = IR', 'Live', 'Mouzer', 'Shelf 14', false, '', 10.50, 20).then(data => {
+        return createModel('Resistor', 'V = IR', 'Live', 'Mouzer', 'Shelf 14', true, 10.50, 20).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
@@ -495,8 +520,7 @@ describe('API Client', () => {
                 manufacturer: 'Pancakes R Us',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
-                isFaulty: false,
-                faultDescription: '',
+                allowCheckout: false,
                 price: 10.50,
                 count: 20,
                 items: [ "iGwEZUvfA", "iGwEZVHHE", "iGwEZVeaT"]
@@ -514,8 +538,7 @@ describe('API Client', () => {
                 manufacturer: 'Pancakes R Us',
                 vendor: 'Mouzer',
                 location: 'Shelf 14',
-                isFaulty: false,
-                faultDescription: '',
+                allowCheckout: false,
                 price: 10.50
             },
             response
@@ -528,8 +551,7 @@ describe('API Client', () => {
             'Mouzer',
             'Shelf 14',
             false,
-            '',
-            10.50,
+            10.50
         ).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();

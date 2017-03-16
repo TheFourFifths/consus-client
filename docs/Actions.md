@@ -14,7 +14,7 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_ADMIN_WINDOW](#clear_admin_window)
     - [CLEAR_ALL_DATA](#clear_all_data)
     - [CLEAR_ERROR](#clear_error)
-    - [CLEAR_ITEMS](#clear_items)
+    - [CLEAR_CART_CONTENTS](#clear_cart_contents)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
     - [ERROR](#error)
@@ -27,6 +27,7 @@ This document describes the Flux actions used in the Consus client.
     - [ITEM_FOUND](#item_found)
     - [MODELS_RECEIVED](#models_received)
     - [MODEL_CREATED](#model_created)
+    - [MODEL_CHECKIN_SUCCESS](#model_checkin_success)
     - [MODEL_FOUND](#model_found)
     - [NO_ITEM_FOUND](#no_item_found)
     - [NO_MODEL_FOUND](#no_model_found)
@@ -113,9 +114,9 @@ Dispatched when an error should be cleared. Note that this also clears any "erro
 None.
 
 
-## CLEAR_ITEMS
+## CLEAR_CART_CONTENTS
 
-Dispatched when all items should be removed. It currently only removes items from the CartStore.
+Dispatched when all contents of the current cart should be removed. It removes all items and models from the CartStore.
 
 ### Data
 
@@ -254,6 +255,15 @@ Dispatched when a new model was created.
 ### Data
 
 The newly created item object.
+
+
+## MODEL_CHECKIN_SUCCESS
+
+Dispatched a model is checked in.
+
+### Data
+
+The model address, name, and number checked in.
 
 
 ## MODEL_FOUND
