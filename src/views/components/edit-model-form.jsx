@@ -6,7 +6,28 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = 950000; /* bytes */
+const MAX_FILESIZE = bytesToBase64Size(950000); /* bytes */
+
+/**
+ * Converts the number of bytes of binary data into its approximate number of
+ * bytes when encoded as Base64.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numBytes - size of binary data, in bytes
+ * @returns {number} size of Base64-encoded binary data, in bytes
+ */
+function bytesToBase64Size(numBytes) {
+    return (numBytes * 1.37) + 814;
+}
+
+/**
+ * Converts the number of bytes of a Base64 string into the equivalent pure binary size.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numB64Bytes - size of Base64-encoded binary data, in bytes
+ * @returns {number} size of binary data, in bytes
+ */
+function base64SizeToBytes(numB64Bytes) {
+    return (numB64Bytes - 814) / 1.37;
+}
 
 export default class EditModelForm extends React.Component {
 
@@ -113,7 +134,7 @@ export default class EditModelForm extends React.Component {
 
     changePhoto(e) {
         let file = e.target.files[0];
-        if (file.size > MAX_FILESIZE) {
+        if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
                 showFileSizeModal: true,
                 fileOversize: true
@@ -186,7 +207,7 @@ export default class EditModelForm extends React.Component {
                 <ErrorModal
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
-                    message={`The specified file is too large; it must be below ${MAX_FILESIZE / 1000} kB.`}
+                    message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
                 />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>

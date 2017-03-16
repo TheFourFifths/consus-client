@@ -113,7 +113,7 @@ describe('Editing a model', function () {
             return app.client.getText('.modal-content p');
         }).then(errMsg => {
             assert.match(errMsg, /specified file is too large/);
-            assert.match(errMsg, /950 kB/);
+            assert.match(errMsg, /\d+.\d{1,3} kB/);
             return app.client.click('.modal-content button');
         }).then(() => {
             return app.client.getAttribute('.create-model-form form input[type=submit]', 'disabled');
