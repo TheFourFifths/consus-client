@@ -123,14 +123,29 @@ export default class EditModelForm extends React.Component {
     }
 
     allModels() {
-        ModelFormController.getModels();
+        this.setState({
+            popConfirmModal: true
+        });
     }
+
+    handleConfirmModal(bool){
+        if(bool){
+            ModelFormController.getModels();
+        }else{
+            this.setState({popConfirmModal: false});
+        }
+      }
 
     render() {
         if (this.state.model === null)
             return <div>Loading form...</div>;
         return (
             <div className='create-model-form'>
+                <ConfirmModal
+                    message="Are you sure you wish to leave the page? Unsaved changes will be lost."
+                    active = {this.state.popConfirmModal}
+                    onSelect = {bool => this.handleConfirmModal(bool)}
+                />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
