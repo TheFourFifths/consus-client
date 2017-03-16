@@ -249,7 +249,18 @@ describe('API Client', () => {
         let response = {
             status: 'success',
             data: {
-                model: 'm8y7nEtAe',
+                model: {
+                    address: "m8y7nEtAe",
+                    name: "Resistor",
+                    description: "V = IR",
+                    manufacturer: "Pancakes R Us",
+                    vendor: "Mouzer",
+                    location: "Shelf 14",
+                    isFaulty: false,
+                    faultDescription: "",
+                    price: 10.50,
+                    count: 20
+                },
                 items: [{
                     address: 'iGwEZVHHE',
                     modelAddress: 'm8y7nEtAe',

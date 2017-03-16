@@ -17,23 +17,23 @@ export default class Omnibar extends React.Component {
         let regex = new RegExp("^[a-zA-Z0-9]*$");
         let regexOnlyNums = new RegExp("^[0-9]*$");
         if(regex.test(e.target.value)) {
-            try {
-                let result = readAddress(e.target.value);
+            if (e.target.value.length === 6 && regexOnlyNums.test(e.target.value)) {
                 this.setState({
                     query: ''
                 });
-                if(result.type === 'model') {
-                    ModelController.getModelAndItems(e.target.value);
-                } else if (result.type === 'item') {
-                    OmnibarController.displayItem(e.target.value);
-                }
-            } catch (f) {
-                if (e.target.value.length === 6 && regexOnlyNums.test(e.target.value)) {
+                OmnibarController.getStudent(e.target.value);
+            } else {
+                try {
+                    let result = readAddress(e.target.value);
                     this.setState({
                         query: ''
                     });
-                    OmnibarController.getStudent(e.target.value);
-                } else {
+                    if(result.type === 'model') {
+                        ModelController.getModelAndItems(e.target.value);
+                    } else if (result.type === 'item') {
+                        OmnibarController.displayItem(e.target.value);
+                    }
+                } catch (f) {
                     this.setState({
                         query: e.target.value
                     });
