@@ -89,14 +89,20 @@ export default class EditModelForm extends React.Component {
             price: e.target.value
         });
     }
-    changeIsFaulty(e){
+    changeCount(e){
         this.setState({
-            isFaulty: e.target.value
+            count: e.target.value
         });
     }
-    changeFaultDescription(e) {
+    changeStock(e){
         this.setState({
-            faultDescription: e.target.value
+            changeStock: !this.state.checked,
+            checked: !this.state.checked
+        });
+    }
+    changeInStock(e){
+        this.setState({
+            inStock: e.target.value
         });
     }
     submit(e) {
@@ -108,9 +114,11 @@ export default class EditModelForm extends React.Component {
             this.state.manufacturer,
             this.state.vendor,
             this.state.location,
-            this.state.isFaulty,
-            this.state.faultDescription,
+            this.state.allowCheckout,
             this.state.price,
+            this.state.count,
+            this.state.changeStock,
+            this.state.inStock
         );
     }
 
@@ -138,9 +146,10 @@ export default class EditModelForm extends React.Component {
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
                     Price per unit:<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    Faulty? <input type="checkbox" value={this.state.isFaulty} onChange={this.changeIsFaulty.bind(this)} /><br/>
-                    Fault Description:<br/>
-                    <textarea rows="4" cols="50"  value={this.state.faultDescription} onChange={this.changeFaultDescription.bind(this)} placeholder='Description' /><br/><br/>
+                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)}/></span>}<br/>
+                    {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
+                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
+                    {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
                     <input type='submit' value='Update Model' />
                 </form>
             </div>
