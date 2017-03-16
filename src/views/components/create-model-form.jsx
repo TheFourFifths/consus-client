@@ -11,11 +11,11 @@ export default class CreateModelForm extends React.Component {
             manufacturer: '',
             vendor: '',
             location: '',
-            isFaulty: false,
-            faultDescription: '',
+            allowCheckout: false,
             price: 0.0,
-            count: 0
-        };
+            count: 0,
+            checked: false
+        }
     }
 
     changeName(e) {
@@ -47,6 +47,13 @@ export default class CreateModelForm extends React.Component {
         });
     }
 
+    changeAllowCheckout(e) {
+        this.setState({
+            allowCheckout: !this.state.checked,
+            checked: !this.state.checked
+        });
+    }
+
     changePrice(e) {
         this.setState({
             price: e.target.value
@@ -61,16 +68,16 @@ export default class CreateModelForm extends React.Component {
 
     submit(e) {
         e.preventDefault();
+        let count = (this.state.allowCheckout) ? this.state.count : 0;
         ModelFormController.createModel(
             this.state.name,
             this.state.description,
             this.state.manufacturer,
             this.state.vendor,
             this.state.location,
-            this.state.isFaulty,
-            this.state.faultDescription,
+            this.state.allowCheckout,
             this.state.price,
-            this.state.count
+            count
         );
     }
 
@@ -96,8 +103,9 @@ export default class CreateModelForm extends React.Component {
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
                     Price per unit:<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    Amount in stock:<br/>
-                    <input type='number' value={this.state.count} onChange={this.changeCount.bind(this) } placeholder='Count' required/><br/><br/>
+                    Can it be checked out?:
+                    <input type='checkbox' value={this.state.allowCheckout} onChange={this.changeAllowCheckout.bind(this)} checked={this.state.checked} /><br/>
+                    {this.state.checked && <span>Amount in stock:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} required/></span>}<br/><br/>
                     <input type='submit' value='Create Model' />
                 </form>
             </div>

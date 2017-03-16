@@ -149,10 +149,10 @@ describe("OmnibarController", () => {
     });
 
     describe("getStudent", () => {
-        let dispatcherSpy, getItems, checkout, searchStudent, hashHistorySpy;
+        let dispatcherSpy, getContents, checkout, searchStudent, hashHistorySpy;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getItems = sinon.stub(CartStore, "getItems");
+            getContents = sinon.stub(CartStore, "getContents");
             checkout = sinon.stub(StudentController, "checkout");
             searchStudent = sinon.stub(api, "searchStudent");
             router.hashHistory = {};
@@ -160,9 +160,9 @@ describe("OmnibarController", () => {
         });
 
         it('Checks out item if in cart', () => {
-            getItems.onFirstCall().returns([items[0]]);
-            getItems.onSecondCall().returns([items[0]]);
-            getItems.returns([]);
+            getContents.onFirstCall().returns([items[0]]);
+            getContents.onSecondCall().returns([items[0]]);
+            getContents.returns([]);
             checkout.returns(new Promise(resolve => {
                 resolve({status:"AVAILABLE"});
             }));
@@ -172,7 +172,7 @@ describe("OmnibarController", () => {
             return OmnibarController.getStudent(123456).then(() => {
                 assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
                 assert.isTrue(dispatcherSpy.called, 'dispatcher not called');
-                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(getContents.called, 'getContents not called');
                 assert.isTrue(checkout.called, 'checkout not called');
                 assert.isTrue(searchStudent.called, 'searchStudent not called');
             });
@@ -180,21 +180,21 @@ describe("OmnibarController", () => {
         });
 
         it('getsStudent', () => {
-            getItems.returns([]);
+            getContents.returns([]);
             searchStudent.returns(new Promise(resolve => {
                 resolve({items:[]});
             }));
             return OmnibarController.getStudent(123456).then(() => {
                 assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
                 assert.isTrue(dispatcherSpy.called, 'dispatcher not called');
-                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(getContents.called, 'getContents not called');
                 assert.isTrue(searchStudent.called, 'searchStudent not called');
             });
 
         });
         afterEach(() => {
             dispatcherSpy.restore();
-            getItems.restore();
+            getContents.restore();
             checkout.restore();
             searchStudent.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
@@ -203,11 +203,11 @@ describe("OmnibarController", () => {
 
 
     describe("navigateToIndex", () => {
-        let dispatcherSpy, getItems, checkout, getStudent, hashHistorySpy;
+        let dispatcherSpy, getContents, checkout, getStudent, hashHistorySpy;
 
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getItems = sinon.stub(CartStore, "getItems");
+            getContents = sinon.stub(CartStore, "getContents");
             checkout = sinon.stub(StudentController, "checkout");
             getStudent = sinon.stub(StudentStore, "getStudent");
             router.hashHistory = {};
@@ -215,13 +215,13 @@ describe("OmnibarController", () => {
         });
 
         it('Items in cart', () => {
-            getItems.returns([items[0]]);
+            getContents.returns([items[0]]);
             checkout.returns(new Promise(resolve => {
                 resolve({status:"AVAILABLE"});
             }));
             getStudent.returns({items:[]});
             return OmnibarController.emptyCart().then(() => {
-                assert.isTrue(getItems.called, 'getItems not called');
+                assert.isTrue(getContents.called, 'getContents not called');
                 assert.isTrue(checkout.called, 'checkout not called');
                 assert.isTrue(getStudent.called, 'getStudent not called');
             });
@@ -229,7 +229,7 @@ describe("OmnibarController", () => {
         });
 
         it('No student in store', () => {
-            getItems.returns([]);
+            getContents.returns([]);
             OmnibarController.emptyCart();
             assert.isFalse(hashHistorySpy.called, 'Hashhistory not called');
             assert.isFalse(checkout.called, 'checkout not called');
@@ -237,7 +237,7 @@ describe("OmnibarController", () => {
         });
         afterEach(() => {
             dispatcherSpy.restore();
-            getItems.restore();
+            getContents.restore();
             checkout.restore();
             getStudent.restore();
             Dispatcher.handleAction("CLEAR_ERROR");

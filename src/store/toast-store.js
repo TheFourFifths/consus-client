@@ -47,6 +47,11 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     store.emitChange();
 });
 
+store.registerHandler('MODEL_CHECKIN_SUCCESS', data => {
+    addToast(`${data.quantity} ${data.modelName}(s) (${data.modelAddress}) checked in successfully`);
+    store.emitChange();
+});
+
 store.registerHandler('CHECKOUT_SUCCESS', () => {
     addToast('Checkout completed successfully!');
     store.emitChange();

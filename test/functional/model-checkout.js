@@ -1,13 +1,11 @@
 import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
-import { getNextDueTimestamp } from '../../.dist/lib/clock';
 import MockServer from '../util/mock-server';
-import items from '../test-cases/items';
 import models from '../test-cases/models';
 import students from '../test-cases/students';
 
-describe('Checking an item out', function () {
+describe('Checking a model out', function () {
 
     this.timeout(10000);
     let app;
@@ -53,7 +51,7 @@ describe('Checking an item out', function () {
             response: {
                 status: 'success',
                 data: {
-                    models
+                    models: models
                 }
             }
         });
@@ -70,17 +68,17 @@ describe('Checking an item out', function () {
         });
     });
 
-    it('checks out the item', () => {
+    it('checks out the model', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: 'item',
+            endpoint: 'model',
             qs: {
-                address: 'iGwEZUvfA'
+                address: 'm8y7nFnMs'
             },
             response: {
                 status: 'success',
-                data: items[0]
-            }
+                data: models[2]
+           }
         });
 
         mockServer.expect({
@@ -89,15 +87,13 @@ describe('Checking an item out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA']
+                equipmentAddresses: ['m8y7nFnMs']
             },
             response: {
                 status: 'success'
             }
         });
-        items[0].status = 'CHECKED_OUT';
-        items[0].timestamp = getNextDueTimestamp();
-        students[0].items.push(items[0]);
+
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
@@ -106,7 +102,15 @@ describe('Checking an item out', function () {
             },
             response: {
                 status: 'success',
-                data: students[0]
+                data: {
+                    id: 123456,
+                    name: 'John von Neumann',
+                    status: 'C - Current',
+                    items: [],
+                    models: [ models[2] ],
+                    email: 'vonneumann@msoe.edu',
+                    major: 'Chemical Engineering & Mathematics'
+                }
             }
         });
 
@@ -114,13 +118,13 @@ describe('Checking an item out', function () {
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('iGwEZUvfA');
+            return app.client.keys('m8y7nFnMs');
         }).then(() => {
             return app.client.waitForVisible('.cart>ul>li');
         }).then(() => {
             return app.client.waitUntil(()  => {
                 return app.client.getText(".cart>ul>li").then(text => {
-                  return text === "iGwEZUvfA";
+                  return text === "m8y7nFnMs x1";
                 });
             });
         }).then(() => {
@@ -140,119 +144,47 @@ describe('Checking an item out', function () {
         });
     });
 
-    it("fails to checkout an item that's already checked out", () => {
+    it("can check out multiple of the same model at once", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: 'item',
+            endpoint: 'model',
             qs: {
-                address: 'iGwEZVeaT'
+                address: 'm8y7nFnMs'
             },
             response: {
                 status: 'success',
-                data: items[2]
+                data: models[2]
+           }
+        });
+
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model',
+            qs: {
+                address: 'm8y7nFnMs'
+            },
+            response: {
+                status: 'success',
+                data: models[2]
+           }
+        });
+
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout',
+            json: {
+                adminCode: null,
+                studentId: 123456,
+                equipmentAddresses: ['m8y7nFnMs','m8y7nFnMs']
+            },
+            response: {
+                status: 'success'
             }
         });
-        return app.client.setValue('.cart input[type="text"]','iGwEZVeaT').then(() => {
-        return app.client.waitForVisible('#app .modal .modal-content');
-        }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
-        }).then(message => {
-            assert.strictEqual(message, "This item is already checked out by another student.");
-            return app.client.click('#app .modal .modal-content button');
-        }).then(() => {
-            mockServer.validate();
-            return app.client.waitForExist("#app .modal", 100, true);
-        });
-    });
-
-    it("can check out multiple items at once.", () => {
-        mockServer.expect({
-            method: 'get',
-            endpoint: 'item',
-            qs: {
-                address: 'iGwEZVHHE'
-            },
-            response: {
-                status: 'success',
-                data: items[1]
-           }
-       });
 
         mockServer.expect({
             method: 'get',
-            endpoint: 'item',
-            qs: {
-                address: 'iGwEZVvgu'
-            },
-            response: {
-                status: 'success',
-                data: items[3]
-           }
-       });
-      mockServer.expect({
-          method: 'post',
-          endpoint: 'checkout',
-          json: {
-              adminCode: null,
-              studentId: 123456,
-              equipmentAddresses: [
-                  'iGwEZVHHE',
-                  'iGwEZVvgu'
-              ]
-          },
-          response: {
-              status: 'success'
-          }
-      });
-      items[1].status = 'CHECKED_OUT';
-      items[1].timestamp = getNextDueTimestamp();
-      items[3].status = 'CHECKED_OUT';
-      items[3].timestamp = getNextDueTimestamp();
-      students[0].items.push(items[1]);
-      students[0].items.push(items[3]);
-      mockServer.expect({
-          method: 'get',
-          endpoint: 'student',
-          qs: {
-            id: '123456'
-          },
-          response: {
-              status: 'success',
-              data: students[0]
-          }
-      });
-
-      return app.client.waitForVisible('.cart input[type="text"]').then(() => {
-          return app.client.click('.cart input[type="text"]');
-      }).then(() => {
-          return app.client.keys('iGwEZVHHE');
-      }).then(() => {
-          return app.client.waitForVisible('.cart>ul>li');
-      }).then(() => {
-          return app.client.waitUntil(()  => {
-              return app.client.getText(".cart>ul>li").then(text => {
-                return text === "iGwEZVHHE";
-              });
-          });
-      }).then(() => {
-          return app.client.keys('iGwEZVvgu');
-      }).then(() => {
-          return app.client.click('.cart input[type="button"]');
-      }).then(() => {
-          return app.client.waitForVisible('.toast');
-      }).then(() => {
-          return app.client.getText('.toast');
-      }).then(message => {
-          assert.strictEqual(message, "Checkout completed successfully!");
-          return app.client.elements('#student .student .equipment .item-info');
-      }).then(items => {
-          assert.lengthOf(items.value, 3);
-          mockServer.validate();
-      });
-
-        mockServer.expect({
-            method: 'get',
-            endpoint: '/api/student',
+            endpoint: 'student',
             qs: {
                 id: '123456'
             },
@@ -262,19 +194,8 @@ describe('Checking an item out', function () {
                     id: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
-                    items: [
-                        {
-                            address: 'iGwEZVHHE',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        },
-                        {
-                            address: 'iGwEZVeaT',
-                            modelAddress: 'm8y7nEtAe',
-                            timestamp: Math.floor(Date.now() / 1000) + 1000000000
-                        }
-                    ],
-                    models: [],
+                    items: [],
+                    models: [models[2], models[2]],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -284,17 +205,23 @@ describe('Checking an item out', function () {
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
-            return app.client.keys('iGwEZVeaT');
+            return app.client.keys('m8y7nFnMs');
         }).then(() => {
             return app.client.waitForVisible('.cart>ul>li');
         }).then(() => {
             return app.client.waitUntil(()  => {
                 return app.client.getText(".cart>ul>li").then(text => {
-                    return text === "iGwEZVeaT";
+                    return text === "m8y7nFnMs x1";
                 });
             });
         }).then(() => {
-            return app.client.keys('iGwEZVHHE');
+            return app.client.keys('m8y7nFnMs');
+        }).then(() => {
+            return app.client.waitUntil(()  => {
+                return app.client.getText(".cart>ul>li").then(text => {
+                    return text === "m8y7nFnMs x2";
+                });
+            });
         }).then(() => {
             return app.client.click('.cart input[type="button"]');
         }).then(() => {
@@ -305,69 +232,58 @@ describe('Checking an item out', function () {
             assert.strictEqual(message, "Checkout completed successfully!");
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
-            assert.lengthOf(items.value, 2);
+            assert.lengthOf(items.value, 1);
             mockServer.validate();
         });
     });
 
-    it("doesn't allow invalid characters in the item field", () => {
-        return app.client.waitForVisible('.cart input[type="text"]').then(() => {
-            return app.client.click('.cart input[type="text"]');
-        }).then(() => {
-            return app.client.keys(';');
-        }).then(() => {
-            return app.client.waitForVisible('#app .modal', 1000000);
+    it("fails to checkout a serialized model", () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model',
+            qs: {
+                address: 'm8y7nFLsT'
+            },
+            response: {
+                status: 'success',
+                data: models[0]
+            }
+        });
+        return app.client.setValue('.cart input[type="text"]','m8y7nFLsT').then(() => {
+            return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
             return app.client.getText('#app .modal .modal-content p');
         }).then(message => {
-            assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
-            return app.client.click("#app .modal .modal-content button");
+            assert.strictEqual(message, "Resistor is not available for checkout.");
+            return app.client.click('#app .modal .modal-content button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
         });
     });
 
-    it("doesn't allow the same items to be added to the cart twice", () => {
+    it("fails to checkout an out of stock model", () => {
         mockServer.expect({
             method: 'get',
-            endpoint: 'item',
+            endpoint: 'model',
             qs: {
-                address: 'iGwEZW6nn'
+                address: 'm8y7nFnMs'
             },
             response: {
                 status: 'success',
-                data: items[4]
+                data: models[3]
             }
         });
-        mockServer.expect({
-            method: 'get',
-            endpoint: 'item',
-            qs: {
-                address: 'iGwEZW6nn'
-            },
-            response: {
-                status: 'success',
-                data: items[4]
-            }
-        });
-        return app.client.waitForVisible('.cart input[type="text"]').then(() => {
-            return app.client.click('.cart input[type="text"]');
-        }).then(() => {
-            return app.client.keys('iGwEZW6nn');
-        }).then(() => {
-            return app.client.keys('iGwEZW6nn');
-        }).then(() => {
-            return app.client.waitForVisible('#app .modal', 1000000);
+        return app.client.setValue('.cart input[type="text"]','m8y7nFnMs').then(() => {
+            return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
             return app.client.getText('#app .modal .modal-content p');
         }).then(message => {
-            assert.strictEqual(message, "This item is already in the cart.");
-            return app.client.click("#app .modal .modal-content button");
+            assert.strictEqual(message, "Resistor is out of stock.");
+            return app.client.click('#app .modal .modal-content button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
         });
     });
-
 });

@@ -146,6 +146,7 @@ describe('Student Lookup', function () {
               message: 'The student could not be found.'
           }
       });
+
       return app.client.click("#omnibar").then(() => {
         return app.client.keys("314159");
       }).then(() => {

@@ -119,10 +119,9 @@ export default class Model extends React.Component {
                         <p>{this.renderDescription()}</p>
                     </div>
                     <div className="faultArea">
-                        <h3>Fault</h3>
-                        {(this.state.model.isFaulty
-                                ? <p>{this.state.model.faultDescription}</p>
-                                : <p>Model is not faulty.</p>
+                        {(this.state.model.allowCheckout
+                                ? <span><b>Total:</b> {this.state.model.count}<br/><b>In Stock:</b> {this.state.model.inStock}</span>
+                                : <i>Model cannot be checked out.</i>
                         )}
                     </div>
                     <div className="miscArea">
@@ -130,7 +129,7 @@ export default class Model extends React.Component {
                         <b>Price:</b> ${this.state.model.price}<br/>
                         <b>Manufacturer:</b> {this.state.model.manufacturer}<br/>
                         <b>Vendor:</b> {this.state.model.vendor}<br/>
-                        <b>Quantity:</b> {this.state.model.count}<br/>
+                        {(this.state.model.allowCheckout ? null : <span><b>Quantity:</b> {this.state.model.count}<br/></span>)}
                     </div>
                 </div>
                 <div className="actionArea">

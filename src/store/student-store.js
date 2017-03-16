@@ -53,7 +53,7 @@ store.registerHandler('CLEAR_ALL_DATA', () => {
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    student.items = student.items.concat(CartStore.getItems());
+    student.items = student.items.concat(CartStore.getContents());
     store.emitChange();
 });
 
