@@ -1,11 +1,11 @@
-import { Store } from 'consus-core/flux';
+import {Store} from 'consus-core/flux';
 import CartStore from './cart-store';
 
 let student = null;
 let students = {};
 
-class StudentStore extends Store{
-    hasOverdueItems(items){
+class StudentStore extends Store {
+    hasOverdueItems(items) {
         return items.some(element => {
             let now = Math.floor(Date.now() / 1000);
             return element.timestamp < now;
@@ -58,11 +58,13 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
 });
 
 store.registerHandler('CHECKIN_SUCCESS', data => {
-    let index = student.items.findIndex(element => {
-        return element.address === data.itemAddress;
-    });
+    if (student !== null) {
+        let index = student.items.findIndex(element => {
+            return element.address === data.itemAddress;
+        });
 
-    student.items.splice(index, 1);
+        student.items.splice(index, 1);
+    }
     store.emitChange();
 });
 

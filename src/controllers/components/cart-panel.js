@@ -1,7 +1,7 @@
 import { searchItem, checkIn} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import CartStore from '../../store/cart-store';
-
+import { readAddress } from 'consus-core/identifiers';
 export default class CartController {
 
     static checkInItem(id, itemAddress) {
@@ -34,5 +34,22 @@ export default class CartController {
 
     static throwError(error){
         Dispatcher.handleAction("ERROR", { error });
+    }
+
+    static turnInLostEquipment(equipmentAddress){
+        let result = readAddress(equipmentAddress);
+        if (result.type === 'model' ) {
+            //this is where checkin for model logic would go
+        } else if (result.type === 'item'){
+            return searchItem(equipmentAddress).then(item => {
+                if(item.isCheckedOutTo === null || item.isCheckedOutTo === undefined){
+                    Dispatcher.handleAction('ERROR', {
+                        error: 'The item is not checked out by anyone.'
+                    });
+                } else{
+                    return CartController.checkInItem(parseInt(item.isCheckedOutTo), item.address);
+                }
+            });
+        }
     }
 }
