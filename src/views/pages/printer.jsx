@@ -39,7 +39,7 @@ export default class Printer extends ListenerComponent {
         let imgStyles = {
             width: this.state.size + 'mm',
             height: this.state.size + 'mm'
-        }
+        };
         return (
             <div id='printer'>
                 <span className='no-print'>Width (mm): </span>

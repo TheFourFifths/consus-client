@@ -9,13 +9,13 @@ export default class Model extends React.Component {
 
     constructor(props){
         super(props);
-        if (props.model === undefined)
+        if (props.model === undefined) {
             this.state = {
                 model: null,
                 needsConfirmationForDelete: false,
                 needsConfirmationForAdd: false
-        };
-        else {
+            };
+        } else {
             this.state = {
                 model: this.props.model,
                 needsConfirmationForDelete: false,
@@ -23,6 +23,7 @@ export default class Model extends React.Component {
             };
         }
     }
+
     componentDidMount(){
         if(this.state.model === null) {
             ModelController.getModel(this.props.params.address).then(() => {
@@ -32,6 +33,13 @@ export default class Model extends React.Component {
             });
         }
     }
+
+    showConfirmModal(){
+        this.setState({
+            needsConfirmationForDelete: true
+        });
+    }
+
     showDeleteConfirmModal(){
         this.setState({
             needsConfirmationForDelete: true
@@ -61,6 +69,7 @@ export default class Model extends React.Component {
             needsConfirmationForAdd: false
         });
     }
+
     editModel(){
         hashHistory.push(`/model/edit/${this.state.model.address}`);
     }
@@ -98,7 +107,7 @@ export default class Model extends React.Component {
                     onSelect={bool => this.confirmAddItem(bool)}
                 />
                 <div className="picArea">
-                    <img src="../assets/images/placeholder.jpg"/>
+                    <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.model.name}</h2>
