@@ -77,10 +77,10 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZUvfA'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[0]
-           }
+            }
         });
 
         mockServer.expect({
@@ -147,7 +147,7 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZVeaT'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[2]
             }
@@ -172,7 +172,7 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZVHHE'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[1]
            }
@@ -184,7 +184,7 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZVvgu'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[3]
            }
@@ -335,7 +335,7 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZW6nn'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[4]
             }
@@ -346,7 +346,7 @@ describe('Checking an item out', function () {
             qs: {
                 address: 'iGwEZW6nn'
             },
-            response:{
+            response: {
                 status: 'success',
                 data: items[4]
             }

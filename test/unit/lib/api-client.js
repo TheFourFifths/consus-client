@@ -5,6 +5,7 @@ import {
     changeHost,
     changePort,
     checkIn,
+    checkInModel,
     checkOutContents,
     createItem,
     createModel,
@@ -60,6 +61,31 @@ describe('API Client', () => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
+    });
+
+    it('checkInModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                modelAddress: 'm8y7nEtAe',
+                modelName: 'Name',
+                quantity: 4
+            }
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkin/model',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe',
+                quantity: 4
+            },
+            response
+        });
+        return checkInModel(123456, 'm8y7nEtAe', 4).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        })
     });
 
     it('checkOutContents', () => {

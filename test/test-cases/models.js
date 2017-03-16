@@ -28,15 +28,27 @@ export default [
         items: []
     },
     {
-        address: 'm8y7nFLsT',
-        name: 'Transistor',
-        description: 'Something used in computers',
-        manufacturer: 'Vroom Industries',
-        vendor: 'Fankserrogatoman Inc',
-        location: 'Shelf 2',
+        address: 'm8y7nFnMs',
+        name: 'Resistor',
+        description: 'V = IR',
+        manufacturer: 'Manufacturer',
+        vendor: 'Mouzer',
+        location: 'Shelf 14',
         allowCheckout: true,
-        price: 4.00,
+        price: 10.5,
         count: 20,
         inStock: 20
+    },
+    {
+        address: 'm8y7nGAEV',
+        name: 'Resistor',
+        description: 'V = IR',
+        manufacturer: 'Manufacturer',
+        vendor: 'Mouzer',
+        location: 'Shelf 14',
+        allowCheckout: true,
+        price: 10.5,
+        count: 20,
+        inStock: 0
     }
 ]

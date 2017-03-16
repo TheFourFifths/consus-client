@@ -127,6 +127,68 @@ describe("StudentController", () => {
         });
     });
 
+    describe("checkInModel", () => {
+        let checkInModel;
+        beforeEach(() => {
+            Dispatcher.handleAction("STUDENT_FOUND", {items: [{modelAddress: '123'}]});
+            checkInModel = sinon.stub(api, "checkInModel");
+        });
+
+        it('Dispatches "MODEL_CHECKIN_SUCCESS" on success and refreshes student', () => {
+            checkInModel.returns(
+                new Promise(resolve => {
+                    resolve({
+                        modelAddress: '123',
+                        modelName: 'Resistor',
+                        quantity: 4
+                    });
+                })
+            );
+
+            let searchStudent = sinon.stub(api, "searchStudent");
+
+            searchStudent.returns(
+                new Promise(resolve => {
+                    resolve({
+                        id: 123456,
+                        name: 'John von Neumann',
+                        status: 'C - Current',
+                        email: 'neumannJ@msoe.edu',
+                        major: 'Software Engineering',
+                        items: [],
+                        models: []
+                    });
+                })
+            );
+
+            return StudentController.checkInModel(123456, '123', 4).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "MODEL_CHECKIN_SUCCESS");
+                assert.strictEqual(dispatcherSpy.getCall(2).args[0], "STUDENT_FOUND");
+                searchStudent.restore();
+            });
+        });
+
+        it('Dispatches ERROR when checkin fails', () => {
+            checkInModel.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+
+            return StudentController.checkInModel(123456, '123', 4).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, "Model checkin has failed");
+            });
+        });
+
+        afterEach(() => {
+            dispatcherSpy.restore();
+            checkInModel.restore();
+        });
+    });
+
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");

@@ -27,6 +27,7 @@ This document describes the Flux actions used in the Consus client.
     - [ITEM_FOUND](#item_found)
     - [MODELS_RECEIVED](#models_received)
     - [MODEL_CREATED](#model_created)
+    - [MODEL_CHECKIN_SUCCESS](#model_checkin_success)
     - [MODEL_FOUND](#model_found)
     - [NO_ITEM_FOUND](#no_item_found)
     - [NO_MODEL_FOUND](#no_model_found)
@@ -252,6 +253,15 @@ Dispatched when a new model was created.
 ### Data
 
 The newly created item object.
+
+
+## MODEL_CHECKIN_SUCCESS
+
+Dispatched a model is checked in.
+
+### Data
+
+The model address, name, and number checked in.
 
 
 ## MODEL_FOUND

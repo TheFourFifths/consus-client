@@ -25,4 +25,10 @@ export default class StudentPanelController{
         });
         return modelCounts;
     }
+
+    static throwNotANumberError() {
+        Dispatcher.handleAction("ERROR", {
+            error: "Input was not a number"
+        });
+    }
 }

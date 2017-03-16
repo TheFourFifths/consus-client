@@ -1,4 +1,5 @@
 import items from './items';
+import models from './models';
 
 export default [
     {
@@ -18,5 +19,14 @@ export default [
         major: 'Hyperdimensional Nautical Machines Engineering',
         items: [items[2]],
         models: []
+    },
+    {
+        id: 999999,
+        name: 'Testy McTesterson',
+        status: 'C - Current',
+        email: 'mctestersont@msoe.edu',
+        major: 'Engineering Engineering',
+        items: [],
+        models: [models[2], models[2], models[2], models[2], models[2], models[3]]
     }
 ]

@@ -6,6 +6,14 @@ import StudentPanelController from '../../controllers/components/student-panel';
 
 export default class StudentPanel extends ListenerComponent {
 
+    constructor() {
+        super();
+        this.state = {
+            checkinNum: 1,
+            models: ModelStore.getAllModels()
+        }
+    }
+
     componentWillMount(){
         StudentPanelController.getModels();
     }
@@ -20,6 +28,33 @@ export default class StudentPanel extends ListenerComponent {
         return {
             models: ModelStore.getAllModels()
         }
+    }
+
+    changeCheckinNum(maxCheckin, e) {
+        if(parseInt(e.target.value) < 1){
+            this.setState({
+                checkinNum: 1
+            });
+        } else if(parseInt(e.target.value) > maxCheckin) {
+            this.setState({
+                checkinNum: maxCheckin
+            });
+        } else {
+            this.setState({
+                checkinNum: e.target.value
+            });
+        }
+    }
+
+    checkInModel(studentId, modelAddress, quantity) {
+        if(isNaN(parseInt(quantity))){
+            StudentPanelController.throwNotANumberError();
+        } else {
+            this.props.checkInModel(studentId, modelAddress, quantity);
+        }
+        this.setState({
+            checkinNum: 1
+        });
     }
 
     renderEquipment() {
@@ -40,11 +75,13 @@ export default class StudentPanel extends ListenerComponent {
                 })}
 
                 {modelCounts.map((model, m) => {
-                    return (<Link to={`/model/${model.address}`} key={m} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderModelInfo(model)}
-                        </div>
-                    </Link>);
+                    return (
+                        <div className="item-info" key={m}>
+                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderModelInfo(model)}
+                            </Link>
+                            {this.renderCheckinButtons(model)}
+                        </div>);
                 })}
             </div>
         );
@@ -52,6 +89,16 @@ export default class StudentPanel extends ListenerComponent {
 
     renderModelInfo(model){
         return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
+    }
+
+    renderCheckinButtons(model){
+        return (
+            <div className='checkin-buttons'>
+                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
+                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
+                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+            </div>
+        );
     }
 
     renderItemInfo(item){
