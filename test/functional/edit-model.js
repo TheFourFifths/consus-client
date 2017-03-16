@@ -29,7 +29,7 @@ describe('Editing a model', function () {
     it('navigates to  model edit page', () => {
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model/all',
+            endpoint: 'model/all',
             response: {
                 status: 'success',
                 data: {
@@ -70,7 +70,7 @@ describe('Editing a model', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: { address: 'm8y7nEtAe' },
             response: {
                 status: 'success',
@@ -105,10 +105,27 @@ describe('Editing a model', function () {
         });
     });
 
+    it('prevents upload of large photos', () => {
+        let filepath = path.resolve(__dirname, '../../test/assets/img', '1399kB.jpeg');
+        return app.client.chooseFile('#photo input', filepath).then(() => {
+            return app.client.waitForVisible('.modal');
+        }).then(() => {
+            return app.client.getText('.modal-content p');
+        }).then(errMsg => {
+            assert.match(errMsg, /specified file is too large/);
+            assert.match(errMsg, /950 kB/);
+            return app.client.click('.modal-content button');
+        }).then(() => {
+            return app.client.getAttribute('.create-model-form form input[type=submit]', 'disabled');
+        }).then(isDisabled => {
+            assert.isOk(isDisabled, 'expected form submission button to be disabled due to oversize photo');
+        });
+    });
+
     it('edits a model', () => {
         mockServer.expect({
             method: 'patch',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: {
                 address: 'm8y7nEtAe'
             },
@@ -143,7 +160,7 @@ describe('Editing a model', function () {
         });
         mockServer.expect({
             method: 'get',
-            endpoint: '/api/model',
+            endpoint: 'model',
             qs: { address: 'm8y7nEtAe' },
             response: {
                 status: 'success',
@@ -192,8 +209,7 @@ describe('Editing a model', function () {
             assert.include(text, '10.5');
             return app.client.setValue('#price input', 3.14);
         }).then(() => {
-            let filepath = path.resolve(__dirname, '../assets/img', 'photo.jpeg');
-            filepath = 'test/assets/img/photo.jpeg';
+            let filepath = path.resolve(__dirname, '../../test/assets/img', 'photo.jpeg');
             return app.client.chooseFile('#photo input', filepath);
         }).then(() => {
             return app.client.submitForm('.create-model-form input[type=submit]');

@@ -4,15 +4,25 @@ import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
 import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
+import ErrorModal from './error-modal.jsx';
+
+const MAX_FILESIZE = 950000; /* bytes */
 
 export default class EditModelForm extends React.Component {
 
     constructor(props) {
         super(props);
-        if (props.model === undefined)
-            this.state = {model: null};
-        else
+        if (props.model === undefined) {
             this.state = {
+                fileOversize: false,
+                showFileSizeModal: false,
+                model: null
+            };
+        } else {
+            this.state = {
+                fileOversize: false,
+                showFileSizeModal: false,
+
                 model: props.model,
                 name: props.model.name,
                 description: props.model.description,
@@ -25,6 +35,7 @@ export default class EditModelForm extends React.Component {
                 photo: props.model.photo,
                 popConfirmModal: false
             };
+        }
     }
 
     componentDidMount(){
@@ -101,6 +112,19 @@ export default class EditModelForm extends React.Component {
     }
 
     changePhoto(e) {
+        let file = e.target.files[0];
+        if (file.size > MAX_FILESIZE) {
+            this.setState({
+                showFileSizeModal: true,
+                fileOversize: true
+            });
+            return;
+        } else {
+            this.setState({
+                showFileSizeModal: false,
+                fileOversize: false
+            });
+        }
         let img = document.getElementById('thumbnail-preview');
         let reader = new FileReader();
         reader.onload = ((anImgTag) => {
@@ -112,7 +136,11 @@ export default class EditModelForm extends React.Component {
                 anImgTag.src = e.target.result;
             };
         })(img);
-        reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(file);
+    }
+
+    closeFileSizeModal() {
+        this.setState({ showFileSizeModal: false });
     }
 
     submit(e) {
@@ -155,6 +183,11 @@ export default class EditModelForm extends React.Component {
                     active = {this.state.popConfirmModal}
                     onSelect = {bool => this.handleConfirmModal(bool)}
                 />
+                <ErrorModal
+                    active={this.state.showFileSizeModal}
+                    onClose={this.closeFileSizeModal.bind(this)}
+                    message={`The specified file is too large; it must be below ${MAX_FILESIZE / 1000} kB.`}
+                />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
@@ -196,7 +229,7 @@ export default class EditModelForm extends React.Component {
                         <br/>
                     </label>
 
-                    <input type='submit' value='Update Model' />
+                    <input type='submit' value='Update Model' disabled={this.state.fileOversize}/>
                 </form>
             </div>
         );
