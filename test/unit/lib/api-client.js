@@ -11,10 +11,12 @@ import {
     deleteItem,
     getAllItems,
     getAllModels,
+    getAllStudents,
     getOverdueItems,
     searchItem,
     searchModel,
     searchStudent,
+    updateStudent,
     updateModel,
     deleteModel,
     uploadStudents
@@ -244,6 +246,53 @@ describe('API Client', () => {
         });
     });
 
+    it('getAllStudents', () => {
+        let response = {
+            "status":"success",
+            "data":[
+                {
+                    "id":111111,
+                    "name":"Boaty McBoatface",
+                    "status":"C - Current",
+                    "email":"mcboatfaceb@msoe.edu",
+                    "major":"Hyperdimensional Nautical Machines Engineering",
+                    "items":[
+                        {
+                            "address":"iGwEZVeaT",
+                            "modelAddress":"m8y7nFLsT",
+                            "status":"CHECKED_OUT",
+                            "isFaulty":false,
+                            "faultDescription":"",
+                            "timestamp":0,
+                            "student":{
+                                "name":"Boaty McBoatface",
+                                "id":111111
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id":123456,
+                    "name":"John von Neumann",
+                    "status":"C - Current",
+                    "email":"neumannJ@msoe.edu",
+                    "major":"Software Engineering",
+                    "items":[]
+                }
+            ]
+        };
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'student/all',
+            qs: {},
+            response
+        });
+        return getAllStudents().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('getOverdueItems', () => {
         let response = {
             status: 'success',
@@ -449,4 +498,32 @@ describe('API Client', () => {
         });
     });
 
+    it('updateStudent', () => {
+        let response = {
+            status: 'success',
+            data: {
+                student: {
+                    id: 123456,
+                    name: 'John von Neumann',
+                    items: []
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student',
+            qs: {
+                id: '123456'
+            },
+            json: {
+                id: 123456,
+                name: 'This dude'
+            },
+            response
+        });
+        return updateStudent({id:123456, name:"This dude"}).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
 });
