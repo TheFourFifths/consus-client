@@ -1,5 +1,8 @@
 import React from 'react';
+import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
+import ModelController from '../../controllers/pages/model';
+import { Link } from 'react-router';
 import ConfirmModal from './confirm-modal.jsx';
 
 export default class Omnibar extends React.Component {
@@ -14,8 +17,9 @@ export default class Omnibar extends React.Component {
 
     changeQuery(e) {
         let regex = new RegExp("^[a-zA-Z0-9]*$");
+        let regexOnlyNums = new RegExp("^[0-9]*$");
         if(regex.test(e.target.value)) {
-            if (e.target.value.length === 6) {
+            if (e.target.value.length === 6 && regexOnlyNums.test(e.target.value)) {
                 this.setState({
                     query: ''
                 });
@@ -25,9 +29,21 @@ export default class Omnibar extends React.Component {
                     OmnibarController.getStudent(e.target.value);
                 }
             } else {
-                this.setState({
-                    query: e.target.value
-                });
+                try {
+                    let result = readAddress(e.target.value);
+                    this.setState({
+                        query: ''
+                    });
+                    if(result.type === 'model') {
+                        ModelController.getModelAndItems(e.target.value);
+                    } else if (result.type === 'item') {
+                        OmnibarController.displayItem(e.target.value);
+                    }
+                } catch (f) {
+                    this.setState({
+                        query: e.target.value
+                    });
+                }
             }
         }else{
             OmnibarController.throwInvalidCharacterError();

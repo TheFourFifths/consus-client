@@ -9,7 +9,7 @@ export default [
     },
     {
         address: 'iGwEZVHHE',
-        modelAddress: 'm8y7nFLsT',
+        modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
         faultDescription: ''

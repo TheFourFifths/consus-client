@@ -11,6 +11,7 @@ import {
     deleteItem,
     getAllItems,
     getAllModels,
+    getModelAndItems,
     getAllStudents,
     getOverdueItems,
     searchItem,
@@ -246,6 +247,43 @@ describe('API Client', () => {
         });
     });
 
+    it('getModelAndItems', () => {
+        let response = {
+            status: 'success',
+            data: {
+                model: {
+                    address: "m8y7nEtAe",
+                    name: "Resistor",
+                    description: "V = IR",
+                    manufacturer: "Pancakes R Us",
+                    vendor: "Mouzer",
+                    location: "Shelf 14",
+                    isFaulty: false,
+                    faultDescription: "",
+                    price: 10.50,
+                    count: 20
+                },
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }]
+            }
+        }
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/children',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return getModelAndItems('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+  
     it('getAllStudents', () => {
         let response = {
             "status":"success",
