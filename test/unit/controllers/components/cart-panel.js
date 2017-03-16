@@ -3,7 +3,7 @@ import { assert } from "chai";
 import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
-
+import items from '../../../test-cases/items'
 describe("CartController", () => {
 
     describe('checkInItem',()=> {
@@ -231,6 +231,62 @@ describe("CartController", () => {
 
         after(() => {
             spy.restore();
+            Dispatcher.handleAction("CLEAR_ERROR");
+        });
+    });
+
+    describe("turnInLostEquipment", () => {
+        let dispatcherSpy, searchItem, checkin;
+
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            searchItem = sinon.stub(api, "searchItem");
+            checkin = sinon.stub(api, "checkIn");
+        });
+
+        it("Should checkin an item", () => {
+            searchItem.returns(
+                new Promise(resolve => {
+                    resolve({
+                        address: items[0].address,
+                        isCheckedOutTo: 111111
+                    });
+                })
+            );
+            checkin.returns(
+                new Promise(resolve => {
+                    resolve({
+                        itemAddress: '123456',
+                        modelName: 'WhatName'
+                    });
+                })
+            );
+            return CartController.turnInLostEquipment(items[0].address).then(() => {
+                assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+                assert.isTrue(searchItem.called, 'searchItem not called');
+                assert.isTrue(checkin.called, 'checkin not called');
+            });
+        });
+
+        it("Should notice an item is not checked out and doesn't call checkin", () => {
+            searchItem.returns(
+                new Promise(resolve => {
+                    resolve({
+                        address: items[0].address,
+                        isCheckedOutTo: null
+                    });
+                })
+            );
+            return CartController.turnInLostEquipment(items[0].address).then(() => {
+                assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+                assert.isTrue(searchItem.called, 'searchItem not called');
+                assert.isFalse(checkin.called, 'checkin was called');
+            });
+        });
+        afterEach(() => {
+            dispatcherSpy.restore();
+            searchItem.restore();
+            checkin.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });

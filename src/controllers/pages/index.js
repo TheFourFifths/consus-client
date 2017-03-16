@@ -24,4 +24,11 @@ export default class IndexController {
             hashHistory.push('/overdue');
         });
     }
+
+    static getStudents(){
+        return getAllModels().then(models => {
+            Dispatcher.handleAction("MODELS_RECEIVED", models);
+            hashHistory.push('/students');
+        });
+    }
 }

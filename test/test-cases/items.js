@@ -4,11 +4,12 @@ export default [
         modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: ''
+        faultDescription: '',
+        isCheckedOutTo: 111111
     },
     {
         address: 'iGwEZVHHE',
-        modelAddress: 'm8y7nFLsT',
+        modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
         faultDescription: ''

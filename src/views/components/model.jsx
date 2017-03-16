@@ -7,7 +7,6 @@ import ConfirmModal from '../components/confirm-modal.jsx';
 
 export default class Model extends React.Component {
 
-
     constructor(props){
         super(props);
         if (props.model === undefined)

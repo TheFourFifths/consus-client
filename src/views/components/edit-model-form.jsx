@@ -2,6 +2,8 @@ import React from 'react';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
+import ConfirmModal from './confirm-modal.jsx';
+import OmnibarController from '../../controllers/components/omnibar';
 
 export default class EditModelForm extends React.Component {
 
@@ -22,7 +24,8 @@ export default class EditModelForm extends React.Component {
                 count: props.model.count,
                 changeStock: false,
                 inStock: props.model.inStock,
-                checked: false
+                checked: false,
+                popConfirmModal: false
             };
     }
     componentDidMount(){
@@ -45,7 +48,13 @@ export default class EditModelForm extends React.Component {
                 });
             });
         }
+        OmnibarController.setWarnBeforeExiting(true);
     }
+
+    componentWillUnmount(){
+        OmnibarController.setWarnBeforeExiting(false);
+    }
+
     changeName(e) {
         this.setState({
             name: e.target.value
@@ -80,20 +89,14 @@ export default class EditModelForm extends React.Component {
             price: e.target.value
         });
     }
-    changeCount(e){
+    changeIsFaulty(e){
         this.setState({
-            count: e.target.value
+            isFaulty: e.target.value
         });
     }
-    changeStock(e){
+    changeFaultDescription(e) {
         this.setState({
-            changeStock: !this.state.checked,
-            checked: !this.state.checked
-        });
-    }
-    changeInStock(e){
-        this.setState({
-            inStock: e.target.value
+            faultDescription: e.target.value
         });
     }
     submit(e) {
@@ -105,11 +108,9 @@ export default class EditModelForm extends React.Component {
             this.state.manufacturer,
             this.state.vendor,
             this.state.location,
-            this.state.allowCheckout,
+            this.state.isFaulty,
+            this.state.faultDescription,
             this.state.price,
-            this.state.count,
-            this.state.changeStock,
-            this.state.inStock
         );
     }
 
@@ -137,10 +138,9 @@ export default class EditModelForm extends React.Component {
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
                     Price per unit:<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)}/></span>}<br/>
-                    {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
-                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
-                    {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
+                    Faulty? <input type="checkbox" value={this.state.isFaulty} onChange={this.changeIsFaulty.bind(this)} /><br/>
+                    Fault Description:<br/>
+                    <textarea rows="4" cols="50"  value={this.state.faultDescription} onChange={this.changeFaultDescription.bind(this)} placeholder='Description' /><br/><br/>
                     <input type='submit' value='Update Model' />
                 </form>
             </div>

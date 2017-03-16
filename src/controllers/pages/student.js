@@ -8,7 +8,7 @@ export default class StudentController{
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
     }
 
-    static cancelAdminModal(){
+    static cancelAdminModal() {
         Dispatcher.handleAction("CLEAR_ADMIN_WINDOW");
     }
 
@@ -37,7 +37,7 @@ export default class StudentController{
         }).catch(error => {
             if (error === 'Student has overdue item') {
                 Dispatcher.handleAction('OVERRIDE_REQUIRED');
-            } else if(error === 'Invalid Admin') {
+            } else if (error === 'Invalid Admin') {
                 Dispatcher.handleAction('CLEAR_ADMIN_CODE');
             } else {
                 Dispatcher.handleAction('ERROR', {

@@ -44,6 +44,43 @@ describe("IndexController", () => {
         });
     });
 
+    describe("getStudents", () => {
+        let getAllModels, dispatcherSpy, spy;
+        before(() => {
+            router.hashHistory = {};
+            spy = router.hashHistory.push = sinon.spy();
+
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+
+            getAllModels = sinon.stub(api, "getAllModels");
+        });
+
+
+        it('Dispatches "MODELS_RECIEVED" and pushes "/models" to the hashHistory when models are received',() => {
+            getAllModels.returns(
+                new Promise(resolve => {
+                    resolve({models:[]});
+                })
+            );
+
+            return IndexController.getStudents().then(() => {
+                assert.isTrue(spy.called);
+                assert.strictEqual(spy.getCall(0).args.length, 1);
+                assert.strictEqual(spy.getCall(0).args[0], "/students");
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODELS_RECEIVED");
+            });
+        });
+
+
+
+        after(() => {
+            dispatcherSpy.restore();
+            getAllModels.restore();
+        });
+    });
+
     describe("getModels", () => {
         let getAllModels, dispatcherSpy, spy;
         before(() => {
