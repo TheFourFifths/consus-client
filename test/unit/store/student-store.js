@@ -23,6 +23,59 @@ describe('StudentStore', () => {
         assert.strictEqual(student.name,'Poe');
     });
 
+    it('should get student by Id', () => {
+        Dispatcher.handleAction('STUDENT_FOUND',{
+            id: 432345,
+            name: 'Poe',
+            items: []
+        });
+        let student = StudentStore.getStudentById(432345);
+        assert.strictEqual(student.id, 432345);
+        assert.strictEqual(student.name,'Poe');
+    });
+
+    it('should get all students', () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                id: 432432,
+                name: "Sporf Bigby",
+                items: []
+            },
+            {
+                id:654321,
+                name: "Bruce Glasgow",
+                items: []
+            }
+        ]);
+        let students = StudentStore.getAllStudents();
+        assert.lengthOf(Object.keys(students), 2);
+        assert.isDefined(students[432432]);
+        assert.isDefined(students[654321]);
+    });
+
+    it('should know if students have overdue items', () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                id: 432432,
+                name: "Sporf Bigby",
+                items: [{
+                    timestamp : 0
+                }]
+            },
+            {
+                id:654321,
+                name: "Bruce Glasgow",
+                items: []
+            }
+        ]);
+        let students = StudentStore.getAllStudents();
+        assert.lengthOf(Object.keys(students), 2);
+        assert.isDefined(students[432432]);
+        assert.isDefined(students[654321]);
+        assert.isTrue(students[432432].hasOverdueItem);
+        assert.isFalse(students[654321].hasOverdueItem);
+    });
+
     it('should handle a student not being found', () => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
         assert.strictEqual(StudentStore.getStudent(), null);
@@ -97,6 +150,23 @@ describe('StudentStore', () => {
 
         assert.strictEqual(student.items.length, 1);
         assert.isFalse(student.hasOverdueItem);
+    });
+
+    it("Should update the student", () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                "id":111111,
+                "name":"Boaty McBoatface",
+                "status":"C - Current",
+                "email":"mcboatfaceb@msoe.edu",
+                "major":"Hyperdimensional Nautical Machines Engineering",
+                "items":[]
+            }
+        ]);
+
+        assert.lengthOf(Object.keys(StudentStore.getAllStudents()), 1);
+        Dispatcher.handleAction("STUDENT_UPDATED", {id: 111111, name:"Sporf McDougal"})
+        assert.strictEqual(StudentStore.getStudentById(111111).name, "Sporf McDougal");
     });
 
 });
