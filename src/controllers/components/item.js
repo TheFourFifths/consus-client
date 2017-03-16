@@ -15,10 +15,11 @@ export default class ItemController {
     }
 
     static getItem(address) {
-        return searchItem(address).then( item => {
+        return searchItem(address).then(item => {
             Dispatcher.handleAction("ITEM_FOUND", item);
-        }).catch( () => {
+        }).catch(() => {
             Dispatcher.handleAction("NO_ITEM_FOUND");
         });
     }
+
 }
