@@ -47,7 +47,7 @@ describe('Edit model leave confirmation', function () {
                 status: "success",
                 data: models[0]
             }
-        })
+        });
         return app.client.click('#view-models').then(() => {
             return app.client.waitForVisible('#models', 5000);
         }).then(() => {

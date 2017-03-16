@@ -117,7 +117,7 @@ export default class EditModelForm extends React.Component {
             checked: !this.state.checked
         });
     }
-  
+
     changeInStock(e){
         this.setState({
             inStock: e.target.value
@@ -206,18 +206,30 @@ export default class EditModelForm extends React.Component {
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
-                    Name:<br/>
-                    <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
-                    Description:<br/>
-                    <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
-                    Manufacturer:<br/>
-                    <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
-                    Vendor:<br/>
-                    <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
-                    Storage location:<br/>
-                    <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
-                    Price per unit:<br/>
-                    <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    <label id="name">
+                        Name:<br/>
+                        <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
+                    </label>
+                    <label id="description">
+                        Description:<br/>
+                        <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
+                    </label>
+                    <label id="manufacturer">
+                        Manufacturer:<br/>
+                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+                    </label>
+                    <label id="vendor">
+                        Vendor:<br/>
+                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+                    </label>
+                    <label id="location">
+                        Storage location:<br/>
+                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+                    </label>
+                    <label id="price">
+                        Price per unit:<br/>
+                        <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    </label>
                     {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)}/></span>}<br/>
                     {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
                     {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
