@@ -6,7 +6,36 @@ import { Dispatcher } from 'consus-core/flux';
 import OmnibarController from '../../../../.dist/controllers/components/omnibar';
 
 describe("OmnibarController", () => {
-    describe("getOmnibar",() => {
+
+    describe('setWarnBeforeExiting/getWarning', () => {
+        it("Initializes warning to false", () => {
+            assert.isFalse(OmnibarController.getWarning());
+        });
+
+        it("Can set the warning", () => {
+            OmnibarController.setWarnBeforeExiting(true);
+            assert.isTrue(OmnibarController.getWarning());
+            OmnibarController.setWarnBeforeExiting(false);
+            assert.isFalse(OmnibarController.getWarning());
+        });
+    });
+
+    describe('leavePage', () => {
+        let hashHistorySpy;
+        beforeEach(() => {
+            router.hashHistory = {};
+            hashHistorySpy = router.hashHistory.push = sinon.spy();
+        });
+
+        it('pushes "/" to hashHistory', () => {
+            OmnibarController.leavePage('/');
+            assert.isTrue(hashHistorySpy.called);
+            assert.lengthOf(hashHistorySpy.getCall(0).args, 1);
+            assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/");
+        });
+    })
+
+    describe("getStudent",() => {
         let hashHistorySpy, dispatcherSpy, searchStudent;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
