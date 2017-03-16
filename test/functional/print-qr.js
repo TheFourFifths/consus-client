@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import items from '../test-cases/items';
 import models from '../test-cases/models';
 
-describe.only('Printing QR codes', function () {
+describe('Printing QR codes', function () {
 
     this.timeout(10000);
     let app;

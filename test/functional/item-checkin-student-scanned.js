@@ -89,7 +89,7 @@ describe('Checking an item out when new student scanned', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                itemAddresses: ['iGwEZUvfA']
+                equipmentAddresses: ['iGwEZUvfA']
             },
             response: {
                 status: 'success'
