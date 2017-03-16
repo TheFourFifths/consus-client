@@ -15,7 +15,6 @@ export default class CreateModelForm extends React.Component {
             price: 0.0,
             count: 0,
             checked: false
-        }
     }
 
     changeName(e) {
@@ -87,7 +86,7 @@ export default class CreateModelForm extends React.Component {
 
     render() {
         return (
-            <div className='create-model-form'>
+            <div className='model-form'>
                 <h1>Create a Model</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>

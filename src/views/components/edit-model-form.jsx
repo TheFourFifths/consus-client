@@ -4,15 +4,25 @@ import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
 import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
+import ErrorModal from './error-modal.jsx';
+
+const MAX_FILESIZE = 950000; /* bytes */
 
 export default class EditModelForm extends React.Component {
 
     constructor(props) {
         super(props);
-        if (props.model === undefined)
-            this.state = {model: null};
-        else
+        if (props.model === undefined) {
             this.state = {
+                fileOversize: false,
+                showFileSizeModal: false,
+                model: null
+            };
+        } else {
+            this.state = {
+                fileOversize: false,
+                showFileSizeModal: false,
+
                 model: props.model,
                 name: props.model.name,
                 description: props.model.description,
@@ -25,9 +35,12 @@ export default class EditModelForm extends React.Component {
                 changeStock: false,
                 inStock: props.model.inStock,
                 checked: false,
+                photo: props.model.photo,
                 popConfirmModal: false
             };
+        }
     }
+
     componentDidMount(){
         if(this.state.model === null) {
             ModelController.getModel(this.props.params.address).then(() => {
@@ -44,7 +57,8 @@ export default class EditModelForm extends React.Component {
                     count: model.count,
                     changeStock: false,
                     inStock: model.inStock,
-                    checked: false
+                    checked: false,
+                    photo: model.photo
                 });
             });
         }
@@ -60,6 +74,7 @@ export default class EditModelForm extends React.Component {
             name: e.target.value
         });
     }
+
     changeDescription(e) {
         this.setState({
             description: e.target.value
@@ -89,22 +104,58 @@ export default class EditModelForm extends React.Component {
             price: e.target.value
         });
     }
+
     changeCount(e){
         this.setState({
             count: e.target.value
         });
     }
+
     changeStock(e){
         this.setState({
             changeStock: !this.state.checked,
             checked: !this.state.checked
         });
     }
+  
     changeInStock(e){
         this.setState({
             inStock: e.target.value
         });
     }
+
+    changePhoto(e) {
+        let file = e.target.files[0];
+        if (file.size > MAX_FILESIZE) {
+            this.setState({
+                showFileSizeModal: true,
+                fileOversize: true
+            });
+            return;
+        } else {
+            this.setState({
+                showFileSizeModal: false,
+                fileOversize: false
+            });
+        }
+        let img = document.getElementById('thumbnail-preview');
+        let reader = new FileReader();
+        reader.onload = ((anImgTag) => {
+            return (e) => {
+                let b64StartIdx = e.target.result.indexOf('base64,') + 'base64,'.length;
+                this.setState({
+                    photo: e.target.result.substring(b64StartIdx)
+                });
+                anImgTag.src = e.target.result;
+            };
+        })(img);
+        reader.readAsDataURL(file);
+    }
+
+    closeFileSizeModal() {
+        this.setState({ showFileSizeModal: false });
+    }
+
     submit(e) {
         e.preventDefault();
         ModelFormController.updateModel(
@@ -118,7 +169,8 @@ export default class EditModelForm extends React.Component {
             this.state.price,
             this.state.count,
             this.state.changeStock,
-            this.state.inStock
+            this.state.inStock,
+            this.state.photo
         );
     }
 
@@ -146,6 +198,11 @@ export default class EditModelForm extends React.Component {
                     active = {this.state.popConfirmModal}
                     onSelect = {bool => this.handleConfirmModal(bool)}
                 />
+                <ErrorModal
+                    active={this.state.showFileSizeModal}
+                    onClose={this.closeFileSizeModal.bind(this)}
+                    message={`The specified file is too large; it must be below ${MAX_FILESIZE / 1000} kB.`}
+                />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
@@ -166,6 +223,14 @@ export default class EditModelForm extends React.Component {
                     {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
                     {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
                     <input type='submit' value='Update Model' />
+                    <label id="photo">
+                        Model photo thumbnail:<br/>
+                        <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
+                        <br/>
+                        <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
+                        <br/>
+                    </label>
+                    <input type='submit' value='Update Model' disabled={this.state.fileOversize}/>
                 </form>
             </div>
         );
