@@ -4,7 +4,22 @@ import {hashHistory} from 'react-router';
 import CartStore from '../../store/cart-store';
 import StudentController from '../pages/student';
 import StudentStore from '../../store/student-store';
+
+let warnBeforeExiting = false;
+
 export default class OmnibarController {
+
+    static setWarnBeforeExiting(bool) {
+        warnBeforeExiting = bool;
+    }
+
+    static getWarning() {
+        return warnBeforeExiting;
+    }
+
+    static leavePage(route) {
+        hashHistory.push(route);
+    }
 
     static getStudent(id) {
         if (typeof id === 'string') {
@@ -44,14 +59,9 @@ export default class OmnibarController {
         });
     }
 
-    static navigateToIndex() {
-        if (CartStore.getItems().length === 0) {
-            hashHistory.push('/');
-        } else {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getItems().map(item => item.address)
-            ).then(() => {
-                hashHistory.push('/');
-            });
+    static emptyCart() {
+        if (CartStore.getItems().length !== 0) {
+            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getItems().map(item => item.address));
         }
     }
 }
