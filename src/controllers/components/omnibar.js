@@ -78,7 +78,13 @@ export default class OmnibarController {
 
     static emptyCart() {
         if (CartStore.getContents().length !== 0) {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
+            if(CartStore.getIsLongterm()){
+                StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                    CartStore.getProfessor());
+            }else{
+                return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
+            }
+
         }
     }
 }

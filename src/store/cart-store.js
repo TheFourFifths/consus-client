@@ -3,7 +3,9 @@ import StudentStore from './student-store';
 import { checkOutContents } from '../lib/api-client';
 
 let contents = [];
-
+let isLongterm = false;
+let professor = null;
+let dueDate = null;
 let timer = null;
 
 function startTimer(period) {
@@ -25,6 +27,15 @@ class CartStore extends Store {
 
     isOnTimeout(){
         return timer !== null;
+    }
+    getIsLongterm(){
+        return isLongterm;
+    }
+    getProfessor(){
+        return professor;
+    }
+    getDueDate(){
+        return dueDate;
     }
 }
 
@@ -87,14 +98,31 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     contents = [];
     store.emitChange();
 });
-
+store.registerHandler('EDIT_IS_LONGTERM', data => {
+    isLongterm = data.isLongterm;
+    store.emitChange();
+});
+store.registerHandler('EDIT_LONGTERM_DUEDATE', data => {
+    dueDate = data.dueDate;
+    store.emitChange();
+});
+store.registerHandler('EDIT_LONGTERM_PROFESSOR', data => {
+    professor = data.professor;
+    store.emitChange();
+});
 store.registerHandler('CLEAR_ALL_DATA', () => {
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
     store.emitChange();
 });
 
 store.registerHandler('CLEAR_CART_CONTENTS', () => {
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
     store.emitChange();
 });
 
