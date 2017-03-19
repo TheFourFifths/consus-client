@@ -6,7 +6,7 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = bytesToBase64Size(950000); /* bytes */
+const MAX_FILESIZE = bytesToBase64Size(1000000); /* bytes */
 
 /**
  * Converts the number of bytes of binary data into its approximate number of
@@ -202,12 +202,12 @@ export default class EditModelForm extends React.Component {
     }
 
     handleConfirmModal(bool){
-        if(bool){
+        if (bool) {
             ModelFormController.getModels();
-        }else{
+        } else {
             this.setState({popConfirmModal: false});
         }
-      }
+    }
 
     render() {
         if (this.state.model === null)
@@ -255,7 +255,6 @@ export default class EditModelForm extends React.Component {
                     {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
                     {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
                     {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
-                    <input type='submit' value='Update Model' />
                     <label id="photo">
                         Model photo thumbnail:<br/>
                         <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
