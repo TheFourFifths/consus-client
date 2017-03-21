@@ -17,6 +17,9 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_CART_CONTENTS](#clear_cart_contents)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
+    - [EDIT_LONGTERM_DUEDATE](#edit_longterm_duedate)
+    - [EDIT_LONGTERM_PROFESSOR](#edit_longterm_professor)
+    - [EDIT_IS_LONGTERM](#edit_is_longterm)
     - [ERROR](#error)
     - [FILE_UNSUPPORTED](#file_unsupported)
     - [INFO](#info)
@@ -136,6 +139,52 @@ Dispatched when a toast should be displayed. Currently, the created toast is add
 {
     "text": "I really wish there was a toast emoji (in addiiton to bread)",
     "timeout": 10000
+}
+```
+
+## EDIT_LONGTERM_DUEDATE
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See CHECKOUT_ITEM_FOUND.
+
+### Data
+
+- `dueDate`: a date object
+
+```json
+{
+    "dueDate": new Date()
+}
+```
+
+## EDIT_LONGTERM_PROFESSOR
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See CHECKOUT_ITEM_FOUND.
+
+### Data
+
+- `professor `: a string representation of the professors name for longterm checkout
+
+```json
+{
+    "professor": 'Professor wiffle'
+}
+```
+```
+
+## EDIT_IS_LONGTERM
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See CHECKOUT_ITEM_FOUND.
+
+### Data
+
+- `isLongterm `: a true/false indicating if the current checkout is set for longterm.
+
+```json
+{
+    "isLongterm": true
 }
 ```
 

@@ -96,6 +96,9 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     clearTimer();
     store.waitFor(StudentStore);
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
     store.emitChange();
 });
 store.registerHandler('EDIT_IS_LONGTERM', data => {

@@ -291,4 +291,35 @@ describe("CartController", () => {
         });
     });
 
+    describe("editors", () => {
+        let dispatcherSpy, checkin;
+
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, 'handleAction');
+        });
+
+        it("Should checkin an item", () => {
+            CartController.changeIsLongterm(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_IS_LONGTERM');
+        });
+        it("Should checkin an item", () => {
+            CartController.changeLongtermDate(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_LONGTERM_DUEDATE');
+        });
+        it("Should checkin an item", () => {
+            CartController.changeLongtermProfessor(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_LONGTERM_PROFESSOR');
+        });
+        afterEach(() => {
+            dispatcherSpy.restore();
+        });
+    });
+
+
 });

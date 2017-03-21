@@ -69,13 +69,6 @@ export default class StudentController{
     }
 
     static longtermCheckout(id, equipment, dueDate, professor){
-        let logger = {
-            id,
-            equipment,
-            dueDate,
-            professor
-        };
-        console.log(logger);
 
         if(this.isValidLongtermData(dueDate, professor)){
             let equipmentAddresses = this.pushEquipment(equipment);
@@ -98,13 +91,13 @@ export default class StudentController{
         }
     }
     static isValidLongtermData(dueDate, professor){
-        if(dueDate === undefined){
+        if(dueDate === undefined || dueDate === null){
             Dispatcher.handleAction('ERROR', {
                 error: 'Please enter a due date.'
             });
             return false;
         }
-        if(professor === undefined){
+        if(professor === undefined || professor === null){
             Dispatcher.handleAction('ERROR', {
                 error: 'Please enter a professor name.'
             });

@@ -37,7 +37,7 @@ export default class Student extends ListenerComponent {
 
     checkOut() {
         if (CartStore.getContents().length > 0) {
-            if (cartPanel.state.isLongterm) {
+            if (CartStore.getIsLongterm()) {
                 StudentController.longtermCheckout(this.state.student.id, this.state.equipment,
                     CartStore.getDueDate(), CartStore.getProfessor());
             } else {
@@ -50,14 +50,17 @@ export default class Student extends ListenerComponent {
     checkInModel(studentId, modelAddress, quantity) {
         StudentController.checkInModel(studentId, modelAddress, quantity);
     }
-    cancelCheckout(){
+
+    cancelCheckout() {
         StudentController.cancelCheckout();
     }
+
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} checkInModel={this.checkInModel.bind(this)}/>
-                <CartPanel equipment={this.state.equipment} cancel={this.cancelCheckout.bind(this)} submit={this.checkOut.bind(this)} student={this.state.student}/>
+                <CartPanel equipment={this.state.equipment} cancel={this.cancelCheckout.bind(this)}
+                           submit={this.checkOut.bind(this)} student={this.state.student}/>
                 <div className='clear'></div>
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'
