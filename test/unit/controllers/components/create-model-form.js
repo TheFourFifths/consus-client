@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import * as router from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
-import ModelFormController from '../../../../.dist/controllers/components/create-model-form'
+import ModelFormController from '../../../../.dist/controllers/components/create-model-form';
 
 describe('ModelFormController', () => {
     describe("createModel", () => {
@@ -37,15 +37,15 @@ describe('ModelFormController', () => {
 
         it('Should dispatch "ERROR" if create model fails', () => {
             createModel.returns(
-                new Promise((resolve,reject) => {
+                new Promise((resolve, reject) => {
                     reject('Bad things happened');
                 })
             );
             return ModelFormController.createModel('OIUIO').then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'ERROR');
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to create the model. Is the server down?');
-            })
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'Bad things happened');
+            });
         });
 
         afterEach(() => {
@@ -89,12 +89,11 @@ describe('ModelFormController', () => {
     });
 
     describe("updateModel",() => {
-        let dispatcherSpy, updateModel;
+        let dispatcherSpy, updateModel, fileReaderSpy;
 
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             updateModel = sinon.stub(api, "updateModel");
-
         });
 
         it('Dispatches "MODEL_UPDATED" when done',()=>{
@@ -113,15 +112,16 @@ describe('ModelFormController', () => {
         it('Should dispatch "ERROR" if update model fails', () => {
             updateModel.returns(
                 new Promise((resolve, reject) => {
-                    reject("NO");
+                    reject("The server was not able to update the model. Is the server down?");
                 })
             );
             return ModelFormController.updateModel().then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
                 assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, 'The server was not able to update the model. Is the server down?');
-            })
+            });
         });
+
         afterEach(() => {
             dispatcherSpy.restore();
             updateModel.restore();

@@ -13,15 +13,19 @@ html, body
     clear: both
 
 textarea
-    resize: none;
-    overflow: scroll;
+    resize: none
+    overflow: scroll
 
 .center
     text-align: center
 
 .link-nostyle
-    color: inherit;
-    text-decoration: none;
+    color: inherit
+    text-decoration: none
+
+@media print
+    .no-print
+        display: none !important
 
 @import 'student.styl'
 @import 'omnibar.styl'
@@ -33,3 +37,5 @@ textarea
 @import 'items.styl'
 @import 'toasts.styl'
 @import 'overdue-items.styl'
+@import 'students.styl'
+@import 'printer.styl'

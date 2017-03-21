@@ -16,7 +16,7 @@ export function changePort(port) {
     PORT = port;
 }
 
-function call(endpoint, method, qs, json) {
+export function call(endpoint, method, qs, json) {
     let options = {
         uri: `${PROTOCOL}://${HOST}:${PORT}/api/${endpoint}`,
         method
@@ -29,6 +29,9 @@ function call(endpoint, method, qs, json) {
     }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            if (response.statusCode !== 200) {
+                return reject(body);
+            }
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
@@ -58,11 +61,6 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
-export function deleteModel(modelAddress) {
-    return del('model', { modelAddress });
-}
-
-
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -70,10 +68,18 @@ export function checkIn(studentId, itemAddress){
     });
 }
 
-export function checkOutItems(studentId, itemAddresses, code){
+export function checkInModel(studentId, modelAddress, quantity){
+    return post('checkin/model', {
+        studentId,
+        modelAddress,
+        quantity
+    });
+}
+
+export function checkOutContents(studentId, equipmentAddresses, code){
     let params = {
         studentId,
-        itemAddresses
+        equipmentAddresses
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;
@@ -85,15 +91,14 @@ export function createItem(modelAddress){
     return post('item', { modelAddress });
 }
 
-export function createModel(name, description, manufacturer, vendor, location, isFaulty, faultDescription, price, count) {
+export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
     return post('model', {
         name,
         description,
         manufacturer,
         vendor,
         location,
-        isFaulty,
-        faultDescription,
+        allowCheckout,
         price,
         count
     });
@@ -106,12 +111,26 @@ export function deleteItem(item){
     });
 }
 
+export function deleteModel(modelAddress) {
+    return del('model', { modelAddress });
+}
+
 export function getAllItems() {
     return get('item/all');
 }
 
 export function getAllModels() {
     return get('model/all');
+}
+
+export function getModelAndItems(address) {
+    return get('model/children', {
+        modelAddress: address
+    });
+}
+
+export function getAllStudents() {
+    return get('student/all');
 }
 
 export function getOverdueItems() {
@@ -136,19 +155,26 @@ export function searchStudent(id) {
     });
 }
 
-export function updateModel(address, name, description, manufacturer, vendor, location, isFaulty, faultDescription, price) {
+
+export function updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock, base64Photo) {
     return patch('model', { address }, {
         name: name,
         description: description,
         manufacturer: manufacturer,
         vendor: vendor,
         location: location,
-        isFaulty: isFaulty,
-        faultDescription: faultDescription,
-        price: price
+        allowCheckout: allowCheckout,
+        price: price,
+        count: count,
+        changeStock: changeStock,
+        inStock: inStock,
+        photo: base64Photo
     });
 }
 
+export function updateStudent(student){
+    return patch('student', {id: student.id}, student);
+}
 
 export function uploadStudents(data){
     return post('student', {

@@ -3,19 +3,23 @@ import { Dispatcher } from 'consus-core/flux';
 
 export default class ItemController {
 
-    static deleteItem(address){
-        return deleteItem(address).then(items => {
-            Dispatcher.handleAction('ITEMS_RECEIVED', items);
+    static deleteItem(item){
+        return deleteItem(item).then(data => {
+            Dispatcher.handleAction('ITEMS_RECEIVED', data);
+            Dispatcher.handleAction('CREATE_TOAST', {
+                text: `An item was deleted: ${data.modelName} (${item.address})`
+            });
         }).catch(error => {
-            Dispatcher.handleAction('ERROR', { error });
+            Dispatcher.handleAction('ERROR', { error: error.message });
         });
     }
 
     static getItem(address) {
-        return searchItem(address).then( item => {
+        return searchItem(address).then(item => {
             Dispatcher.handleAction("ITEM_FOUND", item);
-        }).catch( () => {
+        }).catch(() => {
             Dispatcher.handleAction("NO_ITEM_FOUND");
         });
     }
+
 }

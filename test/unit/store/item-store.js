@@ -41,7 +41,7 @@ describe('ItemStore', () => {
 
     it('should find overdue items', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
-            id: '432345',
+            id: 432345,
             name: 'Thor',
             items: [{address:1, timestamp:0},{address:2},{address:3, timestamp:0},{address:4}]
         });

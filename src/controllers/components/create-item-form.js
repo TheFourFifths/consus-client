@@ -3,9 +3,13 @@ import { hashHistory } from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class ItemFormController {
+
     static createItem(modelAddress) {
-        return createItem(modelAddress).then(()=>{
-            hashHistory.push('/');
+        return createItem(modelAddress).then(data => {
+            hashHistory.push('/items');
+            Dispatcher.handleAction('ITEM_CREATED', data);
+        }).catch(e => {
+            Dispatcher.handleAction('ERROR', { error: e.message });
         });
     }
 
@@ -14,4 +18,5 @@ export default class ItemFormController {
             text: 'Please select a model.'
         });
     }
+
 }

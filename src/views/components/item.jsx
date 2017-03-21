@@ -2,6 +2,8 @@ import React from 'react';
 import ItemStore from '../../store/item-store';
 import { Link } from 'react-router';
 import ItemController from '../../controllers/components/item';
+import PrinterController from '../../controllers/pages/printer';
+import ModelController from '../../controllers/pages/model';
 
 export default class Item extends React.Component {
 
@@ -27,6 +29,10 @@ export default class Item extends React.Component {
         ItemController.deleteItem(this.state.item);
     }
 
+    openQr() {
+        PrinterController.promptToPrint(this.state.item.address);
+    }
+
     render() {
         if (this.state.item === null)
             return <i>Item is loading...</i>;
@@ -37,7 +43,7 @@ export default class Item extends React.Component {
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.item.address}</h2>
-                    <Link to={`/model/${this.state.item.modelAddress}`}>View model</Link>
+                    <button id='parent-model' onClick={() => ModelController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/>
                 </div>
                 <div className="infoArea">
                     <div className="descriptionArea">
@@ -56,6 +62,7 @@ export default class Item extends React.Component {
                     <img src="../assets/images/add.svg"/>
                     <img src="../assets/images/edit.svg"/>
                     <img onClick={this.deleteItem.bind(this)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
             </div>

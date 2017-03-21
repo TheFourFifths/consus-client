@@ -14,7 +14,7 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_ADMIN_WINDOW](#clear_admin_window)
     - [CLEAR_ALL_DATA](#clear_all_data)
     - [CLEAR_ERROR](#clear_error)
-    - [CLEAR_ITEMS](#clear_items)
+    - [CLEAR_CART_CONTENTS](#clear_cart_contents)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
     - [ERROR](#error)
@@ -27,6 +27,7 @@ This document describes the Flux actions used in the Consus client.
     - [ITEM_FOUND](#item_found)
     - [MODELS_RECEIVED](#models_received)
     - [MODEL_CREATED](#model_created)
+    - [MODEL_CHECKIN_SUCCESS](#model_checkin_success)
     - [MODEL_FOUND](#model_found)
     - [NO_ITEM_FOUND](#no_item_found)
     - [NO_MODEL_FOUND](#no_model_found)
@@ -34,8 +35,11 @@ This document describes the Flux actions used in the Consus client.
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
     - [STUDENT_FOUND](#student_found)
+    - [STUDENT_UPDATED](#student_updated)
+    - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
     - [WARN](#warn)
+    - [PROMPT_TO_PRINT](#prompt_to_print)
 
 ## ADMIN_CODE_ENTERED
 
@@ -110,9 +114,9 @@ Dispatched when an error should be cleared. Note that this also clears any "erro
 None.
 
 
-## CLEAR_ITEMS
+## CLEAR_CART_CONTENTS
 
-Dispatched when all items should be removed. It currently only removes items from the CartStore.
+Dispatched when all contents of the current cart should be removed. It removes all items and models from the CartStore.
 
 ### Data
 
@@ -253,6 +257,15 @@ Dispatched when a new model was created.
 The newly created item object.
 
 
+## MODEL_CHECKIN_SUCCESS
+
+Dispatched a model is checked in.
+
+### Data
+
+The model address, name, and number checked in.
+
+
 ## MODEL_FOUND
 
 Dispatched when a model has been found on the server.
@@ -321,6 +334,23 @@ Dispatched when searching for a student has succeeded.
 
 The found student object.
 
+
+## STUDENT_UPDATED
+
+Dispatched when updating student information.
+
+## Data
+
+An object containing the updated student information.
+
+##STUDENTS_FOUND
+
+Dispatched when retrieving all students has succeeded.
+
+## Data
+
+An array containing all of the student objects from the server.
+
 ## STUDENTS_UPLOADED
 
 Dispatched when uploading excel doc has finished uploading to the server
@@ -340,5 +370,19 @@ Dispatched when a warning message must be shown the user.
 ```json
 {
     "warn": "Warning! Something mildly abnormal occured!"
+}
+```
+
+## PROMPT_TO_PRINT
+
+Dispatched when the user wishes to print a QR code.
+
+### Data
+
+- `text`: the text to be encoded into a QR code
+
+```json
+{
+    "text": "m8y7nEtAe"
 }
 ```
