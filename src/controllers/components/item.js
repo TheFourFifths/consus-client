@@ -4,12 +4,10 @@ import { Dispatcher } from 'consus-core/flux';
 export default class ItemController {
 
     static addFault(faultObj){
-        console.log(faultObj.itemAddress, faultObj.fault);
         return addFault(faultObj.itemAddress, faultObj.fault).then( res => {
             Dispatcher.handleAction("ITEM_FOUND", res.item);
             return getAllItems();
         }).then( res => {
-            console.log(res);
             Dispatcher.handleAction("ITEMS_RECEIVED", res);
         });
     }
