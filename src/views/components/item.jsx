@@ -13,6 +13,8 @@ export default class Item extends React.Component {
             this.state = {item: null};
         else
             this.state = {item: props.item};
+
+        this.state.faultBoxOpen = false;
     }
 
     componentDidMount() {
@@ -23,6 +25,18 @@ export default class Item extends React.Component {
                 });
             });
         }
+    }
+
+    addFault() {
+        if (this.state.faultBoxOpen)
+            ItemController.addFault({
+                itemAddress: this.state.item.address,
+                fault: this.refs['' + this.state.item.address + 'fault'].value
+            }).catch(e => {
+                console.log(e);
+            });
+        else
+            this.setState({faultBoxOpen: true});
     }
 
     deleteItem() {
@@ -50,12 +64,21 @@ export default class Item extends React.Component {
                         <h3>Status</h3>
                         <p>{this.state.item.status}</p>
                     </div>
-                    <div className="faultArea">
+                    <div key={'' + this.state.item.address + this.state.item.faultHistory.length}
+                     className="faultArea">
                         <h3>Fault</h3>
                         {(this.state.item.isFaulty
-                                ? <p>{this.state.item.faultDescription}</p>
-                                : <p>Item is not faulty.</p>
+                                ? <p>{this.state.item.faultHistory[0].description}</p>
+                                : <p>Item is not currently faulty.</p>
                         )}
+                        <br/>
+                        {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
+                        <button onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
+                        {this.state.faultBoxOpen ? <button> Cancel </button> : ""}
+                    </div>
+                    <div className="faultHistory">
+                        <h3>Fault History:</h3>
+                        {this.state.item.faultHistory.length}
                     </div>
                 </div>
                 <div className="actionArea">

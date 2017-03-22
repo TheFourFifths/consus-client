@@ -19,7 +19,7 @@ import EditModelForm from './components/edit-model-form.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
 import ModelPage from './pages/model.jsx';
-import Item from './components/item.jsx';
+import Item from './pages/item.jsx';
 import OverdueItems from './pages/overdue.jsx';
 import Printer from './pages/printer.jsx';
 
