@@ -1,8 +1,9 @@
 import request from 'request';
+import config from 'config';
 
-let PROTOCOL = 'http';
-let HOST = 'localhost';
-let PORT = 80;
+let PROTOCOL = config.get('server.protocol');
+let HOST = config.get('server.ip');
+let PORT = config.get('server.port');
 
 export function changeProtocol(protocol) {
     PROTOCOL = protocol;

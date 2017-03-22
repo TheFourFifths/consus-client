@@ -1,4 +1,5 @@
 import React from 'react';
+import config from 'config';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
@@ -6,7 +7,7 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = 950000; /* bytes */
+const MAX_FILESIZE = config.get('assets.max_model_photo_size') * 1000;  /* bytes */
 
 export default class EditModelForm extends React.Component {
 
