@@ -77,7 +77,7 @@ describe('Printing QR codes', function () {
                 }
             }
         });
-        return app.client.click('button#view-items').then(() => {
+        return app.client.click('#view-items').then(() => {
             return app.client.waitForVisible('#items', 5000);
         }).then(() => {
             mockServer.validate();
