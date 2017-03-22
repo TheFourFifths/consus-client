@@ -5,7 +5,7 @@ export default class ItemController {
 
     static addFault(faultObj){
         return addFault(faultObj.itemAddress, faultObj.fault).then( res => {
-            Dispatcher.handleAction("ITEM_FOUND", res.item);
+            Dispatcher.handleAction("ITEM_FOUND", res);
             return getAllItems();
         }).then( res => {
             Dispatcher.handleAction("ITEMS_RECEIVED", res);
