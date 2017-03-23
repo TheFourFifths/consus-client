@@ -63,10 +63,10 @@ export default class StudentPanel extends ListenerComponent {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
         let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
-        //let items = this.props.students.items.filter(item => item.status === 'CHECKED_OUT');
+        let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
         return (
             <div className='equipment'>
-                {this.props.students.items.map((item, i) => {
+                {items.map((item, i) => {
                     return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderItemInfo(item)}
@@ -112,14 +112,14 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     render() {
-        //let savedItems = this.props.students.items.filter(item => item.status === 'SAVED');
+        let savedItems = this.props.student.items.filter(item => item.status === 'SAVED');
         return (
             <div className='student'>
                 <h2 className='name'>{this.props.student.name}</h2>
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
-                <SavedEquipment items={[]} models={[/* TODO */]} />
+                <SavedEquipment items={savedItems} models={[/* TODO */]} />
             </div>
         );
     }
