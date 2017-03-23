@@ -1,6 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router';
+import ModelStore from '../../store/model-store';
 
 export default class SavedEquipment extends React.Component {
+
+    renderItemInfo(item){
+        let model = ModelStore.getModelByAddress(item.modelAddress);
+        return (
+            <span>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+            </span>
+        );
+    }
 
     renderEquipment() {
         if (this.props.items.length === 0 && this.props.models.length === 0) {

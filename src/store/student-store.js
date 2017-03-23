@@ -68,4 +68,11 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
     store.emitChange();
 });
 
+store.registerHandler('SAVE_ITEM', data => {
+    student.items.find(item => {
+        return item.address === data.itemAddress;
+    }).status = 'SAVED';
+    store.emitChange();
+});
+
 export default store;

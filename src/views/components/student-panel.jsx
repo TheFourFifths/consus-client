@@ -59,19 +59,27 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderEquipment() {
-        if (this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+        let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
+        if (items.length === 0 && this.props.student.models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
         let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
-        let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
         return (
             <div className='equipment'>
                 {items.map((item, i) => {
-                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderItemInfo(item)}
-                        </div>
-                    </Link>);
+                    return (
+                        <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div className="item-info">
+                                {this.renderItemInfo(item)}
+                                    <div>
+                                        <button onClick={e => {
+                                                e.preventDefault();
+                                                StudentPanelController.reserveItem(item.address);
+                                            }}>Save</button>
+                                    </div>
+                            </div>
+                        </Link>
+                    );
                 })}
                 {modelCounts.map((model, m) => {
                     return (
@@ -87,7 +95,11 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model){
-        return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
+        return (
+            <span>
+                {model.name} <i>{model.address}</i> ({model.quantity})
+            </span>
+        );
     }
 
     renderCheckinButtons(model){
@@ -102,12 +114,14 @@ export default class StudentPanel extends ListenerComponent {
 
     renderItemInfo(item){
         let model = this.state.models.find(model => model.address === item.modelAddress);
-        if(!model){
+        if (!model) {
             return null;
-        }else{
-            return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
-            </div>)
+        } else {
+            return (
+                <span>
+                    {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+                </span>
+            );
         }
     }
 

@@ -34,6 +34,7 @@ This document describes the Flux actions used in the Consus client.
     - [OVERDUE_ITEMS_RECEIVED](#overdue_items_received)
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
+    - [SAVE_ITEM](#save_item)
     - [STUDENT_FOUND](#student_found)
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
@@ -325,6 +326,19 @@ Dispatched when a toast shall be popped.
 }
 ```
 
+## SAVE_ITEM
+
+Mark an item as saved.
+
+### Data
+
+- `itemAddress`: the address of the item that was saved
+
+```json
+{
+    "itemAddress": "iGwEZUvfA"
+}
+```
 
 ## STUDENT_FOUND
 

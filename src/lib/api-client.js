@@ -137,6 +137,12 @@ export function getOverdueItems() {
     return get('item/overdue');
 }
 
+export function saveItem(itemAddress) {
+    return post('item/save', {
+        itemAddress
+    });
+}
+
 export function searchItem(address) {
     return get('item', {
         address
