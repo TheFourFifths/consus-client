@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import SavedEquipment from './saved-equipment.jsx';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -58,22 +59,20 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderEquipment() {
-        if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+        if (this.props.student.items.length === 0 && this.props.student.models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
-
         let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
-
+        //let items = this.props.students.items.filter(item => item.status === 'CHECKED_OUT');
         return (
             <div className='equipment'>
-                {this.props.student.items.map((item, i) => {
+                {this.props.students.items.map((item, i) => {
                     return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         <div className="item-info">
                             {this.renderItemInfo(item)}
                         </div>
                     </Link>);
                 })}
-
                 {modelCounts.map((model, m) => {
                     return (
                         <div className="item-info" key={m}>
@@ -113,12 +112,14 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     render() {
+        //let savedItems = this.props.students.items.filter(item => item.status === 'SAVED');
         return (
             <div className='student'>
                 <h2 className='name'>{this.props.student.name}</h2>
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
+                <SavedEquipment items={[]} models={[/* TODO */]} />
             </div>
         );
     }
