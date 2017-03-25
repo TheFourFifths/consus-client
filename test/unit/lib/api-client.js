@@ -620,11 +620,12 @@ describe('API Client', () => {
                 studentId: 123456,
                 equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
                 dueDate: today.toDateString(),
-                professor: 'professor'
+                professor: 'professor',
+                adminCode: 123456
             },
             response
         });
-        return checkOutContentsLongterm(123456, ['iGwEZUvfA', 'iGwEZVHHE'], today.toDateString(), 'professor').then(data => {
+        return checkOutContentsLongterm(123456, ['iGwEZUvfA', 'iGwEZVHHE'], today.toDateString(), 'professor', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

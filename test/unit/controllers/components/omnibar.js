@@ -148,12 +148,17 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("getStudent", () => {
-        let dispatcherSpy, getContents, checkout, searchStudent, hashHistorySpy;
+    describe("getStudent alternate flows", () => {
+        let dispatcherSpy, getContents, checkout, searchStudent, hashHistorySpy,
+            getIsLongterm, isValidLongtermData, longtermCheckout, getStudent;
+
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             getContents = sinon.stub(CartStore, "getContents");
             checkout = sinon.stub(StudentController, "checkout");
+            getIsLongterm = sinon.stub(CartStore, "getIsLongterm");
+            isValidLongtermData = sinon.stub(StudentController, "isValidLongtermData");
+            longtermCheckout = sinon.stub(StudentController, "longtermCheckout");
             searchStudent = sinon.stub(api, "searchStudent");
             router.hashHistory = {};
             hashHistorySpy = router.hashHistory.push = sinon.spy();
@@ -192,11 +197,41 @@ describe("OmnibarController", () => {
             });
 
         });
+
+        it('Does a longterm checkout', () => {
+            let getStudent = sinon.stub(StudentStore, "getStudent");
+            getStudent.returns({id: 123456});
+            getIsLongterm.returns(true);
+            isValidLongtermData.returns(true);
+            longtermCheckout.returns(new Promise(resolve => {
+                resolve({status:"AVAILABLE"});
+            }));
+            getContents.onFirstCall().returns([items[0]]);
+            getContents.onSecondCall().returns([items[0]]);
+            getContents.returns([]);
+            searchStudent.returns(new Promise(resolve => {
+                resolve({items:[]});
+            }));
+            return OmnibarController.getStudent(123456).then(() => {
+                getStudent.restore();
+                assert.isTrue(hashHistorySpy.called, 'Hashhistory not called');
+                assert.isTrue(dispatcherSpy.called, 'dispatcher not called');
+                assert.isTrue(getContents.called, 'getContents not called');
+                assert.isTrue(searchStudent.called, 'searchStudent not called');
+                assert.isTrue(getIsLongterm.called, 'getIsLongterm not called');
+                assert.isTrue(isValidLongtermData.called, 'isValidLongtermData not called');
+                assert.isTrue(longtermCheckout.called, 'longtermCheckout not called');
+            });
+        });
+
         afterEach(() => {
             dispatcherSpy.restore();
             getContents.restore();
             checkout.restore();
             searchStudent.restore();
+            longtermCheckout.restore();
+            getIsLongterm.restore();
+            isValidLongtermData.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
