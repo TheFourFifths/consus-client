@@ -272,4 +272,21 @@ describe("StudentController", () => {
         Dispatcher.handleAction("CLEAR_ALL_DATA");
         Dispatcher.handleAction("CLEAR_ERROR");
     });
+
+    describe("isValidLongtermData",() => {
+        it('fails on bad data', () => {
+            assert.isFalse(StudentController.isValidLongtermData(undefined, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData(null, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData('test', undefined));
+            assert.isFalse(StudentController.isValidLongtermData('test', null));
+            assert.isTrue(StudentController.isValidLongtermData('test', 'test'));
+        });
+
+    });
+    afterEach(() => {
+        dispatcherSpy.restore();
+        Dispatcher.handleAction("CLEAR_ALL_DATA");
+        Dispatcher.handleAction("CLEAR_ERROR");
+    });
+
 });
