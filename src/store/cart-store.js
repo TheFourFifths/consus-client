@@ -1,24 +1,14 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
-import { checkOutContents } from '../lib/api-client';
+import {checkOutContents, checkOutContentsLongterm, searchStudent} from '../lib/api-client';
+import StudentController from '../controllers/pages/student';
+import { Dispatcher } from 'consus-core/flux';
 
 let contents = [];
 let isLongterm = false;
 let professor = null;
 let dueDate = null;
 let timer = null;
-
-function startTimer(period) {
-    timer = setTimeout(() => {
-        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
-        clearTimer();
-    }, period);
-}
-
-function clearTimer() {
-    clearTimeout(timer);
-    timer = null;
-}
 
 class CartStore extends Store {
     getContents() {
@@ -40,6 +30,36 @@ class CartStore extends Store {
 }
 
 const store = new CartStore();
+
+function startTimer(period) {
+    timer = setTimeout(() => {
+        if(store.getIsLongterm()){
+            if(StudentController.isValidLongtermData(store.getDueDate(), store.getProfessor())){
+                checkOutContentsLongterm(StudentStore.getStudent().id,
+                StudentController.pushEquipment(store.getContents()), store.getDueDate(), store.getProfessor()).then(() => {
+                    return searchStudent(StudentStore.getStudent().id).then(student => {
+                        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+                        Dispatcher.handleAction("STUDENT_FOUND", student);
+                    });
+                });
+            }
+        }else{
+            checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address)).then(() => {
+                return searchStudent(StudentStore.getStudent().id).then(student => {
+                    Dispatcher.handleAction('CHECKOUT_SUCCESS');
+                    Dispatcher.handleAction("STUDENT_FOUND", student);
+                });
+            });
+        }
+
+        clearTimer();
+    }, period);
+}
+
+function clearTimer() {
+    clearTimeout(timer);
+    timer = null;
+}
 
 store.TIMEOUT_TIME = 60000;
 

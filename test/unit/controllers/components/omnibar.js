@@ -255,12 +255,10 @@ describe("OmnibarController", () => {
                 resolve({status:"AVAILABLE"});
             }));
             getStudent.returns({items:[]});
-            return OmnibarController.emptyCart().then(() => {
-                assert.isTrue(getContents.called, 'getContents not called');
-                assert.isTrue(checkout.called, 'checkout not called');
-                assert.isTrue(getStudent.called, 'getStudent not called');
-            });
-
+            assert.isTrue(OmnibarController.emptyCart());
+            assert.isTrue(getContents.called, 'getContents not called');
+            assert.isTrue(checkout.called, 'checkout not called');
+            assert.isTrue(getStudent.called, 'getStudent not called');
         });
 
         it('No student in store', () => {
@@ -280,7 +278,7 @@ describe("OmnibarController", () => {
     });
     describe('emptyCart', () => {
         let dispatcherSpy, getContents, getIsLongTerm, checkout, getStudent,
-            hashHistorySpy, longtermCheckout, getDueDateSpy, getProfessorSpy;
+            hashHistorySpy, longtermCheckout, getDueDateSpy, getProfessorSpy, isValidLongtermData;
 
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
@@ -291,6 +289,7 @@ describe("OmnibarController", () => {
             checkout = sinon.stub(StudentController, "checkout");
             longtermCheckout = sinon.stub(StudentController, "longtermCheckout");
             getStudent = sinon.stub(StudentStore, "getStudent");
+            isValidLongtermData = sinon.stub(StudentController, 'isValidLongtermData');
             router.hashHistory = {};
             hashHistorySpy = router.hashHistory.push = sinon.spy();
         });
@@ -304,11 +303,10 @@ describe("OmnibarController", () => {
                 }));
                 getIsLongTerm.returns(false);
                 getStudent.returns({items:[]});
-                return OmnibarController.emptyCart().then(() => {
-                    assert.isTrue(getContents.called, 'getContents not called');
-                    assert.isTrue(checkout.called, 'checkout not called');
-                    assert.isTrue(getStudent.called, 'getStudent not called');
-                });
+                assert.isTrue(OmnibarController.emptyCart());
+                assert.isTrue(getContents.called, 'getContents not called');
+                assert.isTrue(checkout.called, 'checkout not called');
+                assert.isTrue(getStudent.called, 'getStudent not called');
             });
             it('Checkout is longterm', () => {
                 getContents.returns([items[0]]);
@@ -316,14 +314,27 @@ describe("OmnibarController", () => {
                     resolve({status:"AVAILABLE"});
                 }));
                 getIsLongTerm.returns(true);
+                isValidLongtermData.returns(true);
                 getStudent.returns({items:[]});
-                return OmnibarController.emptyCart().then(() => {
-                    assert.isTrue(getContents.called, 'getContents not called');
-                    assert.isTrue(longtermCheckout.called, 'checkout not called');
-                    assert.isTrue(getStudent.called, 'getStudent not called');
-                    assert.isTrue(getDueDateSpy.called, 'getDueDateSpy not called');
-                    assert.isTrue(getProfessorSpy.called, 'getProfessorSpy not called');
-                });
+                assert.isTrue(OmnibarController.emptyCart());
+                assert.isTrue(getContents.called, 'getContents not called');
+                assert.isTrue(longtermCheckout.called, 'checkout not called');
+                assert.isTrue(getStudent.called, 'getStudent not called');
+                assert.isTrue(getDueDateSpy.called, 'getDueDateSpy not called');
+                assert.isTrue(getProfessorSpy.called, 'getProfessorSpy not called');
+            });
+            it('longterm data is invalid', () => {
+                getContents.returns([items[0]]);
+                getIsLongTerm.returns(true);
+                getStudent.returns({items:[]});
+                isValidLongtermData.returns(false);
+                assert.isFalse(OmnibarController.emptyCart());
+                assert.isTrue(getContents.called, 'getContents not called');
+                assert.isTrue(getIsLongTerm.called, 'getIsLongTerm not called');
+                assert.isFalse(longtermCheckout.called, 'checkout not called');
+                assert.isFalse(getStudent.called, 'getStudent not called');
+                assert.isTrue(getDueDateSpy.called, 'getDueDateSpy not called');
+                assert.isTrue(getProfessorSpy.called, 'getProfessorSpy not called');
             });
 
 
@@ -345,6 +356,7 @@ describe("OmnibarController", () => {
             getDueDateSpy.restore();
             getProfessorSpy.restore();
             getIsLongTerm.restore();
+            isValidLongtermData.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });

@@ -96,12 +96,20 @@ export default class OmnibarController {
     static emptyCart() {
         if (CartStore.getContents().length !== 0) {
             if (CartStore.getIsLongterm()) {
-                return StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
-                    CartStore.getProfessor());
+                if (!StudentController.isValidLongtermData(CartStore.getDueDate(), CartStore.getProfessor())) {
+                    return false;
+                }
+                StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                    CartStore.getProfessor()).then(() => {
+                        return true;
+                    });
             } else {
-                return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
+                StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents()).then(() => {
+                    return true;
+                });
             }
 
         }
+        return true;
     }
 }
