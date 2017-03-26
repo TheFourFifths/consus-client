@@ -114,28 +114,32 @@ describe('CartStore', () => {
         assert.isFalse(CartStore.isOnTimeout());
     });
 
-    // Timeouts appear to be broken, so this test cannot be used yet
-    // it('cancels timeout when new model is scanned', () => {
-    //     Dispatcher.handleAction("STUDENT_FOUND", {
-    //         id: '111111',
-    //         name: 'Poe',
-    //         items: []
-    //     });
-    //     assert.isFalse(CartStore.isOnTimeout());
-    //     CartStore.TIMEOUT_TIME = 60000;
-    //     Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
-    //         address: '1234',
-    //         allowCheckout: true,
-    //         inStock: 5
-    //     });
-    //     assert.isTrue(CartStore.isOnTimeout());
-    //     Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
-    //         address: '1234',
-    //         allowCheckout: true,
-    //         inStock: 5
-    //     });
-    //     assert.isFalse(CartStore.isOnTimeout());
-    // });
+    it('cancels timeout when new model is scanned', () => {
+        Dispatcher.handleAction("STUDENT_FOUND", {
+            id: '111111',
+            name: 'Poe',
+            items: []
+        });
+        assert.isFalse(CartStore.isOnTimeout(), 'first check');
+        CartStore.TIMEOUT_TIME = 60000;
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
+        });
+        assert.isTrue(CartStore.isOnTimeout(), 'second check');
+        Dispatcher.handleAction('CHECKOUT_MODEL_FOUND',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
+        });
+        Dispatcher.handleAction('CHECKOUT_SUCCESS',{
+            address: '1234',
+            allowCheckout: true,
+            inStock: 5
+        });
+        assert.isFalse(CartStore.isOnTimeout(), 'third check');
+    });
 
     it('should add models to contents', () => {
         let model = { address: '123', allowCheckout: true, inStock: 12 };
