@@ -7,7 +7,28 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = config.get('assets.max_model_photo_size') * 1000;  /* bytes */
+const MAX_FILESIZE = bytesToBase64Size(config.get('assets.max_model_photo_size') * 1000); /* bytes */
+
+/**
+ * Converts the number of bytes of binary data into its approximate number of
+ * bytes when encoded as Base64.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numBytes - size of binary data, in bytes
+ * @returns {number} size of Base64-encoded binary data, in bytes
+ */
+function bytesToBase64Size(numBytes) {
+    return (numBytes * 1.37) + 814;
+}
+
+/**
+ * Converts the number of bytes of a Base64 string into the equivalent pure binary size.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numB64Bytes - size of Base64-encoded binary data, in bytes
+ * @returns {number} size of binary data, in bytes
+ */
+function base64SizeToBytes(numB64Bytes) {
+    return (numB64Bytes - 814) / 1.37;
+}
 
 export default class EditModelForm extends React.Component {
 
@@ -127,7 +148,7 @@ export default class EditModelForm extends React.Component {
 
     changePhoto(e) {
         let file = e.target.files[0];
-        if (file.size > MAX_FILESIZE) {
+        if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
                 showFileSizeModal: true,
                 fileOversize: true
@@ -182,12 +203,12 @@ export default class EditModelForm extends React.Component {
     }
 
     handleConfirmModal(bool){
-        if(bool){
+        if (bool) {
             ModelFormController.getModels();
-        }else{
+        } else {
             this.setState({popConfirmModal: false});
         }
-      }
+    }
 
     render() {
         if (this.state.model === null)
@@ -202,7 +223,7 @@ export default class EditModelForm extends React.Component {
                 <ErrorModal
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
-                    message={`The specified file is too large; it must be below ${MAX_FILESIZE / 1000} kB.`}
+                    message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
                 />
                 <h1>Update model: {this.state.model.name}</h1>
                 <button onClick={this.allModels.bind(this)}>View all models</button>
@@ -235,7 +256,6 @@ export default class EditModelForm extends React.Component {
                     {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
                     {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
                     {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
-                    <input type='submit' value='Update Model' />
                     <label id="photo">
                         Model photo thumbnail:<br/>
                         <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
