@@ -101,7 +101,8 @@ module.exports = function(grunt) {
                         '.test/functional/delete-model.js',
                         '.test/functional/delete-item.js',
                         '.test/functional/edit-model-leave-confirmation.js',
-                        '.test/functional/edit-model.js'
+                        '.test/functional/edit-model.js',
+                        '.test/functional/add-item-fault.js'
                     ]
                 }
             },
