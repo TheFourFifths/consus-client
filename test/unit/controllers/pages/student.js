@@ -274,16 +274,18 @@ describe("StudentController", () => {
         Dispatcher.handleAction("CLEAR_ERROR");
     });
 
-    describe.only("isValidLongtermData",() => {
+    describe("isValidLongtermData",() => {
         it('fails on bad data', () => {
+            let today = moment();
             assert.isFalse(StudentController.isValidLongtermData(undefined, 'test'));
             assert.isFalse(StudentController.isValidLongtermData(null, 'test'));
-            assert.isFalse(StudentController.isValidLongtermData('test', undefined));
-            assert.isFalse(StudentController.isValidLongtermData('test', null));
-            let today = moment();
             assert.isFalse(StudentController.isValidLongtermData(today, 'test'));
             today.add(1, 'd');
             assert.isTrue(StudentController.isValidLongtermData(today, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData(today, undefined));
+            assert.isFalse(StudentController.isValidLongtermData(today, null));
+
+
         });
 
     });

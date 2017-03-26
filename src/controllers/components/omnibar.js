@@ -1,7 +1,7 @@
-import {searchStudent} from '../../lib/api-client';
-import {readAddress} from 'consus-core/identifiers';
-import {Dispatcher} from 'consus-core/flux';
-import {hashHistory} from 'react-router';
+import { searchStudent } from '../../lib/api-client';
+import { readAddress } from 'consus-core/identifiers';
+import { Dispatcher } from 'consus-core/flux';
+import { hashHistory } from 'react-router';
 import CartStore from '../../store/cart-store';
 import StudentController from '../pages/student';
 import StudentStore from '../../store/student-store';
