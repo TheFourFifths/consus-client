@@ -73,7 +73,7 @@ export default class Item extends React.Component {
                         )}
                         <br/>
                         {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
-                        <button onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
+                        <button className="saveButton" onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
                         {this.state.faultBoxOpen ? <button> Cancel </button> : ""}
                     </div>
                     <div className="faultHistory">

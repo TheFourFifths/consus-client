@@ -62,12 +62,10 @@ function patch(endpoint, qs, data) {
 
 //////////////////////
 export function addFault(itemAddress, faultDescription){
+
     return post('item/fault', {
         itemAddress,
-        fault: {
-            timestamp: Date.now(),
-            description: faultDescription
-        }
+        faultDescription
     });
 }
 
