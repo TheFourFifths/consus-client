@@ -194,7 +194,8 @@ describe("StudentController", () => {
         let checkOutItems, searchStudent, equipment, today, professor;
         beforeEach(() => {
             equipment = [{address: '123', quantity: 5}, {address: '456'}];
-            today = new Date();
+            today = moment();
+            today.add(1, 'd');
             professor = 'Professor';
             checkOutItems = sinon.stub(api, 'checkOutContentsLongterm');
             searchStudent = sinon.stub(api, 'searchStudent');
