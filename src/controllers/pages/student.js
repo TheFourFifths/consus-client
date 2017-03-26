@@ -1,6 +1,7 @@
 import { checkOutContents, searchStudent, checkInModel, checkOutContentsLongterm } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
+import moment from 'moment-timezone';
 
 export default class StudentController{
     static acceptAdminModal(adminCode){
@@ -94,6 +95,14 @@ export default class StudentController{
         if(dueDate === undefined || dueDate === null){
             Dispatcher.handleAction('ERROR', {
                 error: 'Please enter a due date.'
+            });
+            return false;
+        }
+        let today = moment();
+        let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
+        if(dueDateMoment.isBefore(today)){
+            Dispatcher.handleAction('ERROR', {
+                error: 'Due date cannot be set to today or past.'
             });
             return false;
         }

@@ -2,6 +2,7 @@ import { assert } from "chai";
 import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import moment from 'moment-timezone';
 import StudentController from '../../../../.dist/controllers/pages/student';
 
 describe("StudentController", () => {
@@ -273,13 +274,16 @@ describe("StudentController", () => {
         Dispatcher.handleAction("CLEAR_ERROR");
     });
 
-    describe("isValidLongtermData",() => {
+    describe.only("isValidLongtermData",() => {
         it('fails on bad data', () => {
             assert.isFalse(StudentController.isValidLongtermData(undefined, 'test'));
             assert.isFalse(StudentController.isValidLongtermData(null, 'test'));
             assert.isFalse(StudentController.isValidLongtermData('test', undefined));
             assert.isFalse(StudentController.isValidLongtermData('test', null));
-            assert.isTrue(StudentController.isValidLongtermData('test', 'test'));
+            let today = moment();
+            assert.isFalse(StudentController.isValidLongtermData(today, 'test'));
+            today.add(1, 'd');
+            assert.isTrue(StudentController.isValidLongtermData(today, 'test'));
         });
 
     });
