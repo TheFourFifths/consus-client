@@ -165,11 +165,11 @@ the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found
 
 ### Data
 
-- `dueDate`: a date object
+- `dueDate`: a Date object
 
 ```json
 {
-    "dueDate": new Date()
+    "dueDate": "Some Date object that probably won't be Sun Mar 26 2017 15:12:34 GMT-0500"
 }
 ```
 
@@ -184,7 +184,7 @@ the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found
 
 ```json
 {
-    "professor": 'Professor Wiffle'
+    "professor": "Professor Wiffle"
 }
 ```
 
