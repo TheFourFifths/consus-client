@@ -35,9 +35,6 @@
     "the four fifths",
     "msoe"
   ],
-  "dependencies": {
-    "moment-timezone": "^0.5.9"
-  },
   "devDependencies": {
     "babel-eslint": "^7.0.0",
     "babel-plugin-istanbul": "^3.0.0",
