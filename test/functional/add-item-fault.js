@@ -6,7 +6,7 @@ import items from '../test-cases/items';
 import models from '../test-cases/models';
 import students from '../test-cases/students';
 
-describe.only('Able to add a fault to an item', function () {
+describe('Able to add a fault to an item', function () {
     this.timeout(10000);
     let app;
     let mockServer = new MockServer();
@@ -75,16 +75,17 @@ describe.only('Able to add a fault to an item', function () {
                 faultDescription
             },
             response: {
-                item: resItem
+                "status":"success",
+                "data":{
+                    item: resItem
+                }
             }
         });
 
         mockServer.expect({
             method: 'get',
             endpoint: 'item/all',
-            response: {
-                items: [resItem, items[1]]
-            }
+            response:{"status":"success","data":{"items":[resItem, items[1]]}}
         });
 
         return app.client.click('.infoArea .faultArea button').then(() => {
@@ -94,12 +95,11 @@ describe.only('Able to add a fault to an item', function () {
         }).then(() => {
             return app.client.keys(faultDescription);
         }).then(() => {
-            return app.client.click('.infoArea .faultArea button');
+            return app.client.click('.saveButton');
         }).then(() => {
-            // mockServer.validate();
-            return app.client.elements('.infoArea .faultArea button');
-        }).then(elements => {
-            assert.lengthOf(elements.value, items.length);
+            return app.client.waitForVisible(".infoArea .faultArea input", 5000, true);
+        }).then(() => {
+            mockServer.validate();
         });
     });
 });
