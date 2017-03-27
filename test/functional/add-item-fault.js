@@ -44,20 +44,12 @@ describe.only('Able to add a fault to an item', function () {
                 }
             }
         });
-        mockServer.expect({
-            method: 'get',
-            endpoint: 'model/all',
-            response: {
-                status: 'success',
-                data: {
-                    models
-                }
-            }
-        });
         return app.client.click('#omnibar img').then(() => {
             return app.client.click("#view-items");
         }).then(() => {
             return app.client.waitForVisible('#items');
+
+        }).then(() => {
             mockServer.validate();
         });
     });
@@ -102,10 +94,12 @@ describe.only('Able to add a fault to an item', function () {
         }).then(() => {
             return app.client.keys(faultDescription);
         }).then(() => {
-            return app.client.click('.saveButton');
+            return app.client.click('.infoArea .faultArea button');
         }).then(() => {
             // mockServer.validate();
-            return app.client.waitForVisible(".infoArea .faultArea input",5000,true);
+            return app.client.elements('.infoArea .faultArea button');
+        }).then(elements => {
+            assert.lengthOf(elements.value, items.length);
         });
     });
-})
+});
