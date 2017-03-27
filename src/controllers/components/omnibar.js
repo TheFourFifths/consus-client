@@ -32,6 +32,23 @@ export default class OmnibarController {
             if (StudentStore.getStudent() !== null) {
                 currentStudentId = StudentStore.getStudent().id;
             }
+            if (CartStore.getIsLongterm()) {
+                if (!StudentController.isValidLongtermData(CartStore.getDueDate(), CartStore.getProfessor())) {
+                    return;
+                } else {
+                    return StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                        CartStore.getProfessor()).then(() => {
+                            if (CartStore.getContents().length === 0) {
+                                return searchStudent(id);
+                            }
+                        }).then(student => {
+                            if (CartStore.getContents().length === 0) {
+                                Dispatcher.handleAction("STUDENT_FOUND", student);
+                                hashHistory.push('/student');
+                            }
+                        });
+                }
+            }
             return StudentController.checkout(currentStudentId, CartStore.getContents()).then(() => {
                 if (CartStore.getContents().length === 0) {
                     return (searchStudent(id));
@@ -56,7 +73,7 @@ export default class OmnibarController {
 
     static displayItem(itemAddress) {
         try {
-            if(readAddress(itemAddress).type === 'item') {
+            if (readAddress(itemAddress).type === 'item') {
                 hashHistory.push('/item/' + itemAddress);
             } else {
                 Dispatcher.handleAction("ERROR", {
@@ -78,7 +95,21 @@ export default class OmnibarController {
 
     static emptyCart() {
         if (CartStore.getContents().length !== 0) {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
+            if (CartStore.getIsLongterm()) {
+                if (!StudentController.isValidLongtermData(CartStore.getDueDate(), CartStore.getProfessor())) {
+                    return false;
+                }
+                StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                    CartStore.getProfessor()).then(() => {
+                        return true;
+                    });
+            } else {
+                StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents()).then(() => {
+                    return true;
+                });
+            }
+
         }
+        return true;
     }
 }

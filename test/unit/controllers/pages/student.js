@@ -2,6 +2,7 @@ import { assert } from "chai";
 import sinon from 'sinon';
 import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import moment from 'moment-timezone';
 import StudentController from '../../../../.dist/controllers/pages/student';
 
 describe("StudentController", () => {
@@ -189,9 +190,110 @@ describe("StudentController", () => {
         });
     });
 
+    describe("longtermCheckout",() => {
+        let checkOutItems, searchStudent, equipment, today, professor;
+        beforeEach(() => {
+            equipment = [{address: '123', quantity: 5}, {address: '456'}];
+            today = moment();
+            today.add(1, 'd');
+            professor = 'Professor';
+            checkOutItems = sinon.stub(api, 'checkOutContentsLongterm');
+            searchStudent = sinon.stub(api, 'searchStudent');
+        });
+
+        it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
+            checkOutItems.returns(
+                new Promise(resolve => {
+                    resolve();
+                })
+            );
+            searchStudent.returns(
+                new Promise(resolve => {
+                    resolve({student:{items:[]}});
+                })
+            );
+
+            return StudentController.longtermCheckout(123456, equipment, today, professor).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
+                assert.isTrue(checkOutItems.called);
+                assert.isTrue(searchStudent.called);
+            });
+        });
+
+        it('Dispatches "OVERRIDE_REQUIRED" if student has overdue item', () => {
+            checkOutItems.returns(
+                new Promise((resolve, reject) => {
+                    reject("Student has overdue item");
+                })
+            );
+
+            return StudentController.longtermCheckout(123456, equipment, today, professor).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "OVERRIDE_REQUIRED");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        it('Dispatches "CLEAR_ADMIN_CODE" if admin is invalid', () => {
+            checkOutItems.returns(
+                new Promise((resolve, reject) => {
+                    reject("Invalid Admin");
+                })
+            );
+
+            return StudentController.longtermCheckout(123456, equipment, today, professor).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CLEAR_ADMIN_CODE");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        it('Dispatches "ERROR" if another error comes up', () => {
+            checkOutItems.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+
+            return StudentController.longtermCheckout(123456, equipment, today, professor).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "NO");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
+        afterEach(() => {
+            checkOutItems.restore();
+            searchStudent.restore();
+        });
+    });
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");
         Dispatcher.handleAction("CLEAR_ERROR");
     });
+
+    describe("isValidLongtermData",() => {
+        it('fails on bad data', () => {
+            let today = moment();
+            assert.isFalse(StudentController.isValidLongtermData(undefined, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData(null, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData(today, 'test'));
+            today.add(1, 'd');
+            assert.isTrue(StudentController.isValidLongtermData(today, 'test'));
+            assert.isFalse(StudentController.isValidLongtermData(today, undefined));
+            assert.isFalse(StudentController.isValidLongtermData(today, null));
+
+
+        });
+
+    });
+    afterEach(() => {
+        dispatcherSpy.restore();
+        Dispatcher.handleAction("CLEAR_ALL_DATA");
+        Dispatcher.handleAction("CLEAR_ERROR");
+    });
+
 });

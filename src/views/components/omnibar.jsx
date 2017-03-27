@@ -51,12 +51,13 @@ export default class Omnibar extends React.Component {
     }
 
     clickLogo() {
-        OmnibarController.emptyCart();
-        if (OmnibarController.getWarning()){
-            this.setState({confirmExit: true, next:"home"});
-        }
-        else {
-            OmnibarController.leavePage('/');
+        if(OmnibarController.emptyCart()){
+            if (OmnibarController.getWarning()){
+                this.setState({confirmExit: true, next:"home"});
+            }
+            else {
+                OmnibarController.leavePage('/');
+            }
         }
     }
 
