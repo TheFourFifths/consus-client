@@ -181,3 +181,16 @@ export function uploadStudents(data){
         data
     });
 }
+
+export function checkOutContentsLongterm(studentId, equipmentAddresses, dueDate, professor, code){
+    let params = {
+        studentId,
+        equipmentAddresses,
+        dueDate,
+        professor
+    };
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
+    return post('checkout/longterm', params);
+}

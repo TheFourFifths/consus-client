@@ -3,14 +3,15 @@ import { readAddress } from 'consus-core/identifiers';
 import CartController from '../../controllers/components/cart-panel';
 import Modal from './modal.jsx';
 import { assert } from 'chai';
-
+import CartStore from '../../store/cart-store';
 export default class CartPanel extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             address: '',
-            active: false
+            active: false,
+            isLongterm: false
         };
     }
 
@@ -71,6 +72,27 @@ export default class CartPanel extends React.Component {
         });
     }
 
+    changeIsLongterm(e){
+        CartController.changeIsLongterm(e.target.checked);
+    }
+
+    changeLongtermDate(e){
+        CartController.changeLongtermDate(e.target.value);
+    }
+
+    changeLongtermProfessor(e){
+        CartController.changeLongtermProfessor(e.target.value);
+    }
+
+    renderLongtermSection(){
+        if(CartStore.getIsLongterm()){
+            return <div id="longtermSection">
+                Longterm duedate: <input type="date" onChange={this.changeLongtermDate.bind(this)}/><br />
+                Professor's name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} /><br />
+            </div>
+        }
+    }
+
     render() {
         return (
             <div className='cart'>
@@ -78,7 +100,9 @@ export default class CartPanel extends React.Component {
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
-                <input type='button' onClick={this.props.submit} value='Complete Checkout' />
+                Is this a longterm checkout? <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} /><br />
+                {this.renderLongtermSection()}
+                <input type='button'  onClick={this.props.submit} value='Complete Checkout' />
                 <input type='button' onClick={this.props.cancel} value='Cancel' />
             </div>
         );
