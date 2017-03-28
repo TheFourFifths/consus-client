@@ -9,6 +9,8 @@ export default class ItemController {
             return getAllItems();
         }).then( res => {
             Dispatcher.handleAction("ITEMS_RECEIVED", res);
+        }).catch(e => {
+            Dispatcher.handleAction("ERROR", {error: e});
         });
     }
 
