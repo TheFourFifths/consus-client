@@ -167,14 +167,14 @@ describe('ToastStore', () => {
 
     it('should add a toast when a model is updated', () => {
         let modelName = 'What a name';
-        let modelAddres = 'Wowza';
+        let modelAddress = 'Wowza';
         Dispatcher.handleAction('MODEL_UPDATED', {
             name: modelName,
-            address: modelAddres
+            address: modelAddress
 
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddres}) was updated!`);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was updated!`);
     });
 
     it('should add toast when model is deleted', () => {
@@ -186,6 +186,17 @@ describe('ToastStore', () => {
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
         assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
+    });
+
+    it('should add toast when an unserialized model is created', () => {
+        let modelName = 'Better than jordans model test name';
+        let modelAddress = 'really not an address';
+        Dispatcher.handleAction('UNSERIALIZED_MODEL_ADDED', {
+            name: modelName,
+            address: modelAddress
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `New ${modelName} (${modelAddress}) created`)
     });
 
 });

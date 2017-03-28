@@ -96,4 +96,9 @@ store.registerHandler('MODEL_DELETED', model => {
     store.emitChange();
 });
 
+store.registerHandler('UNSERIALIZED_MODEL_ADDED', model => {
+    addToast(`New ${model.name} (${model.address}) created`);
+    store.emitChange();
+});
+
 export default store;

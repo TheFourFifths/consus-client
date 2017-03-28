@@ -1,5 +1,6 @@
-import { searchModel, deleteModel, getAllModels, createItem } from '../../lib/api-client';
+import { searchModel, deleteModel, getAllModels, createItem, addUnserializedModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import ModelStore from '../../store/model-store';
 
 export default class ModelController {
     static getModel(address) {
@@ -10,16 +11,28 @@ export default class ModelController {
         });
     }
 
-    static addItemToModel(modelAddress){
-        return createItem(modelAddress).then(item => {
-            Dispatcher.handleAction('ITEM_CREATED', item);
-            return getAllModels();
-        }).then(models => {
-            Dispatcher.handleAction("MODELS_RECEIVED", models);
-        }).catch(e => {
-            Dispatcher.handleAction('ERROR', { error: e.message });
-        });
+    static newModelInstance(modelAddress){
+        if(ModelStore.getModelByAddress(modelAddress).allowCheckout) {
+            return addUnserializedModel(modelAddress).then(model => {
+                Dispatcher.handleAction('UNSERIALIZED_MODEL_ADDED', model);
+                return getAllModels();
+            }).then(models => {
+                Dispatcher.handleAction("MODELS_RECEIVED", models);
+            }).catch(e => {
+                Dispatcher.handleAction('ERROR', { error: e.message });
+            });
+        } else {
+            return createItem(modelAddress).then(item => {
+                Dispatcher.handleAction('ITEM_CREATED', item);
+                return getAllModels();
+            }).then(models => {
+                Dispatcher.handleAction("MODELS_RECEIVED", models);
+            }).catch(e => {
+                Dispatcher.handleAction('ERROR', { error: e.message });
+            });
+        }
     }
+
     static deleteModel(address){
         return deleteModel(address).then(data => {
             Dispatcher.handleAction('MODEL_DELETED', data.deletedModel);

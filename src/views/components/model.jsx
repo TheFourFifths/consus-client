@@ -53,7 +53,7 @@ export default class Model extends React.Component {
     }
 
     confirmDelete(bool){
-        if(bool === true) {
+        if(bool) {
             ModelController.deleteModel(this.state.model.address);
         }
         this.setState({
@@ -62,8 +62,8 @@ export default class Model extends React.Component {
     }
 
     confirmAddItem(bool){
-        if(bool === true) {
-            ModelController.addItemToModel(this.state.model.address);
+        if(bool) {
+            ModelController.newModelInstance(this.state.model.address);
         }
         this.setState({
             needsConfirmationForAdd: false
@@ -93,9 +93,11 @@ export default class Model extends React.Component {
             return <i>Data is loading...</i>;
         let deleteConfirmationText = `Are you sure you want to delete this model(${this.state.model.name})? WARNING: This will delete all
                 items associated with this model`;
-        let addConfirmationText = `Create new item for model(${this.state.model.name})?`;
+        let addConfirmationText = this.state.model.allowCheckout ?
+                                    `Add another ${this.state.model.name}?`
+                                    : `Create new item for model(${this.state.model.name})?`
         return (
-            <div className='model'>
+            <div id={this.state.model.address} className='model'>
                 <ConfirmModal
                     message={deleteConfirmationText}
                     active={this.state.needsConfirmationForDelete}
@@ -133,7 +135,7 @@ export default class Model extends React.Component {
                     </div>
                 </div>
                 <div className="actionArea">
-                    <img className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
+                    <img id={`addbtn${this.state.model.address}`} className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
                     <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
                     <img onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
                     <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
