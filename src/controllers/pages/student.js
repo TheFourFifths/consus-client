@@ -3,10 +3,12 @@ import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
 
-export default class StudentController{
-    static acceptAdminModal(adminCode){
-        if (adminCode.length > 0)
+export default class StudentController {
+
+    static acceptAdminModal(adminCode) {
+        if (adminCode.length > 0) {
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
+        }
     }
 
     static cancelAdminModal() {
@@ -36,7 +38,7 @@ export default class StudentController{
             }
         });
     }
-    static pushEquipment(equipment){
+    static pushEquipment(equipment) {
         let equipmentAddresses = [];
         if (equipment) {
             equipment.forEach(e => {
@@ -52,7 +54,7 @@ export default class StudentController{
         return equipmentAddresses;
     }
 
-    static checkInModel(id, modelAddress, quantity){
+    static checkInModel(id, modelAddress, quantity) {
         return checkInModel(id, modelAddress, quantity).then(data => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('MODEL_CHECKIN_SUCCESS', {
@@ -69,7 +71,7 @@ export default class StudentController{
         });
     }
 
-    static longtermCheckout(id, equipment, dueDate, professor){
+    static longtermCheckout(id, equipment, dueDate, professor) {
 
         if(this.isValidLongtermData(dueDate, professor)){
             let equipmentAddresses = this.pushEquipment(equipment);
@@ -91,7 +93,8 @@ export default class StudentController{
             });
         }
     }
-    static isValidLongtermData(dueDate, professor){
+
+    static isValidLongtermData(dueDate, professor) {
         if(dueDate === undefined || dueDate === null){
             Dispatcher.handleAction('ERROR', {
                 error: 'Please enter a due date.'
@@ -114,9 +117,11 @@ export default class StudentController{
         }
         return true;
     }
+
     static throwNoItemsError() {
         Dispatcher.handleAction('ERROR', {
             error: 'No Items were scanned for checkout.'
         });
     }
+
 }

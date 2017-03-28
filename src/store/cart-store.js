@@ -11,6 +11,7 @@ let dueDate = null;
 let timer = null;
 
 class CartStore extends Store {
+
     getContents() {
         return contents;
     }
@@ -18,15 +19,19 @@ class CartStore extends Store {
     isOnTimeout(){
         return timer !== null;
     }
+
     getIsLongterm(){
         return isLongterm;
     }
+
     getProfessor(){
         return professor;
     }
+
     getDueDate(){
         return dueDate;
     }
+
 }
 
 const store = new CartStore();
