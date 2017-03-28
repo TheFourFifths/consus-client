@@ -77,8 +77,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
         clearTimer();
     }
     let item = {
-        address: data.address,
-        status: data.status
+        address: data.address
     };
     contents.push(item);
     startTimer(store.TIMEOUT_TIME);

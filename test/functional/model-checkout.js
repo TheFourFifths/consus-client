@@ -87,7 +87,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 1
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -175,7 +180,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs','m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 2
+                    }
+                ]
             },
             response: {
                 status: 'success'

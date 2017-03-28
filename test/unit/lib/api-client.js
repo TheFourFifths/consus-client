@@ -101,11 +101,26 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ]
             },
             response
         });
-        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContents(123456, equipment).then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -120,12 +135,27 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContents(123456, equipment, 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -597,12 +627,27 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContents(123456, equipment, 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -618,14 +663,29 @@ describe('API Client', () => {
             endpoint: 'checkout/longterm',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ],
                 dueDate: today.toDateString(),
                 professor: 'professor',
                 adminCode: 123456
             },
             response
         });
-        return checkOutContentsLongterm(123456, ['iGwEZUvfA', 'iGwEZVHHE'], today.toDateString(), 'professor', 123456).then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
