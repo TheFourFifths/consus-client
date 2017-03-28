@@ -86,6 +86,7 @@ module.exports = function(grunt) {
             functional: {
                 files: {
                     src: [
+                        '.test/functional/add-item-fault.js',
                         '.test/functional/print-qr.js',
                         '.test/functional/student-lookup.js',
                         '.test/functional/view-models.js',
@@ -101,8 +102,7 @@ module.exports = function(grunt) {
                         '.test/functional/delete-model.js',
                         '.test/functional/delete-item.js',
                         '.test/functional/edit-model-leave-confirmation.js',
-                        '.test/functional/edit-model.js',
-                        '.test/functional/add-item-fault.js'
+                        '.test/functional/edit-model.js'
                     ]
                 }
             },
