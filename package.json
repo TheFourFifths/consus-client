@@ -14,9 +14,10 @@
   "scripts": {
     "start": "electron index.js --dev",
     "build": "grunt build",
-    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
+    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm test-unit && nyc report --reporter=text-lcov > coverage.lcov",
     "test": "grunt test",
     "lintless-test": "grunt lintless-test",
+    "test-unit": "grunt test-unit",
     "integration-test": "grunt integration-test",
     "lint": "grunt lint",
     "package": "grunt package"
