@@ -57,7 +57,7 @@ export default class OmnibarController {
     static displayItem(itemAddress) {
         try {
             if(readAddress(itemAddress).type === 'item') {
-                searchItem(itemAddress).then(data => {
+                return searchItem(itemAddress).then(data => {
                     Dispatcher.handleAction("ITEM_FOUND", data);
                     hashHistory.push('/item/' + itemAddress);
                 });

@@ -100,10 +100,11 @@ describe("OmnibarController", () => {
             let historySpy = router.hashHistory.push = sinon.spy();
             let itemAddress = 'iGwEZUvfA';
 
-            OmnibarController.displayItem(itemAddress);
-            assert.isTrue(historySpy.called);
-            assert.strictEqual(historySpy.getCall(0).args.length, 1);
-            assert.strictEqual(historySpy.getCall(0).args[0], "/item/" + itemAddress);
+            return OmnibarController.displayItem(itemAddress).then(() => {
+                assert.isTrue(historySpy.called);
+                assert.strictEqual(historySpy.getCall(0).args.length, 1);
+                assert.strictEqual(historySpy.getCall(0).args[0], "/item/" + itemAddress);
+            });
         });
 
         it('Dispatches "ERROR" if address is of a model', () => {
