@@ -22,7 +22,8 @@ import {
     updateStudent,
     updateModel,
     deleteModel,
-    uploadStudents
+    uploadStudents,
+    checkOutContentsLongterm
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -613,6 +614,49 @@ describe('API Client', () => {
             response
         });
         return updateStudent({id:123456, name:"This dude"}).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('checkOutContents (with code)', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout',
+            json: {
+                studentId: 123456,
+                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                adminCode: 'abcdef'
+            },
+            response
+        });
+        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+            assert.isUndefined(data);
+            mockServer.validate();
+        });
+    });
+
+    it('checkOutContentsLongterm', () => {
+        let response = {
+            status: 'success'
+        };
+        let today = new Date();
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout/longterm',
+            json: {
+                studentId: 123456,
+                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                dueDate: today.toDateString(),
+                professor: 'professor',
+                adminCode: 123456
+            },
+            response
+        });
+        return checkOutContentsLongterm(123456, ['iGwEZUvfA', 'iGwEZVHHE'], today.toDateString(), 'professor', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

@@ -84,4 +84,22 @@ export default class CartController {
             });
         }
     }
+
+    static changeIsLongterm(isLongterm){
+        Dispatcher.handleAction('EDIT_IS_LONGTERM', {
+            isLongterm
+        });
+    }
+    static changeLongtermDate(dueDate){
+        Dispatcher.handleAction('EDIT_LONGTERM_DUEDATE', {
+            dueDate
+        });
+    }
+
+    static changeLongtermProfessor(professor){
+        Dispatcher.handleAction('EDIT_LONGTERM_PROFESSOR', {
+            professor
+        });
+    }
 }
+

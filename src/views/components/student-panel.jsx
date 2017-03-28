@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import moment from 'moment-timezone';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -106,8 +107,9 @@ export default class StudentPanel extends ListenerComponent {
         if(!model){
             return null;
         }else{
+            let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
             return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </div>)
         }
     }
