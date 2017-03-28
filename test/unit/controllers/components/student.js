@@ -5,7 +5,8 @@ import StudentController from '../../../../.dist/controllers/components/student'
 import { Dispatcher } from 'consus-core/flux';
 
 describe("StudentController", () => {
-    describe("UpdateStudent", () => {
+
+    describe("updateStudent", () => {
         let dispatcherSpy, updateStudent;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
@@ -21,7 +22,7 @@ describe("StudentController", () => {
                 })
             );
 
-            return StudentController.UpdateStudent({}).then(() => {
+            return StudentController.updateStudent({}).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "STUDENT_UPDATED");
