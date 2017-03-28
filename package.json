@@ -1,7 +1,7 @@
 {
   "name": "consus-client",
   "description": "The client application for Consus, an inventory management system",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "The Four Fiths",
   "contributors": [
     "Jordan Longato",
@@ -14,9 +14,10 @@
   "scripts": {
     "start": "electron index.js --dev",
     "build": "grunt build",
-    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
+    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm run test-unit && nyc report --reporter=text-lcov > coverage.lcov",
     "test": "grunt test",
     "lintless-test": "grunt lintless-test",
+    "test-unit": "grunt test-unit",
     "integration-test": "grunt integration-test",
     "lint": "grunt lint",
     "package": "grunt package"
