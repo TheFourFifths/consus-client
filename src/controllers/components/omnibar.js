@@ -1,4 +1,4 @@
-import { searchStudent } from '../../lib/api-client';
+import { searchStudent, searchItem } from '../../lib/api-client';
 import { readAddress } from 'consus-core/identifiers';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
@@ -57,7 +57,10 @@ export default class OmnibarController {
     static displayItem(itemAddress) {
         try {
             if(readAddress(itemAddress).type === 'item') {
-                hashHistory.push('/item/' + itemAddress);
+                searchItem(itemAddress).then(data => {
+                    Dispatcher.handleAction("ITEM_FOUND", data);
+                    hashHistory.push('/item/' + itemAddress);
+                });
             } else {
                 Dispatcher.handleAction("ERROR", {
                     error: "Expected an item address but received a model address"
