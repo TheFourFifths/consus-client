@@ -69,7 +69,7 @@ describe('CartStore', () => {
         setTimeout(() => {
             assert.isFalse(CartStore.isOnTimeout());
             done();
-        }, 2 * CartStore.TIMEOUT_TIME);
+        }, CartStore.TIMEOUT_TIME);
     });
 
     it('times out for models', function(done){
@@ -89,7 +89,7 @@ describe('CartStore', () => {
         setTimeout(() => {
             assert.isFalse(CartStore.isOnTimeout());
             done();
-        }, 2 * CartStore.TIMEOUT_TIME);
+        }, CartStore.TIMEOUT_TIME);
     });
 
     it('cancels timeout when new student is scanned', () => {
