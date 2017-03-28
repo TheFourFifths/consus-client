@@ -622,23 +622,6 @@ describe('API Client', () => {
         let response = {
             status: 'success'
         };
-        mockServer.expect({
-            method: 'post',
-            endpoint: 'checkout',
-            json: {
-                studentId: 123456,
-                equipment: [
-                    {
-                        address: 'iGwEZUvfA'
-                    },
-                    {
-                        address: 'iGwEZVHHE'
-                    }
-                ],
-                adminCode: 'abcdef'
-            },
-            response
-        });
         let equipment = [
             {
                 address: 'iGwEZUvfA'
@@ -647,6 +630,16 @@ describe('API Client', () => {
                 address: 'iGwEZVHHE'
             }
         ];
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout',
+            json: {
+                studentId: 123456,
+                equipment,
+                adminCode: 'abcdef'
+            },
+            response
+        });
         return checkOutContents(123456, equipment, 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
@@ -658,25 +651,6 @@ describe('API Client', () => {
             status: 'success'
         };
         let today = new Date();
-        mockServer.expect({
-            method: 'post',
-            endpoint: 'checkout/longterm',
-            json: {
-                studentId: 123456,
-                equipment: [
-                    {
-                        address: 'iGwEZUvfA'
-                    },
-                    {
-                        address: 'iGwEZVHHE'
-                    }
-                ],
-                dueDate: today.toDateString(),
-                professor: 'professor',
-                adminCode: 123456
-            },
-            response
-        });
         let equipment = [
             {
                 address: 'iGwEZUvfA'
@@ -685,6 +659,18 @@ describe('API Client', () => {
                 address: 'iGwEZVHHE'
             }
         ];
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout/longterm',
+            json: {
+                studentId: 123456,
+                equipment,
+                dueDate: today.toDateString(),
+                professor: 'professor',
+                adminCode: 123456
+            },
+            response
+        });
         return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
