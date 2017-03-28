@@ -20,8 +20,7 @@ export default class StudentController {
     }
 
     static checkout(id, equipment) {
-        let equipmentAddresses = this.pushEquipment(equipment);
-        return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
+        return checkOutContents(id, equipment, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);
@@ -37,21 +36,6 @@ export default class StudentController {
                 });
             }
         });
-    }
-    static pushEquipment(equipment) {
-        let equipmentAddresses = [];
-        if (equipment) {
-            equipment.forEach(e => {
-                if(e.quantity){
-                    for (let i = 0; i < e.quantity; i++){
-                        equipmentAddresses.push(e.address);
-                    }
-                } else {
-                    equipmentAddresses.push(e.address);
-                }
-            });
-        }
-        return equipmentAddresses;
     }
 
     static checkInModel(id, modelAddress, quantity) {
@@ -74,8 +58,7 @@ export default class StudentController {
     static longtermCheckout(id, equipment, dueDate, professor) {
 
         if(this.isValidLongtermData(dueDate, professor)){
-            let equipmentAddresses = this.pushEquipment(equipment);
-            return checkOutContentsLongterm(id, equipmentAddresses, dueDate, professor, AuthStore.getAdminCode()).then(() => {
+            return checkOutContentsLongterm(id, equipment, dueDate, professor, AuthStore.getAdminCode()).then(() => {
                 return searchStudent(id).then(student => {
                     Dispatcher.handleAction('CHECKOUT_SUCCESS');
                     Dispatcher.handleAction("STUDENT_FOUND", student);
@@ -103,7 +86,7 @@ export default class StudentController {
         }
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
-        if(dueDateMoment.isBefore(today)){
+        if(!dueDateMoment.isAfter(today)){
             Dispatcher.handleAction('ERROR', {
                 error: 'Due date cannot be set to today or past.'
             });

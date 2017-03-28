@@ -1,6 +1,6 @@
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
-import {checkOutContents, checkOutContentsLongterm, searchStudent} from '../lib/api-client';
+import { checkOutContents, checkOutContentsLongterm, searchStudent } from '../lib/api-client';
 import StudentController from '../controllers/pages/student';
 import { Dispatcher } from 'consus-core/flux';
 
@@ -16,19 +16,19 @@ class CartStore extends Store {
         return contents;
     }
 
-    isOnTimeout(){
+    isOnTimeout() {
         return timer !== null;
     }
 
-    getIsLongterm(){
+    getIsLongterm() {
         return isLongterm;
     }
 
-    getProfessor(){
+    getProfessor() {
         return professor;
     }
 
-    getDueDate(){
+    getDueDate() {
         return dueDate;
     }
 
@@ -38,25 +38,23 @@ const store = new CartStore();
 
 function startTimer(period) {
     timer = setTimeout(() => {
-        if(store.getIsLongterm()){
-            if(StudentController.isValidLongtermData(store.getDueDate(), store.getProfessor())){
-                checkOutContentsLongterm(StudentStore.getStudent().id,
-                StudentController.pushEquipment(store.getContents()), store.getDueDate(), store.getProfessor()).then(() => {
+        if (store.getIsLongterm()) {
+            if (StudentController.isValidLongtermData(store.getDueDate(), store.getProfessor())) {
+                checkOutContentsLongterm(StudentStore.getStudent().id, contents, store.getDueDate(), store.getProfessor()).then(() => {
                     return searchStudent(StudentStore.getStudent().id).then(student => {
                         Dispatcher.handleAction('CHECKOUT_SUCCESS');
                         Dispatcher.handleAction("STUDENT_FOUND", student);
                     });
                 });
             }
-        }else{
-            checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address)).then(() => {
+        } else {
+            checkOutContents(StudentStore.getStudent().id, contents).then(() => {
                 return searchStudent(StudentStore.getStudent().id).then(student => {
                     Dispatcher.handleAction('CHECKOUT_SUCCESS');
                     Dispatcher.handleAction("STUDENT_FOUND", student);
                 });
             });
         }
-
         clearTimer();
     }, period);
 }
@@ -126,18 +124,22 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     isLongterm = false;
     store.emitChange();
 });
+
 store.registerHandler('EDIT_IS_LONGTERM', data => {
     isLongterm = data.isLongterm;
     store.emitChange();
 });
+
 store.registerHandler('EDIT_LONGTERM_DUEDATE', data => {
     dueDate = data.dueDate;
     store.emitChange();
 });
+
 store.registerHandler('EDIT_LONGTERM_PROFESSOR', data => {
     professor = data.professor;
     store.emitChange();
 });
+
 store.registerHandler('CLEAR_ALL_DATA', () => {
     contents = [];
     dueDate = null;
