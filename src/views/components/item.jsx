@@ -37,6 +37,10 @@ export default class Item extends React.Component {
             this.setState({faultBoxOpen: true});
     }
 
+    cancelFault() {
+        this.setState({faultBoxOpen: false});
+    }
+
     deleteItem() {
         ItemController.deleteItem(this.state.item);
     }
@@ -72,7 +76,7 @@ export default class Item extends React.Component {
                         <br/>
                         {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
                         <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
-                        {this.state.faultBoxOpen ? <button> Cancel </button> : ""}
+                        {this.state.faultBoxOpen ? <button onClick={this.cancelFault.bind(this)}> Cancel </button> : ""}
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>
