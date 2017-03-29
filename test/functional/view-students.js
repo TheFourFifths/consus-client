@@ -82,7 +82,7 @@ describe('View all students', function () {
             json: {
                 "items": [{
                     address: 'iGwEZVeaT',
-                    faultDescription: "",
+                    faultHistory: [],
                     isFaulty: false,
                     modelAddress: 'm8y7nFLsT',
                     status: 'CHECKED_OUT',
@@ -153,7 +153,7 @@ describe('View all students', function () {
                 student: {
                     "items": [{
                         address: 'iGwEZVeaT',
-                        faultDescription: "",
+                        faultHistory: [],
                         isFaulty: false,
                         modelAddress: 'm8y7nFLsT',
                         status: 'CHECKED_OUT',
@@ -178,7 +178,7 @@ describe('View all students', function () {
             json: {
                 "items": [{
                     address: 'iGwEZVeaT',
-                    faultDescription: "",
+                    faultHistory: [],
                     isFaulty: false,
                     modelAddress: 'm8y7nFLsT',
                     status: 'CHECKED_OUT',
@@ -262,7 +262,7 @@ describe('View all students', function () {
             json: {
                 "items": [{
                     address: 'iGwEZVeaT',
-                    faultDescription: "",
+                    faultHistory: [],
                     isFaulty: false,
                     modelAddress: 'm8y7nFLsT',
                     status: 'CHECKED_OUT',
