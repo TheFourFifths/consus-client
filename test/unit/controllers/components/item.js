@@ -14,6 +14,21 @@ describe("ItemController", () => {
             getAllItems = sinon.stub(api, "getAllItems");
         });
 
+        it("Dispatches errors properly when something goes wrong", () => {
+            addFault.returns(
+                new Promise((resolve, reject) => {
+                    reject("Oh man, you screwed up");
+                })
+            );
+
+            return ItemController.addFault({itemAddress:"iabcd", fault:"lksdjfdj"}).then(() => {
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Oh man, you screwed up");
+                Dispatcher.handleAction("CLEAR_ERROR");
+            });
+        });
+
         it('Dispatches properly after adding fault', () => {
             addFault.returns(
                 new Promise(resolve => {
