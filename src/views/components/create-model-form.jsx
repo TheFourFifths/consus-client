@@ -89,25 +89,25 @@ export default class CreateModelForm extends React.Component {
         return (
             <div className='model-form'>
                 <h1>Create a Model</h1>
-                <button onClick={this.allModels.bind(this)}>View all models</button>
                 <form onSubmit={this.submit.bind(this)}>
-                    Name:<br/>
+                    <strong>Name *</strong><br/>
                     <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
-                    Description:<br/>
+                    <strong>Description *</strong><br/>
                     <textarea rows="4" cols="50" value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required> </textarea><br/>
-                    Manufacturer:<br/>
+                    Manufacturer<br/>
                     <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
-                    Vendor:<br/>
+                    Vendor<br/>
                     <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
-                    Storage location:<br/>
+                    Storage location<br/>
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
-                    Price per unit:<br/>
+                    Price per unit<br/>
                     <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    Can it be checked out?:
+                    Can it be checked out?
                     <input type='checkbox' value={this.state.allowCheckout} onChange={this.changeAllowCheckout.bind(this)} checked={this.state.checked} /><br/>
-                    {this.state.checked && <span>Amount in stock:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} required/></span>}<br/><br/>
+                    {this.state.checked && <span>Amount in stock<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} required/></span>}<br/>
                     <input type='submit' value='Create Model' />
                 </form>
+                <button onClick={this.allModels.bind(this)}>Back</button>
             </div>
         );
     }
