@@ -85,7 +85,6 @@ export default class EditModelForm extends React.Component {
                 });
             });
         }
-        OmnibarController.setWarnBeforeExiting(true);
     }
 
     componentWillUnmount(){
@@ -97,6 +96,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             name: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeDescription(e) {
@@ -104,6 +104,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             description: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeManufacturer(e) {
@@ -111,6 +112,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             manufacturer: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeVendor(e) {
@@ -118,6 +120,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             vendor: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeLocation(e) {
@@ -125,6 +128,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             location: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePrice(e) {
@@ -132,6 +136,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             price: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeCount(e){
@@ -139,6 +144,7 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             count: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeStock(){
@@ -147,6 +153,7 @@ export default class EditModelForm extends React.Component {
             changeStock: !this.state.checked,
             checked: !this.state.checked
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeInStock(e){
@@ -154,20 +161,21 @@ export default class EditModelForm extends React.Component {
             hasUnsavedChange: true,
             inStock: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePhoto(e) {
+        this.setState({ hasUnsavedChange: true });
+        OmnibarController.setWarnBeforeExiting(true);
         let file = e.target.files[0];
         if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
-                hasUnsavedChange: true,
                 showFileSizeModal: true,
                 fileOversize: true
             });
             return;
         } else {
             this.setState({
-                hasUnsavedChange: true,
                 showFileSizeModal: false,
                 fileOversize: false
             });

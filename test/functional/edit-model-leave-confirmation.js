@@ -59,7 +59,7 @@ describe('Edit model leave confirmation', function () {
         });
     });
 
-    it('does not warn you before leaving an unchanged model', () => {
+    it('does not warn you before leaving an unchanged model via "View all Models" button', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
@@ -70,7 +70,6 @@ describe('Edit model leave confirmation', function () {
                 }
             }
         });
-
         mockServer.expect({
             method: 'get',
             endpoint: 'model',
@@ -84,6 +83,44 @@ describe('Edit model leave confirmation', function () {
         });
 
         return app.client.click('.create-model-form > button').then(() => {
+            return app.client.waitForVisible('#models');
+        }).then(() => {
+            return app.client.click('.actionArea img[src*="edit"]');
+        }).then(() => {
+            return app.client.waitForVisible('.create-model-form');
+        }).then(() => {
+            mockServer.validate();
+        });
+    });
+
+    it('does not warn you before leaving an unchanged model via Omnibar', () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model',
+            qs: {
+                address: models[0].address
+            },
+            response: {
+                status: "success",
+                data: models[0]
+            }
+        });
+
+        return app.client.click('#omnibar img').then(() => {
+            return app.client.waitForVisible('#index');
+        }).then(() => {
+            return app.client.click('#view-models');
+        }).then(() => {
             return app.client.waitForVisible('#models');
         }).then(() => {
             return app.client.click('.actionArea img[src*="edit"]');
