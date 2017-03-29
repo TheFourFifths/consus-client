@@ -8,7 +8,7 @@ export function getNextDueTimestamp() {
     // check for times past 4:50pm
     let dueHour = config.get('checkin.due_hour'),
         dueMin  = config.get('checkin.due_minute');
-    if (hour >= dueHour || (hour === dueHour && minute >= dueMin)) {
+    if (hour >= dueHour || (hour === dueHour - 1 && minute >= dueMin)) {
         // increment to the next day
         timestamp = timestamp.add(1, 'd');
     }
