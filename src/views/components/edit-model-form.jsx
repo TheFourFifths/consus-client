@@ -37,12 +37,14 @@ export default class EditModelForm extends React.Component {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
-                model: null
+                model: null,
+                hasUnsavedChange: false
             };
         } else {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
+                hasUnsavedChange: false,
 
                 model: props.model,
                 name: props.model.name,
@@ -92,48 +94,56 @@ export default class EditModelForm extends React.Component {
 
     changeName(e) {
         this.setState({
+            hasUnsavedChange: true,
             name: e.target.value
         });
     }
 
     changeDescription(e) {
         this.setState({
+            hasUnsavedChange: true,
             description: e.target.value
         });
     }
 
     changeManufacturer(e) {
         this.setState({
+            hasUnsavedChange: true,
             manufacturer: e.target.value
         });
     }
 
     changeVendor(e) {
         this.setState({
+            hasUnsavedChange: true,
             vendor: e.target.value
         });
     }
 
     changeLocation(e) {
         this.setState({
+            hasUnsavedChange: true,
             location: e.target.value
         });
     }
 
     changePrice(e) {
         this.setState({
+            hasUnsavedChange: true,
             price: e.target.value
         });
     }
 
     changeCount(e){
         this.setState({
+            hasUnsavedChange: true,
             count: e.target.value
         });
     }
 
-    changeStock(e){
+    changeStock(){
         this.setState({
+            hasUnsavedChange: true,
             changeStock: !this.state.checked,
             checked: !this.state.checked
         });
@@ -141,6 +151,7 @@ export default class EditModelForm extends React.Component {
 
     changeInStock(e){
         this.setState({
+            hasUnsavedChange: true,
             inStock: e.target.value
         });
     }
@@ -149,12 +160,14 @@ export default class EditModelForm extends React.Component {
         let file = e.target.files[0];
         if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
+                hasUnsavedChange: true,
                 showFileSizeModal: true,
                 fileOversize: true
             });
             return;
         } else {
             this.setState({
+                hasUnsavedChange: true,
                 showFileSizeModal: false,
                 fileOversize: false
             });
@@ -196,9 +209,13 @@ export default class EditModelForm extends React.Component {
     }
 
     allModels() {
-        this.setState({
-            popConfirmModal: true
-        });
+        if (this.state.hasUnsavedChange) {
+            this.setState({
+                popConfirmModal: true
+            });
+        } else {
+            ModelFormController.getModels();
+        }
     }
 
     handleConfirmModal(bool){

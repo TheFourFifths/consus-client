@@ -51,7 +51,7 @@ describe('Edit model leave confirmation', function () {
         return app.client.click('#view-models').then(() => {
             return app.client.waitForVisible('#models', 5000);
         }).then(() => {
-            return app.client.click('.actionArea img[src="../assets/images/edit.svg"]')
+            return app.client.click('.actionArea img[src*="edit"]');
         }).then(() => {
             return app.client.waitForVisible(".create-model-form", 5000);
         }).then(() => {
@@ -59,8 +59,47 @@ describe('Edit model leave confirmation', function () {
         });
     });
 
+    it('does not warn you before leaving an unchanged model', () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model',
+            qs: {
+                address: models[0].address
+            },
+            response: {
+                status: "success",
+                data: models[0]
+            }
+        });
+
+        return app.client.click('.create-model-form > button').then(() => {
+            return app.client.waitForVisible('#models');
+        }).then(() => {
+            return app.client.click('.actionArea img[src*="edit"]');
+        }).then(() => {
+            return app.client.waitForVisible('.create-model-form');
+        }).then(() => {
+            mockServer.validate();
+        });
+    });
+
     it('warns you before leaving the page', () => {
-        return app.client.click('.create-model-form>button').then(() => {
+        return app.client.click('#name input').then(() => {
+            return app.client.keys('change');
+        }).then(() => {
+            return app.client.click('.create-model-form > button')
+        }).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
             return app.client.click('.modal-content button');
