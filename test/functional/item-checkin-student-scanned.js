@@ -8,6 +8,7 @@ import models from '../test-cases/models';
 import students from '../test-cases/students';
 import CartStore from '../../.dist/store/cart-store';
 import StudentStore from '../../.dist/store/student-store';
+
 describe('Checking an item out when new student scanned', function () {
 
     this.timeout(10000);
@@ -89,7 +90,11 @@ describe('Checking an item out when new student scanned', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA']
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    }
+                ]
             },
             response: {
                 status: 'success'

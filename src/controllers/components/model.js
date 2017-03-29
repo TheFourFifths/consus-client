@@ -3,6 +3,7 @@ import { Dispatcher } from 'consus-core/flux';
 import ModelStore from '../../store/model-store';
 
 export default class ModelController {
+
     static getModel(address) {
         return searchModel(address).then( model => {
             Dispatcher.handleAction('MODEL_FOUND', model);
@@ -50,4 +51,5 @@ export default class ModelController {
             });
         });
     }
+
 }

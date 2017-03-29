@@ -112,4 +112,5 @@ export default class OmnibarController {
         }
         return true;
     }
+
 }
