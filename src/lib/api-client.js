@@ -29,6 +29,7 @@ export function call(endpoint, method, qs, json) {
     }
     return new Promise((resolve, reject) => {
         request(options, (error, response, body) => {
+            if (error) console.log(error);
             if (response.statusCode !== 200) {
                 return reject(body);
             }
