@@ -107,7 +107,7 @@ describe("OmnibarController", () => {
                         "status": "CHECKED_OUT"
                     });
                 })
-            });
+            );
             let itemAddress = 'iGwEZUvfA';
 
             return OmnibarController.displayItem(itemAddress).then(() => {
