@@ -25,7 +25,7 @@ export default class Models extends ListenerComponent {
                 <button onClick={ItemController.newItemPage}>Make new Item</button>
                 {this.state.items.map((item) => {
                     return (
-                        <div key={item.address}>
+                        <div key={item.address + '' + item.faultHistory.length}>
                             <Item item={item} />
                         </div>
                     );

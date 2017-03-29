@@ -4,7 +4,7 @@ export default [
         modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: '',
+        faultHistory: [],
         isCheckedOutTo: 111111
     },
     {
@@ -12,14 +12,14 @@ export default [
         modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: ''
+        faultHistory: []
     },
     {
         address: 'iGwEZVeaT',
         modelAddress: 'm8y7nFLsT',
         status: 'CHECKED_OUT',
         isFaulty: false,
-        faultDescription: '',
+        faultHistory: [],
         timestamp: 0
     },
     {
@@ -27,20 +27,20 @@ export default [
         modelAddress: 'm8y7nEtAe',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: ''
+        faultHistory: []
     },
     {
         address: 'iGwEZW6nn',
         modelAddress: 'm8y7nFLsT',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: ''
+        faultHistory: []
     },
     {
         address: 'iGwEZWXhn',
         modelAddress: 'm8y7nFLsT',
         status: 'AVAILABLE',
         isFaulty: false,
-        faultDescription: ''
+        faultHistory: []
     }
 ]

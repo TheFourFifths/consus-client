@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import {
+    addFault,
     changeProtocol,
     changeHost,
     changePort,
@@ -42,6 +43,27 @@ describe('API Client', () => {
 
     after(() => {
         mockServer.stop();
+    });
+
+    it('addFault', () => {
+        let res = {
+            status: "success",
+            data: {}
+        }
+
+        mockServer.expect({
+            method: "post",
+            endpoint: "item/fault",
+            json: {
+                itemAddress: "iGwEZUvfA",
+                faultDescription: "description"
+            },
+            response: res
+        });
+        return addFault("iGwEZUvfA", "description").then(returned => {
+            assert.deepEqual(returned, res.data);
+            mockServer.validate();
+        });
     });
 
     it('checkIn', () => {
