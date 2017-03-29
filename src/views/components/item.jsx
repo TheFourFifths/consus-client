@@ -70,9 +70,10 @@ export default class Item extends React.Component {
                      className="faultArea">
                         <h3>Fault</h3>
                         {(this.state.item.isFaulty
-                                ? <p>{this.state.item.faultHistory[0].description}</p>
+                                ? <span><button>ClearFault</button><p>{this.state.item.faultHistory[0].description}</p></span>
                                 : <p>Item is not currently faulty.</p>
                         )}
+
                         <br/>
                         {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
                         <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
