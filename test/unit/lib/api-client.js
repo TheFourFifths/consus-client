@@ -15,6 +15,7 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    removeItemFault,
     searchItem,
     searchModel,
     searchStudent,
@@ -404,6 +405,32 @@ describe('API Client', () => {
             response
         });
         return getOverdueItems().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('removeItemFault', () => {
+        let response = {
+            status: 'success',
+            data: {
+                item: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'delete',
+            endpoint: 'item/fault',
+            qs: {
+                itemAddress: 'iGwEZUvfA'
+            },
+            response
+        });
+
+        return removeItemFault('iGwEZUvfA').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
