@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import moment from 'moment-timezone';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -62,26 +63,27 @@ export default class StudentPanel extends ListenerComponent {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
 
-        let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
-
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
-                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderItemInfo(item)}
-                        </div>
-                    </Link>);
+                    return (
+                        <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div className="item-info">
+                                {this.renderItemInfo(item)}
+                            </div>
+                        </Link>
+                    );
                 })}
 
-                {modelCounts.map((model, m) => {
+                {this.props.student.models.map((model, i) => {
                     return (
-                        <div className="item-info" key={m}>
+                        <div className="item-info" key={i}>
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
                             {this.renderCheckinButtons(model)}
-                        </div>);
+                        </div>
+                    );
                 })}
             </div>
         );
@@ -106,8 +108,9 @@ export default class StudentPanel extends ListenerComponent {
         if(!model){
             return null;
         }else{
+            let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
             return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </div>)
         }
     }

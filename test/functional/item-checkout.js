@@ -89,7 +89,11 @@ describe('Checking an item out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA']
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -109,7 +113,6 @@ describe('Checking an item out', function () {
                 data: students[0]
             }
         });
-
 
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
@@ -177,7 +180,6 @@ describe('Checking an item out', function () {
                 data: items[1]
            }
        });
-
         mockServer.expect({
             method: 'get',
             endpoint: 'item',
@@ -195,9 +197,13 @@ describe('Checking an item out', function () {
           json: {
               adminCode: null,
               studentId: 123456,
-              equipmentAddresses: [
-                  'iGwEZVHHE',
-                  'iGwEZVvgu'
+              equipment: [
+                  {
+                      address: 'iGwEZVHHE'
+                  },
+                  {
+                      address: 'iGwEZVvgu'
+                  }
               ]
           },
           response: {
