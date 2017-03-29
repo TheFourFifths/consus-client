@@ -91,13 +91,23 @@ describe("OmnibarController", () => {
     });
 
     describe("displayItem", () => {
-        let dispatcherSpy;
+        let dispatcherSpy, searchItem;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            searchItem = sinon.stub(api, "searchItem");
         });
 
         it('Redirects if given an item address', () => {
             let historySpy = router.hashHistory.push = sinon.spy();
+            searchItem.returns(
+                new Promise (resolve => {
+                    resolve({
+                        "address": "iGwEZUvfA",
+                        "modelAddress": "m8y7nEtAe",
+                        "status": "CHECKED_OUT"
+                    });
+                })
+            });
             let itemAddress = 'iGwEZUvfA';
 
             return OmnibarController.displayItem(itemAddress).then(() => {
@@ -125,6 +135,7 @@ describe("OmnibarController", () => {
 
         afterEach(() => {
             dispatcherSpy.restore();
+            searchItem.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
