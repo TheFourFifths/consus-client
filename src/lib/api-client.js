@@ -77,10 +77,10 @@ export function checkInModel(studentId, modelAddress, quantity){
     });
 }
 
-export function checkOutContents(studentId, equipmentAddresses, code){
+export function checkOutContents(studentId, equipment, code){
     let params = {
         studentId,
-        equipmentAddresses
+        equipment
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;
@@ -181,4 +181,17 @@ export function uploadStudents(data){
     return post('student', {
         data
     });
+}
+
+export function checkOutContentsLongterm(studentId, equipment, dueDate, professor, code){
+    let params = {
+        studentId,
+        equipment,
+        dueDate,
+        professor
+    };
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
+    return post('checkout/longterm', params);
 }

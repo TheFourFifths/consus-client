@@ -98,6 +98,7 @@ module.exports = function(grunt) {
                         '.test/functional/model-checkin.js',
                         '.test/functional/admin-override-item-checkout.js',
                         '.test/functional/item-checkin-student-scanned.js',
+                        '.test/functional/longterm-checkout.js',
                         '.test/functional/delete-model.js',
                         '.test/functional/delete-item.js',
                         '.test/functional/edit-model-leave-confirmation.js',

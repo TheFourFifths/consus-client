@@ -3,7 +3,7 @@ import { Dispatcher } from 'consus-core/flux';
 
 export default class ItemController {
 
-    static deleteItem(item){
+    static deleteItem(item) {
         return deleteItem(item).then(data => {
             Dispatcher.handleAction('ITEMS_RECEIVED', data);
             Dispatcher.handleAction('CREATE_TOAST', {

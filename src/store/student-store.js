@@ -1,10 +1,11 @@
-import {Store} from 'consus-core/flux';
+import { Store } from 'consus-core/flux';
 import CartStore from './cart-store';
 
 let student = null;
 let students = {};
 
 class StudentStore extends Store {
+
     hasOverdueItems(items) {
         return items.some(element => {
             let now = Math.floor(Date.now() / 1000);
@@ -23,6 +24,7 @@ class StudentStore extends Store {
     getStudentById(studentId){
         return students[studentId];
     }
+
 }
 
 const store = new StudentStore();

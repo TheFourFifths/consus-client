@@ -3,6 +3,7 @@ import { hashHistory } from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class ModelFormController {
+
     static createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
         return createModel(name, description, manufacturer, vendor, location, allowCheckout, parseFloat(price), parseInt(count)).then(model => {
             Dispatcher.handleAction("MODEL_CREATED", model);
@@ -31,4 +32,5 @@ export default class ModelFormController {
             });
         });
     }
+
 }

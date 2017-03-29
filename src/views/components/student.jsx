@@ -25,7 +25,7 @@ export default class Student extends React.Component {
             editMode: false,
             student: updated
         });
-        StudentController.UpdateStudent(updated);
+        StudentController.updateStudent(updated);
     }
 
     render() {
