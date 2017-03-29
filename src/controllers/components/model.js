@@ -2,6 +2,7 @@ import { searchModel, deleteModel, getAllModels, createItem } from '../../lib/ap
 import { Dispatcher } from 'consus-core/flux';
 
 export default class ModelController {
+
     static getModel(address) {
         return searchModel(address).then( model => {
             Dispatcher.handleAction('MODEL_FOUND', model);
@@ -37,4 +38,5 @@ export default class ModelController {
             });
         });
     }
+
 }

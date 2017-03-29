@@ -13,4 +13,5 @@ export default class ModelController {
             Dispatcher.handleAction("ERROR", { error: 'The model requested does not exist' });
         });
     }
+
 }
