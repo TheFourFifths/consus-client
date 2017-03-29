@@ -19,7 +19,7 @@ export default class SingleItemPage extends ListenerComponent {
 
     render() {
         return (
-            <Item key={this.state.item.address + '' + this.state.item.faultHistory.length}
+            <Item key={this.state.item.address + this.state.item.faultHistory.length + this.state.item.isFaulty}
             item = {this.state.item} />
         );
     }
