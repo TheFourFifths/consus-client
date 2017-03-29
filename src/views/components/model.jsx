@@ -135,7 +135,7 @@ export default class Model extends React.Component {
                     </div>
                 </div>
                 <div className="actionArea">
-                    <img id={`addbtn${this.state.model.address}`} className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
+                    <img className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
                     <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
                     <img onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
                     <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />

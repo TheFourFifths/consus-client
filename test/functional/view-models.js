@@ -124,7 +124,7 @@ describe('View all models', function () {
                 }
             }
         });
-        return app.client.click(`#addbtn${models[2].address}`).then(() => {
+        return app.client.click(`#${models[2].address} .btnAddItemToModel`).then(() => {
             return app.client.waitForVisible('.modal', 5000);
         }).then(() => {
             return app.client.click('.modal .modal-content button[type="button"]');
