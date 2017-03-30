@@ -41,6 +41,7 @@ This document describes the Flux actions used in the Consus client.
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
+    - [UNSERIALIZED_MODEL_ADDED](#unserialized_model_added)
     - [WARN](#warn)
     - [PROMPT_TO_PRINT](#prompt_to_print)
 
@@ -407,6 +408,14 @@ Dispatched when uploading excel doc has finished uploading to the server
 ### Data
 
 None.
+
+## UNSERIALIZED_MODEL_ADDED
+
+Dispatched when a new instance of an unserialzed model is created and the total and in stock values have been incremented
+
+### Data
+
+An entire model object as received from the server.
 
 ## WARN
 
