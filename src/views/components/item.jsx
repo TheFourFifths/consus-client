@@ -80,7 +80,16 @@ export default class Item extends React.Component {
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>
-                        {this.state.item.faultHistory.length}
+                        {this.state.item.faultHistory.map(fault => {
+                            return <span key={fault.description + fault.timestamp + new Date().getTime()}>{fault.description}</span>;
+                        })}
+                        {this.state.item.faultHistory.map(fault => {
+                            return (
+                                <div key={fault.description + '' + fault.timestamp}>
+                                    {fault.description}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="actionArea">
