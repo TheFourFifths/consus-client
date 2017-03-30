@@ -68,7 +68,7 @@ export default class Item extends React.Component {
                     </div>
                     <div key={'' + this.state.item.address + this.state.item.faultHistory.length}
                      className="faultArea">
-                        <h3>Fault</h3>
+                        <h3>Current Fault</h3>
                         {(this.state.item.isFaulty
                                 ? <p>{this.state.item.faultHistory[0].description}</p>
                                 : <p>Item is not currently faulty.</p>
@@ -80,16 +80,10 @@ export default class Item extends React.Component {
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>
-                        {this.state.item.faultHistory.map(fault => {
-                            return <span key={fault.description + fault.timestamp + new Date().getTime()}>{fault.description}</span>;
-                        })}
-                        {this.state.item.faultHistory.map(fault => {
-                            return (
-                                <div key={fault.description + '' + fault.timestamp}>
-                                    {fault.description}
-                                </div>
-                            );
-                        })}
+                        {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault,index) => {
+                            if (index === 0 && this.state.item.isFaulty) return null;
+                            return <div key={fault.description + fault.timestamp + new Date().getTime()}>{fault.timestamp}:{fault.description}</div>;
+                        }))}
                     </div>
                 </div>
                 <div className="actionArea">
