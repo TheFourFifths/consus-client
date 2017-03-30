@@ -64,7 +64,6 @@ export default class StudentPanel extends ListenerComponent {
         if (items.length === 0 && this.props.student.models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
-        let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
         return (
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
