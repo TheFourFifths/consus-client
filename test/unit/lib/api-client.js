@@ -17,6 +17,8 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    saveItem,
+    saveModel,
     removeItemFault,
     searchItem,
     searchModel,
@@ -458,6 +460,43 @@ describe('API Client', () => {
             response
         });
         return getOverdueItems().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/save',
+            json: {
+=                itemAddress: 'iGwEZVHHE'
+            }
+            response
+        });
+        return saveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/save',
+            json: {
+                studentId: 123456
+                itemAddress: 'm8y7nEtAe'
+            }
+            response
+        });
+        return saveModel(123456, 'm8y7nEtAe').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
