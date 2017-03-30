@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
 
-describe('View all models', function () {
+describe.only('View all models', function () {
 
     this.timeout(10000);
     let app;
@@ -127,12 +127,16 @@ describe('View all models', function () {
         return app.client.click(`#addbtn${models[2].address}`).then(() => {
             return app.client.waitForVisible('.modal', 5000);
         }).then(() => {
+            return app.client.getText('.modal');
+        }).then(modalText => {
+            assert.include(modalText, 'Add another Resistor?');
             return app.client.click('.modal .modal-content button[type="button"]');
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
         }).then(() => {
-            return app.client.getText(`#${models[2].address} .infoArea`);
-        }).then(modelList => {
+            return app.client.getText('.toast');
+        }).then(toastText => {
+            assert.include(toastText, 'New Resistor (m8y7nFnMs) created');
             mockServer.validate();
         });
     });
