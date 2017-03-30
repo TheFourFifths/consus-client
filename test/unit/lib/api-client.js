@@ -474,7 +474,7 @@ describe('API Client', () => {
             endpoint: 'item/save',
             json: {
 =                itemAddress: 'iGwEZVHHE'
-            }
+            },
             response
         });
         return saveItem('iGwEZVHHE').then(data => {
@@ -493,7 +493,7 @@ describe('API Client', () => {
             json: {
                 studentId: 123456
                 itemAddress: 'm8y7nEtAe'
-            }
+            },
             response
         });
         return saveModel(123456, 'm8y7nEtAe').then(data => {
