@@ -85,7 +85,7 @@ export default class Item extends React.Component {
                         <h3>Fault History:</h3>
                         {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault,index) => {
                             if (index === 0 && this.state.item.isFaulty) return null;
-                            let timestamp = moment.tz(fault.timestamp * 1000, config.get('timezone')).format('MMM D Y, h:mm:ss a');
+                            let timestamp = moment.tz(fault.timestamp * 1000, config.get('timezone')).format('MMM D Y, h:mm a');
                             return <div key={fault.description + fault.timestamp + new Date().getTime()}>{timestamp}: {fault.description}</div>;
                         }))}
                     </div>
