@@ -74,7 +74,7 @@ export default class StudentPanel extends ListenerComponent {
                                     {this.renderItemInfo(item)}
                                 </Link>
                                 <div className='buttons'>
-                                    <button onClick={() => StudentPanelController.reserveItem(item.address)>Save</button>
+                                    <button onClick={() => StudentPanelController.reserveItem(item.address)}>Save</button>
                                 </div>
                             </div>
                     );
