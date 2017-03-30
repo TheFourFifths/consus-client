@@ -38,7 +38,7 @@ export default class SavedEquipment extends React.Component {
                 })}
                 {this.props.models.map(model => {
                     return (
-                        <div key={model.address} className="model-info"}>
+                        <div key={model.address} className="model-info">
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
