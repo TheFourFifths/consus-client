@@ -62,6 +62,14 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
+export function addFault(itemAddress, faultDescription){
+
+    return post('item/fault', {
+        itemAddress,
+        faultDescription
+    });
+}
+
 export function addUnserializedModel(modelAddress) {
     return patch('model/instock', {
         modelAddress
@@ -142,6 +150,12 @@ export function getAllStudents() {
 
 export function getOverdueItems() {
     return get('item/overdue');
+}
+
+export function removeItemFault(itemAddress) {
+    return del('item/fault', {
+        itemAddress
+    });
 }
 
 export function searchItem(address) {

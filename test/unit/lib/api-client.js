@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import {
+    addFault,
     addUnserializedModel,
     changeProtocol,
     changeHost,
@@ -16,6 +17,7 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    removeItemFault,
     searchItem,
     searchModel,
     searchStudent,
@@ -45,6 +47,27 @@ describe('API Client', () => {
         mockServer.stop();
     });
 
+    it('addFault', () => {
+        let res = {
+            status: "success",
+            data: {}
+        }
+
+        mockServer.expect({
+            method: "post",
+            endpoint: "item/fault",
+            json: {
+                itemAddress: "iGwEZUvfA",
+                faultDescription: "description"
+            },
+            response: res
+        });
+        return addFault("iGwEZUvfA", "description").then(returned => {
+            assert.deepEqual(returned, res.data);
+            mockServer.validate();
+        });
+    });
+
     it('addUnserializedModel', () => {
         let response = {
             status: 'success',
@@ -72,7 +95,7 @@ describe('API Client', () => {
         return addUnserializedModel('m8y7nEtAe').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
-        })
+        });
     });
 
     it('checkIn', () => {
@@ -435,6 +458,32 @@ describe('API Client', () => {
             response
         });
         return getOverdueItems().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('removeItemFault', () => {
+        let response = {
+            status: 'success',
+            data: {
+                item: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'delete',
+            endpoint: 'item/fault',
+            qs: {
+                itemAddress: 'iGwEZUvfA'
+            },
+            response
+        });
+
+        return removeItemFault('iGwEZUvfA').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
