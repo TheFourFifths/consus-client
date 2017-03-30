@@ -1,6 +1,6 @@
 # Valid time zones are listed under the "TZ" column at
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone = "Etc/UTC"
+timezone = "America/Chicago"
 
 [assets]
 # The maximum size allowed for model photos (kilobytes).
