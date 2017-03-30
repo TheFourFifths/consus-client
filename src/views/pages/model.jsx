@@ -31,7 +31,7 @@ export default class ModelPage extends ListenerComponent {
                 <Model model={this.state.model}/>
                 {this.state.items.map((item) => {
                     return (
-                        <div key={item.address + item.faultHistory.length + this.state.item.isFaulty}>
+                        <div key={item.address + item.faultHistory.length + item.isFaulty}>
                             <Item item={item} />
                         </div>
                     );
