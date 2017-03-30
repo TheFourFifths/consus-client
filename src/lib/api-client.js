@@ -1,8 +1,9 @@
 import request from 'request';
+import config from 'config';
 
-let PROTOCOL = 'http';
-let HOST = 'localhost';
-let PORT = 80;
+let PROTOCOL = config.get('server.protocol');
+let HOST = config.get('server.ip');
+let PORT = config.get('server.port');
 
 export function changeProtocol(protocol) {
     PROTOCOL = protocol;
@@ -69,6 +70,11 @@ export function addFault(itemAddress, faultDescription){
     });
 }
 
+export function addUnserializedModel(modelAddress) {
+    return patch('model/instock', {
+        modelAddress
+    });
+}
 
 export function checkIn(studentId, itemAddress){
     return post('checkin', {

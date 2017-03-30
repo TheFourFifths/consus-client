@@ -6,7 +6,7 @@ import CartController from '../../controllers/components/cart-panel'
 import {Link} from 'react-router';
 import InputModal from '../components/input-modal.jsx';
 import {readAddress} from 'consus-core/identifiers';
-// import { Dispatcher } from 'consus-core/flux';
+
 export default class Models extends ListenerComponent {
 
     constructor() {
