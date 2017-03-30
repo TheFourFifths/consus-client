@@ -67,21 +67,21 @@ export default class StudentPanel extends ListenerComponent {
         }
         return (
             <div className='equipment'>
-                {items.map((item, i) => {
+                {items.map(item => {
                     return (
-                            <div className="item-info">
-                                <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                                    {this.renderItemInfo(item)}
-                                </Link>
-                                <div className='buttons'>
-                                    <button onClick={() => StudentPanelController.reserveItem(item.address)}>Save</button>
-                                </div>
+                        <div className="item-info" key={item.address}>
+                            <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderItemInfo(item)}
+                            </Link>
+                            <div className='buttons'>
+                                <button onClick={() => StudentPanelController.reserveItem(item.address)}>Save</button>
                             </div>
+                        </div>
                     );
                 })}
-                {models.map((model, i) => {
+                {models.map(model => {
                     return (
-                        <div className="item-info" key={i}>
+                        <div className="model-info" key={model.address}>
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>

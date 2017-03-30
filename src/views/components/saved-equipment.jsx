@@ -27,16 +27,18 @@ export default class SavedEquipment extends React.Component {
         }
         return (
             <div className='equipment'>
-                {this.props.items.map((item, i) => {
-                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderItemInfo(item)}
-                        </div>
-                    </Link>);
-                })}
-                {this.props.models.map((model, i) => {
+                {this.props.items.map(item => {
                     return (
-                        <div className="item-info" key={i}>
+                        <div key={item.address} className="item-info">
+                            <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderItemInfo(item)}
+                            </Link>
+                        </div>
+                    );
+                })}
+                {this.props.models.map(model => {
+                    return (
+                        <div key={model.address} className="model-info"}>
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
