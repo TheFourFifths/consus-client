@@ -1,0 +1,29 @@
+# Valid time zones are listed under the "TZ" column at
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone = "Etc/UTC"
+
+[assets]
+# The maximum size allowed for model photos (kilobytes).
+max_model_photo_size = 950
+
+[cart]
+# The carts timeout. How many seconds should elapse before pending equipment in
+# a student's cart is checked out to them.
+timeout = 60
+
+[checkin]
+# The time equipment is due back.
+# NOTE: Specify as 24-hour (local) time.
+due_hour = 17
+due_minute = 0
+
+[server]
+# The IP address, port, and protocol of the server to connect to.
+ip = "localhost"
+port = 8000
+protocol = "http"
+
+[toast]
+# How many seconds should a toast message be displayed before automatically
+# disappearing.
+timeout = 5

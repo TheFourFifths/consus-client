@@ -1,6 +1,7 @@
+import config from 'config';
 import { Store } from 'consus-core/flux';
 
-const DEFAULT_TIME_UNTIL_POP = 5000; // 5 seconds
+const DEFAULT_TIME_UNTIL_POP = config.get('toast.timeout') * 1000;  /* milliseconds */
 
 let toasts = [];
 let nextId = 0;
