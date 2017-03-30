@@ -71,9 +71,12 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
 });
 
 store.registerHandler('SAVE_ITEM', data => {
-    student.items.find(item => {
-        return item.address === data.itemAddress;
-    }).status = 'SAVED';
+    student.items.find(i => i.address === data.itemAddress).status = 'SAVED';
+    store.emitChange();
+});
+
+store.registerHandler('SAVE_MODEL', data => {
+    student.models.find(m => m.address === data.modelAddress).status = 'SAVED';
     store.emitChange();
 });
 

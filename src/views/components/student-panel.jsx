@@ -61,33 +61,36 @@ export default class StudentPanel extends ListenerComponent {
 
     renderEquipment() {
         let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
-        if (items.length === 0 && this.props.student.models.length === 0) {
+        let models = this.props.student.models.filter(model => model.status === 'CHECKED_OUT');
+        if (items.length === 0 && models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
         return (
             <div className='equipment'>
-                {this.props.student.items.map((item, i) => {
+                {items.map((item, i) => {
                     return (
-                        <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                             <div className="item-info">
-                                {this.renderItemInfo(item)}
-                                <div>
-                                    <button onClick={e => {
-                                            e.preventDefault();
-                                            StudentPanelController.reserveItem(item.address);
-                                        }}>Save</button>
+                                <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                    {this.renderItemInfo(item)}
+                                </Link>
+                                <div className='buttons'>
+                                    <button onClick={() => StudentPanelController.reserveItem(item.address)>Save</button>
                                 </div>
                             </div>
-                        </Link>
                     );
                 })}
-                {this.props.student.models.map((model, i) => {
+                {models.map((model, i) => {
                     return (
                         <div className="item-info" key={i}>
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
-                            {this.renderCheckinButtons(model)}
+                            <div className='buttons'>
+                                <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
+                                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
+                                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+                                <button onClick={() => StudentPanelController.reserveModel(this.props.student.id, model.address)}>Save</button>
+                            </div>
                         </div>
                     );
                 })}
@@ -95,7 +98,7 @@ export default class StudentPanel extends ListenerComponent {
         );
     }
 
-    renderModelInfo(model){
+    renderModelInfo(model) {
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
@@ -103,17 +106,7 @@ export default class StudentPanel extends ListenerComponent {
         );
     }
 
-    renderCheckinButtons(model){
-        return (
-            <div className='checkin-buttons'>
-                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
-                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
-                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
-            </div>
-        );
-    }
-
-    renderItemInfo(item){
+    renderItemInfo(item) {
         let model = this.state.models.find(model => model.address === item.modelAddress);
         if (!model) {
             return null;
@@ -129,13 +122,14 @@ export default class StudentPanel extends ListenerComponent {
 
     render() {
         let savedItems = this.props.student.items.filter(item => item.status === 'SAVED');
+        let savedModels = this.props.student.models.filter(model => model.status === 'SAVED');
         return (
             <div className='student'>
                 <h2 className='name'>{this.props.student.name}</h2>
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
-                <SavedEquipment items={savedItems} models={[/* TODO */]} />
+                <SavedEquipment items={savedItems} models={savedModels} />
             </div>
         );
     }

@@ -158,6 +158,13 @@ export function saveItem(itemAddress) {
     });
 }
 
+export function saveModel(studentId, modelAddress) {
+    return post('model/save', {
+        studentId,
+        modelAddress
+    });
+}
+
 export function removeItemFault(itemAddress) {
     return del('item/fault', {
         itemAddress

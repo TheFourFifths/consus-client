@@ -1,4 +1,4 @@
-import { getAllModels, saveItem } from '../../lib/api-client';
+import { getAllModels, saveItem, saveModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class StudentPanelController {
@@ -36,6 +36,15 @@ export default class StudentPanelController {
         return saveItem(itemAddress).then(() => {
             Dispatcher.handleAction('SAVE_ITEM', {
                 itemAddress
+            });
+        });
+    }
+
+    static reserveModel(studentId, modelAddress) {
+        return saveModel(studentId, modelAddress).then(() => {
+            Dispatcher.handleAction('SAVE_MODEL', {
+                studentId,
+                modelAddress
             });
         });
     }

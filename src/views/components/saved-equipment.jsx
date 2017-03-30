@@ -4,11 +4,19 @@ import ModelStore from '../../store/model-store';
 
 export default class SavedEquipment extends React.Component {
 
-    renderItemInfo(item){
+    renderItemInfo(item) {
         let model = ModelStore.getModelByAddress(item.modelAddress);
         return (
             <span>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+            </span>
+        );
+    }
+
+    renderModelInfo(model) {
+        return (
+            <span>
+                {model.name} <i>{model.address}</i> ({model.quantity})
             </span>
         );
     }
@@ -25,6 +33,15 @@ export default class SavedEquipment extends React.Component {
                             {this.renderItemInfo(item)}
                         </div>
                     </Link>);
+                })}
+                {this.props.models.map((model, i) => {
+                    return (
+                        <div className="item-info" key={i}>
+                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderModelInfo(model)}
+                            </Link>
+                        </div>
+                    );
                 })}
             </div>
         );
