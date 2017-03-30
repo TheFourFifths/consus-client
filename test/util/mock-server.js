@@ -1,3 +1,4 @@
+import config from 'config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { assert } from 'chai';
@@ -80,7 +81,7 @@ export default class MockServer {
                     res.json(response);
                 });
             });
-            this.server = app.listen(port || 80, () => {
+            this.server = app.listen(port || config.get('server.port'), () => {
                 this.status = ON;
                 resolve();
             });
