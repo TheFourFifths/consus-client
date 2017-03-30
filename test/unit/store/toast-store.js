@@ -1,3 +1,4 @@
+import config from 'config';
 import { Dispatcher } from 'consus-core/flux';
 import ToastStore from '../../../.dist/store/toast-store';
 import { assert } from 'chai';
@@ -61,12 +62,12 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully!');
     });
 
-    it('should have a default timeout of 5 seconds', () => {
+    it("should have a default timeout of whatever's in the config file", () => {
         assert.lengthOf(ToastStore.getToasts(), 3);
         Dispatcher.handleAction('CREATE_TOAST', {
             text: 'D'
         });
-        assert.strictEqual(ToastStore.getToasts()[3].timeout, 5000);
+        assert.strictEqual(ToastStore.getToasts()[3].timeout, config.get('toast.timeout') * 1000);
     });
 
     it('should be able to define the timeout', () => {

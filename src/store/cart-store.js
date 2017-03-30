@@ -1,3 +1,4 @@
+import config from 'config';
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
 import { checkOutContents, checkOutContentsLongterm, searchStudent } from '../lib/api-client';
@@ -64,7 +65,7 @@ function clearTimer() {
     timer = null;
 }
 
-store.TIMEOUT_TIME = 60000;
+store.TIMEOUT_TIME = config.get('cart.timeout') * 1000;  /* milliseconds */
 
 store.registerHandler('STUDENT_FOUND', () => {
     if(store.isOnTimeout()){

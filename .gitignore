@@ -6,3 +6,4 @@ Consus-Client-*
 coverage*
 .nyc_output
 .idea
+config/local*
