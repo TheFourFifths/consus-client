@@ -1,7 +1,9 @@
+import config from 'config';
 import { getAllModels, patchItemDueDate, searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
+
 export default class StudentPanelController {
 
     static getModels() {
@@ -23,7 +25,7 @@ export default class StudentPanelController {
 
     static isValidDueDate(dueDate){
         let today = moment();
-        let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
+        let dueDateMoment = moment.tz(dueDate, config.get('timezone'));
         if(!dueDateMoment.isAfter(today)){
             Dispatcher.handleAction('ERROR', {
                 error: 'Due date cannot be set to today or past.'

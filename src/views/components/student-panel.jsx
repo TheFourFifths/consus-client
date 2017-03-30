@@ -16,7 +16,7 @@ export default class StudentPanel extends ListenerComponent {
             models: ModelStore.getAllModels(),
             showItemDateModal: false,
             showModelDateModal: false
-        }
+        };
     }
 
     componentWillMount() {
@@ -32,7 +32,7 @@ export default class StudentPanel extends ListenerComponent {
     getState() {
         return {
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     changeCheckinNum(maxCheckin, e) {
@@ -70,11 +70,11 @@ export default class StudentPanel extends ListenerComponent {
         StudentPanelController.changeItemDueDate(date, item);
         this.setState({
             showItemDateModal: false
-        })
+        });
     }
 
     changeModelDueDate(date, model) {
-        console.log('Model due dates not yet implemented.' + 'Changing due date to: ' + date + ' for model: ' + model.address);
+        throw new Error(`Model due dates not yet implemented. Changing due date to: ${date} for model: ${model.address}`);
     }
 
     renderEquipment() {
@@ -143,7 +143,7 @@ export default class StudentPanel extends ListenerComponent {
     showItemDateModal() {
         this.setState({
             showItemDateModal: true
-        })
+        });
     }
 
     renderItemInfo(item) {
@@ -157,11 +157,10 @@ export default class StudentPanel extends ListenerComponent {
                     <div onClick={this.displayItem.bind(this, item.address)}
                          className={item.timestamp < Math.floor(Date.now() / 1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                         {model.name} {item.timestamp < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
-                        <i>{item.address}
-                            Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+                        <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
                     </div>
                     <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
-                </div>)
+                </div>);
         }
     }
 
