@@ -42,11 +42,11 @@ describe("StudentPanelController",() => {
         assert.strictEqual(StudentPanelController.countDuplicateModels(models)[2].quantity, 1);
     });
 
-    it("reserveItem",() => {
+    it("reserveItem", () => {
         saveItem.returns(
             new Promise(resolve => {
                 resolve({});
-            });
+            })
         );
         return StudentController.reserveItem('iGwEZUvfA').then(() => {
             assert.isTrue(dispatcherSpy.called);
@@ -58,11 +58,11 @@ describe("StudentPanelController",() => {
         });
     });
 
-    it("reserveModel",() => {
+    it("reserveModel", () => {
         saveModel.returns(
             new Promise(resolve => {
                 resolve({});
-            });
+            })
         );
         return StudentController.reserveModel(123456, 'iGwEZUvfA').then(() => {
             assert.isTrue(dispatcherSpy.called);
