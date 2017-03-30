@@ -62,6 +62,12 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
+export function addUnserializedModel(modelAddress) {
+    return patch('model/instock', {
+        modelAddress
+    });
+}
+
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
