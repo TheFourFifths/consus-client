@@ -17,7 +17,7 @@ export default class DateModal extends React.Component {
     }
 
     render() {
-        return <Modal
+        return (<Modal
                 active={this.props.active}
                 buttonText="Confirm"
                 onClose={() => this.props.onDateSelected(this.state.date)}><p>{this.props.message}</p><br/><input

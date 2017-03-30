@@ -26,7 +26,6 @@ export default class StudentPanelController {
     static isValidDueDate(dueDate){
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, config.get('timezone'));
-        // dueDateMoment.hour(0).minute(0).second(0);
         if(dueDateMoment.isBefore(today)){
             Dispatcher.handleAction('ERROR', {
                 error: 'Due date cannot be set to today or past.'
