@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     transform: [
-                        ['babelify']
+                        'babelify', 'browserify-node-config'
                     ]
                 },
                 files: {

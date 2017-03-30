@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import {
     addFault,
+    addUnserializedModel,
     changeProtocol,
     changeHost,
     changePort,
@@ -63,6 +64,36 @@ describe('API Client', () => {
         });
         return addFault("iGwEZUvfA", "description").then(returned => {
             assert.deepEqual(returned, res.data);
+            mockServer.validate();
+        });
+    });
+
+    it('addUnserializedModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                allowCheckout: true,
+                price: 10.50,
+                count: 20,
+                inStock: 20
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'model/instock',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return addUnserializedModel('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
             mockServer.validate();
         });
     });
