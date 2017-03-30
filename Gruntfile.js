@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     transform: [
-                        ['babelify']
+                        'babelify', 'browserify-node-config'
                     ]
                 },
                 files: {
@@ -86,6 +86,7 @@ module.exports = function(grunt) {
             functional: {
                 files: {
                     src: [
+                        '.test/functional/add-item-fault.js',
                         '.test/functional/print-qr.js',
                         '.test/functional/student-lookup.js',
                         '.test/functional/view-models.js',

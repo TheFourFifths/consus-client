@@ -6,6 +6,7 @@ This document describes the Flux actions used in the Consus client.
 
 - [Actions](#actions)
     - [Table of contents](#table-of-contents)
+    - [ADD_ITEM_FAULT](#add_item_fault)
     - [ADMIN_CODE_ENTERED](#admin_code_entered)
     - [CHECKIN_SUCCESS](#checkin_success)
     - [CHECKOUT_ITEM_FOUND](#checkout_item_found)
@@ -41,8 +42,28 @@ This document describes the Flux actions used in the Consus client.
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
+    - [UNSERIALIZED_MODEL_ADDED](#unserialized_model_added)
     - [WARN](#warn)
     - [PROMPT_TO_PRINT](#prompt_to_print)
+
+## ADD_ITEM_FAULT
+
+Dispatched when adding a fault to an item.
+
+### Data
+
+- `itemAddress`: The Item to add the fault to
+- `fault`: An object containing the description and timestamp of the fault.
+
+```json
+{
+    "itemAddress": "address",
+    "fault" : {
+        "timestamp" :1020221,
+        "description": "Something broke?!?!?!"
+    }
+}
+```
 
 ## ADMIN_CODE_ENTERED
 
@@ -407,6 +428,14 @@ Dispatched when uploading excel doc has finished uploading to the server
 ### Data
 
 None.
+
+## UNSERIALIZED_MODEL_ADDED
+
+Dispatched when a new instance of an unserialzed model is created and the total and in stock values have been incremented
+
+### Data
+
+An entire model object as received from the server.
 
 ## WARN
 

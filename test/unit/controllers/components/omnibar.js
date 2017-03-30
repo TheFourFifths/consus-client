@@ -91,19 +91,30 @@ describe("OmnibarController", () => {
     });
 
     describe("displayItem", () => {
-        let dispatcherSpy;
+        let dispatcherSpy, searchItem;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            searchItem = sinon.stub(api, "searchItem");
         });
 
         it('Redirects if given an item address', () => {
             let historySpy = router.hashHistory.push = sinon.spy();
+            searchItem.returns(
+                new Promise (resolve => {
+                    resolve({
+                        "address": "iGwEZUvfA",
+                        "modelAddress": "m8y7nEtAe",
+                        "status": "CHECKED_OUT"
+                    });
+                })
+            );
             let itemAddress = 'iGwEZUvfA';
 
-            OmnibarController.displayItem(itemAddress);
-            assert.isTrue(historySpy.called);
-            assert.strictEqual(historySpy.getCall(0).args.length, 1);
-            assert.strictEqual(historySpy.getCall(0).args[0], "/item/" + itemAddress);
+            return OmnibarController.displayItem(itemAddress).then(() => {
+                assert.isTrue(historySpy.called);
+                assert.strictEqual(historySpy.getCall(0).args.length, 1);
+                assert.strictEqual(historySpy.getCall(0).args[0], "/item/" + itemAddress);
+            });
         });
 
         it('Dispatches "ERROR" if address is of a model', () => {
@@ -124,6 +135,7 @@ describe("OmnibarController", () => {
 
         afterEach(() => {
             dispatcherSpy.restore();
+            searchItem.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });

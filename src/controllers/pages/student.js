@@ -3,10 +3,12 @@ import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
 
-export default class StudentController{
-    static acceptAdminModal(adminCode){
-        if (adminCode.length > 0)
+export default class StudentController {
+
+    static acceptAdminModal(adminCode) {
+        if (adminCode.length > 0) {
             Dispatcher.handleAction("ADMIN_CODE_ENTERED", {adminCode});
+        }
     }
 
     static cancelAdminModal() {
@@ -18,8 +20,7 @@ export default class StudentController{
     }
 
     static checkout(id, equipment) {
-        let equipmentAddresses = this.pushEquipment(equipment);
-        return checkOutContents(id, equipmentAddresses, AuthStore.getAdminCode()).then(() => {
+        return checkOutContents(id, equipment, AuthStore.getAdminCode()).then(() => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);
@@ -36,23 +37,8 @@ export default class StudentController{
             }
         });
     }
-    static pushEquipment(equipment){
-        let equipmentAddresses = [];
-        if (equipment) {
-            equipment.forEach(e => {
-                if(e.quantity){
-                    for (let i = 0; i < e.quantity; i++){
-                        equipmentAddresses.push(e.address);
-                    }
-                } else {
-                    equipmentAddresses.push(e.address);
-                }
-            });
-        }
-        return equipmentAddresses;
-    }
 
-    static checkInModel(id, modelAddress, quantity){
+    static checkInModel(id, modelAddress, quantity) {
         return checkInModel(id, modelAddress, quantity).then(data => {
             return searchStudent(id).then(student => {
                 Dispatcher.handleAction('MODEL_CHECKIN_SUCCESS', {
@@ -69,11 +55,10 @@ export default class StudentController{
         });
     }
 
-    static longtermCheckout(id, equipment, dueDate, professor){
+    static longtermCheckout(id, equipment, dueDate, professor) {
 
         if(this.isValidLongtermData(dueDate, professor)){
-            let equipmentAddresses = this.pushEquipment(equipment);
-            return checkOutContentsLongterm(id, equipmentAddresses, dueDate, professor, AuthStore.getAdminCode()).then(() => {
+            return checkOutContentsLongterm(id, equipment, dueDate, professor, AuthStore.getAdminCode()).then(() => {
                 return searchStudent(id).then(student => {
                     Dispatcher.handleAction('CHECKOUT_SUCCESS');
                     Dispatcher.handleAction("STUDENT_FOUND", student);
@@ -91,7 +76,8 @@ export default class StudentController{
             });
         }
     }
-    static isValidLongtermData(dueDate, professor){
+
+    static isValidLongtermData(dueDate, professor) {
         if(dueDate === undefined || dueDate === null){
             Dispatcher.handleAction('ERROR', {
                 error: 'Please enter a due date.'
@@ -100,7 +86,7 @@ export default class StudentController{
         }
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
-        if(dueDateMoment.isBefore(today)){
+        if(!dueDateMoment.isAfter(today)){
             Dispatcher.handleAction('ERROR', {
                 error: 'Due date cannot be set to today or past.'
             });
@@ -114,9 +100,11 @@ export default class StudentController{
         }
         return true;
     }
+
     static throwNoItemsError() {
         Dispatcher.handleAction('ERROR', {
             error: 'No Items were scanned for checkout.'
         });
     }
+
 }

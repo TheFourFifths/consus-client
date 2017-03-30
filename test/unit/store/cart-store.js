@@ -20,7 +20,6 @@ describe('CartStore', () => {
             status: 'AVAILABLE'
         });
         assert.strictEqual(CartStore.getContents()[0].address, '123');
-        assert.strictEqual(CartStore.getContents()[0].status, 'AVAILABLE');
     });
 
     it('should clear items on checkout',() => {

@@ -27,6 +27,17 @@ export default [
         email: 'mctestersont@msoe.edu',
         major: 'Engineering Engineering',
         items: [],
-        models: [models[2], models[2], models[2], models[2], models[2], models[3]]
+        models: [
+            {
+                address: models[2].address,
+                name: models[2].name,
+                quantity: 5
+            },
+            {
+                address: models[3].address,
+                name: models[3].name,
+                quantity: 1
+            }
+        ]
     }
 ]

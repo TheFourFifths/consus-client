@@ -45,4 +45,9 @@ store.registerHandler('MODEL_CREATED', data => {
     store.emitChange();
 });
 
+store.registerHandler('UNSERIALIZED_MODEL_ADDED', data => {
+    model = data;
+    store.emitChange();
+});
+
 export default store;
