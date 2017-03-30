@@ -4,6 +4,7 @@ import * as api from '../../../../.dist/lib/api-client';
 import StudentPanelController from '../../../../.dist/controllers/components/student-panel';
 import { Dispatcher } from 'consus-core/flux';
 import StudentStore from '../../../../.dist/store/student-store'
+import moment from 'moment-timezone';
 describe("StudentPanelController",() => {
     describe("getModels",() => {
         let dispatcherSpy, getAllModels;
@@ -106,5 +107,15 @@ describe("StudentPanelController",() => {
             getStudent.restore();
             Dispatcher.handleAction("CLEAR_ALL_DATA");
         });
+    });
+
+    describe('isValidDueDate', () => {
+       it('returns correct values', () => {
+           let calendar = moment();
+           calendar.add(10, 's');
+           assert.isTrue(StudentPanelController.isValidDueDate(calendar));
+           calendar.add(-1, 'd');
+           assert.isFalse(StudentPanelController.isValidDueDate(calendar));
+       });
     });
 });
