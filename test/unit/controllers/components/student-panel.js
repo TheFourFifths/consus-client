@@ -9,6 +9,12 @@ describe("StudentPanelController",() => {
     let dispatcherSpy, getAllModels, saveItem, saveModel;
 
     beforeEach(() => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: 123456,
+            name: 'Person',
+            items: [{address: 'iGwEZUvfA'}],
+            models: [{address: 'm8y7nEtAe'}]
+        });
         dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         getAllModels = sinon.stub(api, "getAllModels");
         saveItem = sinon.stub(api, 'saveItem');
@@ -49,7 +55,7 @@ describe("StudentPanelController",() => {
                 resolve({});
             })
         );
-        return StudentController.reserveItem('iGwEZUvfA').then(() => {
+        return StudentPanelController.reserveItem('iGwEZUvfA').then(() => {
             assert.isTrue(dispatcherSpy.called);
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_ITEM");
@@ -65,13 +71,13 @@ describe("StudentPanelController",() => {
                 resolve({});
             })
         );
-        return StudentController.reserveModel(123456, 'iGwEZUvfA').then(() => {
+        return StudentPanelController.reserveModel(123456, 'm8y7nEtAe').then(() => {
             assert.isTrue(dispatcherSpy.called);
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_MODEL");
             assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
                 studentId: 123456,
-                itemAddress: 'iGwEZUvfA'
+                modelAddress: 'm8y7nEtAe'
             });
         });
     });
