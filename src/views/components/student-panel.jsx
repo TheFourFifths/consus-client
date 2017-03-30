@@ -4,6 +4,7 @@ import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
 import moment from 'moment-timezone';
+import OmnibarController from "../../controllers/components/omnibar";
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -57,7 +58,9 @@ export default class StudentPanel extends ListenerComponent {
             checkinNum: 1
         });
     }
-
+    displayItem(address){
+        OmnibarController.displayItem(address);
+    }
     renderEquipment() {
         if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
@@ -67,11 +70,11 @@ export default class StudentPanel extends ListenerComponent {
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
                     return (
-                        <Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                        <div onClick={this.displayItem.bind(this, item.address)}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                             <div className="item-info">
                                 {this.renderItemInfo(item)}
                             </div>
-                        </Link>
+                        </div>
                     );
                 })}
 
