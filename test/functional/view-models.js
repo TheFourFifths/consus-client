@@ -98,6 +98,49 @@ describe('View all models', function () {
             mockServer.validate();
         });
     });
+
+    it('increments unserialized models', () => {
+        let responseData = models[2];
+        responseData.inStock++;
+        responseData.count++;
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'model/instock',
+            qs: {
+                modelAddress: models[2].address
+            },
+            response: {
+                status: 'success',
+                data: responseData
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        return app.client.click(`#${models[2].address} .btnAddItemToModel`).then(() => {
+            return app.client.waitForVisible('.modal', 5000);
+        }).then(() => {
+            return app.client.getText('.modal');
+        }).then(modalText => {
+            assert.include(modalText, 'Add another Resistor?');
+            return app.client.click('.modal .modal-content button[type="button"]');
+        }).then(()=> {
+            return app.client.waitForVisible('.toast', 1000);
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(toastText => {
+            assert.include(toastText, 'New Resistor (m8y7nFnMs) created');
+            mockServer.validate();
+        });
+    });
+
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

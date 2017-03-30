@@ -14,9 +14,10 @@
   "scripts": {
     "start": "electron index.js --dev",
     "build": "grunt build",
-    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
+    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm run test-unit && nyc report --reporter=text-lcov > coverage.lcov",
     "test": "grunt test",
     "lintless-test": "grunt lintless-test",
+    "test-unit": "grunt test-unit",
     "integration-test": "grunt integration-test",
     "lint": "grunt lint",
     "package": "grunt package"
@@ -43,7 +44,9 @@
     "babel-register": "^6.16.3",
     "babelify": "^7.3.0",
     "body-parser": "^1.15.2",
+    "browserify-node-config": "^1.1.0",
     "chai": "3.5.0",
+    "config": "^1.25.1",
     "consus-core": "^0.6.0",
     "cross-env": "^3.1.1",
     "electron-prebuilt": "^1.4.2",
@@ -70,6 +73,7 @@
     "react-router": "^2.8.1",
     "request": "^2.75.0",
     "sinon": "^1.17.6",
-    "spectron": "^3.4.1"
+    "spectron": "^3.4.1",
+    "toml": "^2.3.2"
   }
 }

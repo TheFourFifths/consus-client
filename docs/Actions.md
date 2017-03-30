@@ -6,6 +6,7 @@ This document describes the Flux actions used in the Consus client.
 
 - [Actions](#actions)
     - [Table of contents](#table-of-contents)
+    - [ADD_ITEM_FAULT](#add_item_fault)
     - [ADMIN_CODE_ENTERED](#admin_code_entered)
     - [CHECKIN_SUCCESS](#checkin_success)
     - [CHECKOUT_ITEM_FOUND](#checkout_item_found)
@@ -17,6 +18,9 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_CART_CONTENTS](#clear_cart_contents)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
+    - [EDIT_IS_LONGTERM](#edit_is_longterm)
+    - [EDIT_LONGTERM_DUEDATE](#edit_longterm_duedate)
+    - [EDIT_LONGTERM_PROFESSOR](#edit_longterm_professor)
     - [ERROR](#error)
     - [FILE_UNSUPPORTED](#file_unsupported)
     - [INFO](#info)
@@ -39,8 +43,28 @@ This document describes the Flux actions used in the Consus client.
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
+    - [UNSERIALIZED_MODEL_ADDED](#unserialized_model_added)
     - [WARN](#warn)
     - [PROMPT_TO_PRINT](#prompt_to_print)
+
+## ADD_ITEM_FAULT
+
+Dispatched when adding a fault to an item.
+
+### Data
+
+- `itemAddress`: The Item to add the fault to
+- `fault`: An object containing the description and timestamp of the fault.
+
+```json
+{
+    "itemAddress": "address",
+    "fault" : {
+        "timestamp" :1020221,
+        "description": "Something broke?!?!?!"
+    }
+}
+```
 
 ## ADMIN_CODE_ENTERED
 
@@ -137,6 +161,52 @@ Dispatched when a toast should be displayed. Currently, the created toast is add
 {
     "text": "I really wish there was a toast emoji (in addiiton to bread)",
     "timeout": 10000
+}
+```
+
+
+## EDIT_IS_LONGTERM
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `isLongterm `: a boolean indicating if the current checkout is set for longterm
+
+```json
+{
+    "isLongterm": true
+}
+```
+
+## EDIT_LONGTERM_DUEDATE
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `dueDate`: a Date object
+
+```json
+{
+    "dueDate": "Some Date object that probably won't be Sun Mar 26 2017 15:12:34 GMT-0500"
+}
+```
+
+## EDIT_LONGTERM_PROFESSOR
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `professor `: a string representation of the professors name for longterm checkout
+
+```json
+{
+    "professor": "Professor Wiffle"
 }
 ```
 
@@ -372,6 +442,14 @@ Dispatched when uploading excel doc has finished uploading to the server
 ### Data
 
 None.
+
+## UNSERIALIZED_MODEL_ADDED
+
+Dispatched when a new instance of an unserialzed model is created and the total and in stock values have been incremented
+
+### Data
+
+An entire model object as received from the server.
 
 ## WARN
 
