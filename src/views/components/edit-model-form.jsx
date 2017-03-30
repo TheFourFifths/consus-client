@@ -1,4 +1,5 @@
 import React from 'react';
+import config from 'config';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
@@ -6,7 +7,7 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = bytesToBase64Size(1000000); /* bytes */
+const MAX_FILESIZE = bytesToBase64Size(config.get('assets.max_model_photo_size') * 1000); /* bytes */
 
 /**
  * Converts the number of bytes of binary data into its approximate number of
@@ -37,12 +38,14 @@ export default class EditModelForm extends React.Component {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
-                model: null
+                model: null,
+                hasUnsavedChange: false
             };
         } else {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
+                hasUnsavedChange: false,
 
                 model: props.model,
                 name: props.model.name,
@@ -83,7 +86,6 @@ export default class EditModelForm extends React.Component {
                 });
             });
         }
-        OmnibarController.setWarnBeforeExiting(true);
     }
 
     componentWillUnmount(){
@@ -92,60 +94,80 @@ export default class EditModelForm extends React.Component {
 
     changeName(e) {
         this.setState({
+            hasUnsavedChange: true,
             name: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeDescription(e) {
         this.setState({
+            hasUnsavedChange: true,
             description: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeManufacturer(e) {
         this.setState({
+            hasUnsavedChange: true,
             manufacturer: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeVendor(e) {
         this.setState({
+            hasUnsavedChange: true,
             vendor: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeLocation(e) {
         this.setState({
+            hasUnsavedChange: true,
             location: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePrice(e) {
         this.setState({
+            hasUnsavedChange: true,
             price: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeCount(e){
         this.setState({
+            hasUnsavedChange: true,
             count: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
-    changeStock(e){
+    changeStock(){
         this.setState({
+            hasUnsavedChange: true,
             changeStock: !this.state.checked,
             checked: !this.state.checked
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeInStock(e){
         this.setState({
+            hasUnsavedChange: true,
             inStock: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePhoto(e) {
+        this.setState({ hasUnsavedChange: true });
+        OmnibarController.setWarnBeforeExiting(true);
         let file = e.target.files[0];
         if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
@@ -196,9 +218,13 @@ export default class EditModelForm extends React.Component {
     }
 
     allModels() {
-        this.setState({
-            popConfirmModal: true
-        });
+        if (this.state.hasUnsavedChange) {
+            this.setState({
+                popConfirmModal: true
+            });
+        } else {
+            ModelFormController.getModels();
+        }
     }
 
     handleConfirmModal(bool){

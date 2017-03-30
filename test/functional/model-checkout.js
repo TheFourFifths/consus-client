@@ -87,7 +87,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 1
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -175,7 +180,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs','m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 2
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -195,7 +205,13 @@ describe('Checking a model out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [models[2], models[2]],
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 2
+                        }
+                    ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }

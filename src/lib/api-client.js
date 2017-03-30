@@ -1,8 +1,9 @@
 import request from 'request';
+import config from 'config';
 
-let PROTOCOL = 'http';
-let HOST = 'localhost';
-let PORT = 80;
+let PROTOCOL = config.get('server.protocol');
+let HOST = config.get('server.ip');
+let PORT = config.get('server.port');
 
 export function changeProtocol(protocol) {
     PROTOCOL = protocol;
@@ -61,6 +62,20 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
+export function addFault(itemAddress, faultDescription){
+
+    return post('item/fault', {
+        itemAddress,
+        faultDescription
+    });
+}
+
+export function addUnserializedModel(modelAddress) {
+    return patch('model/instock', {
+        modelAddress
+    });
+}
+
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -76,10 +91,10 @@ export function checkInModel(studentId, modelAddress, quantity){
     });
 }
 
-export function checkOutContents(studentId, equipmentAddresses, code){
+export function checkOutContents(studentId, equipment, code){
     let params = {
         studentId,
-        equipmentAddresses
+        equipment
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;
@@ -137,6 +152,12 @@ export function getOverdueItems() {
     return get('item/overdue');
 }
 
+export function removeItemFault(itemAddress) {
+    return del('item/fault', {
+        itemAddress
+    });
+}
+
 export function searchItem(address) {
     return get('item', {
         address
@@ -182,10 +203,10 @@ export function uploadStudents(data){
     });
 }
 
-export function checkOutContentsLongterm(studentId, equipmentAddresses, dueDate, professor, code){
+export function checkOutContentsLongterm(studentId, equipment, dueDate, professor, code){
     let params = {
         studentId,
-        equipmentAddresses,
+        equipment,
         dueDate,
         professor
     };

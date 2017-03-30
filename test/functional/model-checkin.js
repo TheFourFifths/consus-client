@@ -103,7 +103,13 @@ describe('Checking a model in', function () {
                     email: 'mctestersont@msoe.edu',
                     major: 'Engineering Engineering',
                     items: [],
-                    models: [models[2], models[2], models[2], models[2], models[2]]
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 5
+                        }
+                    ]
                 }
             }
         });

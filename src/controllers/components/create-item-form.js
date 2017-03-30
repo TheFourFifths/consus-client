@@ -13,7 +13,7 @@ export default class ItemFormController {
         });
     }
 
-    static popNoModelSelectedToast(){
+    static popNoModelSelectedToast() {
         Dispatcher.handleAction('CREATE_TOAST', {
             text: 'Please select a model.'
         });

@@ -1,6 +1,7 @@
+import config from 'config';
 import { Store } from 'consus-core/flux';
 
-const DEFAULT_TIME_UNTIL_POP = 5000; // 5 seconds
+const DEFAULT_TIME_UNTIL_POP = config.get('toast.timeout') * 1000;  /* milliseconds */
 
 let toasts = [];
 let nextId = 0;
@@ -93,6 +94,11 @@ store.registerHandler('MODEL_UPDATED', model => {
 
 store.registerHandler('MODEL_DELETED', model => {
     addToast(`${model.name} (${model.address}) was deleted`);
+    store.emitChange();
+});
+
+store.registerHandler('UNSERIALIZED_MODEL_ADDED', model => {
+    addToast(`New ${model.name} (${model.address}) created`);
     store.emitChange();
 });
 

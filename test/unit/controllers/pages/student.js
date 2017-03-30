@@ -268,7 +268,9 @@ describe("StudentController", () => {
             checkOutItems.restore();
             searchStudent.restore();
         });
+
     });
+
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");
@@ -276,6 +278,7 @@ describe("StudentController", () => {
     });
 
     describe("isValidLongtermData",() => {
+
         it('fails on bad data', () => {
             let today = moment();
             assert.isFalse(StudentController.isValidLongtermData(undefined, 'test'));
@@ -285,11 +288,10 @@ describe("StudentController", () => {
             assert.isTrue(StudentController.isValidLongtermData(today, 'test'));
             assert.isFalse(StudentController.isValidLongtermData(today, undefined));
             assert.isFalse(StudentController.isValidLongtermData(today, null));
-
-
         });
 
     });
+
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");

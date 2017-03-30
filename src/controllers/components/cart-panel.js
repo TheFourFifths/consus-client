@@ -64,11 +64,11 @@ export default class CartController {
         });
     }
 
-    static throwError(error){
+    static throwError(error) {
         Dispatcher.handleAction("ERROR", { error });
     }
 
-    static turnInLostEquipment(equipmentAddress){
+    static turnInLostEquipment(equipmentAddress) {
         let result = readAddress(equipmentAddress);
         if (result.type === 'model' ) {
             //this is where checkin for model logic would go
@@ -85,21 +85,20 @@ export default class CartController {
         }
     }
 
-    static changeIsLongterm(isLongterm){
+    static changeIsLongterm(isLongterm) {
         Dispatcher.handleAction('EDIT_IS_LONGTERM', {
             isLongterm
         });
     }
-    static changeLongtermDate(dueDate){
+    static changeLongtermDate(dueDate) {
         Dispatcher.handleAction('EDIT_LONGTERM_DUEDATE', {
             dueDate
         });
     }
 
-    static changeLongtermProfessor(professor){
+    static changeLongtermProfessor(professor) {
         Dispatcher.handleAction('EDIT_LONGTERM_PROFESSOR', {
             professor
         });
     }
 }
-

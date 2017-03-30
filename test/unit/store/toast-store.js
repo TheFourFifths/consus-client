@@ -1,3 +1,4 @@
+import config from 'config';
 import { Dispatcher } from 'consus-core/flux';
 import ToastStore from '../../../.dist/store/toast-store';
 import { assert } from 'chai';
@@ -61,12 +62,12 @@ describe('ToastStore', () => {
         assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully!');
     });
 
-    it('should have a default timeout of 5 seconds', () => {
+    it("should have a default timeout of whatever's in the config file", () => {
         assert.lengthOf(ToastStore.getToasts(), 3);
         Dispatcher.handleAction('CREATE_TOAST', {
             text: 'D'
         });
-        assert.strictEqual(ToastStore.getToasts()[3].timeout, 5000);
+        assert.strictEqual(ToastStore.getToasts()[3].timeout, config.get('toast.timeout') * 1000);
     });
 
     it('should be able to define the timeout', () => {
@@ -167,14 +168,14 @@ describe('ToastStore', () => {
 
     it('should add a toast when a model is updated', () => {
         let modelName = 'What a name';
-        let modelAddres = 'Wowza';
+        let modelAddress = 'Wowza';
         Dispatcher.handleAction('MODEL_UPDATED', {
             name: modelName,
-            address: modelAddres
+            address: modelAddress
 
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddres}) was updated!`);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was updated!`);
     });
 
     it('should add toast when model is deleted', () => {
@@ -186,6 +187,17 @@ describe('ToastStore', () => {
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
         assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
+    });
+
+    it('should add toast when an unserialized model is created', () => {
+        let modelName = 'Better than jordans model test name';
+        let modelAddress = 'really not an address';
+        Dispatcher.handleAction('UNSERIALIZED_MODEL_ADDED', {
+            name: modelName,
+            address: modelAddress
+        });
+        assert.lengthOf(ToastStore.getToasts(), 4);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `New ${modelName} (${modelAddress}) created`)
     });
 
 });
