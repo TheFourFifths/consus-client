@@ -11,7 +11,8 @@ describe("StudentPanelController",() => {
     beforeEach(() => {
         dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         getAllModels = sinon.stub(api, "getAllModels");
-        reserveItem = sinon.stub(api, 'saveItem');
+        saveItem = sinon.stub(api, 'saveItem');
+        saveModel = sinon.stub(api, 'saveModel');
     });
 
     afterEach(() => {

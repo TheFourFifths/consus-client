@@ -492,7 +492,7 @@ describe('API Client', () => {
             endpoint: 'item/save',
             json: {
                 studentId: 123456,
-                itemAddress: 'm8y7nEtAe'
+                modelAddress: 'm8y7nEtAe'
             },
             response
         });
