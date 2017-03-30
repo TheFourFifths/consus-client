@@ -473,7 +473,7 @@ describe('API Client', () => {
             method: 'post',
             endpoint: 'item/save',
             json: {
-=                itemAddress: 'iGwEZVHHE'
+                itemAddress: 'iGwEZVHHE'
             },
             response
         });
