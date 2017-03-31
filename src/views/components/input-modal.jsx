@@ -56,6 +56,6 @@ export default class InputModal extends React.Component {
                 {this.renderWarning()}
                 <button onClick={this.onCancel.bind(this)}>Cancel</button>
             </Modal>
-        )
+        );
     }
 }
