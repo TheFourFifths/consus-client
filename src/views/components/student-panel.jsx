@@ -5,6 +5,7 @@ import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
 import moment from 'moment-timezone';
 import OmnibarController from "../../controllers/components/omnibar";
+import DateModal from "../components/date-modal.jsx";
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -12,11 +13,13 @@ export default class StudentPanel extends ListenerComponent {
         super();
         this.state = {
             checkinNum: 1,
-            models: ModelStore.getAllModels()
-        }
+            models: ModelStore.getAllModels(),
+            showItemDateModal: false,
+            showModelDateModal: false
+        };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         StudentPanelController.getModels();
     }
 
@@ -29,15 +32,15 @@ export default class StudentPanel extends ListenerComponent {
     getState() {
         return {
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     changeCheckinNum(maxCheckin, e) {
-        if(parseInt(e.target.value) < 1){
+        if (parseInt(e.target.value) < 1) {
             this.setState({
                 checkinNum: 1
             });
-        } else if(parseInt(e.target.value) > maxCheckin) {
+        } else if (parseInt(e.target.value) > maxCheckin) {
             this.setState({
                 checkinNum: maxCheckin
             });
@@ -49,7 +52,7 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     checkInModel(studentId, modelAddress, quantity) {
-        if(isNaN(parseInt(quantity))){
+        if (isNaN(parseInt(quantity))) {
             StudentPanelController.throwNotANumberError();
         } else {
             this.props.checkInModel(studentId, modelAddress, quantity);
@@ -58,11 +61,24 @@ export default class StudentPanel extends ListenerComponent {
             checkinNum: 1
         });
     }
-    displayItem(address){
+
+    displayItem(address) {
         OmnibarController.displayItem(address);
     }
+
+    changeItemDueDate(date, item) {
+        StudentPanelController.changeItemDueDate(date, item);
+        this.setState({
+            showItemDateModal: false
+        });
+    }
+
+    changeModelDueDate(date, model) {
+        throw new Error(`Model due dates not yet implemented. Changing due date to: ${date} for model: ${model.address}`);
+    }
+
     renderEquipment() {
-        if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+        if (this.props.student.items.length === 0 && this.props.student.models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
 
@@ -70,21 +86,32 @@ export default class StudentPanel extends ListenerComponent {
             <div className='equipment'>
                 {this.props.student.items.map((item, i) => {
                     return (
-                        <div onClick={this.displayItem.bind(this, item.address)}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                            <div className="item-info">
-                                {this.renderItemInfo(item)}
-                            </div>
+                        <div key={i}>
+                            <DateModal
+                                message='Select a new due date'
+                                active={this.state.showItemDateModal}
+                                onDateSelected={date => this.changeItemDueDate(date, item)}
+                            />
+                            {this.renderItemInfo(item)}
                         </div>
                     );
                 })}
 
                 {this.props.student.models.map((model, i) => {
                     return (
-                        <div className="item-info" key={i}>
-                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                                {this.renderModelInfo(model)}
-                            </Link>
-                            {this.renderCheckinButtons(model)}
+                        <div key={i}>
+                            <DateModal
+                                message='Select a new due date'
+                                active={this.state.showModelDateModal}
+                                onDateSelected={date => this.changeModelDueDate(date, model)}
+                            />
+                            <div className="item-info">
+                                <Link to={`/model/${model.address}`}
+                                      className={model.timestamp < Math.floor(Date.now() / 1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                    {this.renderModelInfo(model)}
+                                </Link>
+                                {this.renderCheckinButtons(model)}
+                            </div>
                         </div>
                     );
                 })}
@@ -92,29 +119,48 @@ export default class StudentPanel extends ListenerComponent {
         );
     }
 
-    renderModelInfo(model){
+    renderModelInfo(model) {
         return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
     }
 
-    renderCheckinButtons(model){
+    renderCheckinButtons(model) {
         return (
             <div className='checkin-buttons'>
-                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
-                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
-                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+                <input type='number' value={this.state.checkinNum}
+                       onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity}/>
+                <button id={model.address}
+                        onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>
+                    Check in
+                </button>
+                <button id={`all${model.address}`}
+                        onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in
+                    All
+                </button>
             </div>
         );
     }
 
-    renderItemInfo(item){
+    showItemDateModal() {
+        this.setState({
+            showItemDateModal: true
+        });
+    }
+
+    renderItemInfo(item) {
         let model = this.state.models.find(model => model.address === item.modelAddress);
-        if(!model){
+        if (!model) {
             return null;
-        }else{
+        } else {
             let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
-            return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-            </div>)
+            return (
+                <div className="item-info">
+                    <div onClick={this.displayItem.bind(this, item.address)}
+                         className={item.timestamp < Math.floor(Date.now() / 1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                        {model.name} {item.timestamp < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
+                        <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+                    </div>
+                    <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
+                </div>);
         }
     }
 
