@@ -9,8 +9,8 @@ export default class ModelPageController {
             Dispatcher.handleAction("MODEL_FOUND", data.model);
             Dispatcher.handleAction("ITEMS_RECEIVED", data);
             hashHistory.push('/model');
-        }).catch(e => {
-            Dispatcher.handleAction("ERROR", { error: e.message });
+        }).catch(() => {
+            Dispatcher.handleAction("ERROR", { error: 'The model requested does not exist' });
         });
     }
 
