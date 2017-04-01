@@ -12,6 +12,38 @@ html, body
     height: 0
     clear: both
 
+.cool-button
+    background: #1565C0
+    color: white
+    padding: 8 12
+    font-weight: bold
+    cursor: pointer
+    box-shadow: 0 .1em .1em grey
+    border-style: none
+    border-radius: 2px
+    &:hover
+        background: lighten(#1565C0, 10%)
+    &:focus
+        outline: none
+        background: lighten(#1565C0, 10%)
+
+.neat-secondary-button
+    background: transparent
+    color: #1565C0
+    border-color: #1565C0
+    border-style: solid
+    border-radius: 2px
+    border-width: 1px
+    font-weight: bold
+    cursor: pointer
+    &:hover
+        background: #1565C0
+        color: white
+    &:focus
+        outline: none
+        background: #1565C0
+        color: white
+
 textarea
     resize: none
     overflow: scroll
@@ -22,6 +54,9 @@ textarea
 .link-nostyle
     color: inherit
     text-decoration: none
+
+.disabled-text
+    color: grey
 
 @media print
     .no-print

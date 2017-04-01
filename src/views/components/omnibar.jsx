@@ -1,7 +1,7 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
-import ModelController from '../../controllers/pages/model';
+import ModelPageController from '../../controllers/pages/model';
 import { Link } from 'react-router';
 import ConfirmModal from './confirm-modal.jsx';
 
@@ -35,7 +35,7 @@ export default class Omnibar extends React.Component {
                         query: ''
                     });
                     if(result.type === 'model') {
-                        ModelController.getModelAndItems(e.target.value);
+                        ModelPageController.getModelAndItems(e.target.value);
                     } else if (result.type === 'item') {
                         OmnibarController.displayItem(e.target.value);
                     }
