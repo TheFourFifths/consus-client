@@ -24,6 +24,9 @@ export default class StudentPanelController {
     }
 
     static isValidDueDate(dueDate){
+        if(dueDate === undefined || dueDate === null){
+            return false;
+        }
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, config.get('timezone'));
         today.hour(0).minute(0).second(0);
