@@ -67,21 +67,6 @@ describe("OmnibarController", () => {
 
         });
 
-        it('Dispatches "ERROR" when student is not found',()=>{
-
-            searchStudent.returns(
-                new Promise( (resolve,reject) => {
-                    reject("NOPE");
-                })
-            );
-
-            return OmnibarController.getStudent("12kl3").then(() => {
-                assert.isTrue(dispatcherSpy.called);
-                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            });
-
-        });
 
         afterEach(() => {
             dispatcherSpy.restore();

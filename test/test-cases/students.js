@@ -3,6 +3,7 @@ import models from './models';
 
 export default [
     {
+        rfid: 123456,
         id: 123456,
         name: 'John von Neumann',
         status: 'C - Current',
@@ -12,6 +13,7 @@ export default [
         models: []
     },
     {
+        rfid: 111111,
         id: 111111,
         name: 'Boaty McBoatface',
         status: 'C - Current',
@@ -21,6 +23,7 @@ export default [
         models: []
     },
     {
+        rfid: 999999,
         id: 999999,
         name: 'Testy McTesterson',
         status: 'C - Current',

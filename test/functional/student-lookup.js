@@ -38,7 +38,7 @@ describe('Student Lookup', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -75,7 +75,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '111111'
+              rfid: '111111'
           },
           response: {
               status: 'success',
@@ -109,7 +109,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '123456'
+              rfid: '123456'
           },
           response: {
               status: 'success',
@@ -139,7 +139,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '314159'
+              rfid: '314159'
           },
           response: {
               status: 'failure',
@@ -154,7 +154,7 @@ describe('Student Lookup', function () {
       }).then(() => {
           return app.client.getText('#app .modal .modal-content p');
       }).then(message => {
-          assert.strictEqual(message, "An invalid student ID was scanned. The student could not be found.");
+          assert.strictEqual(message, "The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid");
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
           mockServer.validate();

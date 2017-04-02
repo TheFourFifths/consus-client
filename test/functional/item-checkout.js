@@ -40,7 +40,7 @@ describe('Checking an item out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -106,7 +106,7 @@ describe('Checking an item out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-              id: '123456'
+              rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -220,7 +220,7 @@ describe('Checking an item out', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-            id: '123456'
+            rfid: '123456'
           },
           response: {
               status: 'success',

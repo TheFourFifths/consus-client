@@ -4,7 +4,7 @@ import * as api from '../../../../.dist/lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import moment from 'moment-timezone';
 import StudentController from '../../../../.dist/controllers/pages/student';
-
+import StudentStore from '../../../../.dist/store/student-store';
 describe("StudentController", () => {
     let dispatcherSpy;
     beforeEach(() => {
@@ -41,10 +41,11 @@ describe("StudentController", () => {
         });
     });
 
-    describe("checkout",() => {
-        let checkOutItems;
+    describe("checkout", () => {
+        let checkOutItems, getStudent;
         beforeEach(() => {
             checkOutItems = sinon.stub(api, "checkOutContents");
+            getStudent = sinon.stub(StudentStore, "getStudent");
         });
 
         it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
@@ -58,10 +59,12 @@ describe("StudentController", () => {
 
             searchStudent.returns(
                 new Promise(resolve => {
-                    resolve({student:{items:[]}});
+                    resolve({student: {items: []}});
                 })
             );
-
+            getStudent.returns({
+                id: 10
+            });
             return StudentController.checkout(123456, [{address: '123', quantity: 5}, {address: '456'}]).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
@@ -114,6 +117,7 @@ describe("StudentController", () => {
 
         afterEach(() => {
             checkOutItems.restore();
+            getStudent.restore();
         });
     });
 
@@ -190,8 +194,8 @@ describe("StudentController", () => {
         });
     });
 
-    describe("longtermCheckout",() => {
-        let checkOutItems, searchStudent, equipment, today, professor;
+    describe("longtermCheckout", () => {
+        let checkOutItems, searchStudent, equipment, today, professor, getStudent;
         beforeEach(() => {
             equipment = [{address: '123', quantity: 5}, {address: '456'}];
             today = moment();
@@ -199,6 +203,7 @@ describe("StudentController", () => {
             professor = 'Professor';
             checkOutItems = sinon.stub(api, 'checkOutContentsLongterm');
             searchStudent = sinon.stub(api, 'searchStudent');
+            getStudent = sinon.stub(StudentStore, "getStudent");
         });
 
         it('Dispatches "CHECKOUT_SUCCESS" on success and refreshes student', () => {
@@ -209,10 +214,12 @@ describe("StudentController", () => {
             );
             searchStudent.returns(
                 new Promise(resolve => {
-                    resolve({student:{items:[]}});
+                    resolve({student: {items: []}});
                 })
             );
-
+            getStudent.returns({
+                id: 10,
+            });
             return StudentController.longtermCheckout(123456, equipment, today, professor).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CHECKOUT_SUCCESS");
@@ -267,6 +274,7 @@ describe("StudentController", () => {
         afterEach(() => {
             checkOutItems.restore();
             searchStudent.restore();
+            getStudent.restore();
         });
 
     });
@@ -277,7 +285,7 @@ describe("StudentController", () => {
         Dispatcher.handleAction("CLEAR_ERROR");
     });
 
-    describe("isValidLongtermData",() => {
+    describe("isValidLongtermData", () => {
 
         it('fails on bad data', () => {
             let today = moment();
@@ -290,6 +298,43 @@ describe("StudentController", () => {
             assert.isFalse(StudentController.isValidLongtermData(today, null));
         });
 
+    });
+
+    describe("studentToRfid", () => {
+        let createRfidToStudentAssosciation;
+        beforeEach(() => {
+            createRfidToStudentAssosciation = sinon.stub(api, "createRfidToStudentAssosciation");
+        });
+
+        it('Dispatches "CREATE_TOAST" on successful association ', () => {
+            createRfidToStudentAssosciation.returns(
+                new Promise((resolve, reject) => {
+                    reject("NO");
+                })
+            );
+            StudentController.studentToRfid(123456, 123456).then(() => {
+                assert.isTrue(createRfidToStudentAssosciation.called);
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
+            })
+        });
+
+        it('Dispatches "ERROR" on failed association ', () => {
+            createRfidToStudentAssosciation.returns(
+                new Promise(resolve => {
+                    resolve();
+                })
+            );
+            StudentController.studentToRfid(123456, 123456).then(() => {
+                assert.isTrue(createRfidToStudentAssosciation.called);
+                assert.isTrue(dispatcherSpy.called);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CREATE_TOAST");
+            })
+        });
+
+        afterEach(() => {
+            createRfidToStudentAssosciation.restore();
+        });
     });
 
     afterEach(() => {

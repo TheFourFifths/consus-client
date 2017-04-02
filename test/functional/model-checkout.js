@@ -38,7 +38,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -103,12 +103,13 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-              id: '123456'
+              rfid: '123456'
             },
             response: {
                 status: 'success',
                 data: {
                     id: 123456,
+                    rfid: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
@@ -196,7 +197,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',

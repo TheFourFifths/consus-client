@@ -39,7 +39,7 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '111111'
+                rfid: '111111'
             },
             response: {
                 status: 'success',
@@ -145,7 +145,7 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '111111'
+                rfid: '111111'
             },
             response: {
                 status: 'success',
