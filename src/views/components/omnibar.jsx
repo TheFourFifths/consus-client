@@ -84,7 +84,7 @@ export default class Omnibar extends React.Component {
                   active = {this.state.confirmExit}
                   onSelect = {bool => this.handleConfirmModal(bool)}
               />
-              <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
+              <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.svg'/>
               <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );

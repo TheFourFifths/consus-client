@@ -33,4 +33,21 @@ export default class IndexController {
         });
     }
 
+    static gotoLostEquipment() {
+        return getAllModels().then(models => {
+            Dispatcher.handleAction('MODLES_RECEIVED', models);
+            return getAllItems();
+        }).then(items => {
+            Dispatcher.handleAction('ITEMS_RECEIVED', items);
+            hashHistory.push(`/lost_equipment`);
+        });
+    }
+
+    static gotoNewItemPage() {
+        return getAllModels().then(models => {
+            Dispatcher.handleAction('MODELS_RECEIVED', models);
+            hashHistory.push('/items/new');
+        });
+    }
+
 }

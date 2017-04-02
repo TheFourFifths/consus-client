@@ -1,11 +1,17 @@
+$font-family = 'Source Sans Pro', system-ui, serif
+$font-size = 1.0rem
+
 html, body
+    font: $font-size $font-family
+    font-variant-ligatures: common-ligatures
     width: 100%
     margin: 0
 
 #children
-    padding: 5px
     background: #f3f3f3
     height: 100%
+    & > *
+        padding: 5px
 
 .clear
     width: 0
@@ -27,6 +33,7 @@ textarea
     .no-print
         display: none !important
 
+@import '../assets/fonts/source-sans-pro/source-sans-pro.css'
 @import 'student.styl'
 @import 'omnibar.styl'
 @import 'modal.styl'
