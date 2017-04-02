@@ -306,7 +306,7 @@ describe("StudentController", () => {
             createRfidToStudentAssosciation = sinon.stub(api, "createRfidToStudentAssosciation");
         });
 
-        it('Dispatches "CREATE_TOAST" on successful association ', () => {
+        it('Dispatches "ERROR" on failed association ', () => {
             createRfidToStudentAssosciation.returns(
                 new Promise((resolve, reject) => {
                     reject("NO");
@@ -316,10 +316,10 @@ describe("StudentController", () => {
                 assert.isTrue(createRfidToStudentAssosciation.called);
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            })
+            });
         });
 
-        it('Dispatches "ERROR" on failed association ', () => {
+        it('Dispatches "CREATE_TOAST" on successful association ', () => {
             createRfidToStudentAssosciation.returns(
                 new Promise(resolve => {
                     resolve();
@@ -329,7 +329,7 @@ describe("StudentController", () => {
                 assert.isTrue(createRfidToStudentAssosciation.called);
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CREATE_TOAST");
-            })
+            });
         });
 
         afterEach(() => {
