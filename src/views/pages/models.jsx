@@ -72,7 +72,7 @@ export default class Models extends ListenerComponent {
                     onAccept={this.acceptItemLostAddress.bind(this)}
                     onCancel={this.cancelItemLost.bind(this)}
                     update={this.update.bind(this)}
-                    errorMessage='Equipment address is incorrect. Please check spelling!'
+                    errorMessage='Equipment address is incorrect.'
                     acceptText='Enter'
                     textHidden={false}
                     input={this.state.inputModalInput}

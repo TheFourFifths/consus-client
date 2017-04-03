@@ -79,13 +79,14 @@ export default class Omnibar extends React.Component {
     render() {
         return (
             <div id='omnibar' className='no-print'>
-              <ConfirmModal
-                  message="Are you sure you wish to leave the page? Unsaved changes will be lost."
-                  active = {this.state.confirmExit}
-                  onSelect = {bool => this.handleConfirmModal(bool)}
-              />
-              <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
-              <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
+                <ConfirmModal
+                    message={`Are you sure you wish to leave the page?
+                            Unsaved changes will be lost.`}
+                    active = {this.state.confirmExit}
+                    onSelect = {bool => this.handleConfirmModal(bool)}
+                />
+                <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
+                <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );
     }

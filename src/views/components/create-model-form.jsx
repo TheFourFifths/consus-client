@@ -154,6 +154,7 @@ export default class CreateModelForm extends React.Component {
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
                     message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
+                    tag = "WARNING"
                 />
                 <h1>Create a Model</h1>
                 <form onSubmit={this.submit.bind(this)}>

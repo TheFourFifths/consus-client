@@ -91,11 +91,11 @@ export default class Model extends React.Component {
     render() {
         if (this.state.model === null)
             return <i>Data is loading...</i>;
-        let deleteConfirmationText = `Are you sure you want to delete this model(${this.state.model.name})? WARNING: This will delete all
-                items associated with this model`;
+        let deleteConfirmationText = `Are you sure you want to delete ${this.state.model.name}?
+        WARNING: This will delete all items associated with this model.`;
         let addConfirmationText = this.state.model.allowCheckout ?
                                     `Add another ${this.state.model.name}?`
-                                    : `Create new item for model(${this.state.model.name})?`
+                                    : `Create a new item for ${this.state.model.name}?`
         return (
             <div id={this.state.model.address} className='model'>
                 <ConfirmModal

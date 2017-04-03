@@ -94,7 +94,7 @@ export default class StudentController {
         }
         if(professor === undefined || professor === null){
             Dispatcher.handleAction('WARN', {
-                warn: 'Professor Name is required.'
+                warn: 'Professor name is required.'
             });
             return false;
         }
@@ -103,7 +103,7 @@ export default class StudentController {
 
     static throwNoItemsError() {
         Dispatcher.handleAction('WARN', {
-            warn: 'No Items were scanned for checkout.'
+            warn: 'No items were scanned for checkout.'
         });
     }
 

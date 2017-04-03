@@ -239,14 +239,16 @@ export default class EditModelForm extends React.Component {
         return (
             <div className='model-form'>
                 <ConfirmModal
-                    message="Are you sure you wish to leave the page? Unsaved changes will be lost."
+                    message={`Are you sure you wish to leave the page?
+                            Unsaved changes will be lost.`}
                     active = {this.state.popConfirmModal}
                     onSelect = {bool => this.handleConfirmModal(bool)}
                 />
                 <ErrorModal
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
-                    message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
+                    message={`The specified file is too large. It must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
+                    tag = "WARNING"
                 />
                 <h1>Update Model: {this.state.model.name} ({this.state.model.address})</h1>
                 <form onSubmit={this.submit.bind(this)}>

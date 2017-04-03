@@ -1,3 +1,5 @@
+@import 'colors.styl'
+
 .modal
     font-family: sans-serif
     align-items: center
@@ -25,19 +27,70 @@
         border-top-right-radius: 5px
 
     .error-heading
-        background: #EF5350
+        background: $error-modal-color
 
     .warning-heading
-        background: #EF5350
+        background: $warn-modal-color
 
     .debug-heading
-        background: #2E7D32
+        background: $debug-modal-color
 
     .info-heading
-        background: #1565C0
+        background: $info-modal-color
+
+    button
+        color: white
+        padding: 8 12
+        margin: .25em
+        font-weight: bold
+        cursor: pointer
+        box-shadow: 0 .1em .1em grey
+        border-style: none
+        border-radius: 2px
+
+    .default-btn
+        background: $primary-btn-color
+        &:hover
+            background: lighten($primary-btn-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($primary-btn-color, 10%)
+
+    .error-btn
+        background: $error-modal-color
+        &:hover
+            background: lighten($error-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($error-modal-color, 10%)
+
+    .warning-btn
+        background: $warn-modal-color
+        &:hover
+            background: lighten($warn-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($warn-modal-color, 10%)
+
+    .info-btn
+        background: $info-modal-color
+        &:hover
+            background: lighten($info-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($info-modal-color, 10%)
+
+    .debug-btn
+        background: $debug-modal-color
+        &:hover
+            background: lighten($debug-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($debug-modal-color, 10%)
 
     h4
         padding: 0 1em
+        text-align: center
 
     .modal-buttons
         text-align: center

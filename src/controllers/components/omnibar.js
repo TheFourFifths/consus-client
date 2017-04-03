@@ -65,7 +65,7 @@ export default class OmnibarController {
                 hashHistory.push('/student');
             }).catch(() => {
                 Dispatcher.handleAction("WARN", {
-                    warn: `Student (${id}) could not be found!`
+                    warn: `Student (${id}) could not be found.`
                 });
             });
         }
