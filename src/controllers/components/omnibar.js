@@ -64,8 +64,8 @@ export default class OmnibarController {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
                 hashHistory.push('/student');
             }).catch(() => {
-                Dispatcher.handleAction("ERROR", {
-                    error: "An invalid student ID was scanned. The student could not be found."
+                Dispatcher.handleAction("WARN", {
+                    warn: `Student (${id}) could not be found!`
                 });
             });
         }
@@ -80,19 +80,19 @@ export default class OmnibarController {
                 });
             } else {
                 Dispatcher.handleAction("ERROR", {
-                    error: "Expected an item address but received a model address"
+                    error: "Expected an item address but received a model address."
                 });
             }
         } catch (f) {
             Dispatcher.handleAction("ERROR", {
-                error: "The provided item address is somehow invalid."
+                error: "The provided item address is invalid."
             });
         }
     }
 
     static throwInvalidCharacterError() {
-        Dispatcher.handleAction("ERROR", {
-            error: "Please only enter Alphanumeric Characters."
+        Dispatcher.handleAction("WARN", {
+            warn: "Please enter only Alphanumeric Characters."
         });
     }
 

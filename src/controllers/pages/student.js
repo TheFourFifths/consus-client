@@ -50,7 +50,7 @@ export default class StudentController {
             });
         }).catch(() => {
             Dispatcher.handleAction("ERROR", {
-                error: 'Model checkin has failed'
+                error: 'Model checkin was unsuccessful.'
             });
         });
     }
@@ -79,22 +79,22 @@ export default class StudentController {
 
     static isValidLongtermData(dueDate, professor) {
         if(dueDate === undefined || dueDate === null){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Please enter a due date.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Due date is required.'
             });
             return false;
         }
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
         if(!dueDateMoment.isAfter(today)){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Due date cannot be set to today or past.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Due date cannot be set to today or past.'
             });
             return false;
         }
         if(professor === undefined || professor === null){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Please enter a professor name.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Professor Name is required.'
             });
             return false;
         }
@@ -102,8 +102,8 @@ export default class StudentController {
     }
 
     static throwNoItemsError() {
-        Dispatcher.handleAction('ERROR', {
-            error: 'No Items were scanned for checkout.'
+        Dispatcher.handleAction('WARN', {
+            warn: 'No Items were scanned for checkout.'
         });
     }
 

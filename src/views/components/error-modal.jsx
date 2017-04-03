@@ -6,7 +6,10 @@ export default class ErrorModal extends React.Component {
     render() {
         return (
             <Modal active={this.props.active} onClose={this.props.onClose}>
-                <p>{this.props.message}</p>
+                <div className={`${this.props.tag}-heading modal-heading`}>
+                    {this.props.tag}
+                </div>
+                <h4>{this.props.message}</h4>
             </Modal>
         );
     }
