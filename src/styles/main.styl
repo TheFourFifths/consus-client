@@ -1,3 +1,5 @@
+$primary-btn-color = #1565C0
+
 html, body
     width: 100%
     margin: 0
@@ -14,7 +16,7 @@ html, body
     clear: both
 
 .cool-button
-    background: #1565C0
+    background: $primary-btn-color
     color: white
     padding: 8 12
     font-weight: bold
@@ -23,31 +25,31 @@ html, body
     border-style: none
     border-radius: 2px
     &:hover
-        background: lighten(#1565C0, 10%)
+        background: lighten($primary-btn-color, 10%)
     &:focus
         outline: none
-        background: lighten(#1565C0, 10%)
+        background: lighten($primary-btn-color, 10%)
 
 .neat-secondary-button
     background: transparent
-    color: #1565C0
-    border-color: #1565C0
+    color: $primary-btn-color
+    border-color: $primary-btn-color
     border-style: solid
     border-radius: 2px
     border-width: 1px
     font-weight: bold
     cursor: pointer
     &:hover
-        background: #1565C0
+        background: $primary-btn-color
         color: white
     &:focus
         outline: none
-        background: #1565C0
+        background: $primary-btn-color
         color: white
 
 textarea
     resize: none
-    overflow: scroll
+    overflow: auto
 
 .center
     text-align: center
@@ -67,7 +69,7 @@ textarea
 @import 'omnibar.styl'
 @import 'modal.styl'
 @import 'models.styl'
-@import 'create-model-form.styl'
+@import 'model-form.styl'
 @import 'create-item-form.styl'
 @import 'index.styl'
 @import 'items.styl'

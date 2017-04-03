@@ -175,7 +175,7 @@ export default class CreateModelForm extends React.Component {
                     Storage location<br/>
                     <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
                     Price per unit<br/>
-                    $ <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' min='0' /><br/>
+                    $ <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
                     <div className='radio-buttons'>
                         Is It Serialized or Unserialized?<br/>
                         <input type='radio' name='serialized' value='serialized' checked={!this.state.allowCheckout} onChange={this.changeAllowCheckout.bind(this)} />
