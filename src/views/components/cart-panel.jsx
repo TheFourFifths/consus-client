@@ -2,7 +2,6 @@ import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import CartController from '../../controllers/components/cart-panel';
 import Modal from './modal.jsx';
-import { assert } from 'chai';
 import CartStore from '../../store/cart-store';
 export default class CartPanel extends React.Component {
 
@@ -21,13 +20,13 @@ export default class CartPanel extends React.Component {
             try {
                 let result = readAddress(e.target.value);
                 let student = this.props.student;
-                if(result.type == 'item') {
+                if(result.type === 'item') {
                     if (student.items.some(item => item.address === e.target.value)) {
                         CartController.checkInItem(student.id, e.target.value);
                     } else {
                         CartController.getItem(e.target.value);
                     }
-                } else if(result.type == 'model') {
+                } else if(result.type === 'model') {
                     if(this.props.equipment.find(content => { return content.address === e.target.value; })){
                         CartController.incrementModel(e.target.value);
                     } else {
@@ -89,7 +88,7 @@ export default class CartPanel extends React.Component {
             return <div id="longtermSection">
                 Longterm duedate: <input type="date" onChange={this.changeLongtermDate.bind(this)}/><br />
                 Professor's name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} /><br />
-            </div>
+            </div>;
         }
     }
 
