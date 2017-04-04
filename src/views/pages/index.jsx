@@ -13,6 +13,7 @@ export default class Index extends React.Component {
                   <button onClick={IndexController.getOverdueItems}>Overdue Items</button><br/>
                   <button id='view-students' onClick={IndexController.getStudents}>View All Students</button><br/>
                   <Link to='/students/upload'>Upload Student List</Link>
+                  <Link to='/reports'>Reports</Link>
                 </div>
             </div>
         );
