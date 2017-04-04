@@ -32,7 +32,7 @@ export default class InputModal extends React.Component {
 
     renderWarning(){
         if(this.state.invalid === undefined ? this.state.invalid : this.props.invalid){
-            return <span className="invalidText">{this.props.errorMessage === undefined ? 'Please only use alspanhanumeric characters.' : this.props.errorMessage}</span>;
+            return <span className="invalidText">{this.props.errorMessage === undefined ? 'Please only use alphanumeric characters.' : this.props.errorMessage}</span>;
         }else{
             return '';
         }
