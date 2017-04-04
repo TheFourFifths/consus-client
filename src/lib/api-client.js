@@ -198,7 +198,7 @@ export function updateStudent(student){
 }
 
 export function uploadStudents(data){
-    return post('student/excel', {
+    return post('student', {
         data
     });
 }
@@ -224,16 +224,4 @@ export function createRfidToStudentAssosciation(studentId, rfid){
         rfid
     };
     return patch('student/rfid', qs, data);
-}
-
-export function createStudent(studentId, rfid, major, email, name){
-    let body = {
-        studentId,
-        rfid,
-        major,
-        email,
-        name
-    };
-    console.log(body);
-    return post('student', body);
 }

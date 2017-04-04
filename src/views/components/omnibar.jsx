@@ -13,8 +13,7 @@ export default class Omnibar extends React.Component {
             query: '',
             confirmExit: false,
             showIdInputModal: false,
-            rfid: null,
-            showStudentRedirectConfirmation: false
+            rfid: null
         };
     }
 
@@ -88,11 +87,7 @@ export default class Omnibar extends React.Component {
     }
     associateRfidToStudent(id){
         this.closeRfidInputmodal();
-        StudentController.studentToRfid(id, this.state.rfid).catch(() => {
-            this.setState({
-                showStudentRedirectConfirmation: true
-            });
-        });
+        StudentController.studentToRfid(id, this.state.rfid);
     }
 
     closeRfidInputmodal(){
@@ -100,14 +95,6 @@ export default class Omnibar extends React.Component {
             showIdInputModal: false,
             rfid: null
         })
-    }
-    handleStudentRedirectModal(bool){
-        if(bool){
-            OmnibarController.leavePage('/student/new');
-        }
-        this.setState({
-            showStudentRedirectConfirmation: false
-        });
     }
     render() {
         return (
@@ -117,11 +104,6 @@ export default class Omnibar extends React.Component {
                   active = {this.state.confirmExit}
                   onSelect = {bool => this.handleConfirmModal(bool)}
               />
-                <ConfirmModal
-                    message="The student ID that was entered was not found. Would you like to create a profile for this ID?"
-                    active = {this.state.showStudentRedirectConfirmation}
-                    onSelect = {bool => this.handleStudentRedirectModal(bool)}
-                />
                 <InputModal
                     message="The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid"
                     active={this.state.showIdInputModal}
