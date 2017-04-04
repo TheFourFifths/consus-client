@@ -3,6 +3,7 @@ import ItemStore from '../../store/item-store';
 import ItemController from '../../controllers/components/item';
 import PrinterController from '../../controllers/pages/printer';
 import ModelController from '../../controllers/pages/model';
+import ConfirmModal from '../components/confirm-modal.jsx';
 import config from 'config';
 import moment from 'moment-timezone';
 
@@ -11,11 +12,17 @@ export default class Item extends React.Component {
     constructor(props) {
         super(props);
         if (props.item === undefined)
-            this.state = {item: null};
+            this.state = {
+                item: null,
+                needsConfirmationForDelete: false,
+                faultBoxOpen: false
+            };
         else
-            this.state = {item: props.item};
-
-        this.setState({ faultBoxOpen: false });
+            this.state = {
+                item: props.item,
+                needsConfirmationForDelete: false,
+                faultBoxOpen: false
+            };
     }
 
     componentDidMount() {
@@ -42,8 +49,19 @@ export default class Item extends React.Component {
         this.setState({faultBoxOpen: false});
     }
 
-    deleteItem() {
-        ItemController.deleteItem(this.state.item);
+    showDeleteConfirmModal(){
+        this.setState({
+            needsConfirmationForDelete: true
+        });
+    }
+
+    confirmDelete(bool){
+        if(bool) {
+            ItemController.deleteItem(this.state.item);
+        }
+        this.setState({
+            needsConfirmationForDelete: false
+        });
     }
 
     openQr() {
@@ -53,8 +71,14 @@ export default class Item extends React.Component {
     render() {
         if (this.state.item === null)
             return <i>Item is loading...</i>;
+        let deleteConfirmationText = `Are you sure you want to delete this item (${this.state.item.address})?`;
         return (
             <div className='item'>
+                <ConfirmModal
+                    message={deleteConfirmationText}
+                    active={this.state.needsConfirmationForDelete}
+                    onSelect={bool => this.confirmDelete(bool)}
+                />
                 <div className="picArea">
                     <img src="../assets/images/placeholder.jpg"/>
                 </div>
@@ -82,17 +106,17 @@ export default class Item extends React.Component {
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>
-                        {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault, index) => {
-                            if (index === 0 && this.state.item.isFaulty) return null;
-                            let timestamp = moment.tz(fault.timestamp * 1000, config.get('timezone')).format('MMM D Y, h:mm a');
-                            return <div key={fault.description + fault.timestamp + new Date().getTime()}>{timestamp}: {fault.description}</div>;
-                        }))}
+                        <div className="faults">
+                            {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault, index) => {
+                                if (index === 0 && this.state.item.isFaulty) return null;
+                                let timestamp = moment.tz(fault.timestamp * 1000, config.get('timezone')).format('MMM D Y');
+                                return <div key={fault.description + fault.timestamp + new Date().getTime()}>{timestamp}: {fault.description}</div>;
+                            }))}
+                        </div>
                     </div>
                 </div>
                 <div className="actionArea">
-                    <img src="../assets/images/add.svg"/>
-                    <img src="../assets/images/edit.svg"/>
-                    <img onClick={this.deleteItem.bind(this)} src="../assets/images/delete.svg"/>
+                    <img onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
                     <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
