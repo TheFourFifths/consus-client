@@ -5,6 +5,7 @@ import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
 import SavedEquipment from './saved-equipment.jsx';
 import moment from 'moment-timezone';
+import OmnibarController from "../../controllers/components/omnibar";
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -13,7 +14,7 @@ export default class StudentPanel extends ListenerComponent {
         this.state = {
             checkinNum: 1,
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     componentWillMount(){
@@ -29,7 +30,7 @@ export default class StudentPanel extends ListenerComponent {
     getState() {
         return {
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     changeCheckinNum(maxCheckin, e) {
@@ -58,7 +59,9 @@ export default class StudentPanel extends ListenerComponent {
             checkinNum: 1
         });
     }
-
+    displayItem(address){
+        OmnibarController.displayItem(address);
+    }
     renderEquipment() {
         let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
         let models = this.props.student.models.filter(model => model.status === 'CHECKED_OUT');
@@ -70,7 +73,7 @@ export default class StudentPanel extends ListenerComponent {
                 {items.map(item => {
                     return (
                         <div className="item-info" key={item.address}>
-                            <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div onClick={this.displayItem.bind(this, item.address)}>
                                 {this.renderItemInfo(item)}
                             </Link>
                             <div className='buttons'>

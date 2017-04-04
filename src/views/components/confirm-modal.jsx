@@ -3,7 +3,6 @@ import Modal from './modal.jsx';
 
 export default class ConfirmModal extends React.Component {
 
-
     render() {
         return (
             <Modal
@@ -14,6 +13,6 @@ export default class ConfirmModal extends React.Component {
                 <br/>
                 <button onClick={() => this.props.onSelect(false)}>No</button>
             </Modal>
-        )
+        );
     }
 }

@@ -15,7 +15,7 @@ export default class CreateModelForm extends React.Component {
             price: 0.0,
             count: 0,
             checked: false
-        }
+        };
     }
 
     changeName(e) {
@@ -47,7 +47,7 @@ export default class CreateModelForm extends React.Component {
         });
     }
 
-    changeAllowCheckout(e) {
+    changeAllowCheckout() {
         this.setState({
             allowCheckout: !this.state.checked,
             checked: !this.state.checked
