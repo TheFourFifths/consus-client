@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
+import OmnibarController from '../../controllers/components/omnibar';
 
 export default class SavedEquipment extends React.Component {
+
+    displayItem(address){
+        OmnibarController.displayItem(address);
+    }
 
     renderItemInfo(item) {
         let model = ModelStore.getModelByAddress(item.modelAddress);
@@ -33,9 +38,9 @@ export default class SavedEquipment extends React.Component {
                 {this.props.items.map(item => {
                     return (
                         <div key={item.address} className="item-info">
-                            <Link to={`/item/${item.address}`} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div onClick={this.displayItem.bind(this, item.address)} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderItemInfo(item)}
-                            </Link>
+                            </div>
                         </div>
                     );
                 })}
