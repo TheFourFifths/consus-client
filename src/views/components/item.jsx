@@ -3,7 +3,7 @@ import ItemStore from '../../store/item-store';
 import ModelStore from '../../store/model-store';
 import ItemController from '../../controllers/components/item';
 import PrinterController from '../../controllers/pages/printer';
-import ModelController from '../../controllers/pages/model';
+import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from '../components/confirm-modal.jsx';
 import config from 'config';
 import moment from 'moment-timezone';
@@ -92,7 +92,7 @@ export default class Item extends React.Component {
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.item.address}</h2>
-                    <button id='parent-model' onClick={() => ModelController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/>
+                    <button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/>
                 </div>
                 <div className="infoArea">
                     <div className="descriptionArea">

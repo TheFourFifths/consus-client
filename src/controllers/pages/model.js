@@ -2,7 +2,7 @@ import { getModelAndItems } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 
-export default class ModelController {
+export default class ModelPageController {
 
     static getModelAndItems(modelAddress) {
         return getModelAndItems(modelAddress).then(data => {
