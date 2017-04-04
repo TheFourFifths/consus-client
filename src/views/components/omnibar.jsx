@@ -1,5 +1,5 @@
 import React from 'react';
-import { readAddress } from 'consus-core/identifiers';
+import {readAddress} from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
@@ -17,20 +17,20 @@ export default class Omnibar extends React.Component {
         };
     }
 
-    changeQuery(e) {
-        let regex = new RegExp("^[a-zA-Z0-9]*$");
-        let regexOnlyNums = new RegExp("^[0-9]*$");
-        let rfid = e.target.value;
-        if(regex.test(rfid)) {
-            if (e.target.value.length === 6 && regexOnlyNums.test(rfid)) {
+    submitQuery(e) {
+        if (e.key === 'Enter') {
+            let queryIsRfid = new RegExp("^rfid:.*");
+            let query = this.state.query;
+            if (queryIsRfid.test(query)) {
                 this.setState({
                     query: ''
                 });
-                if(OmnibarController.getWarning()){
+                let rfid = query.split(":")[1];
+                if (OmnibarController.getWarning()) {
                     this.setState({confirmExit: true, next: "student", studentID: rfid});
-                }else{
+                } else {
                     OmnibarController.getStudent(rfid).catch(e => {
-                        if (e === 'The student could not be found.' ) {
+                        if (e === 'The student could not be found.') {
                             this.setState({
                                 showIdInputModal: true,
                                 rfid: rfid
@@ -40,30 +40,33 @@ export default class Omnibar extends React.Component {
                 }
             } else {
                 try {
-                    let result = readAddress(e.target.value);
+                    let result = readAddress(query);
                     this.setState({
                         query: ''
                     });
-                    if(result.type === 'model') {
-                        ModelController.getModelAndItems(e.target.value);
+                    if (result.type === 'model') {
+                        ModelController.getModelAndItems(query);
                     } else if (result.type === 'item') {
-                        OmnibarController.displayItem(e.target.value);
+                        OmnibarController.displayItem(query);
                     }
                 } catch (f) {
-                    this.setState({
-                        query: e.target.value
-                    });
+                    OmnibarController.throwQueryInvalidError();
                 }
             }
-        }else{
-            OmnibarController.throwInvalidCharacterError();
         }
+
+    }
+
+    changeQuery(e) {
+        this.setState({
+            query: e.target.value
+        });
     }
 
     clickLogo() {
-        if(OmnibarController.emptyCart()){
-            if (OmnibarController.getWarning()){
-                this.setState({confirmExit: true, next:"home"});
+        if (OmnibarController.emptyCart()) {
+            if (OmnibarController.getWarning()) {
+                this.setState({confirmExit: true, next: "home"});
             }
             else {
                 OmnibarController.leavePage('/');
@@ -71,9 +74,9 @@ export default class Omnibar extends React.Component {
         }
     }
 
-    handleConfirmModal(bool){
+    handleConfirmModal(bool) {
         this.setState({confirmExit: false});
-        if(bool) {
+        if (bool) {
             switch (this.state.next) {
             case "student":
                 OmnibarController.getStudent(this.state.studentID);
@@ -86,25 +89,27 @@ export default class Omnibar extends React.Component {
             }
         }
     }
-    associateRfidToStudent(id){
+
+    associateRfidToStudent(id) {
         this.closeRfidInputmodal();
         StudentController.studentToRfid(id, this.state.rfid);
     }
 
-    closeRfidInputmodal(){
+    closeRfidInputmodal() {
         this.setState({
             showIdInputModal: false,
             rfid: null
         });
     }
+
     render() {
         return (
             <div id='omnibar' className='no-print'>
-              <ConfirmModal
-                  message="Are you sure you wish to leave the page? Unsaved changes will be lost."
-                  active = {this.state.confirmExit}
-                  onSelect = {bool => this.handleConfirmModal(bool)}
-              />
+                <ConfirmModal
+                    message="Are you sure you wish to leave the page? Unsaved changes will be lost."
+                    active={this.state.confirmExit}
+                    onSelect={bool => this.handleConfirmModal(bool)}
+                />
                 <InputModal
                     message="The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid"
                     active={this.state.showIdInputModal}
@@ -113,8 +118,9 @@ export default class Omnibar extends React.Component {
                     acceptText='Associate student and rfid'
                     textHidden={false}
                 />
-              <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
-              <input maxLength='30' type='text' onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
+                <img onClick={this.clickLogo.bind(this)} src='../assets/icons/consus-logo.png'/>
+                <input maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
+                       onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
             </div>
         );
     }

@@ -125,7 +125,7 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("throwInvalidCharacterError", () => {
+    describe("throwQueryInvalidError", () => {
         let dispatcherSpy;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
