@@ -3,12 +3,13 @@ import {
     searchStudent,
     checkInModel,
     checkOutContentsLongterm,
-    createRfidToStudentAssosciation } from '../../lib/api-client';
+    createRfidToStudentAssosciation,
+    createStudent} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
-
+import OmnibarController from '../../controllers/components/omnibar';
 export default class StudentController {
 
     static acceptAdminModal(adminCode) {
@@ -118,11 +119,14 @@ export default class StudentController {
             Dispatcher.handleAction('CREATE_TOAST', {
                 text: 'The student has been associated successfully!'
             });
-        }).catch(error => {
-            //todo redirect user to create new student screen on failed association(tff-209)
-            Dispatcher.handleAction('ERROR', {
-                error
-            });
+        });
+    }
+
+    static newStudent(studentId, rfid, major, email, name){
+        console.log('studentId ' + studentId);
+        return createStudent(studentId, rfid, major, email, name).then(() => {
+           console.log('done');
+           OmnibarController.leavePage('/');
         });
     }
 
