@@ -2,7 +2,6 @@ import React from 'react';
 import config from 'config';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
-import ModelPageController from '../../controllers/pages/model';
 import ModelStore  from '../../store/model-store';
 import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';

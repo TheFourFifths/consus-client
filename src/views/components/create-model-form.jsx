@@ -43,7 +43,7 @@ export default class CreateModelForm extends React.Component {
             price: 0.0,
             count: 0,
             photo: ''
-        }
+        };
     }
 
     changeName(e) {

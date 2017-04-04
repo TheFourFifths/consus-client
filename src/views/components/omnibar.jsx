@@ -2,7 +2,6 @@ import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelPageController from '../../controllers/pages/model';
-import { Link } from 'react-router';
 import ConfirmModal from './confirm-modal.jsx';
 
 export default class Omnibar extends React.Component {
