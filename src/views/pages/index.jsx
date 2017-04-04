@@ -66,28 +66,52 @@ export default class Index extends React.Component {
                 />
                 <div id='links'>
                     <div id='view-models' onClick={IndexController.getModels}>
-                        <span>Models</span>
+                        <span>
+                            <img src="../assets/images/list.svg"/><br/>
+                            MODELS
+                        </span>
                     </div>
                     <div id='view-items' onClick={IndexController.getItems}>
-                        <span>Items</span>
-                    </div>
-                    <div id='view-overdue' onClick={IndexController.getOverdueItems}>
-                        <span>Overdue Equipment</span>
-                    </div>
-                    <div id='lost-item' onClick={this.lostItem.bind(this)}>
-                        <span>Lost Item</span>
-                    </div>
-                    <div id='view-students' onClick={IndexController.getStudents}>
-                        <span>Students</span>
-                    </div>
-                    <div id='student-upload' onClick={() => hashHistory.push(`/students/upload`)}>
-                        <span>Upload Students</span>
-                    </div>
-                    <div id='create-item' onClick={IndexController.gotoNewItemPage}>
-                        <span>New Item</span>
+                        <span>
+                            <img src="../assets/images/list.svg"/><br/>
+                            ITEMS
+                        </span>
                     </div>
                     <div id='new-model' onClick={() => hashHistory.push(`/models/new`)}>
-                        <span>New Model</span>
+                        <span>
+                            <img src="../assets/images/add-2.svg"/><br/>
+                            NEW MODEL
+                        </span>
+                    </div>
+                    <div id='create-item' onClick={IndexController.gotoNewItemPage}>
+                        <span>
+                            <img src="../assets/images/add-2.svg"/><br/>
+                            NEW ITEM
+                        </span>
+                    </div>
+                    <div id='view-students' onClick={IndexController.getStudents}>
+                        <span>
+                            <img src="../assets/images/group.svg"/><br/>
+                            STUDENTS
+                        </span>
+                    </div>
+                    <div id='student-upload' onClick={() => hashHistory.push(`/students/upload`)}>
+                        <span>
+                            <img src="../assets/images/upload.svg"/><br/>
+                            UPLOAD STUDENTS
+                        </span>
+                    </div>
+                    <div id='view-overdue' onClick={IndexController.getOverdueItems}>
+                        <span>
+                            <img src="../assets/images/time.svg"/><br/>
+                            OVERDUE EQUIPMENT
+                        </span>
+                    </div>
+                    <div id='lost-item' onClick={this.lostItem.bind(this)}>
+                        <span>
+                            <img src="../assets/images/search.svg"/><br/>
+                            LOST ITEM
+                        </span>
                     </div>
                 </div>
             </div>
