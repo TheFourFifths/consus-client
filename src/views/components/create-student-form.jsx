@@ -44,6 +44,7 @@ export default class CreateStudentForm extends ListenerComponent {
         });
     }
     submit(e) {
+        e.preventDefault();
         StudentController.newStudent(
             this.state.id,
             this.state.rfid,
