@@ -1,21 +1,26 @@
 {
     "rules": {
         "comma-spacing": [
-            2,
+            "error",
             {
                 "before": false,
                 "after": true
             }
         ],
+        "eqeqeq": [
+            "error",
+            "always"
+        ],
         "indent": [
-            2,
+            "error",
             4
         ],
         "no-console": [
-            2
+            "error"
         ],
+        "react/prop-types": "off",
         "semi": [
-            2,
+            "error",
             "always"
         ]
     },
@@ -24,13 +29,13 @@
         "node": true,
         "browser": true
     },
-    "extends": "eslint:recommended",
-    "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-    },
+    "extends": [ "eslint:recommended", "plugin:react/recommended" ],
     "parser": "babel-eslint",
     "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        },
         "sourceType": "module"
     },
     "plugins": [
