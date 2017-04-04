@@ -13,7 +13,7 @@ export default class Student extends React.Component {
     }
 
     toggleEditMode() {
-        this.setState({editMode:!this.state.editMode})
+        this.setState({editMode:!this.state.editMode});
     }
 
     saveChanges(){

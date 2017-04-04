@@ -2,7 +2,7 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
 import Model from '../components/model.jsx';
-import CartController from '../../controllers/components/cart-panel'
+import CartController from '../../controllers/components/cart-panel';
 import {Link} from 'react-router';
 import InputModal from '../components/input-modal.jsx';
 import {readAddress} from 'consus-core/identifiers';
@@ -35,11 +35,11 @@ export default class Models extends ListenerComponent {
     }
 
     lostItem() {
-        this.setState({lostItemModalActive: true})
+        this.setState({lostItemModalActive: true});
     }
 
     cancelItemLost() {
-        this.setState({lostItemModalActive: false})
+        this.setState({lostItemModalActive: false});
     }
 
     update(e) {
@@ -60,7 +60,7 @@ export default class Models extends ListenerComponent {
         }
         this.setState({
             inputModalInput: equipmentAddress
-        })
+        });
     }
 
     render() {
