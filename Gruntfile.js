@@ -57,6 +57,9 @@ module.exports = function(grunt) {
                 files: {
                     '.dist/bundle.css': 'src/styles/main.styl'
                 }
+            },
+            options: {
+                'include css': true
             }
         },
         inline: {
