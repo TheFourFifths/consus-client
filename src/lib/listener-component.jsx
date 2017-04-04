@@ -1,7 +1,5 @@
 import React from 'react';
 
-import AuthenticationStore from '../store/authentication-store';
-
 export default class ListenerComponent extends React.Component {
 
     constructor() {

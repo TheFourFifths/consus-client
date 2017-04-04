@@ -1,6 +1,6 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import ModelStore from '../../store/model-store'
+import ModelStore from '../../store/model-store';
 import ItemFormController from '../../controllers/components/create-item-form';
 
 export default class CreateItemForm extends ListenerComponent {
@@ -42,7 +42,7 @@ export default class CreateItemForm extends ListenerComponent {
                         <option value='default' disabled>Choose a Model</option>
                         {this.state.models.map((model, key) => {
                             if(!model.allowCheckout) {
-                                return <option key={key} value={model.address}>{ model.name }</option>
+                                return <option key={key} value={model.address}>{ model.name }</option>;
                             }
                         })}
                     </select><br/>
