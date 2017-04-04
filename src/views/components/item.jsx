@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
+import ModelStore from '../../store/model-store';
 import ItemController from '../../controllers/components/item';
 import PrinterController from '../../controllers/pages/printer';
 import ModelController from '../../controllers/pages/model';
@@ -14,12 +15,14 @@ export default class Item extends React.Component {
         if (props.item === undefined)
             this.state = {
                 item: null,
+                model: null,
                 needsConfirmationForDelete: false,
                 faultBoxOpen: false
             };
         else
             this.state = {
                 item: props.item,
+                model: null,
                 needsConfirmationForDelete: false,
                 faultBoxOpen: false
             };
@@ -33,6 +36,11 @@ export default class Item extends React.Component {
                 });
             });
         }
+        ModelController.getModel(this.state.item.modelAddress).then(() => {
+            this.setState({
+                model: ModelStore.getModel()
+            });
+        });
     }
 
     addFault() {
