@@ -4,7 +4,7 @@ import OmnibarController from '../../controllers/components/omnibar';
 import ModelController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
 import InputModal from "../components/input-modal.jsx";
-import StudentController from '../../controllers/pages/student'
+import StudentController from '../../controllers/pages/student';
 export default class Omnibar extends React.Component {
 
     constructor(props) {
@@ -34,7 +34,7 @@ export default class Omnibar extends React.Component {
                             this.setState({
                                 showIdInputModal: true,
                                 rfid: rfid
-                            })
+                            });
                         }
                     });
                 }
@@ -95,7 +95,7 @@ export default class Omnibar extends React.Component {
         this.setState({
             showIdInputModal: false,
             rfid: null
-        })
+        });
     }
     render() {
         return (
