@@ -50,4 +50,8 @@ export default class IndexController {
         });
     }
 
+    static navigateTo(url) {
+        hashHistory.push(url);
+    }
+
 }

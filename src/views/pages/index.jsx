@@ -29,6 +29,14 @@ export default class Index extends React.Component {
         });
     }
 
+    goToNewModel() {
+        IndexController.navigateTo(`/models/new`)
+    }
+
+    goToStudentUpload() {
+        IndexController.navigateTo(`/students/upload`)
+    }
+
     update(e) {
         let equipAddr = e.target.value;
         if (equipAddr.length > 0) {
@@ -77,7 +85,7 @@ export default class Index extends React.Component {
                             Items
                         </span>
                     </div>
-                    <div id='new-model' onClick={() => hashHistory.push(`/models/new`)}>
+                    <div id='new-model' onClick={this.goToNewModel}>
                         <span>
                             <img src="../assets/images/add-2.svg"/><br/>
                             New Model
@@ -95,7 +103,7 @@ export default class Index extends React.Component {
                             Students
                         </span>
                     </div>
-                    <div id='student-upload' onClick={() => hashHistory.push(`/students/upload`)}>
+                    <div id='student-upload' onClick={this.goToStudentUpload}>
                         <span>
                             <img src="../assets/images/upload.svg"/><br/>
                             Upload Students
