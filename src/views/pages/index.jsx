@@ -1,5 +1,4 @@
 import React from 'react';
-import { hashHistory } from 'react-router';
 import { readAddress } from 'consus-core/identifiers';
 import CartController from '../../controllers/components/cart-panel';
 import IndexController from '../../controllers/pages/index';
@@ -30,11 +29,11 @@ export default class Index extends React.Component {
     }
 
     goToNewModel() {
-        IndexController.navigateTo(`/models/new`)
+        IndexController.navigateTo(`/models/new`);
     }
 
     goToStudentUpload() {
-        IndexController.navigateTo(`/students/upload`)
+        IndexController.navigateTo(`/students/upload`);
     }
 
     update(e) {

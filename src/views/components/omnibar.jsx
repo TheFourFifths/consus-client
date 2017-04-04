@@ -2,7 +2,6 @@ import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelController from '../../controllers/pages/model';
-import { Link } from 'react-router';
 import ConfirmModal from './confirm-modal.jsx';
 
 export default class Omnibar extends React.Component {
@@ -64,14 +63,15 @@ export default class Omnibar extends React.Component {
     handleConfirmModal(bool){
         this.setState({confirmExit: false});
         if(bool) {
-            switch(this.state.next){
-                case "student":
-                    OmnibarController.getStudent(this.state.studentID);
-                    break;
-                case "home":
-                    OmnibarController.leavePage('/');
-                default:
-                    OmnibarController.leavePage('/');
+            switch (this.state.next) {
+            case "student":
+                OmnibarController.getStudent(this.state.studentID);
+                break;
+            case "home":
+                OmnibarController.leavePage('/');
+                break;
+            default:
+                OmnibarController.leavePage('/');
             }
         }
     }

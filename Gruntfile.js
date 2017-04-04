@@ -75,7 +75,7 @@ module.exports = function(grunt) {
             options: {
                 configFile: '.eslintrc.json'
             },
-            src: ['index.js', 'src/**/*.js']
+            src: ['index.js', 'src/**/*.js', 'src/**/*.jsx']
         },
         mochacli: {
             options: {
