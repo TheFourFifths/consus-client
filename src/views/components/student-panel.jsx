@@ -152,6 +152,7 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         } else {
             let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
+<<<<<<< HEAD
             return (
                 <div className="item-info">
                     <div onClick={this.displayItem.bind(this, item.address)}
@@ -161,6 +162,11 @@ export default class StudentPanel extends ListenerComponent {
                     </div>
                     <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
                 </div>);
+=======
+            return (<div>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+            </div>);
+>>>>>>> 121651742083dcecf75f08fec1502e80a6e1d621
         }
     }
 
