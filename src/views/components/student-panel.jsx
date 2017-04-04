@@ -113,14 +113,13 @@ export default class StudentPanel extends ListenerComponent {
         let model = this.state.models.find(model => model.address === item.modelAddress);
         if (!model) {
             return null;
-        } else {
-            let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
-            return (
-                <div>
-                    {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-                </div>
-            );
         }
+        let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
+        return (
+            <div>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+            </div>
+        );
     }
 
     render() {

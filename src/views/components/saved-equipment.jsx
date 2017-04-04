@@ -6,6 +6,9 @@ export default class SavedEquipment extends React.Component {
 
     renderItemInfo(item) {
         let model = ModelStore.getModelByAddress(item.modelAddress);
+        if (!model) {
+            return null;
+        }
         return (
             <span>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
