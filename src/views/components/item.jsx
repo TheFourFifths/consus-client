@@ -10,12 +10,10 @@ export default class Item extends React.Component {
 
     constructor(props) {
         super(props);
-        if (props.item === undefined)
-            this.state = {item: null};
-        else
-            this.state = {item: props.item};
-
-        this.setState({ faultBoxOpen: false });
+        this.state = {
+            item: props.item === undefined ? null : props.item,
+            faultBoxOpen: false
+        };
     }
 
     componentDidMount() {
