@@ -75,9 +75,9 @@ export default class StudentPanel extends ListenerComponent {
                         <div className="item-info" key={item.address}>
                             <div onClick={this.displayItem.bind(this, item.address)}>
                                 {this.renderItemInfo(item)}
-                            </Link>
+                            </div>
                             <div className='buttons'>
-                                <button onClick={() => StudentPanelController.reserveItem(item.address)}>Save</button>
+                                <button onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
                             </div>
                         </div>
                     );
@@ -92,7 +92,7 @@ export default class StudentPanel extends ListenerComponent {
                                 <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
                                 <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
                                 <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
-                                <button onClick={() => StudentPanelController.reserveModel(this.props.student.id, model.address)}>Save</button>
+                                <button onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>Save</button>
                             </div>
                         </div>
                     );

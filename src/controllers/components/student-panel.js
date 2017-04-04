@@ -32,7 +32,7 @@ export default class StudentPanelController {
         });
     }
 
-    static reserveItem(itemAddress) {
+    static saveItem(itemAddress) {
         return saveItem(itemAddress).then(() => {
             Dispatcher.handleAction('SAVE_ITEM', {
                 itemAddress
@@ -40,7 +40,7 @@ export default class StudentPanelController {
         });
     }
 
-    static reserveModel(studentId, modelAddress) {
+    static saveModel(studentId, modelAddress) {
         return saveModel(studentId, modelAddress).then(() => {
             Dispatcher.handleAction('SAVE_MODEL', {
                 studentId,
