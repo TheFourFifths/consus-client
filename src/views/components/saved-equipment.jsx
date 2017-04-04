@@ -52,7 +52,6 @@ export default class SavedEquipment extends React.Component {
     render() {
         return (
             <div className='saved-equipment'>
-                <h4 className='equipment-heading'>Saved Equipment</h4>
                 {this.renderEquipment()}
             </div>
         );

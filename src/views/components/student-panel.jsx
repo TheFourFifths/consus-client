@@ -132,6 +132,7 @@ export default class StudentPanel extends ListenerComponent {
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
+                <h4 className='equipment-heading'>Saved Equipment</h4>
                 <SavedEquipment items={savedItems} models={savedModels} />
             </div>
         );
