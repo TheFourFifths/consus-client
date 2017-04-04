@@ -68,49 +68,49 @@ export default class Index extends React.Component {
                     <div id='view-models' onClick={IndexController.getModels}>
                         <span>
                             <img src="../assets/images/list.svg"/><br/>
-                            MODELS
+                            Models
                         </span>
                     </div>
                     <div id='view-items' onClick={IndexController.getItems}>
                         <span>
                             <img src="../assets/images/list.svg"/><br/>
-                            ITEMS
+                            Items
                         </span>
                     </div>
                     <div id='new-model' onClick={() => hashHistory.push(`/models/new`)}>
                         <span>
                             <img src="../assets/images/add-2.svg"/><br/>
-                            NEW MODEL
+                            New Model
                         </span>
                     </div>
                     <div id='create-item' onClick={IndexController.gotoNewItemPage}>
                         <span>
                             <img src="../assets/images/add-2.svg"/><br/>
-                            NEW ITEM
+                            New Item
                         </span>
                     </div>
                     <div id='view-students' onClick={IndexController.getStudents}>
                         <span>
                             <img src="../assets/images/group.svg"/><br/>
-                            STUDENTS
+                            Students
                         </span>
                     </div>
                     <div id='student-upload' onClick={() => hashHistory.push(`/students/upload`)}>
                         <span>
                             <img src="../assets/images/upload.svg"/><br/>
-                            UPLOAD STUDENTS
+                            Upload Students
                         </span>
                     </div>
                     <div id='view-overdue' onClick={IndexController.getOverdueItems}>
                         <span>
                             <img src="../assets/images/time.svg"/><br/>
-                            OVERDUE EQUIPMENT
+                            Overdue Equipment
                         </span>
                     </div>
                     <div id='lost-item' onClick={this.lostItem.bind(this)}>
                         <span>
                             <img src="../assets/images/search.svg"/><br/>
-                            LOST ITEM
+                            Lost Item
                         </span>
                     </div>
                 </div>
