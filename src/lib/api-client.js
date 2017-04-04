@@ -130,6 +130,10 @@ export function deleteModel(modelAddress) {
     return del('model', { modelAddress });
 }
 
+export function getAllFaultyItems() {
+    return get('item/fault/all');
+}
+
 export function getAllItems() {
     return get('item/all');
 }
