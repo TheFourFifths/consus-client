@@ -1,4 +1,4 @@
-import { getAllModels } from '../../lib/api-client';
+import { getAllModels, saveItem, saveModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class StudentPanelController {
@@ -29,6 +29,23 @@ export default class StudentPanelController {
     static throwNotANumberError() {
         Dispatcher.handleAction("ERROR", {
             error: "Input was not a number"
+        });
+    }
+
+    static saveItem(itemAddress) {
+        return saveItem(itemAddress).then(() => {
+            Dispatcher.handleAction('SAVE_ITEM', {
+                itemAddress
+            });
+        });
+    }
+
+    static saveModel(studentId, modelAddress) {
+        return saveModel(studentId, modelAddress).then(() => {
+            Dispatcher.handleAction('SAVE_MODEL', {
+                studentId,
+                modelAddress
+            });
         });
     }
 
