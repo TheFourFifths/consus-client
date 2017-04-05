@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import ItemStore from '../../store/item-store';
 import ModelStore from '../../store/model-store';
 import ItemController from '../../controllers/components/item';
@@ -22,7 +23,7 @@ export default class Item extends React.Component {
         else
             this.state = {
                 item: props.item,
-                model: null,
+                model: ModelStore.getModelByAddress(props.item.modelAddress),
                 needsConfirmationForDelete: false,
                 faultBoxOpen: false
             };
@@ -32,15 +33,11 @@ export default class Item extends React.Component {
         if (this.state.item === null) {
             ItemController.getItem(this.props.params.address).then(() => {
                 this.setState({
-                    item: ItemStore.getItem()
+                    item: ItemStore.getItem(),
+                    model: ModelStore.getModelByAddress(ItemStore.getItem().modelAddress)
                 });
             });
         }
-        ModelController.getModel(this.state.item.modelAddress).then(() => {
-            this.setState({
-                model: ModelStore.getModel()
-            });
-        });
     }
 
     addFault() {
@@ -88,19 +85,15 @@ export default class Item extends React.Component {
                     onSelect={bool => this.confirmDelete(bool)}
                 />
                 <div className="picArea">
-                    <img src="../assets/images/placeholder.jpg"/>
+                    <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
                 </div>
                 <div className="titleArea">
-                    <h2>{this.state.item.address}</h2>
-                    <button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/>
+                    <strong><Link to={`/model/${this.state.model.address}`}>{this.state.model.name}</Link></strong><br/>
+                    <i>{this.state.item.address}<br/></i>
+                    <strong>Status:</strong> {this.state.item.status}
                 </div>
                 <div className="infoArea">
-                    <div className="descriptionArea">
-                        <h3>Status</h3>
-                        <p>{this.state.item.status}</p>
-                    </div>
-                    <div key={'' + this.state.item.address + this.state.item.faultHistory.length}
-                     className="faultArea">
+                    <div key={'' + this.state.item.address + this.state.item.faultHistory.length} className="faultArea">
                         <h3>Current Fault</h3>
                         {(this.state.item.isFaulty
                                 ? <span><button onClick={() => ItemController.removeItemFault(this.state.item.address)}>ClearFault</button><p>{this.state.item.faultHistory[0].description}</p></span>
