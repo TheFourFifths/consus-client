@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
 
-describe('View all models', function () {
+describe.only('View all models', function () {
 
     this.timeout(10000);
     let app;
@@ -133,6 +133,8 @@ describe('View all models', function () {
             return app.client.click('.modal .modal-content button[type="button"]');
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
+        }).then(() => {
+            return app.client.click('.toast');
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toastText => {

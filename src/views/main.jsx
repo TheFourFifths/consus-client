@@ -22,7 +22,6 @@ import ModelPage from './pages/model.jsx';
 import Item from './pages/item.jsx';
 import OverdueItems from './pages/overdue.jsx';
 import Printer from './pages/printer.jsx';
-import CreateStudentForm from './components/create-student-form.jsx'
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -41,7 +40,6 @@ ReactDOM.render((
             <Route path='/students/upload' component={StudentFileUpload} />
             <Route path='/students' component={Students} />
             <Route path='/printer' component={Printer} />
-            <Route path='/student/new' component={CreateStudentForm }/>
         </Route>
     </Router>
 ), document.getElementById('app-container'));

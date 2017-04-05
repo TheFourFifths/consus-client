@@ -125,18 +125,19 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("throwInvalidCharacterError", () => {
+    describe("throwQueryInvalidError", () => {
         let dispatcherSpy;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         });
 
         it('Dispatches "ERROR" when called', () => {
-            OmnibarController.throwInvalidCharacterError();
+            OmnibarController.throwQueryInvalidError();
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Please only enter Alphanumeric Characters.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The query you entered was invalid! Rfid's must be pre-pended with 'rfid:'. If your're doing a"
+                + "model/item search please verify the typed in query is correct(capitals matter).");
         });
 
         afterEach(() => {

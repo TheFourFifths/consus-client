@@ -13,7 +13,7 @@ export default class StudentPanel extends ListenerComponent {
         this.state = {
             checkinNum: 1,
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     componentWillMount(){
@@ -29,7 +29,7 @@ export default class StudentPanel extends ListenerComponent {
     getState() {
         return {
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     changeCheckinNum(maxCheckin, e) {
@@ -114,7 +114,7 @@ export default class StudentPanel extends ListenerComponent {
             let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
             return (<div>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-            </div>)
+            </div>);
         }
     }
 
