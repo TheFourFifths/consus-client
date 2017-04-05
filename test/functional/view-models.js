@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
 
-describe.only('View all models', function () {
+describe('View all models', function () {
 
     this.timeout(10000);
     let app;

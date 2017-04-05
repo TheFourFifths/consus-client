@@ -5,6 +5,7 @@ import { Dispatcher } from 'consus-core/flux';
 import moment from 'moment-timezone';
 import StudentController from '../../../../.dist/controllers/pages/student';
 import StudentStore from '../../../../.dist/store/student-store';
+import OmnibarController from '../../../../.dist/controllers/components/omnibar';
 describe("StudentController", () => {
     let dispatcherSpy;
     beforeEach(() => {
@@ -301,9 +302,11 @@ describe("StudentController", () => {
     });
 
     describe("studentToRfid", () => {
-        let createRfidToStudentAssosciation;
+        let createRfidToStudentAssosciation,getStudent;
+
         beforeEach(() => {
             createRfidToStudentAssosciation = sinon.stub(api, "createRfidToStudentAssosciation");
+            getStudent = sinon.stub(OmnibarController, "getStudent");
         });
 
         it('Dispatches "ERROR" on failed association ', () => {
@@ -322,17 +325,24 @@ describe("StudentController", () => {
         it('Dispatches "CREATE_TOAST" on successful association ', () => {
             createRfidToStudentAssosciation.returns(
                 new Promise(resolve => {
-                    resolve();
+                    resolve('sure');
+                })
+            );
+            getStudent.returns(
+                new Promise(resolve => {
+                    resolve('sure');
                 })
             );
             StudentController.studentToRfid(123456, 123456).then(() => {
                 assert.isTrue(createRfidToStudentAssosciation.called);
                 assert.isTrue(dispatcherSpy.called);
+                assert.isTrue(getStudent.called);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "CREATE_TOAST");
             });
         });
 
         afterEach(() => {
+            getStudent.restore();
             createRfidToStudentAssosciation.restore();
         });
     });
