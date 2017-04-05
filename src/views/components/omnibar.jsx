@@ -104,7 +104,7 @@ export default class Omnibar extends React.Component {
         this.setState({
             showIdInputModal: false,
             rfid: null
-        })
+        });
     }
     handleStudentRedirectModal(bool){
         if(bool){

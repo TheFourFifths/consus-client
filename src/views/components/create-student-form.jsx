@@ -1,6 +1,7 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
-import StudentController from '../../controllers/pages/student'
+import StudentController from '../../controllers/pages/student';
+
 export default class CreateStudentForm extends ListenerComponent {
 
 
@@ -12,7 +13,7 @@ export default class CreateStudentForm extends ListenerComponent {
             id: 0,
             rfid: '',
             email: ''
-        }
+        };
     }
 
 
