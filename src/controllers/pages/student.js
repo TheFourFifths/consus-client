@@ -8,7 +8,7 @@ import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
-import OmnibarController from '../../controllers/components/omnibar'
+import OmnibarController from '../../controllers/components/omnibar';
 export default class StudentController {
 
     static acceptAdminModal(adminCode) {
