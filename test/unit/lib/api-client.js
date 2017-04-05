@@ -17,6 +17,8 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    retrieveItem,
+    retrieveModel,
     saveItem,
     saveModel,
     removeItemFault,

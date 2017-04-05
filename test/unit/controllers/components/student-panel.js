@@ -6,7 +6,7 @@ import { Dispatcher } from 'consus-core/flux';
 
 describe("StudentPanelController",() => {
 
-    let dispatcherSpy, getAllModels, saveItem, saveModel;
+    let dispatcherSpy, getAllModels, retrieveItem, retrieveModel, saveItem, saveModel;
 
     beforeEach(() => {
         Dispatcher.handleAction('STUDENT_FOUND', {
@@ -17,6 +17,8 @@ describe("StudentPanelController",() => {
         });
         dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         getAllModels = sinon.stub(api, "getAllModels");
+        retrieveItem = sinon.stub(api, 'retrieveItem');
+        retrieveModel = sinon.stub(api, 'retrieveModel');
         saveItem = sinon.stub(api, 'saveItem');
         saveModel = sinon.stub(api, 'saveModel');
     });
@@ -24,6 +26,8 @@ describe("StudentPanelController",() => {
     afterEach(() => {
         dispatcherSpy.restore();
         getAllModels.restore();
+        retrieveItem.restore();
+        retrieveModel.restore();
         saveItem.restore();
         saveModel.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");
