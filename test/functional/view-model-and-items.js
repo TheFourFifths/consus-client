@@ -49,9 +49,9 @@ describe('Viewing a model and an item', function () {
             }
         });
         return app.client.keys('m8y7nEtAe').then(() => {
-            return app.client.waitForVisible('.model', 1000000);
-        }).then(() => {
             return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('.model', 1000000);
         }).then(() => {
             return app.client.getText('.model .titleArea h2');
         }).then(name => {
