@@ -16,6 +16,8 @@ export default class Item extends React.Component {
             this.state = {item: props.item};
 
         this.setState({ faultBoxOpen: false });
+
+        this.state.noButtons = props.noButton === undefined? false: props.noButton;
     }
 
     componentDidMount() {
@@ -50,6 +52,16 @@ export default class Item extends React.Component {
         PrinterController.promptToPrint(this.state.item.address);
     }
 
+    renderButtons() {
+        if(this.state.noButtons) return null;
+        return  (
+            <span>
+                <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
+                {this.state.faultBoxOpen ? <button onClick={this.cancelFault.bind(this)}> Cancel </button> : ""}
+            </span>
+        )
+    }
+
     render() {
         if (this.state.item === null)
             return <i>Item is loading...</i>;
@@ -70,15 +82,14 @@ export default class Item extends React.Component {
                     <div key={'' + this.state.item.address + this.state.item.faultHistory.length}
                      className="faultArea">
                         <h3>Current Fault</h3>
-                        {(this.state.item.isFaulty
+                        {(this.state.item.isFaulty && !this.state.noButtons
                                 ? <span><button onClick={() => ItemController.removeItemFault(this.state.item.address)}>ClearFault</button><p>{this.state.item.faultHistory[0].description}</p></span>
                                 : <p>Item is not currently faulty.</p>
                         )}
 
                         <br/>
                         {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
-                        <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
-                        {this.state.faultBoxOpen ? <button onClick={this.cancelFault.bind(this)}> Cancel </button> : ""}
+                        {this.renderButtons()}
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>

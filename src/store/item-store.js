@@ -3,6 +3,7 @@ import { Store } from 'consus-core/flux';
 let item = null;
 let items = [];
 let overdueItems = [];
+let faultyItems = [];
 
 class ItemStore extends Store {
     isOverdue(item){
@@ -15,6 +16,9 @@ class ItemStore extends Store {
     getAllItems(){
         return items;
     }
+    getFaultyItems(){
+        return faultyItems;
+    }
     getOverdueItems(){
         return overdueItems;
     }
@@ -26,6 +30,11 @@ store.registerHandler('ITEM_FOUND', data => {
     item = data;
     store.emitChange();
 });
+
+store.registerHandler('FAULTY_ITEMS_RECEIVED', data => {
+    faultyItems = data.items;
+    store.emitChange();
+})
 
 store.registerHandler("OVERDUE_ITEMS_RECEIVED", data => {
     overdueItems = data.items;

@@ -2,11 +2,13 @@ import React from 'react';
 import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
+import BrokenItemsReportController from '../../controllers/reports/broken';
 import Item from '../components/item.jsx'
 
-export default class OverdueItemReportPage extends ListenerComponent {
+export default class FaultyItemReportPage extends ListenerComponent {
 
      componentWillMount(){
+         BrokenItemsReportController.getFaultyItems()
      }
 
     getStores(){
@@ -17,7 +19,7 @@ export default class OverdueItemReportPage extends ListenerComponent {
 
     getState(){
         return {
-            items: ItemStore.getOverdueItems()
+            items: ItemStore.getFaultyItems()
         };
     }
 
@@ -27,8 +29,8 @@ export default class OverdueItemReportPage extends ListenerComponent {
             <div key={this.state.items.length}>
                 {this.state.items.map(item => {
                     return(
-                         <div key={item.address}>
-                            <OverdueItem item = {item} />
+                         <div key={item.address + item.faultHistory.length}>
+                            <Item noButtons={true} item = {item} />
                          </div>
                      );
                 })}
