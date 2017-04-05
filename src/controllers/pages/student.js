@@ -3,7 +3,8 @@ import {
     searchStudent,
     checkInModel,
     checkOutContentsLongterm,
-    createRfidToStudentAssosciation } from '../../lib/api-client';
+    createRfidToStudentAssosciation,
+    createStudent} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
@@ -119,11 +120,12 @@ export default class StudentController {
                 text: 'The student has been associated successfully!'
             });
             OmnibarController.getStudent(rfid);
-        }).catch(error => {
-            //todo redirect user to create new student screen on failed association(tff-209)
-            Dispatcher.handleAction('ERROR', {
-                error
-            });
+        });
+    }
+
+    static newStudent(studentId, rfid, major, email, name){
+        return createStudent(studentId, rfid, major, email, name).then(() => {
+           OmnibarController.leavePage('/');
         });
     }
 

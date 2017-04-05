@@ -225,3 +225,14 @@ export function createRfidToStudentAssosciation(studentId, rfid){
     };
     return patch('student/rfid', qs, data);
 }
+
+export function createStudent(studentId, rfid, major, email, name){
+    let body = {
+        studentId,
+        rfid,
+        major,
+        email,
+        name
+    };
+    return post('student', body);
+}
