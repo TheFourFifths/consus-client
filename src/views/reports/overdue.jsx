@@ -36,7 +36,7 @@ export default class OverdueItemReportPage extends ListenerComponent {
                          <div key={item.address}>
                             <OverdueItem item = {item} />
                          </div>
-                     );
+                    );
                 })}
             </div>
         );

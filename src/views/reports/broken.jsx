@@ -31,7 +31,7 @@ export default class FaultyItemReportPage extends ListenerComponent {
                          <div key={item.address + item.faultHistory.length}>
                             <Item noButtons={true} item = {item} />
                          </div>
-                     );
+                    );
                 })}
             </div>
         );
