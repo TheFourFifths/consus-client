@@ -49,13 +49,13 @@ describe("StudentPanelController",() => {
         assert.strictEqual(StudentPanelController.countDuplicateModels(models)[2].quantity, 1);
     });
 
-    it("reserveItem", () => {
+    it("saveItem", () => {
         saveItem.returns(
             new Promise(resolve => {
                 resolve({});
             })
         );
-        return StudentPanelController.reserveItem('iGwEZUvfA').then(() => {
+        return StudentPanelController.saveItem('iGwEZUvfA').then(() => {
             assert.isTrue(dispatcherSpy.called);
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_ITEM");
@@ -65,13 +65,13 @@ describe("StudentPanelController",() => {
         });
     });
 
-    it("reserveModel", () => {
+    it("saveModel", () => {
         saveModel.returns(
             new Promise(resolve => {
                 resolve({});
             })
         );
-        return StudentPanelController.reserveModel(123456, 'm8y7nEtAe').then(() => {
+        return StudentPanelController.saveModel(123456, 'm8y7nEtAe').then(() => {
             assert.isTrue(dispatcherSpy.called);
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_MODEL");
