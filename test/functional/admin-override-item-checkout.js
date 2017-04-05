@@ -116,7 +116,7 @@ describe('Admin override on item checkout', function () {
         return app.client.click('.cart input[type="button"]').then(() => {
             return app.client.waitForVisible('.modal input');
         }).then(() => {
-            return app.client.getText('.modal .modal-content p');
+            return app.client.getText('.modal .modal-content p:first-child');
         }).then(text => {
             assert.include(text, 'Please Scan Admin ID or Enter Admin Pin');
         });
