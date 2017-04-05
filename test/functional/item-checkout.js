@@ -7,7 +7,7 @@ import items from '../test-cases/items';
 import models from '../test-cases/models';
 import students from '../test-cases/students';
 
-describe.only('Checking an item out', function () {
+describe('Checking an item out', function () {
 
     this.timeout(10000);
     let app;
@@ -35,7 +35,7 @@ describe.only('Checking an item out', function () {
         mockServer.clearExpectations();
     });
 
-    it.only('navigates to the student page', () => {
+    it('navigates to the student page', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'student',
