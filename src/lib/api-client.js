@@ -152,6 +152,19 @@ export function getOverdueItems() {
     return get('item/overdue');
 }
 
+export function retrieveItem(itemAddress) {
+    return post('item/retrieve', {
+        itemAddress
+    });
+}
+
+export function retrieveModel(studentId, modelAddress) {
+    return post('model/retrieve', {
+        studentId,
+        modelAddress
+    });
+}
+
 export function saveItem(itemAddress) {
     return post('item/save', {
         itemAddress

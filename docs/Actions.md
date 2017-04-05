@@ -419,7 +419,6 @@ Mark a model as retrieved.
 
 ### Data
 
-- `studentId`: The student retrieving the model
 - `modelAddress`: The address of the model that was retrieving
 
 ```json
@@ -449,12 +448,10 @@ Mark a model as saved.
 
 ### Data
 
-- `studentId`: The student saving the model
 - `modelAddress`: The address of the model that was saved
 
 ```json
 {
-    "studentId": 123456,
     "modelAddress": "myxEb109"
 }
 ```
