@@ -107,7 +107,9 @@ describe('Checking a model in', function () {
                         {
                             address: models[2].address,
                             name: models[2].name,
-                            quantity: 5
+                            quantity: 5,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
                         }
                     ]
                 }
