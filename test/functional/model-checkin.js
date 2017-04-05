@@ -64,7 +64,7 @@ describe('Checking a model in', function () {
             return app.client.getText('#student .student .id');
         }).then(id => {
             assert.strictEqual(id, '999999');
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 2);
         });
@@ -125,7 +125,7 @@ describe('Checking a model in', function () {
         }).then(() => {
             return app.client.waitForVisible('.toast', 5000, true);
         }).then(() => {
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
         });
@@ -180,7 +180,7 @@ describe('Checking a model in', function () {
         }).then(() => {
             return app.client.waitForVisible('.toast', 5000, true);
         }).then(() => {
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 0);
         });

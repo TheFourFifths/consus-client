@@ -31,10 +31,10 @@ export default class SavedEquipment extends React.Component {
 
     renderEquipment() {
         if (this.props.items.length === 0 && this.props.models.length === 0) {
-            return (<i className='equipment-none'>Student has no saved items.</i>);
+            return (<i className='saved-equipment-none'>Student has no saved items.</i>);
         }
         return (
-            <div className='equipment'>
+            <div className='saved-equipment'>
                 {this.props.items.map(item => {
                     return (
                         <div key={item.address} className="item-info">

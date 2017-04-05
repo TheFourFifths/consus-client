@@ -59,9 +59,11 @@ export default class StudentPanel extends ListenerComponent {
             checkinNum: 1
         });
     }
-    displayItem(address){
+
+    displayItem(address) {
         OmnibarController.displayItem(address);
     }
+
     renderEquipment() {
         let items = this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
         let models = this.props.student.models.filter(model => model.status === 'CHECKED_OUT');
@@ -115,9 +117,10 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         }
         let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
+        let overdue = item.timestamp < Math.floor(Date.now()/1000);
         return (
-            <div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+            <div className={overdue ? 'overdue' : ''}>
+                {model.name} {overdue ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </div>
         );
     }

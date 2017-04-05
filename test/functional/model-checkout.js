@@ -118,8 +118,6 @@ describe('Checking a model out', function () {
                 }
             }
         });
-
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -140,7 +138,7 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, 'Checkout completed successfully!');
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
@@ -246,7 +244,7 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, "Checkout completed successfully!");
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
