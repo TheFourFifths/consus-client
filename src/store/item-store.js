@@ -34,7 +34,7 @@ store.registerHandler('ITEM_FOUND', data => {
 store.registerHandler('FAULTY_ITEMS_RECEIVED', data => {
     faultyItems = data.items;
     store.emitChange();
-})
+});
 
 store.registerHandler("OVERDUE_ITEMS_RECEIVED", data => {
     overdueItems = data.items;
