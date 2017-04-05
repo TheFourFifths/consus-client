@@ -25,7 +25,8 @@ import {
     updateModel,
     deleteModel,
     uploadStudents,
-    checkOutContentsLongterm
+    checkOutContentsLongterm,
+    createRfidToStudentAssosciation
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -593,7 +594,7 @@ describe('API Client', () => {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response
         });
@@ -752,6 +753,27 @@ describe('API Client', () => {
             response
         });
         return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createRfidToStudentAssosciation', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student/rfid',
+            qs: {
+                studentId: '123456'
+            },
+            json: {
+                rfid: 123456
+            },
+            response
+        });
+        return createRfidToStudentAssosciation(123456, 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

@@ -170,9 +170,9 @@ export function searchModel(address) {
     });
 }
 
-export function searchStudent(id) {
+export function searchStudent(rfid) {
     return get('student', {
-        id
+        rfid
     });
 }
 
@@ -214,4 +214,14 @@ export function checkOutContentsLongterm(studentId, equipment, dueDate, professo
         params.adminCode = code;
     }
     return post('checkout/longterm', params);
+}
+
+export function createRfidToStudentAssosciation(studentId, rfid){
+    let qs = {
+        studentId
+    };
+    let data = {
+        rfid
+    };
+    return patch('student/rfid', qs, data);
 }
