@@ -22,6 +22,7 @@ This document describes the Flux actions used in the Consus client.
     - [EDIT_LONGTERM_DUEDATE](#edit_longterm_duedate)
     - [EDIT_LONGTERM_PROFESSOR](#edit_longterm_professor)
     - [ERROR](#error)
+    - [FAULTY_ITEMS_RECEIVED](#faulty_items_received)
     - [FILE_UNSUPPORTED](#file_unsupported)
     - [INFO](#info)
     - [INVALID_CODE](#invalid_code)
@@ -239,6 +240,13 @@ Dispatched when an error modal must be shown to the user.
 }
 ```
 
+## FAULTY_ITEMS_RECEIVED
+
+Dispatched when a list of faulty items is retrieved from the server.
+
+### Data
+
+None.
 
 ## FILE_UNSUPPORTED
 
