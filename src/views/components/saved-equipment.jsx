@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
+import StudentPanelController from '../../controllers/components/student-panel';
 import OmnibarController from '../../controllers/components/omnibar';
 
 export default class SavedEquipment extends React.Component {
@@ -41,6 +42,9 @@ export default class SavedEquipment extends React.Component {
                             <div onClick={this.displayItem.bind(this, item.address)} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderItemInfo(item)}
                             </div>
+                            <div className='buttons'>
+                                <button onClick={() => StudentPanelController.retrieveItem(item.address)}>Retrieve</button>
+                            </div>
                         </div>
                     );
                 })}
@@ -50,6 +54,9 @@ export default class SavedEquipment extends React.Component {
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
+                            <div className='buttons'>
+                                <button onClick={() => StudentPanelController.retrieveModel(this.props.student.id, model.address)}>Retrieve</button>
+                            </div>
                         </div>
                     );
                 })}
