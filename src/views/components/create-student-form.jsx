@@ -68,7 +68,7 @@ export default class CreateStudentForm extends ListenerComponent {
                     Student's email:<br/>
                     <input type='text'  onChange={this.changeEmail.bind(this)} placeholder='Email' required/><br/>
                     Student's Rfid(Click box then scan using rfid scanner):<br/>
-                    <input type='text'  onChange={this.changeRfid.bind(this)} placeholder='Rfid' required/><br/>
+                    <input type='number'  onChange={this.changeRfid.bind(this)} placeholder='Rfid' required/><br/>
                     <input type='submit' value='Create Student' />
                 </form>
             </div>
