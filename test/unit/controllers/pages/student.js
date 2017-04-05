@@ -322,7 +322,7 @@ describe("StudentController", () => {
         it('Dispatches "CREATE_TOAST" on successful association ', () => {
             createRfidToStudentAssosciation.returns(
                 new Promise(resolve => {
-                    resolve();
+                    resolve('sure');
                 })
             );
             StudentController.studentToRfid(123456, 123456).then(() => {
