@@ -49,6 +49,38 @@ describe("StudentPanelController",() => {
         assert.strictEqual(StudentPanelController.countDuplicateModels(models)[2].quantity, 1);
     });
 
+    it("retrieveItem", () => {
+        retrieveItem.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.retrieveItem('iGwEZUvfA').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "RETRIEVE_ITEM");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                itemAddress: 'iGwEZUvfA'
+            });
+        });
+    });
+
+    it("retrieveModel", () => {
+        retrieveModel.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.retrieveModel(123456, 'm8y7nEtAe').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "RETRIEVE_MODEL");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                modelAddress: 'm8y7nEtAe'
+            });
+        });
+    });
+
     it("saveItem", () => {
         saveItem.returns(
             new Promise(resolve => {
@@ -76,7 +108,6 @@ describe("StudentPanelController",() => {
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_MODEL");
             assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
-                studentId: 123456,
                 modelAddress: 'm8y7nEtAe'
             });
         });
