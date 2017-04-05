@@ -75,7 +75,7 @@ export default class CreateModelForm extends React.Component {
         });
     }
 
-    changeAllowCheckout(e) {
+    changeAllowCheckout() {
         this.setState({
             allowCheckout: !this.state.allowCheckout
         });

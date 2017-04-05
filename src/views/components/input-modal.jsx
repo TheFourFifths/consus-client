@@ -32,7 +32,7 @@ export default class InputModal extends React.Component {
 
     renderWarning(){
         if(this.state.invalid === undefined ? this.state.invalid : this.props.invalid){
-            return <span className="invalidText">{this.props.errorMessage === undefined ? 'Please only use Alphanumeric characters.' : this.props.errorMessage}<br/></span>;
+            return <span className="invalidText">{this.props.errorMessage === undefined ? 'Please only use alphanumeric characters.' : this.props.errorMessage}</span>;
         }else{
             return '';
         }
@@ -45,7 +45,7 @@ export default class InputModal extends React.Component {
                 buttonText={this.props.acceptText}
                 onClose={this.onAccept.bind(this)}
                 acceptDisabled={this.props.acceptDisabled}>
-                <p>{this.props.message}</p><br/>
+                <p>{this.props.message}</p>
                 <input
                     maxLength="30"
                     type={this.props.textHidden? 'password' : 'text'}
@@ -53,9 +53,9 @@ export default class InputModal extends React.Component {
                     value={this.props.input === undefined ? this.state.input : this.props.input}
                 />
                 <br/>
-                {this.renderWarning()}
+                <p>{this.renderWarning()}</p>
                 <button onClick={this.onCancel.bind(this)}>Cancel</button>
             </Modal>
-        )
+        );
     }
 }

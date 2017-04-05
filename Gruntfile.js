@@ -57,6 +57,9 @@ module.exports = function(grunt) {
                 files: {
                     '.dist/bundle.css': 'src/styles/main.styl'
                 }
+            },
+            options: {
+                'include css': true
             }
         },
         inline: {
@@ -72,7 +75,7 @@ module.exports = function(grunt) {
             options: {
                 configFile: '.eslintrc.json'
             },
-            src: ['index.js', 'src/**/*.js']
+            src: ['index.js', 'src/**/*.js', 'src/**/*.jsx']
         },
         mochacli: {
             options: {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
 import { getDataUri } from '../../lib/qr';
 import PrinterController from '../../controllers/pages/printer';
 import PrinterStore from '../../store/printer-store';

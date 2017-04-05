@@ -6,7 +6,6 @@ import ToastStore from '../store/toast-store';
 
 import ListenerComponent from '../lib/listener-component.jsx';
 import Omnibar from './components/omnibar.jsx';
-import Printer from './pages/printer.jsx';
 import ErrorModal from './components/error-modal.jsx';
 import Toasts from './components/toasts.jsx';
 
@@ -47,8 +46,8 @@ export default class App extends ListenerComponent {
             <div id='app'>
                 <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} tag={this.state.errorTag} message={this.state.errorMessage} />
                 <Toasts toasts={this.state.toasts} />
-                <Omnibar />
                 <div id='children'>
+                  <Omnibar />
                   {this.props.children}
                 </div>
             </div>

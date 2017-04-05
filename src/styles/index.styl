@@ -1,12 +1,36 @@
 #index
+    padding-left: 20%
+    padding-right: 20%
 
-  #links
-    padding: 5px
-    display: flex
-    justify-content: center
-    align-items: center
+    #links
+        align-items: center
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: center
+        padding: 5px
+        text-transform: uppercase
 
-    a, button
-      padding: 5px
-#logo
-    cursor:pointer;
+        div
+            align-items: center
+            border-radius: 3px
+            cursor: pointer
+            display: flex
+            height: 8em
+            width: 10em
+            margin: 1em 2em
+            justify-content: center
+            text-align: center
+
+            &:hover
+                background-color: darken(#f3f3f3, 10%)
+
+            &:active
+                background-color: darken(#f3f3f3, 20%)
+
+            span
+                padding: 0.25em
+
+            img
+                padding: 0.25em
+                height: 2.5em

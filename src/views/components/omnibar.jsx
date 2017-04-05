@@ -64,14 +64,15 @@ export default class Omnibar extends React.Component {
     handleConfirmModal(bool){
         this.setState({confirmExit: false});
         if(bool) {
-            switch(this.state.next){
-                case "student":
-                    OmnibarController.getStudent(this.state.studentID);
-                    break;
-                case "home":
-                    OmnibarController.leavePage('/');
-                default:
-                    OmnibarController.leavePage('/');
+            switch (this.state.next) {
+            case "student":
+                OmnibarController.getStudent(this.state.studentID);
+                break;
+            case "home":
+                OmnibarController.leavePage('/');
+                break;
+            default:
+                OmnibarController.leavePage('/');
             }
         }
     }
