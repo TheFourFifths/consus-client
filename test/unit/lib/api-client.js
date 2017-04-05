@@ -465,6 +465,43 @@ describe('API Client', () => {
         });
     });
 
+    it('retrieveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/retrieve',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return retrieveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('retrieveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/retrieve',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return retrieveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('saveItem', () => {
         let response = {
             status: 'success'
