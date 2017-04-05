@@ -1,6 +1,5 @@
 import React from 'react';
 import ItemStore from '../../store/item-store';
-import { Link } from 'react-router';
 import ItemController from '../../controllers/components/item';
 import PrinterController from '../../controllers/pages/printer';
 import ModelController from '../../controllers/pages/model';
@@ -11,12 +10,10 @@ export default class Item extends React.Component {
 
     constructor(props) {
         super(props);
-        if (props.item === undefined)
-            this.state = {item: null};
-        else
-            this.state = {item: props.item};
-
-        this.state.faultBoxOpen = false;
+        this.state = {
+            item: props.item === undefined ? null : props.item,
+            faultBoxOpen: false
+        };
     }
 
     componentDidMount() {
@@ -83,7 +80,7 @@ export default class Item extends React.Component {
                     </div>
                     <div className="faultHistory">
                         <h3>Fault History:</h3>
-                        {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault,index) => {
+                        {this.state.item.faultHistory.length === 0? <p>No fault history for this item</p> :(this.state.item.faultHistory.map((fault, index) => {
                             if (index === 0 && this.state.item.isFaulty) return null;
                             let timestamp = moment.tz(fault.timestamp * 1000, config.get('timezone')).format('MMM D Y, h:mm a');
                             return <div key={fault.description + fault.timestamp + new Date().getTime()}>{timestamp}: {fault.description}</div>;
