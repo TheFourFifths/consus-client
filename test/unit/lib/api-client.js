@@ -30,7 +30,7 @@ import {
     deleteModel,
     uploadStudents,
     checkOutContentsLongterm,
-    patchItemDueDate
+    patchItemDueDate,
     createRfidToStudentAssosciation,
     createStudent
 } from '../../../.dist/lib/api-client';
@@ -674,7 +674,7 @@ describe('API Client', () => {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response
         });

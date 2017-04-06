@@ -302,24 +302,11 @@ describe("StudentController", () => {
     });
 
     describe("studentToRfid", () => {
-        let createRfidToStudentAssosciation,getStudent;
+        let createRfidToStudentAssosciation, getStudent;
 
         beforeEach(() => {
             createRfidToStudentAssosciation = sinon.stub(api, "createRfidToStudentAssosciation");
             getStudent = sinon.stub(OmnibarController, "getStudent");
-        });
-
-        it('Dispatches "ERROR" on failed association ', () => {
-            createRfidToStudentAssosciation.returns(
-                new Promise((resolve, reject) => {
-                    reject("NO");
-                })
-            );
-            StudentController.studentToRfid(123456, 123456).then(() => {
-                assert.isTrue(createRfidToStudentAssosciation.called);
-                assert.isTrue(dispatcherSpy.called);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            });
         });
 
         it('Dispatches "CREATE_TOAST" on successful association ', () => {
