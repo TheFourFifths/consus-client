@@ -34,12 +34,16 @@ export default [
             {
                 address: models[2].address,
                 name: models[2].name,
-                quantity: 5
+                quantity: 5,
+                timestamp: Math.floor(Date.now() / 1000),
+                status: 'CHECKED_OUT'
             },
             {
                 address: models[3].address,
                 name: models[3].name,
-                quantity: 1
+                quantity: 1,
+                timestamp: Math.floor(Date.now() / 1000),
+                status: 'CHECKED_OUT'
             }
         ]
     }

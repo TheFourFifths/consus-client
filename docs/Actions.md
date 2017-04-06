@@ -38,6 +38,10 @@ This document describes the Flux actions used in the Consus client.
     - [OVERDUE_ITEMS_RECEIVED](#overdue_items_received)
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
+    - [RETRIEVE_ITEM](#retrieve_item)
+    - [RETRIEVE_MODEL](#retrieve_model)
+    - [SAVE_ITEM](#save_item)
+    - [SAVE_MODEL](#save_model)
     - [STUDENT_FOUND](#student_found)
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
@@ -395,6 +399,62 @@ Dispatched when a toast shall be popped.
 }
 ```
 
+## RETRIEVE_ITEM
+
+Mark an item as retrieved.
+
+### Data
+
+- `itemAddress`: The address of the item that was retrieved
+
+```json
+{
+    "itemAddress": "iGwEZUvfA"
+}
+```
+
+## RETRIEVE_MODEL
+
+Mark a model as retrieved.
+
+### Data
+
+- `modelAddress`: The address of the model that was retrieving
+
+```json
+{
+    "studentId": 123456,
+    "modelAddress": "myxEb109"
+}
+```
+
+## SAVE_ITEM
+
+Mark an item as saved.
+
+### Data
+
+- `itemAddress`: The address of the item that was saved
+
+```json
+{
+    "itemAddress": "iGwEZUvfA"
+}
+```
+
+## SAVE_MODEL
+
+Mark a model as saved.
+
+### Data
+
+- `modelAddress`: The address of the model that was saved
+
+```json
+{
+    "modelAddress": "myxEb109"
+}
+```
 
 ## STUDENT_FOUND
 
