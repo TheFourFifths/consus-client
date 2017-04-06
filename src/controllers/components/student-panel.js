@@ -1,5 +1,8 @@
-import { getAllModels, retrieveItem, retrieveModel, saveItem, saveModel } from '../../lib/api-client';
+import config from 'config';
+import { getAllModels, retrieveItem, retrieveModel, saveItem, saveModel, patchItemDueDate, searchStudent } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import moment from 'moment-timezone';
+import StudentStore from '../../store/student-store';
 
 export default class StudentPanelController {
 
@@ -8,7 +11,34 @@ export default class StudentPanelController {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
         });
     }
+    static changeItemDueDate(date, item){
+        if(this.isValidDueDate(date)){
+            return patchItemDueDate(date, item.address, StudentStore.getStudent().id).then(() => {
+                return searchStudent(StudentStore.getStudent().id);
+            }).then(student => {
+                Dispatcher.handleAction("STUDENT_FOUND", student);
+            }).catch(e => {
+                Dispatcher.handleAction('ERROR', { error: e.message });
+            });
+        }
+    }
 
+    static isValidDueDate(dueDate){
+        if(dueDate === undefined || dueDate === null){
+            return false;
+        }
+        let today = moment();
+        let dueDateMoment = moment.tz(dueDate, config.get('timezone'));
+        today.hour(0).minute(0).second(0);
+        dueDateMoment.hour(1);
+        if(!dueDateMoment.isSameOrAfter(today)){
+            Dispatcher.handleAction('ERROR', {
+                error: 'Due date cannot be set to today or past.'
+            });
+            return false;
+        }
+        return true;
+    }
     static countDuplicateModels(models) {
         let modelCounts = [];
         models.forEach(model => {

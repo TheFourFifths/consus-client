@@ -240,3 +240,7 @@ export function checkOutContentsLongterm(studentId, equipment, dueDate, professo
     }
     return post('checkout/longterm', params);
 }
+
+export function patchItemDueDate(dueDate, itemAddress, studentId){
+    return patch('item/duedate', {itemAddress}, {dueDate, studentId});
+}

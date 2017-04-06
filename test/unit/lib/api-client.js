@@ -29,7 +29,8 @@ import {
     updateModel,
     deleteModel,
     uploadStudents,
-    checkOutContentsLongterm
+    checkOutContentsLongterm,
+    patchItemDueDate
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -830,6 +831,41 @@ describe('API Client', () => {
             response
         });
         return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('patchItemDueDate', () => {
+        let today = new Date().toDateString();
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                allowCheckout: true,
+                price: 10.50,
+                count: 20,
+                inStock: 20
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'item/duedate',
+            qs: {
+                itemAddress: 'm8y7nEtAe'
+            },
+            json: {
+                dueDate: today,
+                studentId: 123456
+            },
+            response
+        });
+        return patchItemDueDate(today, 'm8y7nEtAe', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
