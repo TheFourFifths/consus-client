@@ -197,9 +197,9 @@ export function searchModel(address) {
     });
 }
 
-export function searchStudent(id) {
+export function searchStudent(rfid) {
     return get('student', {
-        id
+        rfid
     });
 }
 
@@ -241,7 +241,27 @@ export function checkOutContentsLongterm(studentId, equipment, dueDate, professo
     }
     return post('checkout/longterm', params);
 }
-
 export function patchItemDueDate(dueDate, itemAddress, studentId){
     return patch('item/duedate', {itemAddress}, {dueDate, studentId});
+}
+
+export function createRfidToStudentAssosciation(studentId, rfid){
+    let qs = {
+        studentId
+    };
+    let data = {
+        rfid
+    };
+    return patch('student/rfid', qs, data);
+}
+
+export function createStudent(studentId, rfid, major, email, name){
+    let body = {
+        studentId,
+        rfid,
+        major,
+        email,
+        name
+    };
+    return post('student', body);
 }
