@@ -19,7 +19,7 @@ export default class CartController {
 
     static getItem(address) {
         return searchItem(address).then(item => {
-            if (item.status === 'CHECKED_OUT') {
+            if (item.status === 'CHECKED_OUT' || item.status === 'SAVED') {
                 return Dispatcher.handleAction('ERROR', {
                     error: 'This item is already checked out by another student.'
                 });

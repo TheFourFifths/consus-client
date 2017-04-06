@@ -112,14 +112,20 @@ describe('Checking a model out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [ models[2] ],
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 1,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
+                        }
+                    ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
             }
         });
-
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -140,12 +146,12 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, 'Checkout completed successfully!');
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.click('.toast');
+        }).then(()=> {
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
-        }).then(()=> {
-            return app.client.click('.toast');
         });
     });
 
@@ -209,7 +215,9 @@ describe('Checking a model out', function () {
                         {
                             address: models[2].address,
                             name: models[2].name,
-                            quantity: 2
+                            quantity: 2,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
                         }
                     ],
                     email: 'vonneumann@msoe.edu',
@@ -246,7 +254,7 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, "Checkout completed successfully!");
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();

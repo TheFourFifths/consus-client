@@ -1,4 +1,4 @@
-import { getAllModels } from '../../lib/api-client';
+import { getAllModels, retrieveItem, retrieveModel, saveItem, saveModel } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 
 export default class StudentPanelController {
@@ -29,6 +29,38 @@ export default class StudentPanelController {
     static throwNotANumberError() {
         Dispatcher.handleAction("ERROR", {
             error: "Input was not a number"
+        });
+    }
+
+    static retrieveItem(itemAddress) {
+        return retrieveItem(itemAddress).then(() => {
+            Dispatcher.handleAction('RETRIEVE_ITEM', {
+                itemAddress
+            });
+        });
+    }
+
+    static retrieveModel(studentId, modelAddress) {
+        return retrieveModel(studentId, modelAddress).then(() => {
+            Dispatcher.handleAction('RETRIEVE_MODEL', {
+                modelAddress
+            });
+        });
+    }
+
+    static saveItem(itemAddress) {
+        return saveItem(itemAddress).then(() => {
+            Dispatcher.handleAction('SAVE_ITEM', {
+                itemAddress
+            });
+        });
+    }
+
+    static saveModel(studentId, modelAddress) {
+        return saveModel(studentId, modelAddress).then(() => {
+            Dispatcher.handleAction('SAVE_MODEL', {
+                modelAddress
+            });
         });
     }
 
