@@ -120,9 +120,9 @@ describe("StudentPanelController",() => {
     describe('isValidDueDate', () => {
         it('returns correct values', () => {
             let calendar = moment();
-            calendar.add(10, 's');
+            calendar.add(10, 'd');
             assert.isTrue(StudentPanelController.isValidDueDate(calendar));
-            calendar.add(-1, 'd');
+            calendar.add(-10, 'd');
             assert.isFalse(StudentPanelController.isValidDueDate(calendar));
         });
     });
