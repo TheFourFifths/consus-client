@@ -58,7 +58,6 @@ export default class EditModelForm extends React.Component {
                 count: props.model.count,
                 changeStock: false,
                 inStock: props.model.inStock,
-                checked: false,
                 photo: props.model.photo,
                 popConfirmModal: false
             };
@@ -81,7 +80,6 @@ export default class EditModelForm extends React.Component {
                     count: model.count,
                     changeStock: false,
                     inStock: model.inStock,
-                    checked: false,
                     photo: model.photo
                 });
             });
@@ -151,8 +149,7 @@ export default class EditModelForm extends React.Component {
     changeStock(){
         this.setState({
             hasUnsavedChange: true,
-            changeStock: !this.state.checked,
-            checked: !this.state.checked
+            changeStock: !this.state.changeStock
         });
         OmnibarController.setWarnBeforeExiting(true);
     }
@@ -239,7 +236,7 @@ export default class EditModelForm extends React.Component {
         if (this.state.model === null)
             return <div>Loading form...</div>;
         return (
-            <div className='create-model-form'>
+            <div className='model-form'>
                 <ConfirmModal
                     message="Are you sure you wish to leave the page? Unsaved changes will be lost."
                     active = {this.state.popConfirmModal}
@@ -250,46 +247,47 @@ export default class EditModelForm extends React.Component {
                     onClose={this.closeFileSizeModal.bind(this)}
                     message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
                 />
-                <h1>Update model: {this.state.model.name}</h1>
-                <button onClick={this.allModels.bind(this)}>View all models</button>
+                <h1>Update Model: {this.state.model.name} ({this.state.model.address})</h1>
                 <form onSubmit={this.submit.bind(this)}>
                     <label id="name">
-                        Name:<br/>
+                        <strong>Name *</strong><br/>
                         <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
                     </label>
                     <label id="description">
-                        Description:<br/>
+                        <strong>Description *</strong><br/>
                         <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
                     </label>
-                    <label id="manufacturer">
-                        Manufacturer:<br/>
-                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
-                    </label>
-                    <label id="vendor">
-                        Vendor:<br/>
-                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
-                    </label>
-                    <label id="location">
-                        Storage location:<br/>
-                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
-                    </label>
-                    <label id="price">
-                        Price per unit:<br/>
-                        <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    </label>
-                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)}/></span>}<br/>
-                    {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
-                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
-                    {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
                     <label id="photo">
-                        Model photo thumbnail:<br/>
+                        <span className='upload-select'>&#x21E1; Select Photo</span>
                         <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
                         <br/>
                         <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
                         <br/>
                     </label>
-                    <input type='submit' value='Update Model' disabled={this.state.fileOversize}/>
+                    <label id="manufacturer">
+                        Manufacturer<br/>
+                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+                    </label>
+                    <label id="vendor">
+                        Vendor<br/>
+                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+                    </label>
+                    <label id="location">
+                        Storage location<br/>
+                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+                    </label>
+                    <label id="price">
+                        Price per unit<br/>
+                        $ <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    </label>
+                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} min='0' step='1' /><br/></span>}
+                    {this.state.allowCheckout && <span title='If left unchecked, the stock will change by the same amount as the total.'>Change the Number In Stock Separately?</span>}
+                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.changeStock} /><br/></span>}
+                    {this.state.allowCheckout && <span className={this.state.changeStock ? '' : 'disabled-text'}>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)} min='0' max={this.state.count} step='1' disabled={!this.state.changeStock}/><br/></span>}<br/>
+                    <input className='cool-button' type='submit' value='Update Model' disabled={this.state.fileOversize}/>
                 </form>
+                <br/>
+                <button className='neat-secondary-button' onClick={this.allModels.bind(this)}>&#9664; Back</button>
             </div>
         );
     }

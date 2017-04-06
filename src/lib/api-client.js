@@ -106,7 +106,7 @@ export function createItem(modelAddress){
     return post('item', { modelAddress });
 }
 
-export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
+export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count, photo) {
     return post('model', {
         name,
         description,
@@ -115,7 +115,8 @@ export function createModel(name, description, manufacturer, vendor, location, a
         location,
         allowCheckout,
         price,
-        count
+        count,
+        photo
     });
 }
 
