@@ -45,6 +45,10 @@ export default class Student extends React.Component {
                             <h5>Email:</h5>
                             <span>{this.state.editMode ? <input id="emailArea" ref="newStudentEmail" placeholder= {this.state.student.email} /> : this.state.student.email}</span>
                         </span>
+                        <span className="inline rfid">
+                            <h5>Rfid:</h5>
+                            <span>{this.state.student.rfid ? this.state.student.rfid : "This student doesn't have an rfid association."}</span>
+                        </span>
                         <span className="clear"></span>
                     </div>
                     <hr/>
