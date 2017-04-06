@@ -153,6 +153,32 @@ export function getOverdueItems() {
     return get('item/overdue');
 }
 
+export function retrieveItem(itemAddress) {
+    return post('item/retrieve', {
+        itemAddress
+    });
+}
+
+export function retrieveModel(studentId, modelAddress) {
+    return post('model/retrieve', {
+        studentId,
+        modelAddress
+    });
+}
+
+export function saveItem(itemAddress) {
+    return post('item/save', {
+        itemAddress
+    });
+}
+
+export function saveModel(studentId, modelAddress) {
+    return post('model/save', {
+        studentId,
+        modelAddress
+    });
+}
+
 export function removeItemFault(itemAddress) {
     return del('item/fault', {
         itemAddress
@@ -176,7 +202,6 @@ export function searchStudent(id) {
         id
     });
 }
-
 
 export function updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock, base64Photo) {
     return patch('model', { address }, {
@@ -215,4 +240,8 @@ export function checkOutContentsLongterm(studentId, equipment, dueDate, professo
         params.adminCode = code;
     }
     return post('checkout/longterm', params);
+}
+
+export function patchItemDueDate(dueDate, itemAddress, studentId){
+    return patch('item/duedate', {itemAddress}, {dueDate, studentId});
 }

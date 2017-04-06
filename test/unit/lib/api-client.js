@@ -17,6 +17,10 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    retrieveItem,
+    retrieveModel,
+    saveItem,
+    saveModel,
     removeItemFault,
     searchItem,
     searchModel,
@@ -25,7 +29,8 @@ import {
     updateModel,
     deleteModel,
     uploadStudents,
-    checkOutContentsLongterm
+    checkOutContentsLongterm,
+    patchItemDueDate
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -463,6 +468,80 @@ describe('API Client', () => {
         });
     });
 
+    it('retrieveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/retrieve',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return retrieveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('retrieveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/retrieve',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return retrieveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/save',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return saveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/save',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return saveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('removeItemFault', () => {
         let response = {
             status: 'success',
@@ -752,6 +831,41 @@ describe('API Client', () => {
             response
         });
         return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('patchItemDueDate', () => {
+        let today = new Date().toDateString();
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                allowCheckout: true,
+                price: 10.50,
+                count: 20,
+                inStock: 20
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'item/duedate',
+            qs: {
+                itemAddress: 'm8y7nEtAe'
+            },
+            json: {
+                dueDate: today,
+                studentId: 123456
+            },
+            response
+        });
+        return patchItemDueDate(today, 'm8y7nEtAe', 123456).then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
