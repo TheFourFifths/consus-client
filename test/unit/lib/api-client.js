@@ -30,7 +30,9 @@ import {
     deleteModel,
     uploadStudents,
     checkOutContentsLongterm,
-    patchItemDueDate
+    patchItemDueDate,
+    createRfidToStudentAssosciation,
+    createStudent
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -56,7 +58,7 @@ describe('API Client', () => {
         let res = {
             status: "success",
             data: {}
-        }
+        };
 
         mockServer.expect({
             method: "post",
@@ -672,7 +674,7 @@ describe('API Client', () => {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response
         });
@@ -866,6 +868,50 @@ describe('API Client', () => {
             response
         });
         return patchItemDueDate(today, 'm8y7nEtAe', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createRfidToStudentAssosciation', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student/rfid',
+            qs: {
+                studentId: '123456'
+            },
+            json: {
+                rfid: 123456
+            },
+            response
+        });
+        return createRfidToStudentAssosciation(123456, 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createStudent', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'student',
+            json: {
+                studentId: 123456,
+                rfid: 123456,
+                email:'test',
+                major: 'test',
+                name: 'test'
+
+            },
+            response
+        });
+        return createStudent(123456, 123456, 'test', 'test', 'test').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

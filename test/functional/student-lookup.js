@@ -38,7 +38,7 @@ describe('Student Lookup', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -55,8 +55,10 @@ describe('Student Lookup', function () {
                 }
             }
         });
-        return app.client.keys('123456').then(() => {
-            return app.client.waitForVisible('#student', 1000000);
+        return app.client.keys("rfid:123456").then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('#student', 5000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
@@ -75,7 +77,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '111111'
+              rfid: '111111'
           },
           response: {
               status: 'success',
@@ -83,10 +85,12 @@ describe('Student Lookup', function () {
           }
       });
       return app.client.click("#omnibar").then(() => {
-        return app.client.keys('111111');
+        return app.client.keys('rfid:111111');
       }).then(() => {
-          return app.client.waitForVisible('#student', 1000000);
+          return app.client.keys('Enter');
       }).then(() => {
+            return app.client.waitForVisible('#student', 1000000);
+        }).then(() => {
           return app.client.getText('#student .student .name');
       }).then(name => {
           assert.strictEqual(name, 'Boaty McBoatface');
@@ -109,7 +113,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '123456'
+              rfid: '123456'
           },
           response: {
               status: 'success',
@@ -117,7 +121,9 @@ describe('Student Lookup', function () {
           }
       });
       return app.client.click("#omnibar").then(() => {
-        return app.client.keys('123456');
+        return app.client.keys('rfid:123456');
+      }).then(() => {
+          return app.client.keys('Enter');
       }).then(() => {
           return app.client.waitForVisible('#student', 1000000);
       }).then(() => {
@@ -139,7 +145,7 @@ describe('Student Lookup', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-              id: '314159'
+              rfid: '314159'
           },
           response: {
               status: 'failure',
@@ -148,13 +154,15 @@ describe('Student Lookup', function () {
       });
 
       return app.client.click("#omnibar").then(() => {
-        return app.client.keys("314159");
+        return app.client.keys("rfid:314159");
+      }).then(() => {
+          return app.client.keys('Enter');
       }).then(() => {
           return app.client.waitForVisible('#app .modal', 1000000);
       }).then(() => {
           return app.client.getText('#app .modal .modal-content p');
       }).then(message => {
-          assert.strictEqual(message, "An invalid student ID was scanned. The student could not be found.");
+          assert.strictEqual(message, "The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid");
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
           mockServer.validate();
@@ -163,15 +171,17 @@ describe('Student Lookup', function () {
       });
     });
 
-    it("Pops an error modal if an invalid character is typed.", () => {
+    it("Pops an error modal if an invalid query is typed.", () => {
       return app.client.click("#omnibar").then(() => {
         return app.client.keys(";");
+      }).then(() => {
+          return app.client.keys('Enter');
       }).then(() => {
           return app.client.waitForVisible('#app .modal', 1000000);
       }).then(() => {
           return app.client.getText('#app .modal .modal-content p');
       }).then(message => {
-          assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
+          assert.strictEqual(message, "The query you entered was invalid! Rfid's must be pre-pended with 'rfid:'. If your're doing amodel/item search please verify the typed in query is correct(capitals matter).");
           return app.client.click("#app .modal .modal-content button");
       }).then(() => {
           mockServer.validate();

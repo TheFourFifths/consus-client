@@ -134,6 +134,8 @@ describe('View all models', function () {
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
         }).then(() => {
+            return app.client.click('.toast');
+        }).then(() => {
             return app.client.getText('.toast');
         }).then(toastText => {
             assert.include(toastText, 'New Resistor (m8y7nFnMs) created');
