@@ -58,11 +58,9 @@ describe("StudentPanelController",() => {
     });
 
     describe("changeItemDueDate",() => {
-        let dispatcherSpy, getAllModels, isValidDueDate, patchItemDueDate, searchStudent, getStudent;
+        let isValidDueDate, patchItemDueDate, searchStudent, getStudent;
 
         beforeEach(() => {
-            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getAllModels = sinon.stub(api, "getAllModels");
             isValidDueDate = sinon.stub(StudentPanelController, "isValidDueDate");
             patchItemDueDate = sinon.stub(api, "patchItemDueDate");
             searchStudent = sinon.stub(api, "searchStudent");
@@ -111,8 +109,6 @@ describe("StudentPanelController",() => {
         });
 
         afterEach(() => {
-            dispatcherSpy.restore();
-            getAllModels.restore();
             isValidDueDate.restore();
             searchStudent.restore();
             patchItemDueDate.restore();
