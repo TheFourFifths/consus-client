@@ -347,6 +347,34 @@ describe("StudentController", () => {
         });
     });
 
+    describe("newStudent", () => {
+        let createStudent, leavepage;
+        beforeEach(() => {
+            createStudent = sinon.stub(api, "createStudent");
+            leavepage = sinon.stub(OmnibarController, "leavePage");
+        });
+
+        it('Calls createStudent', () => {
+            createStudent.returns(
+                new Promise(resolve => {
+                    resolve('sure');
+                })
+            );
+
+            StudentController.newStudent(123456, 123456, 'test','test','test').then(() => {
+                assert.isTrue(createStudent.called);
+                assert.isTrue(leavepage.called);
+            });
+
+        });
+
+        afterEach(() => {
+            leavepage.restore();
+            createStudent.restore();
+        });
+    });
+
+
     afterEach(() => {
         dispatcherSpy.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");
