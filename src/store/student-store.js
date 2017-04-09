@@ -13,6 +13,13 @@ class StudentStore extends Store {
         });
     }
 
+    getAllDelinquents(){
+        return Object.keys(students).filter(studentId => {
+            let student = students[studentId];
+            return student.hasOverdueItem || student.overdueCheckins.length > 0;
+        });
+    }
+
     getAllStudents(){
         return students;
     }
