@@ -17,6 +17,10 @@ import {
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    retrieveItem,
+    retrieveModel,
+    saveItem,
+    saveModel,
     removeItemFault,
     searchItem,
     searchModel,
@@ -26,7 +30,9 @@ import {
     deleteModel,
     uploadStudents,
     checkOutContentsLongterm,
-    patchItemDueDate
+    patchItemDueDate,
+    createRfidToStudentAssosciation,
+    createStudent
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -52,7 +58,7 @@ describe('API Client', () => {
         let res = {
             status: "success",
             data: {}
-        }
+        };
 
         mockServer.expect({
             method: "post",
@@ -464,6 +470,80 @@ describe('API Client', () => {
         });
     });
 
+    it('retrieveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/retrieve',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return retrieveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('retrieveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/retrieve',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return retrieveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/save',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return saveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/save',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return saveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('removeItemFault', () => {
         let response = {
             status: 'success',
@@ -594,7 +674,7 @@ describe('API Client', () => {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response
         });
@@ -788,6 +868,50 @@ describe('API Client', () => {
             response
         });
         return patchItemDueDate(today, 'm8y7nEtAe', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createRfidToStudentAssosciation', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student/rfid',
+            qs: {
+                studentId: '123456'
+            },
+            json: {
+                rfid: 123456
+            },
+            response
+        });
+        return createRfidToStudentAssosciation(123456, 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createStudent', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'student',
+            json: {
+                studentId: 123456,
+                rfid: 123456,
+                email:'test',
+                major: 'test',
+                name: 'test'
+
+            },
+            response
+        });
+        return createStudent(123456, 123456, 'test', 'test', 'test').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import SavedEquipment from './saved-equipment.jsx';
 import moment from 'moment-timezone';
 import OmnibarController from "../../controllers/components/omnibar";
 import DateModal from "../components/date-modal.jsx";
@@ -78,39 +79,47 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderEquipment() {
-        if (this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+        let items =this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
+        let models = this.props.student.models.filter(model => model.status === 'CHECKED_OUT');
+        if (items.length === 0 &&models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
-
         return (
             <div className='equipment'>
-                {this.props.student.items.map((item, i) => {
+                {items.map(item => {
                     return (
-                        <div key={i}>
+                        <div className="item-info" key={item.address}>
                             <DateModal
                                 message='Select a new due date'
                                 active={this.state.showItemDateModal}
                                 onDateSelected={date => this.changeItemDueDate(date, item)}
                             />
-                            {this.renderItemInfo(item)}
+                            <div onClick={this.displayItem.bind(this, item.address)}>
+                                {this.renderItemInfo(item)}
+                            </div>
+                            <div className='buttons'>
+                                <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
+                                <button onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
+                            </div>
                         </div>
                     );
                 })}
-
-                {this.props.student.models.map((model, i) => {
+                {models.map(model => {
                     return (
-                        <div key={i}>
+                        <div className="model-info" key={model.address}>
+                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                                {this.renderModelInfo(model)}
+                            </Link>
                             <DateModal
                                 message='Select a new due date'
                                 active={this.state.showModelDateModal}
                                 onDateSelected={date => this.changeModelDueDate(date, model)}
                             />
-                            <div className="item-info">
-                                <Link to={`/model/${model.address}`}
-                                      className={model.timestamp < Math.floor(Date.now() / 1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                                    {this.renderModelInfo(model)}
-                                </Link>
-                                {this.renderCheckinButtons(model)}
+                            <div className='buttons'>
+                                <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
+                                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
+                                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+                                <button onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>Save</button>
                             </div>
                         </div>
                     );
@@ -120,26 +129,12 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model) {
-        return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
-    }
-
-    renderCheckinButtons(model) {
         return (
-            <div className='checkin-buttons'>
-                <input type='number' value={this.state.checkinNum}
-                       onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity}/>
-                <button id={model.address}
-                        onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>
-                    Check in
-                </button>
-                <button id={`all${model.address}`}
-                        onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in
-                    All
-                </button>
-            </div>
+            <span>
+                {model.name} <i>{model.address}</i> ({model.quantity})
+            </span>
         );
     }
-
     showItemDateModal() {
         this.setState({
             showItemDateModal: true
@@ -152,7 +147,6 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         } else {
             let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
-<<<<<<< HEAD
             return (
                 <div className="item-info">
                     <div onClick={this.displayItem.bind(this, item.address)}
@@ -160,23 +154,22 @@ export default class StudentPanel extends ListenerComponent {
                         {model.name} {item.timestamp < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
                         <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
                     </div>
-                    <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
-                </div>);
-=======
-            return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-            </div>);
->>>>>>> 121651742083dcecf75f08fec1502e80a6e1d621
+                </div>
+            );
         }
     }
 
     render() {
+        let savedItems = this.props.student.items.filter(item => item.status === 'SAVED');
+        let savedModels = this.props.student.models.filter(model => model.status === 'SAVED');
         return (
             <div className='student'>
                 <h2 className='name'>{this.props.student.name}</h2>
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
+                <h4 className='equipment-heading'>Saved Equipment</h4>
+                <SavedEquipment items={savedItems} models={savedModels} student={this.props.student} />
             </div>
         );
     }

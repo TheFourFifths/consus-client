@@ -6,32 +6,44 @@ import { Dispatcher } from 'consus-core/flux';
 import StudentStore from '../../../../.dist/store/student-store'
 import moment from 'moment-timezone';
 describe("StudentPanelController",() => {
-    describe("getModels",() => {
-        let dispatcherSpy, getAllModels;
 
-        beforeEach(() => {
-            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getAllModels = sinon.stub(api, "getAllModels");
+    let dispatcherSpy, getAllModels, retrieveItem, retrieveModel, saveItem, saveModel;
+
+    beforeEach(() => {
+        Dispatcher.handleAction('STUDENT_FOUND', {
+            id: 123456,
+            name: 'Person',
+            items: [{address: 'iGwEZUvfA'}],
+            models: [{address: 'm8y7nEtAe'}]
         });
+        dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+        getAllModels = sinon.stub(api, "getAllModels");
+        retrieveItem = sinon.stub(api, 'retrieveItem');
+        retrieveModel = sinon.stub(api, 'retrieveModel');
+        saveItem = sinon.stub(api, 'saveItem');
+        saveModel = sinon.stub(api, 'saveModel');
+    });
 
-        it("calls getAllModels", () => {
-            getAllModels.returns(
-                new Promise(resolve => {
-                    resolve({models:[]});
-                })
-            );
+    afterEach(() => {
+        dispatcherSpy.restore();
+        getAllModels.restore();
+        retrieveItem.restore();
+        retrieveModel.restore();
+        saveItem.restore();
+        saveModel.restore();
+        Dispatcher.handleAction("CLEAR_ALL_DATA");
+    });
 
-            return StudentPanelController.getModels().then(() => {
-                assert.isTrue(dispatcherSpy.called);
-                assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODELS_RECEIVED");
-
-            });
-        });
-        afterEach(() => {
-            dispatcherSpy.restore();
-            getAllModels.restore();
-            Dispatcher.handleAction("CLEAR_ALL_DATA");
+    it("getModels", () => {
+        getAllModels.returns(
+            new Promise(resolve => {
+                resolve({models:[]});
+            })
+        );
+        return StudentPanelController.getModels().then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODELS_RECEIVED");
         });
     });
 
@@ -46,11 +58,9 @@ describe("StudentPanelController",() => {
     });
 
     describe("changeItemDueDate",() => {
-        let dispatcherSpy, getAllModels, isValidDueDate, patchItemDueDate, searchStudent, getStudent;
+        let isValidDueDate, patchItemDueDate, searchStudent, getStudent;
 
         beforeEach(() => {
-            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
-            getAllModels = sinon.stub(api, "getAllModels");
             isValidDueDate = sinon.stub(StudentPanelController, "isValidDueDate");
             patchItemDueDate = sinon.stub(api, "patchItemDueDate");
             searchStudent = sinon.stub(api, "searchStudent");
@@ -99,8 +109,6 @@ describe("StudentPanelController",() => {
         });
 
         afterEach(() => {
-            dispatcherSpy.restore();
-            getAllModels.restore();
             isValidDueDate.restore();
             searchStudent.restore();
             patchItemDueDate.restore();
@@ -110,12 +118,76 @@ describe("StudentPanelController",() => {
     });
 
     describe('isValidDueDate', () => {
-       it('returns correct values', () => {
-           let calendar = moment();
-           calendar.add(10, 's');
-           assert.isTrue(StudentPanelController.isValidDueDate(calendar));
-           calendar.add(-1, 'd');
-           assert.isFalse(StudentPanelController.isValidDueDate(calendar));
-       });
+        it('returns correct values', () => {
+            let calendar = moment();
+            calendar.add(10, 'd');
+            assert.isTrue(StudentPanelController.isValidDueDate(calendar));
+            calendar.add(-20, 'd');
+            assert.isFalse(StudentPanelController.isValidDueDate(calendar));
+        });
+    });
+
+    it("retrieveItem", () => {
+        retrieveItem.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.retrieveItem('iGwEZUvfA').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "RETRIEVE_ITEM");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                itemAddress: 'iGwEZUvfA'
+            });
+        });
+    });
+
+    it("retrieveModel", () => {
+        retrieveModel.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.retrieveModel(123456, 'm8y7nEtAe').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "RETRIEVE_MODEL");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                modelAddress: 'm8y7nEtAe'
+            });
+        });
+    });
+
+    it("saveItem", () => {
+        saveItem.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.saveItem('iGwEZUvfA').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_ITEM");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                itemAddress: 'iGwEZUvfA'
+            });
+        });
+    });
+
+    it("saveModel", () => {
+        saveModel.returns(
+            new Promise(resolve => {
+                resolve({});
+            })
+        );
+        return StudentPanelController.saveModel(123456, 'm8y7nEtAe').then(() => {
+            assert.isTrue(dispatcherSpy.called);
+            assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "SAVE_MODEL");
+            assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
+                modelAddress: 'm8y7nEtAe'
+            });
+        });
     });
 });

@@ -93,6 +93,7 @@ describe('View all students', function () {
                 status: 'C - Current',
                 name: 'This dude',
                 email: 'mcboatfaceb@msoe.edu',
+                rfid: 111111,
                 id: 111111
             },
             response
@@ -189,6 +190,7 @@ describe('View all students', function () {
                 status: 'C - Current',
                 name: 'Boaty McBoatface',
                 email: 'mcboatfaceb@msoe.edu',
+                rfid: 111111,
                 id: 111111
             },
             response
@@ -273,6 +275,7 @@ describe('View all students', function () {
                 status: 'C - Current',
                 name: 'Boaty McBoatface',
                 email: 'email@email.com',
+                rfid: 111111,
                 id: 111111
             },
             response

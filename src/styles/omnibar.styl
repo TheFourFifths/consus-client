@@ -1,10 +1,17 @@
-#omnibar
-  input
-    width: 100%
-    padding: 1em 0 1em 3rem
+$bar-height = 2rem
+$img-space-width = 4rem
 
-  img
-    left: 0.5rem
-    position: absolute
-    height: 2.5em
-    margin-top .25em
+#omnibar
+    padding: 0
+
+    input
+        width: 100%
+        padding: ($bar-height / 2) 0 ($bar-height / 2) $img-space-width
+
+    img
+        cursor: pointer
+        height: 2.5em
+        width: @height
+        left: (abs($img-space-width - @width) / 2 + 0.25rem)
+        margin-top: (abs($bar-height - @height) / 2)
+        position: absolute

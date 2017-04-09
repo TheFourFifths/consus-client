@@ -53,7 +53,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.click('.actionArea img[src*="edit"]');
         }).then(() => {
-            return app.client.waitForVisible(".create-model-form", 5000);
+            return app.client.waitForVisible(".model-form", 5000);
         }).then(() => {
             mockServer.validate();
         });
@@ -82,12 +82,12 @@ describe('Edit model leave confirmation', function () {
             }
         });
 
-        return app.client.click('.create-model-form > button').then(() => {
+        return app.client.click('.model-form > button').then(() => {
             return app.client.waitForVisible('#models');
         }).then(() => {
             return app.client.click('.actionArea img[src*="edit"]');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form');
+            return app.client.waitForVisible('.model-form');
         }).then(() => {
             mockServer.validate();
         });
@@ -125,7 +125,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.click('.actionArea img[src*="edit"]');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form');
+            return app.client.waitForVisible('.model-form');
         }).then(() => {
             mockServer.validate();
         });
@@ -135,13 +135,13 @@ describe('Edit model leave confirmation', function () {
         return app.client.click('#name input').then(() => {
             return app.client.keys('change');
         }).then(() => {
-            return app.client.click('.create-model-form > button')
+            return app.client.click('.model-form > button')
         }).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
             return app.client.click('.modal-content button');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form');
+            return app.client.waitForVisible('.model-form');
         }).then(() => {
             return app.client.click('#omnibar img');
         }).then(() => {
@@ -149,7 +149,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.click('.modal-content button');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form');
+            return app.client.waitForVisible('.model-form');
         }).then(() => {
             return app.client.click('#omnibar img');
         }).then(() => {
@@ -157,7 +157,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.click('.modal-content button[type="button"]');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form', 1000, true);
+            return app.client.waitForVisible('.model-form', 1000, true);
         });
     });
 

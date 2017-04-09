@@ -46,8 +46,9 @@ describe('View all models', function () {
         }).then(resp => {
             modelList = resp.value;
             assert.lengthOf(modelList, 4);
-            return app.client.getText('#models:first-child');
-        }).then(model => {
+            return app.client.getText('#models .model');
+        }).then(modelList => {
+            let model = modelList[0];
             assert.include(model, 'Resistor');
             assert.include(model, 'm8y7nEtAe');
             assert.include(model, 'V = IR');
@@ -133,6 +134,8 @@ describe('View all models', function () {
             return app.client.click('.modal .modal-content button[type="button"]');
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
+        }).then(() => {
+            return app.client.click('.toast');
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toastText => {
