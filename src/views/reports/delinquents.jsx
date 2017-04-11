@@ -2,7 +2,7 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentStore from '../../store/student-store';
 import DelinquentReportController from '../../controllers/reports/delinquents';
-import Student from '../components/student.jsx';
+import Delinquent from '../components/delinquent.jsx';
 
 export default class DelinquentReportPage extends ListenerComponent {
 
@@ -25,10 +25,10 @@ export default class DelinquentReportPage extends ListenerComponent {
     render() {
         return (
             <div key={Object.keys(this.state.students).length}>
-                {this.state.students.map(id => {
+                {Object.keys(this.state.students).map(id => {
                     return(
                          <div key={id}>
-                            {id}
+                            <Delinquent student={this.state.students[id]} />
                          </div>
                      );
                 })}
