@@ -1,19 +1,18 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
 import IndexController from '../../controllers/pages/index';
-import OverdueItem from '../components/overdue-item.jsx'
+import OverdueItem from '../components/overdue-item.jsx';
 
 let loading = true;
 
 export default class OverdueItemReportPage extends ListenerComponent {
 
-     componentWillMount(){
-         IndexController.getOverdueItems().then(() => {
-             loading = false;
-         });
-     }
+    componentWillMount(){
+        IndexController.getOverdueItems().then(() => {
+            loading = false;
+        });
+    }
 
     getStores(){
         return [
@@ -37,10 +36,10 @@ export default class OverdueItemReportPage extends ListenerComponent {
                          <div key={item.address}>
                             <OverdueItem item = {item} />
                          </div>
-                     );
+                    );
                 })}
             </div>
-        )
+        );
     }
 
 }

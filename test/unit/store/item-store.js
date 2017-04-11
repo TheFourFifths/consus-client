@@ -39,6 +39,19 @@ describe('ItemStore', () => {
         assert.strictEqual(ItemStore.getAllItems().length, 3);
     });
 
+    it('should get all faulty items', () => {
+        Dispatcher.handleAction('FAULTY_ITEMS_RECEIVED', {
+            items:[{
+                name: 'test1'
+            },{
+                name: 'test2'
+            },{
+                name: 'test3'
+            }]
+        });
+        assert.strictEqual(ItemStore.getFaultyItems().length, 3);
+    });
+
     it('should find overdue items', () => {
         Dispatcher.handleAction('STUDENT_FOUND',{
             id: 432345,
