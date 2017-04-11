@@ -1,4 +1,4 @@
- import React from 'react';
+import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
 import OverdueItemReportPageController from '../../controllers/reports/overdue';
