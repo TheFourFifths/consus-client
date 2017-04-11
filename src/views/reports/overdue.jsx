@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
 import OverdueItemReportPageController from '../../controllers/reports/overdue';
@@ -31,7 +31,7 @@ export default class OverdueItemReportPage extends ListenerComponent {
                          <div key={item.address}>
                             <OverdueReportItem item = {item} />
                          </div>
-                     );
+                    );
                 })}
             </div>
         );

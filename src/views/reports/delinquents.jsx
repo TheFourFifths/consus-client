@@ -30,7 +30,7 @@ export default class DelinquentReportPage extends ListenerComponent {
                          <div key={id}>
                             <Delinquent student={this.state.students[id]} />
                          </div>
-                     );
+                    );
                 })}
             </div>
         );
