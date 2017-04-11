@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
 import OverdueItemReportPageController from '../../controllers/reports/overdue';
@@ -7,9 +6,9 @@ import OverdueReportItem from '../components/overdue-report-item.jsx';
 
 export default class OverdueItemReportPage extends ListenerComponent {
 
-     componentWillMount(){
-         OverdueItemReportPageController.getOverdueItems();
-     }
+    componentWillMount(){
+        OverdueItemReportPageController.getOverdueItems();
+    }
 
     getStores(){
         return [
@@ -35,7 +34,6 @@ export default class OverdueItemReportPage extends ListenerComponent {
                      );
                 })}
             </div>
-        )
+        );
     }
-
 }

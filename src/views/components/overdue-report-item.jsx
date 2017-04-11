@@ -1,9 +1,8 @@
 import React from 'react';
 import ModelStore from '../../store/model-store';
-import OmnibarController from '../../controllers/components/omnibar';
 
 export default class OverdueReportItem extends React.Component {
-S
+
     constructor(props) {
         super(props);
         if (props.item === undefined)

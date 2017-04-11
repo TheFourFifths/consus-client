@@ -6,9 +6,9 @@ import Delinquent from '../components/delinquent.jsx';
 
 export default class DelinquentReportPage extends ListenerComponent {
 
-     componentWillMount(){
-         DelinquentReportController.getStudents();
-     }
+    componentWillMount(){
+        DelinquentReportController.getStudents();
+    }
 
     getStores(){
         return [
@@ -33,7 +33,7 @@ export default class DelinquentReportPage extends ListenerComponent {
                      );
                 })}
             </div>
-        )
+        );
     }
 
 }
