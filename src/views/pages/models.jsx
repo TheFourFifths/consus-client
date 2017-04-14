@@ -19,9 +19,7 @@ export default class Models extends ListenerComponent {
 
     getState() {
         return {
-            models: ModelStore.getAllModels(),
-            lostItemModalActive: false,
-            inputModalAcceptDisabled: true
+            models: ModelStore.getAllModels()
         };
     }
 

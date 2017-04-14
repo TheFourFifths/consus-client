@@ -118,9 +118,9 @@ describe('Admin override on item checkout', function () {
         return app.client.click('.cart input[type="button"]').then(() => {
             return app.client.waitForVisible('.modal input');
         }).then(() => {
-            return app.client.getText('.modal .modal-content p:first-child');
+            return app.client.getText('.modal .modal-content h4:first-child');
         }).then(text => {
-            assert.include(text, 'Please Scan Admin ID or Enter Admin Pin');
+            assert.include(text, 'Scan Admin ID or Enter Admin Pin.');
         });
     });
 
@@ -157,13 +157,13 @@ describe('Admin override on item checkout', function () {
         return app.client.click('.modal .modal-content input').then(() => {
             return app.client.keys('3214');
         }).then(() => {
-            return app.client.click('.modal .modal-content button[type="button"]')
+            return app.client.click('.modal .modal-buttons button[type="button"]')
         }).then(() => {
             return app.client.waitForVisible('.toast');
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toast => {
-            assert.strictEqual(toast, 'Checkout completed successfully!');
+            assert.strictEqual(toast, 'Checkout completed successfully.');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 2);

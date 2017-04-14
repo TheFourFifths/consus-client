@@ -1,7 +1,6 @@
 @import 'colors.styl'
 
 .modal
-    font-family: sans-serif
     align-items: center
     background: rgba(0, 0, 0, 0.4)
     display: flex
@@ -15,6 +14,7 @@
     .modal-content
         background: white
         border-radius: 5px
+        max-width: 50%
 
     .modal-heading
         text-align: center
@@ -91,22 +91,26 @@
     h4
         padding: 0 1em
         text-align: center
+        margin: .7em 0 1em 0
 
     .modal-buttons
         text-align: center
-        padding-bottom: .5em
+        padding-bottom: .7em
 
-    .debug
-        background: lightgreen
+    .modal-input-area
+        text-align: center
+        display: inline-block
+        width: calc(100% - 2em)
+        padding: 0 1em
 
-    .info
-        background: lightblue
+        .modal-input
+            text-align: center
+            padding: .3em 0
+            border: 1px solid grey
+            border-radius: .2em
 
-    .warn
-        background: lightyellow
+        input[type=date]
+            margin-bottom: 1em
 
-    .error
-        background: lightred
-
-    .invalidText
-        color:red
+        .invalidText
+            color:red

@@ -33,7 +33,7 @@ export default class StudentPanelController {
         dueDateMoment.hour(1);
         if(!dueDateMoment.isSameOrAfter(today)){
             Dispatcher.handleAction('ERROR', {
-                error: 'Due date cannot be set to today or past.'
+                error: 'Due date cannot be set to a previous day.'
             });
             return false;
         }

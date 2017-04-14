@@ -89,9 +89,8 @@ export default class OmnibarController {
     }
 
     static throwQueryInvalidError() {
-        Dispatcher.handleAction("ERROR", {
-            error: "The query you entered was invalid! Rfid's must be pre-pended with 'rfid:'. If your're doing a"
-                + "model/item search please verify the typed in query is correct(capitals matter)."
+        Dispatcher.handleAction("WARN", {
+            warn: "Invalid Query. Student rfid format should be 'rfid:######'. Model/item addresses are case sensitive."
         });
     }
 

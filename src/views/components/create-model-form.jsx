@@ -153,7 +153,8 @@ export default class CreateModelForm extends React.Component {
                 <ErrorModal
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
-                    message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
+                    message={`The specified file is too large.
+                            It must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
                     tag = "WARNING"
                 />
                 <h1>Create a Model</h1>
@@ -193,7 +194,7 @@ export default class CreateModelForm extends React.Component {
                     <input className='cool-button' type='submit' value='Create Model' />
                 </form>
                 <br/>
-                <button className='neat-secondary-button' onClick={this.allModels.bind(this)}>&#9664; Back</button>
+                <button id='back-btn' className='neat-secondary-button' onClick={this.allModels.bind(this)}>&#9664; Back</button>
             </div>
         );
     }

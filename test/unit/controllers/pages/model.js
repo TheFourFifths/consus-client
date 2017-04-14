@@ -40,7 +40,7 @@ describe("ModelPageController", () => {
             });
         });
 
-        it('Dispatchers "ERROR" if model request comes back invalid', () => {
+        it('Dispatchers "INFO" if model request comes back invalid', () => {
             getModelAndItems.returns(
                 new Promise((resolve, reject) => {
                     reject("NO");
@@ -50,8 +50,8 @@ describe("ModelPageController", () => {
             return ModelPageController.getModelAndItems().then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The model requested does not exist");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "INFO");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].info, "The requested model does not exist.");
             });
         });
 

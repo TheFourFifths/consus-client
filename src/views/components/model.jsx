@@ -95,7 +95,7 @@ export default class Model extends React.Component {
         WARNING: This will delete all items associated with this model.`;
         let addConfirmationText = this.state.model.allowCheckout ?
                                     `Add another ${this.state.model.name}?`
-                                    : `Create a new item for ${this.state.model.name}?`
+                                    : `Create a new item for ${this.state.model.name}?`;
         return (
             <div id={this.state.model.address} className='model'>
                 <ConfirmModal

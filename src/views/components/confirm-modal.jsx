@@ -9,7 +9,7 @@ export default class ConfirmModal extends React.Component {
                 active={this.props.active}
                 buttonText="Yes"
                 onClose={() => this.props.onSelect(true)}
-                buttons={<button onClick={() => this.props.onSelect(false)} className='default-btn'>No</button>}>
+                buttons={<button onClick={() => this.props.onSelect(false)} id='no-btn' className='default-btn'>No</button>}>
                 <h4>{this.props.message.split(/\n/g).map((line, index) => { return <span key={index}>{line}<br/></span>; })}</h4>
             </Modal>
         );

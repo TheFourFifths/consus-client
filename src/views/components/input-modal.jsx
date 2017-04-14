@@ -44,17 +44,20 @@ export default class InputModal extends React.Component {
                 active={this.props.active}
                 buttonText={this.props.acceptText}
                 onClose={this.onAccept.bind(this)}
-                acceptDisabled={this.props.acceptDisabled}>
-                <p>{this.props.message}</p>
-                <input
-                    maxLength="30"
-                    type={this.props.textHidden? 'password' : 'text'}
-                    onChange={this.props.update === undefined ? this.update.bind(this) : this.props.update.bind(this)}
-                    value={this.props.input === undefined ? this.state.input : this.props.input}
-                />
-                <br/>
-                <p>{this.renderWarning()}</p>
-                <button onClick={this.onCancel.bind(this)}>Cancel</button>
+                acceptDisabled={this.props.acceptDisabled}
+                buttons={<button onClick={this.onCancel.bind(this)} className='default-btn'>Cancel</button>}>
+                <h4>{this.props.message}</h4>
+                <span className='modal-input-area'>
+                    <input
+                        className='modal-input'
+                        maxLength="30"
+                        placeholder={this.props.placeholder}
+                        type={this.props.textHidden? 'password' : 'text'}
+                        onChange={this.props.update === undefined ? this.update.bind(this) : this.props.update.bind(this)}
+                        value={this.props.input === undefined ? this.state.input : this.props.input}
+                    />
+                    <p>{this.renderWarning()}</p>
+                </span>
             </Modal>
         );
     }

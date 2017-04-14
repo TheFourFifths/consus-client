@@ -148,10 +148,10 @@ describe('Checking a model out', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, 'Checkout completed successfully!');
+            assert.strictEqual(message, 'Checkout completed successfully.');
             return app.client.click('.toast');
         }).then(()=> {
-            return app.client.elements('#student .student .equipment .model-info');
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
@@ -256,8 +256,8 @@ describe('Checking a model out', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, "Checkout completed successfully!");
-            return app.client.elements('#student .student .equipment .model-info');
+            assert.strictEqual(message, "Checkout completed successfully.");
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
@@ -279,10 +279,10 @@ describe('Checking a model out', function () {
         return app.client.setValue('.cart input[type="text"]','m8y7nFLsT').then(() => {
             return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
-            assert.strictEqual(message, "Resistor is not available for checkout.");
-            return app.client.click('#app .modal .modal-content button');
+            assert.strictEqual(message, "Resistor is unavailable for checkout.");
+            return app.client.click('#app .modal .modal-buttons button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
@@ -304,10 +304,10 @@ describe('Checking a model out', function () {
         return app.client.setValue('.cart input[type="text"]','m8y7nFnMs').then(() => {
             return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
             assert.strictEqual(message, "Resistor is out of stock.");
-            return app.client.click('#app .modal .modal-content button');
+            return app.client.click('#app .modal .modal-buttons button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
