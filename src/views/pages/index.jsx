@@ -32,6 +32,10 @@ export default class Index extends React.Component {
         IndexController.navigateTo(`/models/new`);
     }
 
+    goToReports() {
+        IndexController.navigateTo('/reports');
+    }
+
     goToStudentUpload() {
         IndexController.navigateTo(`/students/upload`);
     }
@@ -120,8 +124,13 @@ export default class Index extends React.Component {
                             Lost Item
                         </span>
                     </div>
+                    <div id='lost-item' onClick={this.goToReports.bind(this)}>
+                        <span>
+                            <img src="../assets/images/search.svg"/><br/>
+                            Reports
+                        </span>
+                    </div>
                 </div>
-                <Link to='/reports'>Reports</Link>
             </div>
         );
     }
