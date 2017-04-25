@@ -67,21 +67,6 @@ describe("OmnibarController", () => {
 
         });
 
-        it('Dispatches "ERROR" when student is not found',()=>{
-
-            searchStudent.returns(
-                new Promise( (resolve,reject) => {
-                    reject("NOPE");
-                })
-            );
-
-            return OmnibarController.getStudent("12kl3").then(() => {
-                assert.isTrue(dispatcherSpy.called);
-                assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            });
-
-        });
 
         afterEach(() => {
             dispatcherSpy.restore();
@@ -122,7 +107,7 @@ describe("OmnibarController", () => {
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Expected an item address but received a model address");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Expected an item address but received a model address.");
         });
 
         it('Dispatches "ERROR" if address is invalid', () => {
@@ -130,7 +115,7 @@ describe("OmnibarController", () => {
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The provided item address is somehow invalid.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The provided item address is invalid.");
         });
 
         afterEach(() => {
@@ -140,18 +125,18 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("throwInvalidCharacterError", () => {
+    describe("throwQueryInvalidError", () => {
         let dispatcherSpy;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
         });
 
-        it('Dispatches "ERROR" when called', () => {
-            OmnibarController.throwInvalidCharacterError();
+        it('Dispatches "WARN" when called', () => {
+            OmnibarController.throwQueryInvalidError();
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Please only enter Alphanumeric Characters.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "WARN");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].warn, "Invalid Query. Student rfid format should be 'rfid:######'. Model/item addresses are case sensitive.");
         });
 
         afterEach(() => {

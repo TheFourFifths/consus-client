@@ -38,7 +38,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -55,8 +55,10 @@ describe('Checking a model out', function () {
                 }
             }
         });
-        return app.client.keys('123456').then(() => {
-            return app.client.waitForVisible('#student', 1000000);
+        return app.client.keys("rfid:123456").then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('#student', 5000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
@@ -103,23 +105,30 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-              id: '123456'
+              rfid: '123456'
             },
             response: {
                 status: 'success',
                 data: {
                     id: 123456,
+                    rfid: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [ models[2] ],
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 1,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
+                        }
+                    ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
             }
         });
-
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -139,13 +148,13 @@ describe('Checking a model out', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, 'Checkout completed successfully!');
-            return app.client.elements('#student .student .equipment .item-info');
+            assert.strictEqual(message, 'Checkout completed successfully.');
+            return app.client.click('.toast');
+        }).then(()=> {
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
-        }).then(()=> {
-            return app.client.click('.toast');
         });
     });
 
@@ -196,7 +205,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -209,7 +218,9 @@ describe('Checking a model out', function () {
                         {
                             address: models[2].address,
                             name: models[2].name,
-                            quantity: 2
+                            quantity: 2,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
                         }
                     ],
                     email: 'vonneumann@msoe.edu',
@@ -245,8 +256,8 @@ describe('Checking a model out', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, "Checkout completed successfully!");
-            return app.client.elements('#student .student .equipment .item-info');
+            assert.strictEqual(message, "Checkout completed successfully.");
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
@@ -268,10 +279,10 @@ describe('Checking a model out', function () {
         return app.client.setValue('.cart input[type="text"]','m8y7nFLsT').then(() => {
             return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
-            assert.strictEqual(message, "Resistor is not available for checkout.");
-            return app.client.click('#app .modal .modal-content button');
+            assert.strictEqual(message, "Resistor is unavailable for checkout.");
+            return app.client.click('#app .modal .modal-buttons button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
@@ -293,10 +304,10 @@ describe('Checking a model out', function () {
         return app.client.setValue('.cart input[type="text"]','m8y7nFnMs').then(() => {
             return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
             assert.strictEqual(message, "Resistor is out of stock.");
-            return app.client.click('#app .modal .modal-content button');
+            return app.client.click('#app .modal .modal-buttons button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);

@@ -40,7 +40,7 @@ describe('Checking an item out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -57,8 +57,10 @@ describe('Checking an item out', function () {
                 }
             }
         });
-        return app.client.keys('123456').then(() => {
-            return app.client.waitForVisible('#student', 1000000);
+        return app.client.keys("rfid:123456").then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('#student', 5000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
@@ -106,7 +108,7 @@ describe('Checking an item out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-              id: '123456'
+              rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -133,7 +135,7 @@ describe('Checking an item out', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, 'Checkout completed successfully!');
+            assert.strictEqual(message, 'Checkout completed successfully.');
             return app.client.elements('#student .student .equipment .item-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
@@ -158,10 +160,10 @@ describe('Checking an item out', function () {
         return app.client.setValue('.cart input[type="text"]','iGwEZVeaT').then(() => {
         return app.client.waitForVisible('#app .modal .modal-content');
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
-            assert.strictEqual(message, "This item is already checked out by another student.");
-            return app.client.click('#app .modal .modal-content button');
+            assert.strictEqual(message, "Another student checked out this item.");
+            return app.client.click('#app .modal .modal-buttons button');
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
@@ -220,7 +222,7 @@ describe('Checking an item out', function () {
           method: 'get',
           endpoint: 'student',
           qs: {
-            id: '123456'
+            rfid: '123456'
           },
           response: {
               status: 'success',
@@ -249,7 +251,7 @@ describe('Checking an item out', function () {
       }).then(() => {
           return app.client.getText('.toast');
       }).then(message => {
-          assert.strictEqual(message, "Checkout completed successfully!");
+          assert.strictEqual(message, "Checkout completed successfully.");
           return app.client.elements('#student .student .equipment .item-info');
       }).then(items => {
           assert.lengthOf(items.value, 3);
@@ -324,10 +326,10 @@ describe('Checking an item out', function () {
         }).then(() => {
             return app.client.waitForVisible('#app .modal', 1000000);
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
             assert.strictEqual(message, "Please only enter Alphanumeric Characters.");
-            return app.client.click("#app .modal .modal-content button");
+            return app.client.click("#app .modal .modal-buttons button");
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);
@@ -366,10 +368,10 @@ describe('Checking an item out', function () {
         }).then(() => {
             return app.client.waitForVisible('#app .modal', 1000000);
         }).then(() => {
-            return app.client.getText('#app .modal .modal-content p');
+            return app.client.getText('#app .modal .modal-content h4');
         }).then(message => {
             assert.strictEqual(message, "This item is already in the cart.");
-            return app.client.click("#app .modal .modal-content button");
+            return app.client.click("#app .modal .modal-buttons button");
         }).then(() => {
             mockServer.validate();
             return app.client.waitForExist("#app .modal", 100, true);

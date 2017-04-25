@@ -1,3 +1,5 @@
+@import 'colors.styl'
+
 .modal
     align-items: center
     background: rgba(0, 0, 0, 0.4)
@@ -11,20 +13,104 @@
 
     .modal-content
         background: white
-        border-radius: 0.5em
-        padding: 1em
+        border-radius: 5px
+        max-width: 50%
 
-    .debug
-        background: lightgreen
+    .modal-heading
+        text-align: center
+        font-weight: bold
+        font-size: 1.25em
+        border-bottom: black solid thin
+        padding: .5em 1em
+        color: white
+        border-top-left-radius: 5px
+        border-top-right-radius: 5px
 
-    .info
-        background: lightblue
+    .error-heading
+        background: $error-modal-color
 
-    .warn
-        background: lightyellow
+    .warning-heading
+        background: $warn-modal-color
 
-    .error
-        background: lightred
+    .debug-heading
+        background: $debug-modal-color
 
-    .invalidText
-        color:red
+    .info-heading
+        background: $info-modal-color
+
+    button
+        color: white
+        padding: 8 12
+        margin: .25em
+        font-weight: bold
+        cursor: pointer
+        box-shadow: 0 .1em .1em grey
+        border-style: none
+        border-radius: 2px
+
+    .default-btn
+        background: $primary-btn-color
+        &:hover
+            background: lighten($primary-btn-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($primary-btn-color, 10%)
+
+    .error-btn
+        background: $error-modal-color
+        &:hover
+            background: lighten($error-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($error-modal-color, 10%)
+
+    .warning-btn
+        background: $warn-modal-color
+        &:hover
+            background: lighten($warn-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($warn-modal-color, 10%)
+
+    .info-btn
+        background: $info-modal-color
+        &:hover
+            background: lighten($info-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($info-modal-color, 10%)
+
+    .debug-btn
+        background: $debug-modal-color
+        &:hover
+            background: lighten($debug-modal-color, 10%)
+        &:focus
+            outline: none
+            background: lighten($debug-modal-color, 10%)
+
+    h4
+        padding: 0 1em
+        text-align: center
+        margin: .7em 0 1em 0
+
+    .modal-buttons
+        text-align: center
+        padding-bottom: .7em
+
+    .modal-input-area
+        text-align: center
+        display: inline-block
+        width: calc(100% - 2em)
+        padding: 0 1em
+
+        .modal-input
+            text-align: center
+            padding: .3em 0
+            border: 1px solid grey
+            border-radius: .2em
+
+        input[type=date]
+            margin-bottom: 1em
+
+        .invalidText
+            color:red

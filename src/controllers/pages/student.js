@@ -1,7 +1,15 @@
-import { checkOutContents, searchStudent, checkInModel, checkOutContentsLongterm } from '../../lib/api-client';
+import {
+    checkOutContents,
+    searchStudent,
+    checkInModel,
+    checkOutContentsLongterm,
+    createRfidToStudentAssosciation,
+    createStudent} from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
 import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
+import StudentStore from '../../store/student-store';
+import OmnibarController from '../../controllers/components/omnibar';
 
 export default class StudentController {
 
@@ -21,7 +29,7 @@ export default class StudentController {
 
     static checkout(id, equipment) {
         return checkOutContents(id, equipment, AuthStore.getAdminCode()).then(() => {
-            return searchStudent(id).then(student => {
+            return searchStudent(StudentStore.getStudent().rfid).then(student => {
                 Dispatcher.handleAction('CHECKOUT_SUCCESS');
                 Dispatcher.handleAction("STUDENT_FOUND", student);
             });
@@ -40,7 +48,7 @@ export default class StudentController {
 
     static checkInModel(id, modelAddress, quantity) {
         return checkInModel(id, modelAddress, quantity).then(data => {
-            return searchStudent(id).then(student => {
+            return searchStudent(StudentStore.getStudent().rfid).then(student => {
                 Dispatcher.handleAction('MODEL_CHECKIN_SUCCESS', {
                     modelAddress: data.modelAddress,
                     modelName: data.modelName,
@@ -50,7 +58,7 @@ export default class StudentController {
             });
         }).catch(() => {
             Dispatcher.handleAction("ERROR", {
-                error: 'Model checkin has failed'
+                error: 'Model checkin was unsuccessful.'
             });
         });
     }
@@ -59,7 +67,7 @@ export default class StudentController {
 
         if(this.isValidLongtermData(dueDate, professor)){
             return checkOutContentsLongterm(id, equipment, dueDate, professor, AuthStore.getAdminCode()).then(() => {
-                return searchStudent(id).then(student => {
+                return searchStudent(StudentStore.getStudent().rfid).then(student => {
                     Dispatcher.handleAction('CHECKOUT_SUCCESS');
                     Dispatcher.handleAction("STUDENT_FOUND", student);
                 });
@@ -79,22 +87,22 @@ export default class StudentController {
 
     static isValidLongtermData(dueDate, professor) {
         if(dueDate === undefined || dueDate === null){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Please enter a due date.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Due date is required.'
             });
             return false;
         }
         let today = moment();
         let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
         if(!dueDateMoment.isAfter(today)){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Due date cannot be set to today or past.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Due date cannot be set to today or past.'
             });
             return false;
         }
         if(professor === undefined || professor === null){
-            Dispatcher.handleAction('ERROR', {
-                error: 'Please enter a professor name.'
+            Dispatcher.handleAction('WARN', {
+                warn: 'Professor name is required.'
             });
             return false;
         }
@@ -102,8 +110,23 @@ export default class StudentController {
     }
 
     static throwNoItemsError() {
-        Dispatcher.handleAction('ERROR', {
-            error: 'No Items were scanned for checkout.'
+        Dispatcher.handleAction('WARN', {
+            warn: 'No items were scanned for checkout.'
+        });
+    }
+
+    static studentToRfid(studentId, rfid){
+        return createRfidToStudentAssosciation(studentId, rfid).then(() => {
+            Dispatcher.handleAction('CREATE_TOAST', {
+                text: 'The student has been associated successfully!'
+            });
+            OmnibarController.getStudent(rfid);
+        });
+    }
+
+    static newStudent(studentId, rfid, major, email, name){
+        return createStudent(studentId, rfid, major, email, name).then(() => {
+            OmnibarController.leavePage('/');
         });
     }
 

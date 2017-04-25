@@ -19,13 +19,13 @@ export default class CartController {
 
     static getItem(address) {
         return searchItem(address).then(item => {
-            if (item.status === 'CHECKED_OUT') {
-                return Dispatcher.handleAction('ERROR', {
-                    error: 'This item is already checked out by another student.'
+            if (item.status === 'CHECKED_OUT' || item.status === 'SAVED') {
+                return Dispatcher.handleAction('INFO', {
+                    info: 'Another student checked out this item.'
                 });
             } else if(CartStore.getContents().some(ele => ele.address === address)){
-                return Dispatcher.handleAction('ERROR', {
-                    error: 'This item is already in the cart.'
+                return Dispatcher.handleAction('INFO', {
+                    info: 'This item is already in the cart.'
                 });
             }
             Dispatcher.handleAction("CHECKOUT_ITEM_FOUND", item);
@@ -35,13 +35,13 @@ export default class CartController {
     static getModel(address) {
         return searchModel(address).then(model => {
             if(!model.allowCheckout) {
-                return Dispatcher.handleAction('ERROR', {
-                    error: `${model.name} is not available for checkout.`
+                return Dispatcher.handleAction('WARN', {
+                    warn: `${model.name} is unavailable for checkout.`
                 });
             }
             if (model.inStock <= 0) {
-                return Dispatcher.handleAction('ERROR', {
-                    error: `${model.name} is out of stock.`
+                return Dispatcher.handleAction('INFO', {
+                    info: `${model.name} is out of stock.`
                 });
             }
             Dispatcher.handleAction("CHECKOUT_MODEL_FOUND", model);
@@ -57,8 +57,8 @@ export default class CartController {
             if(storeModel.quantity < model.inStock) {
                 Dispatcher.handleAction("CHECKOUT_DUPLICATE_MODEL", model);
             } else {
-                return Dispatcher.handleAction('ERROR', {
-                    error: `${model.name} is out of stock.`
+                return Dispatcher.handleAction('INFO', {
+                    info: `${model.name} is out of stock.`
                 });
             }
         });
@@ -75,8 +75,8 @@ export default class CartController {
         } else if (result.type === 'item'){
             return searchItem(equipmentAddress).then(item => {
                 if(item.isCheckedOutTo === null || item.isCheckedOutTo === undefined){
-                    Dispatcher.handleAction('ERROR', {
-                        error: 'The item is not checked out by anyone.'
+                    Dispatcher.handleAction('INFO', {
+                        info: 'The item is not currently checked out.'
                     });
                 } else{
                     return CartController.checkInItem(parseInt(item.isCheckedOutTo), item.address);

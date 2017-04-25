@@ -12,8 +12,10 @@ export default class Index extends React.Component {
     }
 
     acceptItemLostAddr(equipAddr) {
-        CartController.turnInLostEquipment(equipAddr);
-        this.cancelItemLost();
+        if(equipAddr && !this.state.inputModalIsInvalid){
+            CartController.turnInLostEquipment(equipAddr);
+            this.cancelItemLost();
+        }
     }
 
     lostItem() {
@@ -51,6 +53,11 @@ export default class Index extends React.Component {
                     inputModalAcceptDisabled: true
                 });
             }
+        } else {
+            this.setState({
+                inputModalIsInvalid: false,
+                inputModalAcceptDisabled: true
+            });
         }
         this.setState({ inputModalInput: equipAddr });
     }
@@ -59,17 +66,18 @@ export default class Index extends React.Component {
         return (
             <div id='index'>
                 <InputModal
-                    message='Please enter the item or model address located under the barcode.'
+                    message='Scan the item barcode.'
                     active={this.state.lostItemModalActive}
                     onAccept={this.acceptItemLostAddr.bind(this)}
                     onCancel={this.cancelItemLost.bind(this)}
                     update={this.update.bind(this)}
-                    errorMessage='Equipment address is incorrect. Please double check adress!'
+                    errorMessage='Equipment address is incorrect.'
                     acceptText='Enter'
                     textHidden={false}
                     input={this.state.inputModalInput}
                     invalid={this.state.inputModalIsInvalid}
                     acceptDisabled={this.state.inputModalAcceptDisabled}
+                    placeholder='Item Address'
                 />
                 <div id='links'>
                     <div id='view-models' onClick={IndexController.getModels}>
