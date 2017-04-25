@@ -1,14 +1,22 @@
 $primary-btn-color = #1565C0
+@import url("../assets/fonts/source-sans-pro/source-sans-pro.css")
+
+$font-family = 'Source Sans Pro', system-ui, sans-serif
+$font-size = 1.0rem
 
 html, body
+    font: $font-size $font-family
+    font-variant-ligatures: common-ligatures
     width: 100%
     margin: 0
 
 #children
-    padding: 5px
     background: #f3f3f3
     height: 100%
     overflow: auto
+    & > *
+        padding: 5px
+
 
 .clear
     width: 0
