@@ -136,7 +136,7 @@ describe("OmnibarController", () => {
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "WARN");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].warn, "Invalid Query. Student rfid format should be 'rfid:######'. Model/item addresses are case sensitive.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].warn, "Invalid Query. Student RFID format should be 'rfid:######'. Model/item addresses are case sensitive.");
         });
 
         afterEach(() => {

@@ -90,7 +90,7 @@ export default class OmnibarController {
 
     static throwQueryInvalidError() {
         Dispatcher.handleAction("WARN", {
-            warn: "Invalid Query. Student rfid format should be 'rfid:######'. Model/item addresses are case sensitive."
+            warn: "Invalid Query. Student RFID format should be 'rfid:######'. Model/item addresses are case sensitive."
         });
     }
 
