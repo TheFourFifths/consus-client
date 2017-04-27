@@ -14,7 +14,7 @@ export default class Item extends React.Component {
         this.state = {
             item: props.item === undefined ? null : props.item,
             faultBoxOpen: false,
-            noButtons: props.noButton === undefined? false: props.noButton
+            noButtons: props.noButtons === undefined? false: props.noButtons
         };
     }
 
@@ -70,7 +70,10 @@ export default class Item extends React.Component {
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.item.address}</h2>
-                    <button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/>
+                    {(!this.state.noButtons
+                        ? <span><button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/></span>
+                            : null
+                    )}
                 </div>
                 <div className="infoArea">
                     <div className="descriptionArea">
