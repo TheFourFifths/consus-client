@@ -160,10 +160,10 @@ describe('Student Lookup', function () {
       }).then(() => {
           return app.client.waitForVisible('#app .modal', 1000000);
       }).then(() => {
-          return app.client.getText('#app .modal .modal-content p');
+          return app.client.getText('#app .modal .modal-content h4');
       }).then(message => {
-          assert.strictEqual(message, "The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid");
-          return app.client.click("#app .modal .modal-content button");
+          assert.strictEqual(message, "The rfid that was scanned was not recognized. Enter the student's ID number to associate the student and rfid.");
+          return app.client.click("#app .modal .modal-buttons button");
       }).then(() => {
           mockServer.validate();
           //this checks that the modal goes away, the true "reverses" what it expects.
@@ -179,10 +179,10 @@ describe('Student Lookup', function () {
       }).then(() => {
           return app.client.waitForVisible('#app .modal', 1000000);
       }).then(() => {
-          return app.client.getText('#app .modal .modal-content p');
+          return app.client.getText('#app .modal .modal-content h4');
       }).then(message => {
-          assert.strictEqual(message, "The query you entered was invalid! Rfid's must be pre-pended with 'rfid:'. If your're doing amodel/item search please verify the typed in query is correct(capitals matter).");
-          return app.client.click("#app .modal .modal-content button");
+          assert.strictEqual(message, "The provided student ID was not found. Would you like to add a student for this ID?");
+          return app.client.click("#app .modal .modal-buttons button");
       }).then(() => {
           mockServer.validate();
           return app.client.waitForExist("#app .modal", 100, true);

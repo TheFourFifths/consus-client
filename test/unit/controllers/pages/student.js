@@ -123,11 +123,11 @@ describe("StudentController", () => {
     });
 
     describe("throwNoItemsError", () => {
-        it('Dispatches "ERROR" when called', () => {
+        it('Dispatches "WARN" when called', () => {
             StudentController.throwNoItemsError();
             assert.isTrue(dispatcherSpy.called);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "No Items were scanned for checkout.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "WARN");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].warn, "No items were scanned for checkout.");
             Dispatcher.handleAction("CLEAR_ERROR");
 
         });
@@ -185,7 +185,7 @@ describe("StudentController", () => {
             return StudentController.checkInModel(123456, '123', 4).then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, "Model checkin has failed");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, "Model checkin was unsuccessful.");
             });
         });
 

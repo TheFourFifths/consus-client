@@ -59,7 +59,7 @@ describe('Edit model leave confirmation', function () {
         });
     });
 
-    it('does not warn you before leaving an unchanged model via "View all Models" button', () => {
+    it('does not warn you before leaving an unchanged model via "Back" button', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
@@ -82,7 +82,7 @@ describe('Edit model leave confirmation', function () {
             }
         });
 
-        return app.client.click('.model-form > button').then(() => {
+        return app.client.click('.model-form #back-btn').then(() => {
             return app.client.waitForVisible('#models');
         }).then(() => {
             return app.client.click('.actionArea img[src*="edit"]');
@@ -135,11 +135,11 @@ describe('Edit model leave confirmation', function () {
         return app.client.click('#name input').then(() => {
             return app.client.keys('change');
         }).then(() => {
-            return app.client.click('.model-form > button')
+            return app.client.click('.model-form #back-btn')
         }).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.click('.modal-content button');
+            return app.client.click('.modal-buttons button:nth-of-type(2)');
         }).then(() => {
             return app.client.waitForVisible('.model-form');
         }).then(() => {
@@ -147,7 +147,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.click('.modal-content button');
+            return app.client.click('.modal-buttons button:nth-of-type(2)');
         }).then(() => {
             return app.client.waitForVisible('.model-form');
         }).then(() => {
@@ -155,7 +155,7 @@ describe('Edit model leave confirmation', function () {
         }).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.click('.modal-content button[type="button"]');
+            return app.client.click('.modal-buttons button');
         }).then(() => {
             return app.client.waitForVisible('.model-form', 1000, true);
         });

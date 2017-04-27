@@ -19,9 +19,7 @@ export default class Models extends ListenerComponent {
 
     getState() {
         return {
-            models: ModelStore.getAllModels(),
-            lostItemModalActive: false,
-            inputModalAcceptDisabled: true
+            models: ModelStore.getAllModels()
         };
     }
 
@@ -30,6 +28,7 @@ export default class Models extends ListenerComponent {
             <div id="models">
                 <h1>All models</h1>
                 <Link to='/models/new'>Make new model</Link>
+
                 {this.state.models.map((model) => {
                     return (
                         <div key={model.address + model.count}>

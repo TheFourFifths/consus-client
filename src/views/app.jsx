@@ -44,7 +44,7 @@ export default class App extends ListenerComponent {
         }
         return (
             <div id='app'>
-                <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} message={this.state.errorMessage} />
+                <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} tag={this.state.errorTag} message={this.state.errorMessage} />
                 <Toasts toasts={this.state.toasts} />
                 <div id='children'>
                   <Omnibar />
