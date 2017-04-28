@@ -13,8 +13,7 @@ export default class Item extends React.Component {
 
         this.state = {
             item: props.item === undefined ? null : props.item,
-            faultBoxOpen: false,
-            noButtons: props.noButtons === undefined? false: props.noButtons
+            faultBoxOpen: false
         };
     }
 
@@ -51,7 +50,6 @@ export default class Item extends React.Component {
     }
 
     renderButtons() {
-        if(this.state.noButtons) return null;
         return  (
             <span>
                 <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
@@ -70,10 +68,7 @@ export default class Item extends React.Component {
                 </div>
                 <div className="titleArea">
                     <h2>{this.state.item.address}</h2>
-                    {(!this.state.noButtons
-                        ? <span><button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/></span>
-                            : null
-                    )}
+                     <span><button id='parent-model' onClick={() => ModelPageController.getModelAndItems(this.state.item.modelAddress)}>View model</button><br/></span>
                 </div>
                 <div className="infoArea">
                     <div className="descriptionArea">
@@ -83,7 +78,7 @@ export default class Item extends React.Component {
                     <div key={'' + this.state.item.address + this.state.item.faultHistory.length}
                      className="faultArea">
                         <h3>Current Fault</h3>
-                        {(this.state.item.isFaulty && !this.state.noButtons
+                        {(this.state.item.isFaulty
                                 ? <span><button onClick={() => ItemController.removeItemFault(this.state.item.address)}>ClearFault</button><p>{this.state.item.faultHistory[0].description}</p></span>
                                 : <p>Item is not currently faulty.</p>
                         )}

@@ -2,7 +2,7 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
 import BrokenItemsReportController from '../../controllers/reports/broken';
-import Item from '../components/item.jsx';
+import ReportItem from '../components/report-faulty-item.jsx';
 
 export default class FaultyItemReportPage extends ListenerComponent {
 
@@ -25,15 +25,15 @@ export default class FaultyItemReportPage extends ListenerComponent {
     render() {
         if(this.state.items.length === 0) return <span>No Faulty Items</span>;
         return (
-            <div key={this.state.items.length}>
+            <table className="broken-item-report-table" key={this.state.items.length}>
+                <tbody>
                 {this.state.items.map(item => {
                     return(
-                         <div key={item.address + item.faultHistory.length}>
-                            <Item noButtons={true} item = {item} />
-                         </div>
+                        <ReportItem key={item.address} item = {item} />
                     );
                 })}
-            </div>
+                </tbody>
+            </table>
         );
     }
 
