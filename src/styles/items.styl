@@ -1,3 +1,5 @@
+@import 'colors.styl'
+
 #items
     h1
         text-align: center
@@ -7,37 +9,85 @@
         display: block
 
 .item
-    background: #BBDEFB
+    background: $item-background-color
     display: block
     height: auto
     padding: 5px
-    margin-bottom: 5px
+    margin: 5px
     border-radius: .2em
     word-wrap: break-word
 
+    i
+        color: grey
+
     .picArea
         display: inline-block
-        vertical-align: top
-        padding: 7px
+        padding: 5px
 
         img
-            height: 75px
-            width:inherit
+            max-height: 100px
+            max-width: 100px
 
     .titleArea
         display: inline-block
         vertical-align: top
         width: 20%
 
-    .infoArea
+        .itemName
+            font-size: 1.33em
+            &:hover
+                cursor: pointer
+                color: lighten(black, 30%)
+
+        .status
+            padding: 0 .5em
+            font-size: .9em
+            color: white
+            border-radius: .2em
+            cursor: default
+            display: inline-block;
+            margin-top: .4em
+
+        .AVAILABLE
+            background: $status-available-color
+
+        .CHECKED_OUT
+            background: $status-checked-out-color
+
+        .SAVED
+            background: $status-saved-color
+
+    .faultArea
         display: inline-block
         vertical-align: top
         width: 60%
 
-        .faultArea
+        .faultInput
             display: inline-block
             width: 50%
             vertical-align: top
+
+            .currentFault
+                margin-right: 4em
+                background: darken($item-background-color, 10%)
+                border-radius: .2em
+                padding: .1em .5em
+                box-shadow: 0 .01em .1em grey
+
+                img
+                    float: right
+                    height: 1.3em
+
+            .faultTextBox
+                background: darken($item-background-color, 2%)
+                border: 1px solid darken($item-background-color, 2%)
+                border-radius: .1em
+                padding-left: .5em
+                padding-bottom: 0
+                margin: 1px 0
+                width: calc(100% - 4em) 
+                &:focus
+                    outline: none
 
             h3
                 text-align: left
@@ -66,9 +116,6 @@
         padding-right: 10px
 
         img
-            width: 50px
-            height: 33px
+            width: 25px
             display: block
             padding: 5px
-            &:hover
-                background: lightgray
