@@ -25,15 +25,26 @@ export default class FaultyItemReportPage extends ListenerComponent {
     render() {
         if(this.state.items.length === 0) return <span>No Faulty Items</span>;
         return (
-            <table className="broken-item-report-table" key={this.state.items.length}>
-                <tbody>
-                {this.state.items.map(item => {
-                    return(
-                        <ReportItem key={item.address} item = {item} />
-                    );
-                })}
-                </tbody>
-            </table>
+            <div>
+                <h1>Faulty Items</h1>
+                <table className="broken-item-report-table" key={this.state.items.length}>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Item Status</th>
+                            <th>Current Fault</th>
+                            <th>Fault History</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.items.map(item => {
+                        return(
+                            <ReportItem key={item.address + item.faultHistory.length} item = {item} />
+                        );
+                    })}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 
