@@ -132,6 +132,8 @@ export default class StudentPanel extends ListenerComponent {
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
+                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
+                <i>Due on: {model.dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </span>
         );
     }
