@@ -129,11 +129,11 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model) {
+        let dueDate = moment.tz(model.dueDate * 1000, 'America/Chicago');
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
-                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
-                <i>Due on: {model.dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''} <i>Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </span>
         );
     }
