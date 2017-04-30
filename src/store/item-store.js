@@ -13,9 +13,6 @@ class ItemStore extends Store {
     getItem() {
         return item;
     }
-    getItemsOfModel(address){
-        return items.filter(item => item.modelAddress === address);
-    }
     getAllItems(){
         return items;
     }
