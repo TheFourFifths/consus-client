@@ -2,15 +2,15 @@ import React from 'react';
 import ItemStore from '../../store/item-store';
 
 export default class ReportModelWithFrequency extends React.Component {
-
     render() {
-        if(!this.props.model.allowCheckout){
-            let items = ItemStore.getItemsOfModel(this.props.model.address);
-            let frequency = items.reduce((acc, cur) => acc + cur.frequency, 0);
-            return <p>{this.props.model.name}:{frequency}</p>;
-        }else{
-            return <p>{this.props.model.name}:{this.props.model.frequency}</p>;
-        }
+        let lastCheckoutDate = new Date(this.props.model.lastCheckedOut * 1000);
+        return (
+            <tr>
+                <td className="centered">{this.props.model.name} ({this.props.model.address})</td>
+                <td className="centered">{this.props.model.frequency?this.props.model.frequency:0}</td>
+                <td className="centered">{lastCheckoutDate.getMonth() + 1}/{lastCheckoutDate.getUTCDate()}/{lastCheckoutDate.getFullYear()}</td>
+            </tr>
+        );
     }
 
 }
