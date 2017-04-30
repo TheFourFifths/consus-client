@@ -27,7 +27,7 @@ export default class CheckedOutItemReportPage extends ListenerComponent {
     }
 
     renderItems(items) {
-        if(items.length === 0) return <p>No serialized items checked out</p>
+        if(items.length === 0) return <p>No serialized items checked out</p>;
         return (
             <table className="checked-out-items-report-table">
                 <thead>
@@ -48,7 +48,7 @@ export default class CheckedOutItemReportPage extends ListenerComponent {
     }
 
     renderModels(models) {
-        if(models.length === 0) return <p>No non-serialized items checked out</p>
+        if(models.length === 0) return <p>No non-serialized items checked out</p>;
         return (
             <table className="checked-out-items-report-table">
                 <thead>
@@ -75,7 +75,7 @@ export default class CheckedOutItemReportPage extends ListenerComponent {
                 let models = this.state.students[id].models;
                 models.forEach(model => model.checkedOutTo = id);
                 return models;
-            }).reduce((acc, curr) => acc.concat(curr),[]);
+            }).reduce((acc, curr) => acc.concat(curr), []);
         return (
             <div key={this.state.items.length}>
                 <h1>Checked Out Items</h1>
