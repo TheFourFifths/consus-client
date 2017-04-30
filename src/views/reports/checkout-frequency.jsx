@@ -28,7 +28,7 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
 
     render() {
 
-        function sortByFrequency(a,b){
+        function sortByFrequency(a, b){
             return a.frequency < b.frequency;
         }
 

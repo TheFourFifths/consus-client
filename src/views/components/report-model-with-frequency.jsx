@@ -1,5 +1,4 @@
 import React from 'react';
-import ItemStore from '../../store/item-store';
 
 export default class ReportModelWithFrequency extends React.Component {
     render() {
