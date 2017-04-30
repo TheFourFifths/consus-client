@@ -26,9 +26,11 @@ export default class Printer extends ListenerComponent {
     print() {
         let dataUris = this.state.addresses.map(address => getDataUri(address));
         let doc = new jsPDF('l', 'in', [2 + 3/7, 1 + 1/7]);
-        dataUris.forEach(dataUri => {
+        dataUris.forEach((dataUri, i) => {
             doc.addImage(dataUri, 'PNG', 0, 0, 2 + 3/7, 1 + 1/7);
-            doc.addPage();
+            if (i + 1 < dataUris.length) {
+                doc.addPage();
+            }
         });
         doc.autoPrint();
         doc.save('barcodes.pdf');
