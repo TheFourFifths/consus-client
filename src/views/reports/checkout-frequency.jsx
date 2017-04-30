@@ -37,9 +37,11 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
                 <h1>Checkout Frequency</h1>
                 <table className="checkout-frequency-report-table" key={this.state.models.length}>
                     <thead>
-                        <th>Model Name (Address)</th>
-                        <th>Times Checked Out</th>
-                        <th>Last Checkout Date</th>
+                        <tr>
+                            <th>Model Name (Address)</th>
+                            <th>Times Checked Out</th>
+                            <th>Last Checkout Date</th>
+                        </tr>
                     </thead>
                     <tbody>
                     {this.state.models.sort(sortByFrequency).map(model => {
