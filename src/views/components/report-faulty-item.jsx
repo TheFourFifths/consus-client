@@ -29,13 +29,9 @@ export default class ReportFaultyItem extends React.Component {
             return <i>Item is loading...</i>;
         return (
             <tr>
-                <td>
-                    <p>{this.state.item.address}</p>
-                </td>
-                <td>
-                    <p>{this.state.item.status}</p>
-                </td>
-                <td>
+                <td className="centered">{this.state.item.address}</td>
+                <td className="centered">{this.state.item.status}</td>
+                <td className="centered">
                     {(this.state.item.isFaulty
                             ? <span><p>{this.state.item.faultHistory[0].description}</p></span>
                             : <p>Item is not currently faulty.</p>
