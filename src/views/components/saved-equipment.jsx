@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment-timezone';
 import ModelStore from '../../store/model-store';
 import StudentPanelController from '../../controllers/components/student-panel';
 import OmnibarController from '../../controllers/components/omnibar';
@@ -15,17 +16,20 @@ export default class SavedEquipment extends React.Component {
         if (!model) {
             return null;
         }
+        let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
         return (
             <span>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
+                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </span>
         );
     }
 
     renderModelInfo(model) {
+        let dueDate = moment.tz(model.dueDate * 1000, 'America/Chicago');
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
+                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''} <i>Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </span>
         );
     }
