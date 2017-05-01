@@ -10,7 +10,7 @@ import AuthStore from '../../store/authentication-store';
 import moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
 import OmnibarController from '../../controllers/components/omnibar';
-
+import config from 'config';
 export default class StudentController {
 
     static acceptAdminModal(adminCode) {
@@ -93,7 +93,7 @@ export default class StudentController {
             return false;
         }
         let today = moment();
-        let dueDateMoment = moment.tz(dueDate, 'America/Chicago');
+        let dueDateMoment = moment.tz(dueDate, config.get('timezone'));
         if(!dueDateMoment.isAfter(today)){
             Dispatcher.handleAction('ERROR', {
                 error: 'Due date cannot be set to today or past.'
