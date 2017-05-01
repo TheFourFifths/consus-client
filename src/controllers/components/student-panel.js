@@ -83,6 +83,9 @@ export default class StudentPanelController {
             Dispatcher.handleAction('SAVE_ITEM', {
                 itemAddress
             });
+            return searchStudent(StudentStore.getStudent().id);
+        }).then(student => {
+            Dispatcher.handleAction('STUDENT_FOUND', student);
         });
     }
 
@@ -91,6 +94,9 @@ export default class StudentPanelController {
             Dispatcher.handleAction('SAVE_MODEL', {
                 modelAddress
             });
+            return searchStudent(StudentStore.getStudent().id);
+        }).then(student => {
+            Dispatcher.handleAction('STUDENT_FOUND', student);
         });
     }
 
