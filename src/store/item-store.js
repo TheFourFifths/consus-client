@@ -16,6 +16,9 @@ class ItemStore extends Store {
     getAllItems(){
         return items;
     }
+    getCheckedOutItems(){
+        return items.filter(item => item.status === "CHECKED_OUT");
+    }
     getFaultyItems(){
         return faultyItems;
     }
