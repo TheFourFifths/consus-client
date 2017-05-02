@@ -47,7 +47,7 @@ export default class Printer extends ListenerComponent {
                         </p>
                     );
                 })}
-                <button onClick={() => this.print()} className='no-print print'>Print</button>
+                <button onClick={() => this.print()} className='no-print print'>Save Printable Document</button>
                 <button onClick={this.back} className='no-print cancel'>Back</button>
                 <canvas id='canvas'></canvas>
             </div>
