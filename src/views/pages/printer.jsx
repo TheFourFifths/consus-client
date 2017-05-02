@@ -39,9 +39,9 @@ export default class Printer extends ListenerComponent {
     render() {
         return (
             <div id='printer'>
-                {this.state.addresses.map(address => {
+                {this.state.addresses.map((address, i) => {
                     return (
-                        <p key={address}>
+                        <p key={`${i} ${address}`}>
                             {address}
                             <button onClick={() => PrinterController.remove(address)}>Remove</button>
                         </p>
