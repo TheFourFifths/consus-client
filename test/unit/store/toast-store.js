@@ -130,7 +130,7 @@ describe('ToastStore', () => {
 
     it('should add a toast message when creating a new item', () => {
         Dispatcher.handleAction('ITEM_CREATED', {
-            address: 'iGwEZUvfA',
+            item: { address: 'iGwEZUvfA' },
             modelName: 'Resistor'
         });
         assert.lengthOf(ToastStore.getToasts(), 4);

@@ -8,7 +8,6 @@ export default class Models extends ListenerComponent {
 
     constructor() {
         super();
-
     }
 
     getStores() {
