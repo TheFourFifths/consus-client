@@ -68,7 +68,7 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
     }
 
     render() {
-        if(this.state.loading) return <span>Loading Report...</span>;
+        if(this.state.loading) return <img src='../assets/images/loading.gif' />;
 
         return (
             <div>
