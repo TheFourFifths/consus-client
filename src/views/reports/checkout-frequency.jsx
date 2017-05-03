@@ -20,8 +20,9 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
     }
 
     changeSort(e){
-        if(e.target.id === this.state.sortBy) this.setState({reversed: !this.state.reversed});
-        else this.setState({sortBy: e.target.id, reversed: false});
+        let clicked = e.target.id.length > 0? e.target.id: this.state.sortBy;
+        if(clicked === this.state.sortBy) this.setState({reversed: !this.state.reversed});
+        else this.setState({sortBy: clicked, reversed: false});
     }
 
     getStores(){
@@ -61,9 +62,9 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
     }
 
     renderIcon(header){
-        if(header !== this.state.sortBy) return <img height='10' width='5' src="../assets/images/both-arrows.png" />;
-        else if(this.state.reversed) return <img height='10' width='5' src="../assets/images/up-arrow.png" />;
-        else return <img height='10' width='5' src="../assets/images/down-arrow.png" />;
+        if(header !== this.state.sortBy) return <img id={header} height='10' width='10' src="../assets/images/both-arrows.png" />;
+        else if(this.state.reversed) return <img id={header} height='10' width='10' src="../assets/images/up-arrow.png" />;
+        else return <img id={header} height='10' width='10' src="../assets/images/down-arrow.png" />;
     }
 
     render() {
@@ -75,9 +76,9 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
                 <table className="checkout-frequency-report-table" key={this.state.models.length}>
                     <thead>
                         <tr>
-                            <th id="Name" onClick={this.changeSort.bind(this)}>Model Name (Address)<span>{this.renderIcon('Name')}</span></th>
-                            <th id="Frequency" onClick={this.changeSort.bind(this)}>Times Checked Out<span>{this.renderIcon('Frequency')}</span></th>
-                            <th id="LastCheckout" onClick={this.changeSort.bind(this)}>Last Checkout Date<span>{this.renderIcon('LastCheckout')}</span></th>
+                            <th className="report-table-header" id="Name" onClick={this.changeSort.bind(this)}>Model Name (Address)<span>{this.renderIcon('Name')}</span></th>
+                            <th className="report-table-header" id="Frequency" onClick={this.changeSort.bind(this)}>Times Checked Out<span>{this.renderIcon('Frequency')}</span></th>
+                            <th className="report-table-header" id="LastCheckout" onClick={this.changeSort.bind(this)}>Last Checkout Date<span>{this.renderIcon('LastCheckout')}</span></th>
                         </tr>
                     </thead>
                     <tbody>
