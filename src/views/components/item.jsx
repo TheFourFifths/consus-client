@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
 import ItemStore from '../../store/item-store';
 import ModelStore from '../../store/model-store';
 import ItemController from '../../controllers/components/item';
 import PrinterController from '../../controllers/pages/printer';
-import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from '../components/confirm-modal.jsx';
 import config from 'config';
 import moment from 'moment-timezone';
@@ -40,7 +38,7 @@ export default class Item extends React.Component {
         }
     }
 
-    goToModel(address, e) {
+    goToModel(address) {
         ItemController.goToModel(address);
     }
 
@@ -113,8 +111,8 @@ export default class Item extends React.Component {
                                     ? <span><img className='icon-button' onClick={() => ItemController.removeItemFault(this.state.item.address)} src="../assets/images/clear.svg" title="Remove Fault"/>{this.state.item.faultHistory[0].description}</span>
                                     : (this.state.faultBoxOpen ?
                                         <span><input className='faultTextBox' ref={'' + this.state.item.address + 'fault'} placeholder="Enter Fault" autoFocus />
-                                        <img className='icon-button' onClick={this.cancelFault.bind(this)} src="../assets/images/cancel.svg" title="Cancel" />
-                                        <img className='icon-button' onClick={this.addFault.bind(this)} src="../assets/images/check.svg" title="Save" /></span>
+                                        <img className='icon-button cancel' onClick={this.cancelFault.bind(this)} src="../assets/images/cancel.svg" title="Cancel" />
+                                        <img className='icon-button save' onClick={this.addFault.bind(this)} src="../assets/images/check.svg" title="Save" /></span>
                                         : <span><img className='icon-button' onClick={this.addFault.bind(this)} src="../assets/images/add-3.svg" title="Add Fault" /><i>Item is not currently faulty.</i></span>
                                     )
                             )}
