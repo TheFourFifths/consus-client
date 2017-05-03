@@ -10,7 +10,8 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
         super(props);
         this.state = {
             loading: true,
-            sortBy: "Name"
+            sortBy: "Name",
+            reversed: false
         };
     }
 
@@ -19,7 +20,8 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
     }
 
     changeSort(e){
-        this.setState({sortBy: e.target.id});
+        if(e.target.id === this.state.sortBy) this.setState({reversed: !this.state.reversed});
+        else this.setState({sortBy: e.target.id, reversed: false});
     }
 
     getStores(){
@@ -47,10 +49,25 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
         }
     }
 
+    renderModels(){
+        let sorter = this.getSortFunction();
+        let returned = this.state.models.sort(sorter).map(model => {
+            return(
+                <ReportModelWithFrequency key={model.address + model.frequency} model={model}/>
+            );
+        });
+        if (this.state.reversed) returned.reverse();
+        return returned;
+    }
+
+    renderIcon(header){
+        if(header !== this.state.sortBy) return <img height='10' width='5' src="../assets/images/both-arrows.png" />;
+        else if(this.state.reversed) return <img height='10' width='5' src="../assets/images/up-arrow.png" />;
+        else return <img height='10' width='5' src="../assets/images/down-arrow.png" />;
+    }
+
     render() {
         if(this.state.loading) return <span>Loading Report...</span>;
-
-        let sorter = this.getSortFunction();
 
         return (
             <div>
@@ -58,17 +75,13 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
                 <table className="checkout-frequency-report-table" key={this.state.models.length}>
                     <thead>
                         <tr>
-                            <th id="Name" onClick={this.changeSort.bind(this)}>Model Name (Address)</th>
-                            <th id="Frequency" onClick={this.changeSort.bind(this)}>Times Checked Out</th>
-                            <th id="LastCheckout" onClick={this.changeSort.bind(this)}>Last Checkout Date</th>
+                            <th id="Name" onClick={this.changeSort.bind(this)}>Model Name (Address)<span>{this.renderIcon('Name')}</span></th>
+                            <th id="Frequency" onClick={this.changeSort.bind(this)}>Times Checked Out<span>{this.renderIcon('Frequency')}</span></th>
+                            <th id="LastCheckout" onClick={this.changeSort.bind(this)}>Last Checkout Date<span>{this.renderIcon('LastCheckout')}</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                    {this.state.models.sort(sorter).map(model => {
-                        return(
-                            <ReportModelWithFrequency key={model.address + model.frequency} model={model}/>
-                        );
-                    })}
+                    {this.renderModels()}
                     </tbody>
                 </table>
             </div>
