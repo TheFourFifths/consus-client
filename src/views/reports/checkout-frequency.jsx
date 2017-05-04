@@ -41,12 +41,12 @@ export default class CheckoutFrequencyReportPage extends ListenerComponent {
 
     getSortFunction(){
         switch(this.state.sortBy){
-            case "Frequency":
-                return function (a, b){return a.frequency < b.frequency;}
-            case "Name":
-                return function (a, b){return a.name.localeCompare(b.name);}
-            case "LastCheckout":
-                return function (a, b){return a.lastCheckedOut < b.lastCheckedOut;}
+        case "Frequency":
+            return function (a, b){return a.frequency < b.frequency;};
+        case "Name":
+            return function (a, b){return a.name.localeCompare(b.name);};
+        case "LastCheckout":
+            return function (a, b){return a.lastCheckedOut < b.lastCheckedOut;};
         }
     }
 
