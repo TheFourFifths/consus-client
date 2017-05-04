@@ -4,19 +4,33 @@ import { assert } from 'chai';
 
 describe('PrinterStore', () => {
 
-    beforeEach(() => {
+    before(() => {
         return Dispatcher.handleAction('CLEAR_ALL_DATA');
     });
 
-    it('should instantiate without any text', () => {
-        assert.isUndefined(PrinterStore.getText());
+    it('should instantiate without any addresses', () => {
+        assert.deepEqual(PrinterStore.getAddresses(), []);
     });
 
-    it('should prompt to print', () => {
-        Dispatcher.handleAction('PROMPT_TO_PRINT', {
-            text: 'm8y7nEtAe'
+    it('should add an address', () => {
+        Dispatcher.handleAction('ADD_ADDRESS', {
+            address: 'm8y7nEtAe'
         });
-        assert.strictEqual(PrinterStore.getText(), 'm8y7nEtAe');
+        assert.deepEqual(PrinterStore.getAddresses(), ['m8y7nEtAe']);
+    });
+
+    it('should add another address', () => {
+        Dispatcher.handleAction('ADD_ADDRESS', {
+            address: 'iGwEZVeaT'
+        });
+        assert.deepEqual(PrinterStore.getAddresses(), ['m8y7nEtAe', 'iGwEZVeaT']);
+    });
+
+    it('should remove an address', () => {
+        Dispatcher.handleAction('REMOVE_ADDRESS', {
+            address: 'm8y7nEtAe'
+        });
+        assert.deepEqual(PrinterStore.getAddresses(), ['iGwEZVeaT']);
     });
 
 });
