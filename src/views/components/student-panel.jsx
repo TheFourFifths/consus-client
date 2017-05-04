@@ -7,6 +7,7 @@ import SavedEquipment from './saved-equipment.jsx';
 import moment from 'moment-timezone';
 import OmnibarController from "../../controllers/components/omnibar";
 import DateModal from "../components/date-modal.jsx";
+import config from 'config';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -129,9 +130,11 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model) {
+        let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
+                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''} <i>Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
             </span>
         );
     }
@@ -146,7 +149,7 @@ export default class StudentPanel extends ListenerComponent {
         if (!model) {
             return null;
         } else {
-            let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
+            let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
             return (
                 <div className="item-info">
                     <div onClick={this.displayItem.bind(this, item.address)}

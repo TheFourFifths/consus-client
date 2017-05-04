@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import ModelStore from '../../store/model-store';
 import StudentPanelController from '../../controllers/components/student-panel';
 import OmnibarController from '../../controllers/components/omnibar';
+import config from 'config';
 
 export default class SavedEquipment extends React.Component {
 
@@ -16,7 +17,7 @@ export default class SavedEquipment extends React.Component {
         if (!model) {
             return null;
         }
-        let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
+        let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
         return (
             <span>
                 {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
@@ -25,7 +26,7 @@ export default class SavedEquipment extends React.Component {
     }
 
     renderModelInfo(model) {
-        let dueDate = moment.tz(model.dueDate * 1000, 'America/Chicago');
+        let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
         return (
             <span>
                 {model.name} <i>{model.address}</i> ({model.quantity})
