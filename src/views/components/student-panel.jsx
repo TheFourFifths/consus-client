@@ -157,8 +157,9 @@ export default class StudentPanel extends ListenerComponent {
                         {model.name} {item.timestamp < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
                         <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
                     </div>
-
-                </div>);
+                    <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
+                </div>
+            );
         }
     }
 
