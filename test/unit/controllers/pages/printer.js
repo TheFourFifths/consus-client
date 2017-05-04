@@ -15,16 +15,26 @@ describe('PrinterController', () => {
             router.hashHistory = {};
         });
 
-        it('Dispatches "PROMPT_TO_PRINT"', () => {
+        it('Dispatches "ADD_ADDRESS"', () => {
             spy = router.hashHistory.push = sinon.spy();
             PrinterController.promptToPrint('pretend that this is a model address');
             assert.isTrue(dispatcherSpy.calledOnce);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'PROMPT_TO_PRINT');
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'ADD_ADDRESS');
             assert.deepEqual(dispatcherSpy.getCall(0).args[1], {
-                text: 'pretend that this is a model address'
+                address: 'pretend that this is a model address'
             });
             assert.isTrue(spy.called);
+        });
+
+        it('Dispatches "REMOVE_ADDRESS"', () => {
+            PrinterController.remove('pretend that this is a model address');
+            assert.isTrue(dispatcherSpy.calledTwice);
+            assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(1).args[0], 'REMOVE_ADDRESS');
+            assert.deepEqual(dispatcherSpy.getCall(1).args[1], {
+                address: 'pretend that this is a model address'
+            });
         });
 
         it('Closes', () => {
