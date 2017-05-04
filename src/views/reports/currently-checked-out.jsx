@@ -44,19 +44,19 @@ export default class CheckedOutItemReportPage extends ListenerComponent {
 
     getItemSortFunction(){
         switch(this.state.sortItemBy){
-            case "Name":
-                return function (a, b){return a.name.localeCompare(b.name);}
-            case "Due":
-                return function (a, b){return a.dueDate < b.dueDate;}
+        case "Name":
+            return function (a, b){return a.name.localeCompare(b.name);};
+        case "Due":
+            return function (a, b){return a.dueDate < b.dueDate;};
         }
     }
 
     getModelSortFunction(){
         switch(this.state.sortItemBy){
-            case "Name":
-                return function (a, b){return a.name.localeCompare(b.name);}
-            case "Due":
-                return function (a, b){return a.dueDate < b.dueDate;}
+        case "Name":
+            return function (a, b){return a.name.localeCompare(b.name);};
+        case "Due":
+            return function (a, b){return a.dueDate < b.dueDate;};
         }
     }
 
@@ -137,7 +137,7 @@ export default class CheckedOutItemReportPage extends ListenerComponent {
     }
 
     render() {
-        if(this.state.loading) return <img src='../assets/images/loading.gif' />
+        if(this.state.loading) return <img src='../assets/images/loading.gif' />;
         let models = Object.keys(this.state.students).filter(id =>  this.state.students[id].models.length > 0)
             .map(id => {
                 let models = this.state.students[id].models;
