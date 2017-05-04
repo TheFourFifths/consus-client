@@ -42,7 +42,6 @@ export default class ReportPage extends ListenerComponent {
     renderReport(){
         switch(this.state.reportType){
         case 'checked':
-            console.log("FUCK ME");
             return <CheckedOutItemReportPage />;
         case 'delinquents':
             return <DelinquentReportPage />;
