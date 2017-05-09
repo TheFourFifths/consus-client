@@ -43,7 +43,7 @@ export default class Student extends ListenerComponent {
             } else {
                 StudentController.checkout(this.state.student.id, this.state.equipment);
             }
-            document.querySelector(`.omnibar input[type="text"]`).focus();
+            document.querySelector(`#omnibar input[type="text"]`).focus();
         }
         else StudentController.throwNoItemsError();
     }
