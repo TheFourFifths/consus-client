@@ -54,6 +54,7 @@ export default class Student extends ListenerComponent {
 
     cancelCheckout() {
         StudentController.cancelCheckout();
+        document.querySelector(`.cart input[type="text"]`).focus();
     }
 
     render() {
