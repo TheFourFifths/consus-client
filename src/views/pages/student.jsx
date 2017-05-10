@@ -43,6 +43,7 @@ export default class Student extends ListenerComponent {
             } else {
                 StudentController.checkout(this.state.student.id, this.state.equipment);
             }
+            document.querySelector(`#omnibar input[type="text"]`).focus();
         }
         else StudentController.throwNoItemsError();
     }
@@ -53,6 +54,7 @@ export default class Student extends ListenerComponent {
 
     cancelCheckout() {
         StudentController.cancelCheckout();
+        document.querySelector(`.cart input[type="text"]`).focus();
     }
 
     render() {

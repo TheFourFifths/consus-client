@@ -47,6 +47,7 @@ export default class InputModal extends React.Component {
                 acceptDisabled={this.props.acceptDisabled}>
                 <p>{this.props.message}</p>
                 <input
+                    autoFocus
                     maxLength="30"
                     type={this.props.textHidden? 'password' : 'text'}
                     onChange={this.props.update === undefined ? this.update.bind(this) : this.props.update.bind(this)}
