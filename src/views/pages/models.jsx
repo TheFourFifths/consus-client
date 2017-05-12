@@ -1,7 +1,7 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
-import IndexController from '../../controllers/pages/index'
+import IndexController from '../../controllers/pages/index';
 import Model from '../components/model.jsx';
 
 export default class Models extends ListenerComponent {
