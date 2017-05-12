@@ -1,8 +1,8 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
+import IndexController from '../../controllers/pages/index'
 import Model from '../components/model.jsx';
-import {Link} from 'react-router';
 
 export default class Models extends ListenerComponent {
 
@@ -22,11 +22,15 @@ export default class Models extends ListenerComponent {
         };
     }
 
+    goToNewModel() {
+        IndexController.navigateTo(`/models/new`);
+    }
+
     render() {
         return (
             <div id="models">
-                <h1>All models</h1>
-                <Link to='/models/new'>Make new model</Link>
+                <h1>All Models</h1>
+                <button className='cool-button' onClick={this.goToNewModel}>Make new Model</button>
 
                 {this.state.models.map((model) => {
                     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
-import ItemController from '../../controllers/components/item';
+import ModelPageController from '../../controllers/pages/model';
 import PrinterController from '../../controllers/pages/printer';
 import { hashHistory } from 'react-router';
 import ConfirmModal from '../components/confirm-modal.jsx';
@@ -80,7 +80,7 @@ export default class Model extends React.Component {
     }
 
     goToModel(address) {
-        ItemController.goToModel(address);
+        ModelPageController.getModelAndItems(address);
     }
 
     renderDescription() {

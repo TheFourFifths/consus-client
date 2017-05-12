@@ -1,5 +1,13 @@
 @import 'colors.styl'
 
+#models
+    h1
+        text-align: center
+        margin: .2em
+    .cool-button
+        margin: .5em auto
+        display: block
+
 .model
     display: block
     height: auto
@@ -12,6 +20,9 @@
     i
         color: grey
 
+    hr
+        border-color: lighten($model-background-color, 10%)
+
     .picArea
         display: inline-block
         padding: .3em
@@ -22,6 +33,7 @@
     .titleArea
         display: inline-block
         vertical-align: top
+        padding-left: .2em
         width: 40%
 
         .modelName
