@@ -97,7 +97,6 @@ store.registerHandler('SAVE_MODEL', data => {
 
 store.registerHandler('CREATE_STUDENT', data => {
     idAssociation = data;
-    console.log(idAssociation);
     store.emitChange();
 });
 

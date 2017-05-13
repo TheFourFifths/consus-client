@@ -124,7 +124,7 @@ export default class OmnibarController {
         } else {
             Dispatcher.handleAction("ERROR", {
                 error: "No RFID or ID provided."
-            })
+            });
         }
     }
 
