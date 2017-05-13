@@ -37,16 +37,25 @@ export default class InventoryPage extends ListenerComponent {
 
     render() {
         return (
-            <div>
-                <input ref="inventoryInput" autoFocus={true}/><br />
-                <div className="left">
+            <div id="inventory-system">
+                <label htmlFor="inv-input">Scan or Enter Address Here:</label>
+                <input id="inv-input" ref="inventoryInput" autoFocus={true}/>
+                <button> Done Taking Inventory </button>
+                <br />
+                <div className="left list-container">
                     <h1>Unscanned</h1>
-                    <ItemList items={this.state.unscannedItems}/>
+                    {Object.keys(this.state.unscannedItems).length === 0 ?
+                        <p className='item-list'>All inventory items have been accounted for!</p>:
+                        <ItemList items={this.state.unscannedItems}/>}
                 </div>
-                <div className="right">
+                <div className="right list-container">
                     <h1>Scanned</h1>
-                    <ItemList items={this.state.scannedItems}/>
+                    {Object.keys(this.state.scannedItems).length === 0 ?
+                         <p className='item-list'>Start scanning items to begin taking inventory</p>:
+                         <ItemList items={this.state.scannedItems}/>}
                 </div>
+                <br className="clear" />
+                <p className="center">TIP: If Scanner isn't working, try clicking in the input box.</p>
             </div>
         );
     }
