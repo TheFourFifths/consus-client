@@ -167,4 +167,53 @@ describe("IndexController", () => {
         });
     });
 
+    describe("goToInventoryPage", () => {
+        let routerSpy, dispatcherSpy, getAllItems, getAllModels;
+
+        before(() => {
+            router.hashHistory = {};
+            routerSpy = router.hashHistory.push = sinon.spy();
+            dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
+            getAllItems = sinon.stub(api, "getAllItems");
+            getAllModels = sinon.stub(api, "getAllModels");
+        });
+
+
+        it('Dispatches "TTEMS_RECEIVED" and pushes "/inventory" to hashHistory when items are received', () => {
+            getAllModels.returns(
+                new Promise(resolve => {
+                    resolve({
+                        models:[]
+                    })
+                })
+            );
+
+            getAllItems.returns(
+                new Promise(resolve => {
+                    resolve({
+                        items:[]
+                    });
+                })
+            );
+
+            return IndexController.goToInventoryPage().then(() => {
+                assert.isTrue(routerSpy.called);
+                assert.isTrue(dispatcherSpy.called);
+                assert.lengthOf(routerSpy.getCall(0).args, 1);
+                assert.strictEqual(routerSpy.getCall(0).args[0], "/inventory");
+                assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODELS_RECEIVED");
+                assert.lengthOf(dispatcherSpy.getCall(1).args, 2);
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ITEMS_RECEIVED");
+
+            });
+        });
+
+        after(() => {
+            dispatcherSpy.restore();
+            getAllItems.restore();
+            getAllModels.restore();
+        });
+    });
+
 });
