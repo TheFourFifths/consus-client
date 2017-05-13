@@ -14,6 +14,7 @@ export default class Omnibar extends React.Component {
             confirmExit: false,
             showIdInputModal: false,
             rfid: null,
+            id: null,
             showStudentRedirectConfirmation: false
         };
     }
@@ -95,6 +96,7 @@ export default class Omnibar extends React.Component {
         this.closeRfidInputmodal();
         StudentController.studentToRfid(id, this.state.rfid).catch(() => {
             this.setState({
+                id: id,
                 showStudentRedirectConfirmation: true
             });
         });
@@ -102,14 +104,13 @@ export default class Omnibar extends React.Component {
 
     closeRfidInputmodal() {
         this.setState({
-            showIdInputModal: false,
-            rfid: null
+            showIdInputModal: false
         });
     }
 
     handleStudentRedirectModal(bool){
         if(bool){
-            OmnibarController.leavePage('/student/new');
+            OmnibarController.goToStudentForm(this.state.rfid, this.state.id);
         }
         this.setState({
             showStudentRedirectConfirmation: false

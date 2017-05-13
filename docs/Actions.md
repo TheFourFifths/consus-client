@@ -16,6 +16,7 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_ALL_DATA](#clear_all_data)
     - [CLEAR_ERROR](#clear_error)
     - [CLEAR_CART_CONTENTS](#clear_cart_contents)
+    - [CREATE_STUDENT](#create_student)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
     - [EDIT_IS_LONGTERM](#edit_is_longterm)
@@ -167,6 +168,21 @@ Dispatched when a toast should be displayed. Currently, the created toast is add
 }
 ```
 
+## CREATE_STUDENT
+
+Dispatched once a student id and rfid have been received and the student form is displayed
+
+### Data
+
+- `rfid`: the rfid of the unknown ID card
+- `id`: the entered student ID that was not found
+
+```json
+{
+    "rfid": 123456,
+    "id": 123456
+}
+```
 
 ## EDIT_IS_LONGTERM
 
