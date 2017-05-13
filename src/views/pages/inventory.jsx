@@ -1,6 +1,7 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ItemStore from '../../store/item-store';
+import ItemList from '../components/item-list.jsx';
 
 export default class InventoryPage extends ListenerComponent {
 
@@ -38,8 +39,14 @@ export default class InventoryPage extends ListenerComponent {
         return (
             <div>
                 <input ref="inventoryInput" autoFocus={true}/><br />
-                {Object.keys(this.state.unscannedItems).map(id => <span key={id}>item:{id}</span>)}
-                {Object.keys(this.state.scannedItems).map(id => <span key={id}>scanneditem:{id}</span>)}
+                <div className="left">
+                    <h1>Unscanned</h1>
+                    <ItemList items={this.state.unscannedItems}/>
+                </div>
+                <div className="right">
+                    <h1>Scanned</h1>
+                    <ItemList items={this.state.scannedItems}/>
+                </div>
             </div>
         );
     }

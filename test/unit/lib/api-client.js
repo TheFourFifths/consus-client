@@ -12,6 +12,7 @@ import {
     createItem,
     createModel,
     deleteItem,
+    getAllFaultyItems,
     getAllItems,
     getAllModels,
     getModelAndItems,
@@ -306,6 +307,29 @@ describe('API Client', () => {
             address: 'iGwEZUvfA',
             modelAddress: 'm8y7nEtAe'
         }).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('getAllFaultyItems', () => {
+        let response = {
+            status: 'success',
+            data: {
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }]
+            }
+        };
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'item/fault/all',
+            qs: {},
+            response
+        });
+        return getAllFaultyItems().then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

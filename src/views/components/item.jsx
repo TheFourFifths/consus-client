@@ -74,7 +74,7 @@ export default class Item extends React.Component {
                         )}
 
                         <br/>
-                        {this.state.faultBoxOpen ? <input ref={'' + this.state.item.address + 'fault'} /> : <br /> }
+                        {this.state.faultBoxOpen ? <input autoFocus ref={'' + this.state.item.address + 'fault'} /> : <br /> }
                         <button className={this.state.faultBoxOpen ? "saveButton" : "addFault" } onClick={this.addFault.bind(this)}>{this.state.faultBoxOpen ? "Save Fault" : "Add Fault" }</button>
                         {this.state.faultBoxOpen ? <button onClick={this.cancelFault.bind(this)}> Cancel </button> : ""}
                     </div>
