@@ -29,7 +29,7 @@ export default class Index extends React.Component {
     }
 
     goToInventory(){
-        IndexController.navigateTo('/inventory');
+        IndexController.goToInventoryPage();
     }
 
     goToNewModel() {
