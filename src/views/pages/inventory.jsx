@@ -15,7 +15,7 @@ export default class InventoryPage extends ListenerComponent {
         this.state = {
             unscannedItems: items,
             scannedItems: {}
-        }
+        };
     }
 
     componentWillMount(){
@@ -29,14 +29,14 @@ export default class InventoryPage extends ListenerComponent {
     handleScan(event){
         if (event.keyCode !== 13/*(enter key)*/) return;
         if (!this.state.unscannedItems[this.refs.inventoryInput.value]){
-                if (!this.state.scannedItems[this.refs.inventoryInput.value]){
-                    let text = "Invalid Item Barcode Scanned: " + this.refs.inventoryInput.value
-                    Dispatcher.handleAction('CREATE_TOAST', {
-                        text
-                    });
-                }
-                this.refs.inventoryInput.value = '';
-                return;
+            if (!this.state.scannedItems[this.refs.inventoryInput.value]){
+                let text = "Invalid Item Barcode Scanned: " + this.refs.inventoryInput.value;
+                Dispatcher.handleAction('CREATE_TOAST', {
+                    text
+                });
+            }
+            this.refs.inventoryInput.value = '';
+            return;
         }
         let scannedItems = this.state.scannedItems;
         let unscannedItems = this.state.unscannedItems;
