@@ -28,6 +28,10 @@ export default class Index extends React.Component {
         });
     }
 
+    goToInventory(){
+        IndexController.navigateTo('/inventory');
+    }
+
     goToNewModel() {
         IndexController.navigateTo(`/models/new`);
     }
@@ -118,6 +122,12 @@ export default class Index extends React.Component {
                         <span>
                             <img src="../assets/images/search.svg"/><br/>
                             Lost Item
+                        </span>
+                    </div>
+                    <div id="inventory" onClick={this.goToInventory.bind(this)}>
+                        <span>
+                            <img src='../assets/images/search.svg' /><br/>
+                            Take Inventory
                         </span>
                     </div>
                 </div>
