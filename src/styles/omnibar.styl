@@ -6,12 +6,20 @@ $img-space-width = 4rem
 
     input
         width: 100%
-        padding: ($bar-height / 2) 0 ($bar-height / 2) $img-space-width
+        padding: ($bar-height / 2) 0 ($bar-height / 2) ($img-space-width + 5em)
 
     img
         cursor: pointer
         height: 2.5em
         width: @height
-        left: (abs($img-space-width - @width) / 2 + 0.25rem)
         margin-top: (abs($bar-height - @height) / 2)
         position: absolute
+
+        &.back
+            left: (abs($img-space-width - @width) / 2 + 0.25rem)
+
+        &.forward
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width
+
+        &.home
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width * 2
