@@ -30,6 +30,13 @@ export default class Student extends ListenerComponent {
         };
     }
 
+    componentWillReceiveProps() {
+        let rfid = parseInt(window.location.href.split('?rfid=')[1].split('&')[0]);
+        if (this.state.student.rfid !== rfid) {
+            StudentController.getStudent(rfid);
+        }
+    }
+
     acceptAdminModal(code) {
         StudentController.acceptAdminModal(code);
         this.checkOut();
