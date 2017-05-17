@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dispatcher } from 'consus-core/flux';
-import { getDataUri } from '../../lib/qr';
+import jsPDF from 'jspdf';
+import { getDataUri } from '../../lib/barcode';
 import PrinterController from '../../controllers/pages/printer';
 import PrinterStore from '../../store/printer-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
@@ -15,42 +15,41 @@ export default class Printer extends ListenerComponent {
 
     getState() {
         return {
-            text: PrinterStore.getText(),
-            size: 50
+            addresses: PrinterStore.getAddresses()
         };
     }
 
-    handleSizeChange(e) {
-        this.setState({
-            size: e.target.value
-        });
-    }
-
-    close() {
+    back() {
         PrinterController.close();
     }
 
     print() {
-        // Use the global print function
-        print();
+        let dataUris = this.state.addresses.map(address => getDataUri(address));
+        let doc = new jsPDF('l', 'in', [2 + 3/7, 1 + 1/7]);
+        dataUris.forEach((dataUri, i) => {
+            doc.addImage(dataUri, 'PNG', 0, 0, 2 + 3/7, 1 + 1/7);
+            if (i + 1 < dataUris.length) {
+                doc.addPage();
+            }
+        });
+        doc.autoPrint();
+        doc.save('barcodes.pdf');
     }
 
     render() {
-        let imgStyles = {
-            width: this.state.size + 'mm',
-            height: this.state.size + 'mm'
-        };
         return (
             <div id='printer'>
-                <span className='no-print'>Width (mm): </span>
-                <input type='number'
-                    className='no-print'
-                    value={this.state.size}
-                    onChange={this.handleSizeChange.bind(this)} />
-                <br />
-                <button onClick={this.print} className='no-print print'>Print</button>
-                <button onClick={this.close} className='no-print cancel'>Cancel</button>
-                <img src={getDataUri(this.state.text)} style={imgStyles} />
+                {this.state.addresses.map((address, i) => {
+                    return (
+                        <p key={`${i} ${address}`}>
+                            {address}
+                            <button onClick={() => PrinterController.remove(address)}>Remove</button>
+                        </p>
+                    );
+                })}
+                <button onClick={() => this.print()} className='no-print print'>Save Printable Document</button>
+                <button onClick={this.back} className='no-print cancel'>Back</button>
+                <canvas id='canvas'></canvas>
             </div>
         );
     }

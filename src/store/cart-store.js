@@ -1,14 +1,61 @@
+import config from 'config';
 import { Store } from 'consus-core/flux';
 import StudentStore from './student-store';
-import { checkOutContents } from '../lib/api-client';
+import { checkOutContents, checkOutContentsLongterm, searchStudent } from '../lib/api-client';
+import StudentController from '../controllers/pages/student';
+import { Dispatcher } from 'consus-core/flux';
 
 let contents = [];
-
+let isLongterm = false;
+let professor = null;
+let dueDate = null;
 let timer = null;
+
+class CartStore extends Store {
+
+    getContents() {
+        return contents;
+    }
+
+    isOnTimeout() {
+        return timer !== null;
+    }
+
+    getIsLongterm() {
+        return isLongterm;
+    }
+
+    getProfessor() {
+        return professor;
+    }
+
+    getDueDate() {
+        return dueDate;
+    }
+
+}
+
+const store = new CartStore();
 
 function startTimer(period) {
     timer = setTimeout(() => {
-        checkOutContents(StudentStore.getStudent().id, contents.map(content => content.address));
+        if (store.getIsLongterm()) {
+            if (StudentController.isValidLongtermData(store.getDueDate(), store.getProfessor())) {
+                checkOutContentsLongterm(StudentStore.getStudent().id, contents, store.getDueDate(), store.getProfessor()).then(() => {
+                    return searchStudent(StudentStore.getStudent().id).then(student => {
+                        Dispatcher.handleAction('CHECKOUT_SUCCESS');
+                        Dispatcher.handleAction("STUDENT_FOUND", student);
+                    });
+                });
+            }
+        } else {
+            checkOutContents(StudentStore.getStudent().id, contents).then(() => {
+                return searchStudent(StudentStore.getStudent().id).then(student => {
+                    Dispatcher.handleAction('CHECKOUT_SUCCESS');
+                    Dispatcher.handleAction("STUDENT_FOUND", student);
+                });
+            });
+        }
         clearTimer();
     }, period);
 }
@@ -18,19 +65,7 @@ function clearTimer() {
     timer = null;
 }
 
-class CartStore extends Store {
-    getContents() {
-        return contents;
-    }
-
-    isOnTimeout(){
-        return timer !== null;
-    }
-}
-
-const store = new CartStore();
-
-store.TIMEOUT_TIME = 60000;
+store.TIMEOUT_TIME = config.get('cart.timeout') * 1000;  /* milliseconds */
 
 store.registerHandler('STUDENT_FOUND', () => {
     if(store.isOnTimeout()){
@@ -43,8 +78,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
         clearTimer();
     }
     let item = {
-        address: data.address,
-        status: data.status
+        address: data.address
     };
     contents.push(item);
     startTimer(store.TIMEOUT_TIME);
@@ -85,16 +119,40 @@ store.registerHandler('CHECKOUT_SUCCESS', () => {
     clearTimer();
     store.waitFor(StudentStore);
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
+    store.emitChange();
+});
+
+store.registerHandler('EDIT_IS_LONGTERM', data => {
+    isLongterm = data.isLongterm;
+    store.emitChange();
+});
+
+store.registerHandler('EDIT_LONGTERM_DUEDATE', data => {
+    dueDate = data.dueDate;
+    store.emitChange();
+});
+
+store.registerHandler('EDIT_LONGTERM_PROFESSOR', data => {
+    professor = data.professor;
     store.emitChange();
 });
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
     store.emitChange();
 });
 
 store.registerHandler('CLEAR_CART_CONTENTS', () => {
     contents = [];
+    dueDate = null;
+    professor = null;
+    isLongterm = false;
     store.emitChange();
 });
 

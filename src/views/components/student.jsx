@@ -13,7 +13,7 @@ export default class Student extends React.Component {
     }
 
     toggleEditMode() {
-        this.setState({editMode:!this.state.editMode})
+        this.setState({editMode:!this.state.editMode});
     }
 
     saveChanges(){
@@ -25,7 +25,7 @@ export default class Student extends React.Component {
             editMode: false,
             student: updated
         });
-        StudentController.UpdateStudent(updated);
+        StudentController.updateStudent(updated);
     }
 
     render() {
@@ -44,6 +44,10 @@ export default class Student extends React.Component {
                         <span className="inline email">
                             <h5>Email:</h5>
                             <span>{this.state.editMode ? <input id="emailArea" ref="newStudentEmail" placeholder= {this.state.student.email} /> : this.state.student.email}</span>
+                        </span>
+                        <span className="inline rfid">
+                            <h5>Rfid:</h5>
+                            <span>{this.state.student.rfid ? this.state.student.rfid : "This student doesn't have an rfid association."}</span>
                         </span>
                         <span className="clear"></span>
                     </div>

@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     transform: [
-                        ['babelify']
+                        'babelify', 'browserify-node-config'
                     ]
                 },
                 files: {
@@ -57,6 +57,9 @@ module.exports = function(grunt) {
                 files: {
                     '.dist/bundle.css': 'src/styles/main.styl'
                 }
+            },
+            options: {
+                'include css': true
             }
         },
         inline: {
@@ -72,7 +75,7 @@ module.exports = function(grunt) {
             options: {
                 configFile: '.eslintrc.json'
             },
-            src: ['index.js', 'src/**/*.js']
+            src: ['index.js', 'src/**/*.js', 'src/**/*.jsx']
         },
         mochacli: {
             options: {
@@ -86,6 +89,7 @@ module.exports = function(grunt) {
             functional: {
                 files: {
                     src: [
+                        '.test/functional/add-item-fault.js',
                         '.test/functional/print-qr.js',
                         '.test/functional/student-lookup.js',
                         '.test/functional/view-models.js',
@@ -98,6 +102,7 @@ module.exports = function(grunt) {
                         '.test/functional/model-checkin.js',
                         '.test/functional/admin-override-item-checkout.js',
                         '.test/functional/item-checkin-student-scanned.js',
+                        '.test/functional/longterm-checkout.js',
                         '.test/functional/delete-model.js',
                         '.test/functional/delete-item.js',
                         '.test/functional/edit-model-leave-confirmation.js',

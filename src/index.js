@@ -1,3 +1,4 @@
+import config from 'config';
 import electron from 'electron';
 
 const app = electron.app;
@@ -22,7 +23,7 @@ function createWindow() {
     // Capture an optional port from the command line args
     let port = process.argv.reduce((port, arg) => {
         return (arg.match(/^--port=(\d+)$/) || [0, port])[1];
-    }, 80);
+    }, config.get('server.port'));
 
     // Load the app's webpage
     window.loadURL(`file://${__dirname}/index.html?port=${port}`);
@@ -35,6 +36,16 @@ function createWindow() {
     // Dereference the window when it's closed
     window.on('closed', () => {
         window = null;
+    });
+
+    // Listen for the back/forward buttons to be clicked (via mouse buttons)
+    window.on('app-command', (e, cmd) => {
+        if (cmd === 'browser-backward' && window.webContents.canGoBack()) {
+            window.webContents.goBack();
+        }
+        if (cmd === 'browser-forward' && window.webContents.canGoForward()) {
+            window.webContents.goForward();
+        }
     });
 
     window.setMenu(null);

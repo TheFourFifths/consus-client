@@ -39,7 +39,7 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '111111'
+                rfid: '111111'
             },
             response: {
                 status: 'success',
@@ -56,8 +56,10 @@ describe('Admin override on item checkout', function () {
                 }
             }
         });
-        return app.client.keys('111111').then(() => {
-            return app.client.waitForVisible('#student', 1000000);
+        return app.client.keys("rfid:111111").then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('#student', 5000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
@@ -116,7 +118,7 @@ describe('Admin override on item checkout', function () {
         return app.client.click('.cart input[type="button"]').then(() => {
             return app.client.waitForVisible('.modal input');
         }).then(() => {
-            return app.client.getText('.modal .modal-content p');
+            return app.client.getText('.modal .modal-content p:first-child');
         }).then(text => {
             assert.include(text, 'Please Scan Admin ID or Enter Admin Pin');
         });
@@ -129,7 +131,11 @@ describe('Admin override on item checkout', function () {
             json: {
                 adminCode: '3214',
                 studentId: 111111,
-                equipmentAddresses: ['iGwEZVHHE']
+                equipment: [
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -141,7 +147,7 @@ describe('Admin override on item checkout', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '111111'
+                rfid: '111111'
             },
             response: {
                 status: 'success',

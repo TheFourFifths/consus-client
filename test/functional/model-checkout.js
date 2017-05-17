@@ -38,7 +38,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -55,8 +55,10 @@ describe('Checking a model out', function () {
                 }
             }
         });
-        return app.client.keys('123456').then(() => {
-            return app.client.waitForVisible('#student', 1000000);
+        return app.client.keys("rfid:123456").then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
+            return app.client.waitForVisible('#student', 5000);
         }).then(() => {
             return app.client.getText('#student .student .name');
         }).then(name => {
@@ -87,7 +89,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 1
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -98,23 +105,30 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-              id: '123456'
+              rfid: '123456'
             },
             response: {
                 status: 'success',
                 data: {
                     id: 123456,
+                    rfid: 123456,
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [ models[2] ],
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 1,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
+                        }
+                    ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
             }
         });
-
-
         return app.client.waitForVisible('.cart input[type="text"]').then(() => {
             return app.client.click('.cart input[type="text"]');
         }).then(() => {
@@ -135,12 +149,12 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, 'Checkout completed successfully!');
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.click('.toast');
+        }).then(()=> {
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();
-        }).then(()=> {
-            return app.client.click('.toast');
         });
     });
 
@@ -175,7 +189,12 @@ describe('Checking a model out', function () {
             json: {
                 adminCode: null,
                 studentId: 123456,
-                equipmentAddresses: ['m8y7nFnMs','m8y7nFnMs']
+                equipment: [
+                    {
+                        address: 'm8y7nFnMs',
+                        quantity: 2
+                    }
+                ]
             },
             response: {
                 status: 'success'
@@ -186,7 +205,7 @@ describe('Checking a model out', function () {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response: {
                 status: 'success',
@@ -195,7 +214,15 @@ describe('Checking a model out', function () {
                     name: 'John von Neumann',
                     status: 'C - Current',
                     items: [],
-                    models: [models[2], models[2]],
+                    models: [
+                        {
+                            address: models[2].address,
+                            name: models[2].name,
+                            quantity: 2,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            status: 'CHECKED_OUT'
+                        }
+                    ],
                     email: 'vonneumann@msoe.edu',
                     major: 'Chemical Engineering & Mathematics'
                 }
@@ -230,7 +257,7 @@ describe('Checking a model out', function () {
             return app.client.getText('.toast');
         }).then(message => {
             assert.strictEqual(message, "Checkout completed successfully!");
-            return app.client.elements('#student .student .equipment .item-info');
+            return app.client.elements('#student .student .equipment .model-info');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();

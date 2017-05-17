@@ -3,6 +3,7 @@ import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
 
 export default class IndexController {
+
     static getItems() {
         return getAllItems().then(items => {
             Dispatcher.handleAction('ITEMS_RECEIVED', items);
@@ -25,10 +26,32 @@ export default class IndexController {
         });
     }
 
-    static getStudents(){
+    static getStudents() {
         return getAllModels().then(models => {
             Dispatcher.handleAction("MODELS_RECEIVED", models);
             hashHistory.push('/students');
         });
     }
+
+    static gotoLostEquipment() {
+        return getAllModels().then(models => {
+            Dispatcher.handleAction('MODLES_RECEIVED', models);
+            return getAllItems();
+        }).then(items => {
+            Dispatcher.handleAction('ITEMS_RECEIVED', items);
+            hashHistory.push(`/lost_equipment`);
+        });
+    }
+
+    static gotoNewItemPage() {
+        return getAllModels().then(models => {
+            Dispatcher.handleAction('MODELS_RECEIVED', models);
+            hashHistory.push('/items/new');
+        });
+    }
+
+    static navigateTo(url) {
+        hashHistory.push(url);
+    }
+
 }

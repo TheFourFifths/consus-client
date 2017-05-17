@@ -1,16 +1,17 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
 import CartController from '../../controllers/components/cart-panel';
+import StudentPanelController from '../../controllers/components/student-panel';
 import Modal from './modal.jsx';
-import { assert } from 'chai';
-
+import CartStore from '../../store/cart-store';
 export default class CartPanel extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             address: '',
-            active: false
+            active: false,
+            isLongterm: false
         };
     }
 
@@ -20,14 +21,20 @@ export default class CartPanel extends React.Component {
             try {
                 let result = readAddress(e.target.value);
                 let student = this.props.student;
-                if(result.type == 'item') {
-                    if (student.items.some(item => item.address === e.target.value)) {
-                        CartController.checkInItem(student.id, e.target.value);
-                    } else {
+                if (result.type === 'item') {
+                    let item = student.items.find(i => i.address === e.target.value);
+                    if (item === undefined) {
                         CartController.getItem(e.target.value);
+                    } else if (item.status === 'CHECKED_OUT') {
+                        CartController.checkInItem(student.id, e.target.value);
+                    } else if (item.status === 'SAVED') {
+                        StudentPanelController.retrieveItem(e.target.value);
                     }
-                } else if(result.type == 'model') {
-                    if(this.props.equipment.find(content => { return content.address === e.target.value; })){
+                } else if (result.type === 'model') {
+                    let model = student.models.find(m => m.address === e.target.value);
+                    if (model && model.status === 'SAVED') {
+                        StudentPanelController.retrieveModel(student.id, e.target.value);
+                    } else if (this.props.equipment.find(m => m.address === e.target.value)) {
                         CartController.incrementModel(e.target.value);
                     } else {
                         CartController.getModel(e.target.value);
@@ -71,6 +78,27 @@ export default class CartPanel extends React.Component {
         });
     }
 
+    changeIsLongterm(e){
+        CartController.changeIsLongterm(e.target.checked);
+    }
+
+    changeLongtermDate(e){
+        CartController.changeLongtermDate(e.target.value);
+    }
+
+    changeLongtermProfessor(e){
+        CartController.changeLongtermProfessor(e.target.value);
+    }
+
+    renderLongtermSection(){
+        if(CartStore.getIsLongterm()){
+            return <div id="longtermSection">
+                Longterm duedate: <input type="date" onChange={this.changeLongtermDate.bind(this)}/><br />
+                Professor's name: <input autoFocus type="text" onChange={this.changeLongtermProfessor.bind(this)} /><br />
+            </div>;
+        }
+    }
+
     render() {
         return (
             <div className='cart'>
@@ -78,7 +106,9 @@ export default class CartPanel extends React.Component {
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
-                <input type='button' onClick={this.props.submit} value='Complete Checkout' />
+                Is this a longterm checkout? <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} /><br />
+                {this.renderLongtermSection()}
+                <input type='button'  onClick={this.props.submit} value='Complete Checkout' />
                 <input type='button' onClick={this.props.cancel} value='Cancel' />
             </div>
         );

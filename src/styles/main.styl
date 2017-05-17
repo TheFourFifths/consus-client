@@ -1,20 +1,69 @@
+$primary-btn-color = #1565C0
+@import url("../assets/fonts/source-sans-pro/source-sans-pro.css")
+
+$font-family = 'Source Sans Pro', system-ui, sans-serif
+$font-size = 1.0rem
+
 html, body
+    font: $font-size $font-family
+    font-variant-ligatures: common-ligatures
     width: 100%
     margin: 0
 
 #children
-    padding: 5px
     background: #f3f3f3
     height: 100%
+    overflow: auto
+    & > *
+        padding: 5px
+
 
 .clear
     width: 0
     height: 0
     clear: both
 
+.left
+    float:left
+
+.right
+    float:right
+
+.cool-button
+    background: $primary-btn-color
+    color: white
+    padding: 8 12
+    font-weight: bold
+    cursor: pointer
+    box-shadow: 0 .1em .1em grey
+    border-style: none
+    border-radius: 2px
+    &:hover
+        background: lighten($primary-btn-color, 10%)
+    &:focus
+        outline: none
+        background: lighten($primary-btn-color, 10%)
+
+.neat-secondary-button
+    background: transparent
+    color: $primary-btn-color
+    border-color: $primary-btn-color
+    border-style: solid
+    border-radius: 2px
+    border-width: 1px
+    font-weight: bold
+    cursor: pointer
+    &:hover
+        background: $primary-btn-color
+        color: white
+    &:focus
+        outline: none
+        background: $primary-btn-color
+        color: white
+
 textarea
     resize: none
-    overflow: scroll
+    overflow: auto
 
 .center
     text-align: center
@@ -22,6 +71,9 @@ textarea
 .link-nostyle
     color: inherit
     text-decoration: none
+
+.disabled-text
+    color: grey
 
 @media print
     .no-print
@@ -31,7 +83,7 @@ textarea
 @import 'omnibar.styl'
 @import 'modal.styl'
 @import 'models.styl'
-@import 'create-model-form.styl'
+@import 'model-form.styl'
 @import 'create-item-form.styl'
 @import 'index.styl'
 @import 'items.styl'
@@ -39,3 +91,4 @@ textarea
 @import 'overdue-items.styl'
 @import 'students.styl'
 @import 'printer.styl'
+@import 'reports.styl'

@@ -1,4 +1,5 @@
 import React from 'react';
+import config from 'config';
 import ModelFormController from '../../controllers/components/create-model-form';
 import ModelController from '../../controllers/components/model';
 import ModelStore  from '../../store/model-store';
@@ -6,7 +7,28 @@ import ConfirmModal from './confirm-modal.jsx';
 import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 
-const MAX_FILESIZE = 950000; /* bytes */
+const MAX_FILESIZE = bytesToBase64Size(config.get('assets.max_model_photo_size') * 1000); /* bytes */
+
+/**
+ * Converts the number of bytes of binary data into its approximate number of
+ * bytes when encoded as Base64.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numBytes - size of binary data, in bytes
+ * @returns {number} size of Base64-encoded binary data, in bytes
+ */
+function bytesToBase64Size(numBytes) {
+    return (numBytes * 1.37) + 814;
+}
+
+/**
+ * Converts the number of bytes of a Base64 string into the equivalent pure binary size.
+ * See https://en.wikipedia.org/wiki/Base64#MIME
+ * @param {number} numB64Bytes - size of Base64-encoded binary data, in bytes
+ * @returns {number} size of binary data, in bytes
+ */
+function base64SizeToBytes(numB64Bytes) {
+    return (numB64Bytes - 814) / 1.37;
+}
 
 export default class EditModelForm extends React.Component {
 
@@ -16,12 +38,14 @@ export default class EditModelForm extends React.Component {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
-                model: null
+                model: null,
+                hasUnsavedChange: false
             };
         } else {
             this.state = {
                 fileOversize: false,
                 showFileSizeModal: false,
+                hasUnsavedChange: false,
 
                 model: props.model,
                 name: props.model.name,
@@ -34,7 +58,6 @@ export default class EditModelForm extends React.Component {
                 count: props.model.count,
                 changeStock: false,
                 inStock: props.model.inStock,
-                checked: false,
                 photo: props.model.photo,
                 popConfirmModal: false
             };
@@ -57,12 +80,10 @@ export default class EditModelForm extends React.Component {
                     count: model.count,
                     changeStock: false,
                     inStock: model.inStock,
-                    checked: false,
                     photo: model.photo
                 });
             });
         }
-        OmnibarController.setWarnBeforeExiting(true);
     }
 
     componentWillUnmount(){
@@ -71,62 +92,81 @@ export default class EditModelForm extends React.Component {
 
     changeName(e) {
         this.setState({
+            hasUnsavedChange: true,
             name: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeDescription(e) {
         this.setState({
+            hasUnsavedChange: true,
             description: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeManufacturer(e) {
         this.setState({
+            hasUnsavedChange: true,
             manufacturer: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeVendor(e) {
         this.setState({
+            hasUnsavedChange: true,
             vendor: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeLocation(e) {
         this.setState({
+            hasUnsavedChange: true,
             location: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePrice(e) {
         this.setState({
+            hasUnsavedChange: true,
             price: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeCount(e){
         this.setState({
+            hasUnsavedChange: true,
             count: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
-    changeStock(e){
+    changeStock(){
         this.setState({
-            changeStock: !this.state.checked,
-            checked: !this.state.checked
+            hasUnsavedChange: true,
+            changeStock: !this.state.changeStock
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changeInStock(e){
         this.setState({
+            hasUnsavedChange: true,
             inStock: e.target.value
         });
+        OmnibarController.setWarnBeforeExiting(true);
     }
 
     changePhoto(e) {
+        this.setState({ hasUnsavedChange: true });
+        OmnibarController.setWarnBeforeExiting(true);
         let file = e.target.files[0];
-        if (file.size > MAX_FILESIZE) {
+        if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({
                 showFileSizeModal: true,
                 fileOversize: true
@@ -175,24 +215,28 @@ export default class EditModelForm extends React.Component {
     }
 
     allModels() {
-        this.setState({
-            popConfirmModal: true
-        });
+        if (this.state.hasUnsavedChange) {
+            this.setState({
+                popConfirmModal: true
+            });
+        } else {
+            ModelFormController.getModels();
+        }
     }
 
     handleConfirmModal(bool){
-        if(bool){
+        if (bool) {
             ModelFormController.getModels();
-        }else{
+        } else {
             this.setState({popConfirmModal: false});
         }
-      }
+    }
 
     render() {
         if (this.state.model === null)
             return <div>Loading form...</div>;
         return (
-            <div className='create-model-form'>
+            <div className='model-form'>
                 <ConfirmModal
                     message="Are you sure you wish to leave the page? Unsaved changes will be lost."
                     active = {this.state.popConfirmModal}
@@ -201,49 +245,49 @@ export default class EditModelForm extends React.Component {
                 <ErrorModal
                     active={this.state.showFileSizeModal}
                     onClose={this.closeFileSizeModal.bind(this)}
-                    message={`The specified file is too large; it must be below ${MAX_FILESIZE / 1000} kB.`}
+                    message={`The specified file is too large; it must be below ${(base64SizeToBytes(MAX_FILESIZE) / 1000).toFixed(1)} kB.`}
                 />
-                <h1>Update model: {this.state.model.name}</h1>
-                <button onClick={this.allModels.bind(this)}>View all models</button>
+                <h1>Update Model: {this.state.model.name} ({this.state.model.address})</h1>
                 <form onSubmit={this.submit.bind(this)}>
                     <label id="name">
-                        Name:<br/>
+                        <strong>Name *</strong><br/>
                         <input type='text' value={this.state.name} onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
                     </label>
                     <label id="description">
-                        Description:<br/>
+                        <strong>Description *</strong><br/>
                         <textarea rows="4" cols="50"  value={this.state.description} onChange={this.changeDescription.bind(this)} placeholder='Description' required/><br/>
                     </label>
-                    <label id="manufacturer">
-                        Manufacturer:<br/>
-                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
-                    </label>
-                    <label id="vendor">
-                        Vendor:<br/>
-                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
-                    </label>
-                    <label id="location">
-                        Storage location:<br/>
-                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
-                    </label>
-                    <label id="price">
-                        Price per unit:<br/>
-                        <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
-                    </label>
-                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)}/></span>}<br/>
-                    {this.state.allowCheckout && <span>Change the number in Stock? If this is left unchecked, the amount in stock will automatically change by the same amount as the total.</span>}
-                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.checked} /></span>}<br/>
-                    {this.state.allowCheckout && this.state.changeStock && <span>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)}/></span>}<br/><br/>
-                    <input type='submit' value='Update Model' />
                     <label id="photo">
-                        Model photo thumbnail:<br/>
+                        <span className='upload-select'>&#x21E1; Select Photo</span>
                         <input type='file' accept='image/jpeg' onChange={this.changePhoto.bind(this)} capture />
                         <br/>
                         <img id='thumbnail-preview' src={`data:image/jpeg;base64,${this.state.photo}`} />
                         <br/>
                     </label>
-                    <input type='submit' value='Update Model' disabled={this.state.fileOversize}/>
+                    <label id="manufacturer">
+                        Manufacturer<br/>
+                        <input type='text' value={this.state.manufacturer} onChange={this.changeManufacturer.bind(this)} placeholder='Manufacturer' /><br/>
+                    </label>
+                    <label id="vendor">
+                        Vendor<br/>
+                        <input type='text' value={this.state.vendor} onChange={this.changeVendor.bind(this)} placeholder='Vendor' /><br/>
+                    </label>
+                    <label id="location">
+                        Storage location<br/>
+                        <input type='text' value={this.state.location} onChange={this.changeLocation.bind(this)} placeholder='Location' /><br/>
+                    </label>
+                    <label id="price">
+                        Price per unit<br/>
+                        $ <input type='number' value={this.state.price} onChange={this.changePrice.bind(this)} placeholder='Price' /><br/>
+                    </label>
+                    {this.state.allowCheckout && <span>Total:<br/><input type='number' value={this.state.count} onChange={this.changeCount.bind(this)} min='0' step='1' /><br/></span>}
+                    {this.state.allowCheckout && <span title='If left unchecked, the stock will change by the same amount as the total.'>Change the Number In Stock Separately?</span>}
+                    {this.state.allowCheckout && <span><input type='checkbox' value={this.state.changeStock} onChange={this.changeStock.bind(this)} checked={this.state.changeStock} /><br/></span>}
+                    {this.state.allowCheckout && <span className={this.state.changeStock ? '' : 'disabled-text'}>In stock:<br/><input type='number' value={this.state.inStock} onChange={this.changeInStock.bind(this)} min='0' max={this.state.count} step='1' disabled={!this.state.changeStock}/><br/></span>}<br/>
+                    <input className='cool-button' type='submit' value='Update Model' disabled={this.state.fileOversize}/>
                 </form>
+                <br/>
+                <button className='neat-secondary-button' onClick={this.allModels.bind(this)}>&#9664; Back</button>
             </div>
         );
     }

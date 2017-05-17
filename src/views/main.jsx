@@ -19,9 +19,11 @@ import EditModelForm from './components/edit-model-form.jsx';
 import Items from './pages/items.jsx';
 import Model from './components/model.jsx';
 import ModelPage from './pages/model.jsx';
-import Item from './components/item.jsx';
+import Item from './pages/item.jsx';
 import OverdueItems from './pages/overdue.jsx';
 import Printer from './pages/printer.jsx';
+import ReportPage from './pages/report.jsx';
+import CreateStudentForm from './components/create-student-form.jsx';
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -40,6 +42,8 @@ ReactDOM.render((
             <Route path='/students/upload' component={StudentFileUpload} />
             <Route path='/students' component={Students} />
             <Route path='/printer' component={Printer} />
+            <Route path='/reports' component={ReportPage} />
+            <Route path='/student/new' component={CreateStudentForm }/>
         </Route>
     </Router>
 ), document.getElementById('app-container'));
