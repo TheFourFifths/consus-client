@@ -24,6 +24,7 @@ import OverdueItems from './pages/overdue.jsx';
 import Printer from './pages/printer.jsx';
 import ReportPage from './pages/report.jsx';
 import CreateStudentForm from './components/create-student-form.jsx';
+import InventoryPage from './pages/inventory.jsx';
 
 ReactDOM.render((
     <Router history={hashHistory}>
@@ -44,6 +45,7 @@ ReactDOM.render((
             <Route path='/printer' component={Printer} />
             <Route path='/reports' component={ReportPage} />
             <Route path='/student/new' component={CreateStudentForm }/>
+            <Route path='/inventory' component={InventoryPage} />
         </Route>
     </Router>
 ), document.getElementById('app-container'));

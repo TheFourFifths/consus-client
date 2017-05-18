@@ -51,6 +51,14 @@ export default class IndexController {
         });
     }
 
+    static goToInventoryPage(){
+        return Promise.all([getAllItems(), getAllModels()]).then(results => {
+            Dispatcher.handleAction("MODELS_RECEIVED", results[1]);
+            Dispatcher.handleAction("ITEMS_RECEIVED", results[0]);
+            hashHistory.push('/inventory');
+        });
+    }
+
     static navigateTo(url) {
         hashHistory.push(url);
     }
