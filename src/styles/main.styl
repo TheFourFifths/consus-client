@@ -1,6 +1,6 @@
 $primary-btn-color = #1565C0
 @import url("../assets/fonts/source-sans-pro/source-sans-pro.css")
-
+@import 'colors.styl'
 $font-family = 'Source Sans Pro', system-ui, sans-serif
 $font-size = 1.0rem
 
@@ -16,7 +16,6 @@ html, body
     overflow: auto
     & > *
         padding: 5px
-
 
 .clear
     width: 0
@@ -61,6 +60,12 @@ html, body
         background: $primary-btn-color
         color: white
 
+.icon-button
+    cursor: pointer
+    opacity: .7
+    &:hover
+        opacity: 1
+
 textarea
     resize: none
     overflow: auto
@@ -80,6 +85,7 @@ textarea
         display: none !important
 
 @import 'student.styl'
+@import 'student-form.styl'
 @import 'omnibar.styl'
 @import 'modal.styl'
 @import 'models.styl'

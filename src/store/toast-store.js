@@ -49,56 +49,56 @@ store.registerHandler('CHECKIN_SUCCESS', data => {
 });
 
 store.registerHandler('MODEL_CHECKIN_SUCCESS', data => {
-    addToast(`${data.quantity} ${data.modelName}(s) (${data.modelAddress}) checked in successfully`);
+    addToast(`${data.quantity} ${data.modelName}(s) (${data.modelAddress}) checked in successfully.`);
     store.emitChange();
 });
 
 store.registerHandler('CHECKOUT_SUCCESS', () => {
-    addToast('Checkout completed successfully!');
+    addToast('Checkout completed successfully.');
     store.emitChange();
 });
 
 store.registerHandler('MODEL_CREATED', data => {
-    addToast(`Created a new ${data.name}`);
+    addToast(`Created a new ${data.name}.`);
     store.emitChange();
 });
 
 store.registerHandler('ITEM_CREATED', data => {
-    addToast(`New item added: ${data.modelName} (${data.address})`);
+    addToast(`New item added: ${data.modelName} (${data.item.address})`);
     store.emitChange();
 });
 
 store.registerHandler('ITEM_DELETED', itemDeletedResponse => {
-    addToast(`${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted!`);
+    addToast(`${itemDeletedResponse.modelName} ${itemDeletedResponse.itemAddress} was deleted.`);
     store.emitChange();
 });
 
 store.registerHandler('INVALID_CODE', () => {
-    addToast('Invalid Admin Code');
+    addToast('Invalid Admin Code.');
     store.emitChange();
 });
 
 store.registerHandler('STUDENTS_UPLOADED', () => {
-    addToast('Students uploaded successfully');
+    addToast('Students uploaded successfully.');
     store.emitChange();
 });
 
 store.registerHandler('FILE_UNSUPPORTED', () => {
-    addToast('Unknown file extension. File must be in Excel format!');
+    addToast('Unknown file extension. File must be in Excel format.');
     store.emitChange();
 });
 store.registerHandler('MODEL_UPDATED', model => {
-    addToast(`${model.name} (${model.address}) was updated!`);
+    addToast(`${model.name} (${model.address}) was updated.`);
     store.emitChange();
 });
 
 store.registerHandler('MODEL_DELETED', model => {
-    addToast(`${model.name} (${model.address}) was deleted`);
+    addToast(`${model.name} (${model.address}) was deleted.`);
     store.emitChange();
 });
 
 store.registerHandler('UNSERIALIZED_MODEL_ADDED', model => {
-    addToast(`New ${model.name} (${model.address}) created`);
+    addToast(`New ${model.name} (${model.address}) created.`);
     store.emitChange();
 });
 

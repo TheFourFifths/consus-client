@@ -45,7 +45,7 @@ describe('ErrorStore', () => {
             warn: 'Some warning'
         });
 
-        assert.strictEqual(ErrorStore.getTag(), 'WARN');
+        assert.strictEqual(ErrorStore.getTag(), 'WARNING');
         assert.strictEqual(ErrorStore.getError(), 'Some warning');
         assert.isTrue(ErrorStore.hasError());
     });

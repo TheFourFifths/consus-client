@@ -1,21 +1,24 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentController from '../../controllers/pages/student';
+import StudentStore from '../../store/student-store';
 
 export default class CreateStudentForm extends ListenerComponent {
 
-
-    constructor() {
-        super();
-        this.state = {
+    getState() {
+        return {
             name: '',
             major: '',
-            id: 0,
-            rfid: '',
+            id: StudentStore.getAssociationData().id,
             email: ''
         };
     }
 
+    getStores() {
+        return [
+            StudentStore
+        ];
+    }
 
     changeName(e) {
         this.setState({
@@ -28,14 +31,10 @@ export default class CreateStudentForm extends ListenerComponent {
             major: e.target.value
         });
     }
+
     changeId(e) {
         this.setState({
             id: e.target.value
-        });
-    }
-    changeRfid(e) {
-        this.setState({
-            rfid: e.target.value
         });
     }
 
@@ -44,11 +43,12 @@ export default class CreateStudentForm extends ListenerComponent {
             email: e.target.value
         });
     }
+
     submit(e) {
         e.preventDefault();
         StudentController.newStudent(
             this.state.id,
-            this.state.rfid,
+            StudentStore.getAssociationData().rfid,
             this.state.major,
             this.state.email,
             this.state.name
@@ -58,19 +58,17 @@ export default class CreateStudentForm extends ListenerComponent {
     render() {
         return (
             <div className='create-student-form'>
-                <h1>Create a new Student Profile</h1>
+                <h1>New Student</h1>
                 <form onSubmit={this.submit.bind(this)}>
-                    Student's Full name:<br/>
+                    <strong>Full Name</strong><br/>
                     <input type='text' onChange={this.changeName.bind(this)} placeholder='Name' required/><br/>
-                    Student's ID #:<br/>
-                    <input type='number'  onChange={this.changeId.bind(this)} placeholder='ID Number' required/><br/>
-                    Student's Major:<br/>
+                    <strong>Major</strong><br/>
                     <input type='text'  onChange={this.changeMajor.bind(this)} placeholder='Major' required/><br/>
-                    Student's email:<br/>
+                    <strong>Email</strong><br/>
                     <input type='text'  onChange={this.changeEmail.bind(this)} placeholder='Email' required/><br/>
-                    Student's Rfid(Click box then scan using rfid scanner):<br/>
-                    <input type='number'  onChange={this.changeRfid.bind(this)} placeholder='Rfid' required/><br/>
-                    <input type='submit' value='Create Student' />
+                    <strong>ID #</strong><br/>
+                    <input type='number'  onChange={this.changeId.bind(this)} value={this.state.id} required/><br/>
+                    <input className='cool-button' type='submit' value='Create Student' />
                 </form>
             </div>
         );
