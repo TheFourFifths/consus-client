@@ -11,12 +11,6 @@ class AuthenticationStore extends Store {
         return adminCode;
     }
 
-    loggedIn() {
-        return true;
-        // TODO: Add authentication:
-        // TODO: return user !== null;
-    }
-
     overrideNeeded(){
         return overrideNeeded && adminCode === null;
     }

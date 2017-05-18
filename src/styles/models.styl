@@ -1,68 +1,56 @@
+@import 'colors.styl'
+
+#models
+    h1
+        text-align: center
+        margin: .2em
+    .cool-button
+        margin: .5em auto
+        display: block
+
 .model
     display: block
     height: auto
     padding: 5px
-    margin: 4px
-    border-radius: 6px
-    background: #d6d6d6
+    margin: 5px
+    border-radius: .2em
+    background: $model-background-color
     word-wrap: break-word
+
+    i
+        color: grey
+
+    hr
+        border-color: lighten($model-background-color, 10%)
 
     .picArea
         display: inline-block
-        vertical-align: middle
-        padding: 7px
-        width: 10vw
+        padding: .3em
 
         img
-            width: inherit
+            width: 100px
 
     .titleArea
         display: inline-block
         vertical-align: top
-        width: 10%
-        margin: 7px
+        padding-left: .2em
+        width: 40%
 
-        h2
-            margin: 0
+        .modelName
+            font-size: 1.33em
+            &:hover
+                cursor: pointer
+                color: lighten(black, 30%)
 
-        .address
-            display: block
+        .description
+            overflow-y: auto
+            max-height: 8em
+
     .infoArea
         display: inline-block
         vertical-align: top
-        width: 70%
-
-        .descriptionArea
-            display: inline-block
-            vertical-align: top
-            padding: 10px
-            width: 40%
-
-            h3
-                margin: 0
-
-            p
-                margin: 0
-                padding-top: 5px
-
-        .faultArea
-            display: inline-block
-            padding:10px
-            width: 30%
-            vertical-align: top
-
-            h3
-                margin: 0
-
-            p
-                margin: 0
-                padding-top: 5px
-
-        .miscArea
-            padding: 10px
-            display: inline-block
-            width: 20%
-            vertical-align: top
+        padding: .1em 1em
+        width: 40%
 
     .actionArea
         display: inline-block
@@ -71,9 +59,6 @@
         padding-right: 10px
 
         img
-            width: 24px
+            width: 25px
             display: block
             padding: 5px
-
-            &:hover
-                background: lighten(#d6d6d6, 50%)

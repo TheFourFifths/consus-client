@@ -10,7 +10,7 @@ export default class ModelPageController {
             Dispatcher.handleAction("ITEMS_RECEIVED", data);
             hashHistory.push('/model');
         }).catch(() => {
-            Dispatcher.handleAction("ERROR", { error: 'The model requested does not exist' });
+            Dispatcher.handleAction("INFO", { info: 'The requested model does not exist.' });
         });
     }
 

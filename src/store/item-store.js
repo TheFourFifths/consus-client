@@ -60,6 +60,11 @@ store.registerHandler('ITEMS_RECEIVED', data => {
     store.emitChange();
 });
 
+store.registerHandler('ITEM_CREATED', data => {
+    items.push(data.item);
+    store.emitChange();
+});
+
 store.registerHandler('STUDENT_FOUND', data => {
     items = data.items;
     for(let item of data.items) {

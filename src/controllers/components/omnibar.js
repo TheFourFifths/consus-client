@@ -32,10 +32,11 @@ export default class OmnibarController {
         } else {
             return searchStudent(rfid).then(student => {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
-                hashHistory.push('/student');
+                hashHistory.push(`/student?rfid=${rfid}`);
             });
         }
     }
+
     static finishCheckout(rfid){
         let currentStudentId;
         if (StudentStore.getStudent() !== null) {
@@ -78,20 +79,19 @@ export default class OmnibarController {
                 });
             } else {
                 Dispatcher.handleAction("ERROR", {
-                    error: "Expected an item address but received a model address"
+                    error: "Expected an item address but received a model address."
                 });
             }
         } catch (f) {
             Dispatcher.handleAction("ERROR", {
-                error: "The provided item address is somehow invalid."
+                error: "The provided item address is invalid."
             });
         }
     }
 
     static throwQueryInvalidError() {
-        Dispatcher.handleAction("ERROR", {
-            error: "The query you entered was invalid! Rfid's must be pre-pended with 'rfid:'. If your're doing a"
-                + "model/item search please verify the typed in query is correct(capitals matter)."
+        Dispatcher.handleAction("WARN", {
+            warn: "Invalid Query. Student RFID format should be 'rfid:######'. Model/item addresses are case sensitive."
         });
     }
 
@@ -113,6 +113,20 @@ export default class OmnibarController {
 
         }
         return true;
+    }
+
+    static goToStudentForm(rfid, id){
+        if(rfid && id){
+            Dispatcher.handleAction("CREATE_STUDENT", {
+                rfid,
+                id
+            });
+            hashHistory.push('/student/new');
+        } else {
+            Dispatcher.handleAction("ERROR", {
+                error: "No RFID or ID provided."
+            });
+        }
     }
 
 }

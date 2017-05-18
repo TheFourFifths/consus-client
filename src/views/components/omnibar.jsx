@@ -1,5 +1,6 @@
 import React from 'react';
-import {readAddress} from 'consus-core/identifiers';
+import { hashHistory } from 'react-router';
+import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
@@ -14,6 +15,7 @@ export default class Omnibar extends React.Component {
             confirmExit: false,
             showIdInputModal: false,
             rfid: null,
+            id: null,
             showStudentRedirectConfirmation: false
         };
     }
@@ -64,6 +66,14 @@ export default class Omnibar extends React.Component {
         });
     }
 
+    clickBack() {
+        hashHistory.goBack();
+    }
+
+    clickForward() {
+        hashHistory.goForward();
+    }
+
     clickLogo() {
         if (OmnibarController.emptyCart()) {
             if (OmnibarController.getWarning()) {
@@ -95,6 +105,7 @@ export default class Omnibar extends React.Component {
         this.closeRfidInputmodal();
         StudentController.studentToRfid(id, this.state.rfid).catch(() => {
             this.setState({
+                id: id,
                 showStudentRedirectConfirmation: true
             });
         });
@@ -102,42 +113,47 @@ export default class Omnibar extends React.Component {
 
     closeRfidInputmodal() {
         this.setState({
-            showIdInputModal: false,
-            rfid: null
+            showIdInputModal: false
         });
     }
+
     handleStudentRedirectModal(bool){
         if(bool){
-            OmnibarController.leavePage('/student/new');
+            OmnibarController.goToStudentForm(this.state.rfid, this.state.id);
         }
         this.setState({
             showStudentRedirectConfirmation: false
         });
     }
+
     render() {
         return (
             <div id='omnibar' className='no-print'>
-              <ConfirmModal
-                  message="Are you sure you wish to leave the page? Unsaved changes will be lost."
-                  active = {this.state.confirmExit}
-                  onSelect = {bool => this.handleConfirmModal(bool)}
-              />
                 <ConfirmModal
-                    message="The student ID that was entered was not found. Would you like to create a profile for this ID?"
+                    message="Are you sure you wish to leave the page? Unsaved changes will be lost."
+                    active = {this.state.confirmExit}
+                    onSelect = {bool => this.handleConfirmModal(bool)}
+                />
+                <ConfirmModal
+                    message="The provided student ID was not found. Would you like to add a student for this ID?"
                     active = {this.state.showStudentRedirectConfirmation}
                     onSelect = {bool => this.handleStudentRedirectModal(bool)}
                 />
                 <InputModal
-                    message="The rfid that was scanned could not be found. Please enter the student's ID number and we will try to associate the student and rfid"
+                    message="The rfid that was scanned was not recognized. Enter the student's ID number to associate the student and rfid."
                     active={this.state.showIdInputModal}
                     onAccept={this.associateRfidToStudent.bind(this)}
                     onCancel={this.closeRfidInputmodal.bind(this)}
                     acceptText='Associate student and rfid'
                     textHidden={false}
+                    placeholder='Student ID'
                 />
                 <img onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
-                <input maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
-                       onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
+                <img className='back' onClick={this.clickBack.bind(this)} src='../assets/images/back.svg'/>
+                <img className='forward' onClick={this.clickForward.bind(this)} src='../assets/images/forward.svg'/>
+                <input id='top-bar' maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
+                       onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Scan a student ID or a model/item barcode' autoFocus/>
+                <div className='clear'></div>
             </div>
         );
     }

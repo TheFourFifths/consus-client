@@ -28,7 +28,7 @@ describe('Editing a model', function () {
         mockServer.clearExpectations();
     });
 
-    it('navigates to  model edit page', () => {
+    it('navigates to model edit page', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
@@ -112,11 +112,11 @@ describe('Editing a model', function () {
         return app.client.chooseFile('#photo input', filepath).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.getText('.modal-content p');
+            return app.client.getText('.modal-content h4');
         }).then(errMsg => {
             assert.match(errMsg, /specified file is too large/);
             assert.match(errMsg, /\d+.\d{1,3} kB/);
-            return app.client.click('.modal-content button');
+            return app.client.click('.modal-buttons button');
         }).then(() => {
             return app.client.getAttribute('.model-form form input[type=submit]', 'disabled');
         }).then(isDisabled => {
@@ -213,7 +213,7 @@ describe('Editing a model', function () {
         }).then(() => {
             return app.client.getText('#toasts .toast');
         }).then(text => {
-            assert.strictEqual(text, 'New model name (m8y7nEtAe) was updated!');
+            assert.strictEqual(text, 'New model name (m8y7nEtAe) was updated.');
             return app.client.waitForVisible('.model');
         }).then(() => {
             mockServer.validate();

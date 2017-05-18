@@ -66,7 +66,7 @@ describe('Checking a model in', function () {
             return app.client.getText('#student .student .id');
         }).then(id => {
             assert.strictEqual(id, '999999');
-            return app.client.elements('#student .student .equipment .model-info');
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 2);
         });
@@ -124,12 +124,12 @@ describe('Checking a model in', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toast => {
-            assert.strictEqual(toast, `1 ${models[3].name}(s) (${models[3].address}) checked in successfully`);
+            assert.strictEqual(toast, `1 ${models[3].name}(s) (${models[3].address}) checked in successfully.`);
             return app.client.click('.toast');
         }).then(() => {
             return app.client.waitForVisible('.toast', 5000, true);
         }).then(() => {
-            return app.client.elements('#student .student .equipment .model-info');
+            return app.client.elements('#student .student .equipment .model-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
         });
@@ -179,7 +179,7 @@ describe('Checking a model in', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toast => {
-            assert.strictEqual(toast, `5 ${models[2].name}(s) (${models[2].address}) checked in successfully`);
+            assert.strictEqual(toast, `5 ${models[2].name}(s) (${models[2].address}) checked in successfully.`);
             return app.client.click('.toast');
         }).then(() => {
             return app.client.waitForVisible('.toast', 5000, true);
