@@ -72,11 +72,11 @@ export default class Student extends ListenerComponent {
                            submit={this.checkOut.bind(this)} student={this.state.student}/>
                 <div className='clear'></div>
                 <InputModal
-                    message='Please Scan Admin ID or Enter Admin Pin:'
+                    message='Scan Admin ID or Enter Admin Pin.'
                     active={this.state.adminCodeRequired}
                     onAccept={this.acceptAdminModal.bind(this)}
                     onCancel={StudentController.cancelAdminModal}
-                    acceptText='Continue Checkout'
+                    acceptText='Checkout'
                     textHidden={true}
                 />
             </div>

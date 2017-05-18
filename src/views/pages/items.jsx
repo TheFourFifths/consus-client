@@ -22,7 +22,7 @@ export default class Models extends ListenerComponent {
         return (
             <div id="items">
                 <h1>All Items</h1>
-                <button onClick={ItemController.newItemPage}>Make new Item</button>
+                <button className='cool-button' onClick={ItemController.newItemPage}>Make new Item</button>
                 {this.state.items.map((item) => {
                     return (
                         <div key={item.address + '' + item.faultHistory.length + item.isFaulty}>

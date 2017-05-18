@@ -59,7 +59,7 @@ describe('ToastStore', () => {
         });
         Dispatcher.handleAction('CHECKOUT_SUCCESS');
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully!');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Checkout completed successfully.');
     });
 
     it("should have a default timeout of whatever's in the config file", () => {
@@ -130,7 +130,7 @@ describe('ToastStore', () => {
 
     it('should add a toast message when creating a new item', () => {
         Dispatcher.handleAction('ITEM_CREATED', {
-            address: 'iGwEZUvfA',
+            item: { address: 'iGwEZUvfA' },
             modelName: 'Resistor'
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
@@ -145,7 +145,7 @@ describe('ToastStore', () => {
             modelName: modelName
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} ${itemAddress} was deleted!`);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} ${itemAddress} was deleted.`);
     });
 
     it('should add a toast if admin code is wrong', () => {
@@ -157,13 +157,13 @@ describe('ToastStore', () => {
     it('should add a toast when students are uploaded', () => {
         Dispatcher.handleAction('STUDENTS_UPLOADED');
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, 'Students uploaded successfully');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Students uploaded successfully.');
     });
 
-    it('should add a toast when students failed to uploaded', () => {
+    it('should add a toast when student upload fails', () => {
         Dispatcher.handleAction('FILE_UNSUPPORTED');
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in Excel format!');
+        assert.strictEqual(ToastStore.getToasts()[3].text, 'Unknown file extension. File must be in Excel format.');
     });
 
     it('should add a toast when a model is updated', () => {
@@ -175,7 +175,7 @@ describe('ToastStore', () => {
 
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was updated!`);
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was updated.`);
     });
 
     it('should add toast when model is deleted', () => {
@@ -186,7 +186,7 @@ describe('ToastStore', () => {
             address: modelAddress
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted`)
+        assert.strictEqual(ToastStore.getToasts()[3].text, `${modelName} (${modelAddress}) was deleted.`)
     });
 
     it('should add toast when an unserialized model is created', () => {
@@ -197,7 +197,7 @@ describe('ToastStore', () => {
             address: modelAddress
         });
         assert.lengthOf(ToastStore.getToasts(), 4);
-        assert.strictEqual(ToastStore.getToasts()[3].text, `New ${modelName} (${modelAddress}) created`)
+        assert.strictEqual(ToastStore.getToasts()[3].text, `New ${modelName} (${modelAddress}) created.`)
     });
 
 });

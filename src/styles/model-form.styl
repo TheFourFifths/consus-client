@@ -1,7 +1,8 @@
+@import 'colors.styl'
+
 .model-form
 
     form
-        backgound: #90CAF9
         display: inline-block
         padding:.5em 1.5em 1em 1em
 
@@ -12,7 +13,7 @@
 
     .upload-select
         display: inline-block
-        background-color: #1565C0
+        background-color: $primary-btn-color
         color: white
         padding: 8 12
         font-weight: bold
@@ -21,7 +22,7 @@
         box-shadow: 0 .1em .1em grey
         border-radius: 2px
         &:hover
-            background: lighten(#1565C0, 10%)
+            background: lighten($primary-btn-color, 10%)
 
     .radio-buttons
         margin-bottom: .75em

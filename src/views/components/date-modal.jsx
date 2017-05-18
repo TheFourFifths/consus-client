@@ -20,9 +20,12 @@ export default class DateModal extends React.Component {
         return (<Modal
                 active={this.props.active}
                 buttonText="Confirm"
-                onClose={() => this.props.onDateSelected(this.state.date)}><p>{this.props.message}</p><br/><input
-                type="date" onChange={this.changeDate.bind(this)}/><br/>
-                <button onClick={() => this.props.onDateSelected(undefined)}>Cancel</button>
+                onClose={() => this.props.onDateSelected(this.state.date)}
+                buttons={<button onClick={() => this.props.onDateSelected(undefined)} className='default-btn'>Cancel</button>}>
+                <h4>{this.props.message}</h4>
+                <span className='modal-input-area'>
+                    <input type="date" className='modal-input' onChange={this.changeDate.bind(this)}/>
+                </span>
             </Modal>
         );
     }

@@ -89,9 +89,9 @@ export default class StudentPanel extends ListenerComponent {
             <div className='equipment'>
                 {items.map(item => {
                     return (
-                        <div className="item-info" key={item.address}>
+                        <div className="item-block" key={item.address}>
                             <DateModal
-                                message='Select a new due date'
+                                message='Select a new due date.'
                                 active={this.state.showItemDateModal}
                                 onDateSelected={date => this.changeItemDueDate(date, item)}
                             />
@@ -107,7 +107,7 @@ export default class StudentPanel extends ListenerComponent {
                 })}
                 {models.map(model => {
                     return (
-                        <div className="model-info" key={model.address}>
+                        <div className="model-block" key={model.address}>
                             <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
                             </Link>
@@ -138,6 +138,7 @@ export default class StudentPanel extends ListenerComponent {
             </span>
         );
     }
+
     showItemDateModal() {
         this.setState({
             showItemDateModal: true

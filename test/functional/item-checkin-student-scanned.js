@@ -150,8 +150,8 @@ describe('Checking an item out when new student scanned', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(message => {
-            assert.strictEqual(message, 'Checkout completed successfully!');
-            return app.client.elements('#student .student .equipment .item-info');
+            assert.strictEqual(message, 'Checkout completed successfully.');
+            return app.client.elements('#student .student .equipment .item-block');
         }).then(items => {
             assert.lengthOf(items.value, 1);
             mockServer.validate();

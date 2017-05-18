@@ -47,6 +47,16 @@ describe('Creating an Item', function () {
             }
         });
         mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        mockServer.expect({
             method: 'post',
             endpoint: 'item',
             json: {
@@ -100,6 +110,16 @@ describe('Creating an Item', function () {
                 status: 'success',
                 data: {
                     items: items.slice(0, 4)
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
                 }
             }
         });
@@ -173,6 +193,16 @@ describe('Creating an Item', function () {
     });
 
     it('creates another new item', () => {
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
