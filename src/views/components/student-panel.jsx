@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
@@ -7,6 +6,7 @@ import SavedEquipment from './saved-equipment.jsx';
 import moment from 'moment-timezone';
 import OmnibarController from "../../controllers/components/omnibar";
 import DateModal from "../components/date-modal.jsx";
+import config from 'config';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -88,39 +88,25 @@ export default class StudentPanel extends ListenerComponent {
             <div className='equipment'>
                 {items.map(item => {
                     return (
-                        <div className="item-block" key={item.address}>
+                        <div key={item.address}>
+                            {this.renderItemInfo(item)}
                             <DateModal
                                 message='Select a new due date.'
                                 active={this.state.showItemDateModal}
                                 onDateSelected={date => this.changeItemDueDate(date, item)}
                             />
-                            <div onClick={this.displayItem.bind(this, item.address)}>
-                                {this.renderItemInfo(item)}
-                            </div>
-                            <div className='buttons'>
-                                <button onClick={this.showItemDateModal.bind(this)}>Change due date</button>
-                                <button onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
-                            </div>
                         </div>
                     );
                 })}
                 {models.map(model => {
                     return (
-                        <div className="model-block" key={model.address}>
-                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                                {this.renderModelInfo(model)}
-                            </Link>
+                        <div key={model.address}>
+                            {this.renderModelInfo(model)}
                             <DateModal
                                 message='Select a new due date'
                                 active={this.state.showModelDateModal}
                                 onDateSelected={date => this.changeModelDueDate(date, model)}
                             />
-                            <div className='buttons'>
-                                <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
-                                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
-                                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
-                                <button onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>Save</button>
-                            </div>
                         </div>
                     );
                 })}
@@ -129,11 +115,27 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     renderModelInfo(model) {
-        return (
-            <span>
-                {model.name} <i>{model.address}</i> ({model.quantity})
+        let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
+        return <div className="model-info" onClick={() => OmnibarController.displayEquipment(model.address)}>
+            <span className="quantity">({model.quantity}&times;) </span>
+            <span className="name">{model.name}</span>
+            <span className="addr">{model.address}</span>
+            <br/>
+            <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+            <br/>
+            <span className="buttons">
+                <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
+                <button id={model.address} className="neat-secondary-button" onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>
+                    Check in
+                </button>
+                <button id={`all${model.address}`} className="neat-secondary-button" onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>
+                    Check in All
+                </button>
+                <button className="neat-secondary-button" onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>
+                    Save
+                </button>
             </span>
-        );
+        </div>;
     }
 
     showItemDateModal() {
@@ -147,16 +149,18 @@ export default class StudentPanel extends ListenerComponent {
         if (!model) {
             return null;
         } else {
-            let dueDate = moment.tz(item.timestamp * 1000, 'America/Chicago');
-            return (
-                <div className="item-info">
-                    <div onClick={this.displayItem.bind(this, item.address)}
-                         className={item.timestamp < Math.floor(Date.now() / 1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        {model.name} {item.timestamp < Math.floor(Date.now() / 1000) ? '(overdue)' : ''}
-                        <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-                    </div>
-
-                </div>);
+            let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
+            return <div className="item-info" onClick={() => OmnibarController.displayEquipment(item.address)}>
+                <span className="name">{model.name}</span>
+                <span className="addr">{item.address}</span>
+                <br/>
+                <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                <br/>
+                <span className="buttons">
+                    <button className="neat-secondary-button" onClick={this.showItemDateModal.bind(this)}>Change due date</button>
+                    <button className="neat-secondary-button" onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
+                </span>
+            </div>;
         }
     }
 

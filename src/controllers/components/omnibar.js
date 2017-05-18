@@ -1,4 +1,4 @@
-import { searchStudent, searchItem } from '../../lib/api-client';
+import { searchStudent, searchItem, searchModel } from '../../lib/api-client';
 import { readAddress } from 'consus-core/identifiers';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
@@ -36,7 +36,8 @@ export default class OmnibarController {
             });
         }
     }
-    static finishCheckout(rfid){
+
+    static finishCheckout(rfid) {
         let currentStudentId;
         if (StudentStore.getStudent() !== null) {
             currentStudentId = StudentStore.getStudent().id;
@@ -69,21 +70,24 @@ export default class OmnibarController {
             }
         });
     }
-    static displayItem(itemAddress) {
+
+    static displayEquipment(equipAddress) {
         try {
-            if(readAddress(itemAddress).type === 'item') {
-                return searchItem(itemAddress).then(data => {
+            let type = readAddress(equipAddress).type;
+            if(type === 'item') {
+                return searchItem(equipAddress).then(data => {
                     Dispatcher.handleAction("ITEM_FOUND", data);
-                    hashHistory.push('/item/' + itemAddress);
+                    hashHistory.push(`/item/${equipAddress}`);
                 });
-            } else {
-                Dispatcher.handleAction("ERROR", {
-                    error: "Expected an item address but received a model address."
+            } else if (type === 'model') {
+                return searchModel(equipAddress).then(data => {
+                    Dispatcher.handleAction("ITEM_FOUND", data);
+                    hashHistory.push(`/model/${equipAddress}`);
                 });
             }
         } catch (f) {
             Dispatcher.handleAction("ERROR", {
-                error: "The provided item address is invalid."
+                error: "The provided address is invalid."
             });
         }
     }
