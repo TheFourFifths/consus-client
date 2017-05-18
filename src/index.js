@@ -38,6 +38,16 @@ function createWindow() {
         window = null;
     });
 
+    // Listen for the back/forward buttons to be clicked (via mouse buttons)
+    window.on('app-command', (e, cmd) => {
+        if (cmd === 'browser-backward' && window.webContents.canGoBack()) {
+            window.webContents.goBack();
+        }
+        if (cmd === 'browser-forward' && window.webContents.canGoForward()) {
+            window.webContents.goForward();
+        }
+    });
+
     window.setMenu(null);
 }
 

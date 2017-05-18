@@ -130,4 +130,10 @@ export default class StudentController {
         });
     }
 
+    static getStudent(rfid) {
+        return searchStudent(rfid).then(student => {
+            Dispatcher.handleAction("STUDENT_FOUND", student);
+        });
+    }
+
 }

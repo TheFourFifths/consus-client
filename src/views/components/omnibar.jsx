@@ -1,5 +1,6 @@
 import React from 'react';
-import {readAddress} from 'consus-core/identifiers';
+import { hashHistory } from 'react-router';
+import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
@@ -62,6 +63,14 @@ export default class Omnibar extends React.Component {
         this.setState({
             query: e.target.value
         });
+    }
+
+    clickBack() {
+        hashHistory.goBack();
+    }
+
+    clickForward() {
+        hashHistory.goForward();
     }
 
     clickLogo() {
@@ -135,7 +144,9 @@ export default class Omnibar extends React.Component {
                     acceptText='Associate student and rfid'
                     textHidden={false}
                 />
-                <img onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
+            <img className='back' onClick={this.clickBack.bind(this)} src='../assets/images/back.svg'/>
+                <img className='forward' onClick={this.clickForward.bind(this)} src='../assets/images/forward.svg'/>
+                <img className='home' onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
                 <input maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
                        onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Scan a student ID or a model/item barcode' autoFocus/>
             </div>
