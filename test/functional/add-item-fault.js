@@ -44,6 +44,16 @@ describe('Able to add a fault to an item', function () {
                 }
             }
         });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
         return app.client.click('#omnibar img').then(() => {
             return app.client.click("#view-items");
         }).then(() => {
@@ -88,16 +98,16 @@ describe('Able to add a fault to an item', function () {
             response:{"status":"success","data":{"items":[resItem, items[1]]}}
         });
 
-        return app.client.click('.infoArea .faultArea button').then(() => {
-            return app.client.waitForVisible(".infoArea .faultArea input");
+        return app.client.click('.faultArea .faultInput .currentFault .icon-button').then(() => {
+            return app.client.waitForVisible(".faultArea .faultInput .currentFault input");
         }).then(() => {
-            return app.client.click(".infoArea .faultArea input");
+            return app.client.click(".faultArea .faultInput .currentFault input");
         }).then(() => {
             return app.client.keys(faultDescription);
         }).then(() => {
-            return app.client.click('.saveButton');
+            return app.client.click('.faultArea .faultInput .currentFault .save');
         }).then(() => {
-            return app.client.waitForVisible(".infoArea .faultArea input", 5000, true);
+            return app.client.waitForVisible(".faultArea .faultInput .currentFault input", 5000, true);
         }).then(() => {
             mockServer.validate();
         });

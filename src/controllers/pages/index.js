@@ -5,8 +5,9 @@ import { hashHistory } from 'react-router';
 export default class IndexController {
 
     static getItems() {
-        return getAllItems().then(items => {
-            Dispatcher.handleAction('ITEMS_RECEIVED', items);
+        return Promise.all([getAllItems(), getAllModels()]).then(results => {
+            Dispatcher.handleAction('MODELS_RECEIVED', results[1]);
+            Dispatcher.handleAction('ITEMS_RECEIVED', results[0]);
             hashHistory.push('/items');
         });
     }

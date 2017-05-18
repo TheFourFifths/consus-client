@@ -1,5 +1,6 @@
-import { searchItem, getAllItems, deleteItem, addFault, removeItemFault } from '../../lib/api-client';
+import { searchItem, searchModel, getAllItems, deleteItem, addFault, removeItemFault } from '../../lib/api-client';
 import { Dispatcher } from 'consus-core/flux';
+import { hashHistory } from 'react-router';
 
 export default class ItemController {
 
@@ -41,6 +42,15 @@ export default class ItemController {
             Dispatcher.handleAction("ITEM_FOUND", item);
         }).catch(() => {
             Dispatcher.handleAction("NO_ITEM_FOUND");
+        });
+    }
+
+    static goToModel(address) {
+        return searchModel(address).then(model => {
+            Dispatcher.handleAction("MODEL_FOUND", model);
+            hashHistory.push('/model');
+        }).catch(() => {
+            Dispatcher.handleAction("NO_MODEL_FOUND");
         });
     }
 
