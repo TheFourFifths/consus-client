@@ -22,7 +22,6 @@ export default class App extends ListenerComponent {
     getState() {
         return {
             hasError: ErrorStore.hasError(),
-            loggedIn: AuthenticationStore.loggedIn(),
             errorTag: ErrorStore.getTag(),
             errorMessage: ErrorStore.getError(),
             toasts: ToastStore.getToasts().slice(0, 3)
@@ -34,14 +33,6 @@ export default class App extends ListenerComponent {
     }
 
     render() {
-        if (!this.state.loggedIn) {
-            return (
-                <div id='app'>
-                    <h1>Log in</h1>
-                    <p>You must log in.</p>
-                </div>
-            );
-        }
         return (
             <div id='app'>
                 <ErrorModal active={ErrorStore.hasError()} onClose={this.closeError} tag={this.state.errorTag} message={this.state.errorMessage} />

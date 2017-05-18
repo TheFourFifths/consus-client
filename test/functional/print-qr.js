@@ -61,7 +61,7 @@ describe('Printing QR codes', function () {
     });
 
     it('returns to the home page', () => {
-        return app.client.click('#omnibar img').then(() => {
+        return app.client.click('#omnibar img.home').then(() => {
             return app.client.waitForVisible('#index');
         });
     });

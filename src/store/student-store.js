@@ -14,6 +14,15 @@ class StudentStore extends Store {
         });
     }
 
+    getAllDelinquents(){
+        let returned = {};
+        Object.keys(students).filter(studentId => {
+            let student = students[studentId];
+            return student.hasOverdueItem || student.overdueCheckins.length > 0;
+        }).forEach(studentId => returned[studentId] = students[studentId]);
+        return returned;
+    }
+
     getAllStudents(){
         return students;
     }

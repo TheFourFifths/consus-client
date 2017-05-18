@@ -20,3 +20,13 @@ $img-width = 2em
         left: (abs($img-space-width - @width) / 2 + 0.25rem)
         margin: 0.5em (abs($img-space-width - $img-width)/2) 0 (abs($img-space-width - $img-width)/2)
         float: left
+
+        &.back
+            left: (abs($img-space-width - @width) / 2 + 0.25rem)
+
+        &.forward
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width
+
+        &.home
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width * 2
+

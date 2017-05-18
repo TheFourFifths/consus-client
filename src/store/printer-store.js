@@ -1,11 +1,12 @@
 import { Store } from 'consus-core/flux';
+import clone from 'consus-core/clone';
 
-let text;
+let addresses = [];
 
 class PrinterStore extends Store{
 
-    getText() {
-        return text;
+    getAddresses() {
+        return clone(addresses);
     }
 
 }
@@ -13,12 +14,17 @@ class PrinterStore extends Store{
 const store = new PrinterStore();
 
 store.registerHandler('CLEAR_ALL_DATA', () => {
-    text = undefined;
+    addresses = [];
     store.emitChange();
 });
 
-store.registerHandler('PROMPT_TO_PRINT', data => {
-    text = data.text;
+store.registerHandler('ADD_ADDRESS', data => {
+    addresses.push(data.address);
+    store.emitChange();
+});
+
+store.registerHandler('REMOVE_ADDRESS', data => {
+    addresses.splice(addresses.indexOf(data.address), 1);
     store.emitChange();
 });
 

@@ -32,10 +32,11 @@ export default class OmnibarController {
         } else {
             return searchStudent(rfid).then(student => {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
-                hashHistory.push('/student');
+                hashHistory.push(`/student?rfid=${rfid}`);
             });
         }
     }
+
     static finishCheckout(rfid){
         let currentStudentId;
         if (StudentStore.getStudent() !== null) {
