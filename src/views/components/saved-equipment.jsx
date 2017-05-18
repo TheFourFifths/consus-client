@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import StudentPanelController from '../../controllers/components/student-panel';
 import OmnibarController from '../../controllers/components/omnibar';
