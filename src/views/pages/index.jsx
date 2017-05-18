@@ -132,9 +132,9 @@ export default class Index extends React.Component {
                             Lost Item
                         </span>
                     </div>
-                    <div id='lost-item' onClick={this.goToReports.bind(this)}>
+                    <div id='reports' onClick={this.goToReports.bind(this)}>
                         <span>
-                            <img src="../assets/images/search.svg"/><br/>
+                            <img src="../assets/images/reports.svg"/><br/>
                             Reports
                         </span>
                     </div>

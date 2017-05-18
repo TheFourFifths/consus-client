@@ -152,7 +152,7 @@ export default class Omnibar extends React.Component {
                 <img className='back' onClick={this.clickBack.bind(this)} src='../assets/images/back.svg'/>
                 <img className='forward' onClick={this.clickForward.bind(this)} src='../assets/images/forward.svg'/>
                 <input id='top-bar' maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
-                       onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
+                       onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Scan a student ID or a model/item barcode' autoFocus/>
                 <div className='clear'></div>
             </div>
         );
