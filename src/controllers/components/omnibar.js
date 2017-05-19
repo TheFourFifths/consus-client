@@ -32,7 +32,7 @@ export default class OmnibarController {
         } else {
             return searchStudent(rfid).then(student => {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
-                hashHistory.push('/student');
+                hashHistory.push(`/student?rfid=${rfid}`);
             });
         }
     }
@@ -116,6 +116,20 @@ export default class OmnibarController {
 
         }
         return true;
+    }
+
+    static goToStudentForm(rfid, id){
+        if(rfid && id){
+            Dispatcher.handleAction("CREATE_STUDENT", {
+                rfid,
+                id
+            });
+            hashHistory.push('/student/new');
+        } else {
+            Dispatcher.handleAction("ERROR", {
+                error: "No RFID or ID provided."
+            });
+        }
     }
 
 }

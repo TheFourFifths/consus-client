@@ -5,9 +5,10 @@ import StudentPanelController from '../../../../.dist/controllers/components/stu
 import { Dispatcher } from 'consus-core/flux';
 import StudentStore from '../../../../.dist/store/student-store'
 import moment from 'moment-timezone';
+
 describe("StudentPanelController",() => {
 
-    let dispatcherSpy, getAllModels, retrieveItem, retrieveModel, saveItem, saveModel;
+    let dispatcherSpy, getAllModels, retrieveItem, retrieveModel, saveItem, saveModel, searchStudent;
 
     beforeEach(() => {
         Dispatcher.handleAction('STUDENT_FOUND', {
@@ -22,6 +23,7 @@ describe("StudentPanelController",() => {
         retrieveModel = sinon.stub(api, 'retrieveModel');
         saveItem = sinon.stub(api, 'saveItem');
         saveModel = sinon.stub(api, 'saveModel');
+        searchStudent = sinon.stub(api, 'searchStudent');
     });
 
     afterEach(() => {
@@ -31,6 +33,7 @@ describe("StudentPanelController",() => {
         retrieveModel.restore();
         saveItem.restore();
         saveModel.restore();
+        searchStudent.restore();
         Dispatcher.handleAction("CLEAR_ALL_DATA");
     });
 
@@ -58,12 +61,11 @@ describe("StudentPanelController",() => {
     });
 
     describe("changeItemDueDate",() => {
-        let isValidDueDate, patchItemDueDate, searchStudent, getStudent;
+        let isValidDueDate, patchItemDueDate, getStudent;
 
         beforeEach(() => {
             isValidDueDate = sinon.stub(StudentPanelController, "isValidDueDate");
             patchItemDueDate = sinon.stub(api, "patchItemDueDate");
-            searchStudent = sinon.stub(api, "searchStudent");
             getStudent = sinon.stub(StudentStore, "getStudent");
         });
 
@@ -165,6 +167,15 @@ describe("StudentPanelController",() => {
                 resolve({});
             })
         );
+        searchStudent.returns(
+            new Promise(resolve => {
+                resolve({
+                    id: 123456,
+                    name: 'John von Neumann',
+                    items: []
+                });
+            })
+        );
         return StudentPanelController.saveItem('iGwEZUvfA').then(() => {
             assert.isTrue(dispatcherSpy.called);
             assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
@@ -179,6 +190,15 @@ describe("StudentPanelController",() => {
         saveModel.returns(
             new Promise(resolve => {
                 resolve({});
+            })
+        );
+        searchStudent.returns(
+            new Promise(resolve => {
+                resolve({
+                    id: 123456,
+                    name: 'John von Neumann',
+                    items: []
+                });
             })
         );
         return StudentPanelController.saveModel(123456, 'm8y7nEtAe').then(() => {

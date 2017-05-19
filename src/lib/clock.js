@@ -5,7 +5,7 @@ export function getNextDueTimestamp() {
     let timestamp = moment.tz(Date.now(), config.get('timezone'));
     let hour = parseInt(timestamp.format('H'));
     let minute = parseInt(timestamp.format('m'));
-    // check for times past 4:50pm
+    // check for times past 11:55pm
     let dueHour = config.get('checkin.due_hour'),
         dueMin  = config.get('checkin.due_minute');
     if (hour >= dueHour || (hour === dueHour - 1 && minute >= dueMin)) {

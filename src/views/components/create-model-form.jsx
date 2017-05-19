@@ -1,6 +1,5 @@
 import React from 'react';
 import ModelFormController from '../../controllers/components/create-model-form';
-import OmnibarController from '../../controllers/components/omnibar';
 import ErrorModal from './error-modal.jsx';
 import config from 'config';
 
@@ -95,7 +94,6 @@ export default class CreateModelForm extends React.Component {
 
     changePhoto(e) {
         this.setState({ hasUnsavedChange: true });
-        OmnibarController.setWarnBeforeExiting(true);
         let file = e.target.files[0];
         if (bytesToBase64Size(file.size) > MAX_FILESIZE) {
             this.setState({

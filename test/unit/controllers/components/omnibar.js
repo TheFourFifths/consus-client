@@ -63,7 +63,7 @@ describe("OmnibarController", () => {
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "STUDENT_FOUND");
                 assert.isTrue(hashHistorySpy.called);
                 assert.strictEqual(hashHistorySpy.getCall(0).args.length, 1);
-                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/student");
+                assert.strictEqual(hashHistorySpy.getCall(0).args[0], "/student?rfid=12");
             });
 
         });

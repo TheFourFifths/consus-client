@@ -3,6 +3,7 @@ import CartStore from './cart-store';
 
 let student = null;
 let students = {};
+let idAssociation = {};
 
 class StudentStore extends Store {
 
@@ -11,6 +12,15 @@ class StudentStore extends Store {
             let now = Math.floor(Date.now() / 1000);
             return element.timestamp < now;
         });
+    }
+
+    getAllDelinquents(){
+        let returned = {};
+        Object.keys(students).filter(studentId => {
+            let student = students[studentId];
+            return student.hasOverdueItem || student.overdueCheckins.length > 0;
+        }).forEach(studentId => returned[studentId] = students[studentId]);
+        return returned;
     }
 
     getAllStudents(){
@@ -23,6 +33,10 @@ class StudentStore extends Store {
 
     getStudentById(studentId){
         return students[studentId];
+    }
+
+    getAssociationData(){
+        return idAssociation;
     }
 
 }
@@ -87,6 +101,11 @@ store.registerHandler('SAVE_ITEM', data => {
 
 store.registerHandler('SAVE_MODEL', data => {
     student.models.find(m => m.address === data.modelAddress).status = 'SAVED';
+    store.emitChange();
+});
+
+store.registerHandler('CREATE_STUDENT', data => {
+    idAssociation = data;
     store.emitChange();
 });
 

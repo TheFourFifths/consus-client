@@ -84,7 +84,7 @@ export default class CartPanel extends React.Component {
         if(CartStore.getIsLongterm()){
             return <div id="longtermSection">
                 Longterm duedate: <input type="date" onChange={this.changeLongtermDate.bind(this)}/><br />
-                Professor's name: <input type="text" onChange={this.changeLongtermProfessor.bind(this)} /><br />
+                Professor's name: <input autoFocus type="text" onChange={this.changeLongtermProfessor.bind(this)} /><br />
             </div>;
         }
     }

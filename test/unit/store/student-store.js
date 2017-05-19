@@ -76,6 +76,34 @@ describe('StudentStore', () => {
         assert.isFalse(students[654321].hasOverdueItem);
     });
 
+    it('should know which students are delinquents', () => {
+        Dispatcher.handleAction("STUDENTS_FOUND", [
+            {
+                id: 432432,
+                name: "Sporf Bigby",
+                items: [{
+                    timestamp : 0
+                }],
+                overdueCheckins:[]
+            },
+            {
+                id:654321,
+                name: "Bruce Glasgow",
+                items: [],
+                overdueCheckins:[]
+            },
+            {
+                id:321321,
+                name: "Derk Bigums",
+                items: [],
+                overdueCheckins:[{}]
+            }
+        ]);
+        let students = StudentStore.getAllDelinquents();
+        assert.lengthOf(Object.keys(students), 2);
+    });
+
+
     it('should handle a student not being found', () => {
         Dispatcher.handleAction('NO_STUDENT_FOUND');
         assert.strictEqual(StudentStore.getStudent(), null);

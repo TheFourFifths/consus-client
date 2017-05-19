@@ -1,5 +1,6 @@
 import React from 'react';
-import {readAddress} from 'consus-core/identifiers';
+import { hashHistory } from 'react-router';
+import { readAddress } from 'consus-core/identifiers';
 import OmnibarController from '../../controllers/components/omnibar';
 import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
@@ -14,6 +15,7 @@ export default class Omnibar extends React.Component {
             confirmExit: false,
             showIdInputModal: false,
             rfid: null,
+            id: null,
             showStudentRedirectConfirmation: false
         };
     }
@@ -64,6 +66,14 @@ export default class Omnibar extends React.Component {
         });
     }
 
+    clickBack() {
+        hashHistory.goBack();
+    }
+
+    clickForward() {
+        hashHistory.goForward();
+    }
+
     clickLogo() {
         if (OmnibarController.emptyCart()) {
             if (OmnibarController.getWarning()) {
@@ -95,6 +105,7 @@ export default class Omnibar extends React.Component {
         this.closeRfidInputmodal();
         StudentController.studentToRfid(id, this.state.rfid).catch(() => {
             this.setState({
+                id: id,
                 showStudentRedirectConfirmation: true
             });
         });
@@ -102,14 +113,13 @@ export default class Omnibar extends React.Component {
 
     closeRfidInputmodal() {
         this.setState({
-            showIdInputModal: false,
-            rfid: null
+            showIdInputModal: false
         });
     }
 
     handleStudentRedirectModal(bool){
         if(bool){
-            OmnibarController.leavePage('/student/new');
+            OmnibarController.goToStudentForm(this.state.rfid, this.state.id);
         }
         this.setState({
             showStudentRedirectConfirmation: false
@@ -139,6 +149,8 @@ export default class Omnibar extends React.Component {
                     placeholder='Student ID'
                 />
                 <img onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
+                <img className='back' onClick={this.clickBack.bind(this)} src='../assets/images/back.svg'/>
+                <img className='forward' onClick={this.clickForward.bind(this)} src='../assets/images/forward.svg'/>
                 <input id='top-bar' maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}
                        onChange={this.changeQuery.bind(this)} value={this.state.query} placeholder='Search' autoFocus/>
                 <div className='clear'></div>

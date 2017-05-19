@@ -5,7 +5,7 @@ import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
 import items from '../test-cases/items';
 
-describe('Viewing a model and an item', function () {
+describe.only('Viewing a model and an item', function () {
 
     this.timeout(10000);
     let app;

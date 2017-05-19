@@ -17,11 +17,16 @@ html, body
     & > *
         padding: 5px
 
-
 .clear
     width: 0
     height: 0
     clear: both
+
+.left
+    float:left
+
+.right
+    float:right
 
 .cool-button
     background: $primary-btn-color
@@ -57,6 +62,12 @@ html, body
         background: $primary-btn-color
         color: white
 
+.icon-button
+    cursor: pointer
+    opacity: .7
+    &:hover
+        opacity: 1
+
 textarea
     resize: none
     overflow: auto
@@ -76,6 +87,7 @@ textarea
         display: none !important
 
 @import 'student.styl'
+@import 'student-form.styl'
 @import 'omnibar.styl'
 @import 'modal.styl'
 @import 'models.styl'
@@ -87,3 +99,4 @@ textarea
 @import 'overdue-items.styl'
 @import 'students.styl'
 @import 'printer.styl'
+@import 'reports.styl'

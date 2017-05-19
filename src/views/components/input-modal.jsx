@@ -49,6 +49,7 @@ export default class InputModal extends React.Component {
                 <h4>{this.props.message}</h4>
                 <span className='modal-input-area'>
                     <input
+                        autoFocus
                         className='modal-input'
                         maxLength="30"
                         placeholder={this.props.placeholder}

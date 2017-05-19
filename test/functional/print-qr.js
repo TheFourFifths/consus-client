@@ -61,7 +61,7 @@ describe('Printing QR codes', function () {
     });
 
     it('returns to the home page', () => {
-        return app.client.click('#omnibar img').then(() => {
+        return app.client.click('#omnibar img.home').then(() => {
             return app.client.waitForVisible('#index');
         });
     });
@@ -74,6 +74,16 @@ describe('Printing QR codes', function () {
                 status: 'success',
                 data: {
                     items
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
                 }
             }
         });

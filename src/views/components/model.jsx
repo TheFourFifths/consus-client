@@ -1,6 +1,7 @@
 import React from 'react';
 import ModelStore  from '../../store/model-store';
 import ModelController from '../../controllers/components/model';
+import ModelPageController from '../../controllers/pages/model';
 import PrinterController from '../../controllers/pages/printer';
 import { hashHistory } from 'react-router';
 import ConfirmModal from '../components/confirm-modal.jsx';
@@ -78,6 +79,10 @@ export default class Model extends React.Component {
         ModelController.deleteModel(this.state.model.address);
     }
 
+    goToModel(address) {
+        ModelPageController.getModelAndItems(address);
+    }
+
     renderDescription() {
         return this.state.model.description.split(/[\r\n]/g).map((line, index) => {
             return <span key={index}>{line}<br/></span>;
@@ -112,33 +117,24 @@ export default class Model extends React.Component {
                     <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
                 </div>
                 <div className="titleArea">
-                    <h2>{this.state.model.name}</h2>
+                    <strong><span className='modelName' onClick={this.goToModel.bind(this, this.state.model.address)}>{this.state.model.name}</span></strong><br/>
                     <i className="address">{this.state.model.address}</i>
+                    <br/><hr/>
+                    <div className="description">{this.renderDescription()}</div>
                 </div>
                 <div className="infoArea">
-                    <div className="descriptionArea">
-                        <h3>Description</h3>
-                        <p>{this.renderDescription()}</p>
-                    </div>
-                    <div className="faultArea">
-                        {(this.state.model.allowCheckout
-                                ? <span><b>Total:</b> {this.state.model.count}<br/><b>In Stock:</b> {this.state.model.inStock}</span>
-                                : <i>Model cannot be checked out.</i>
-                        )}
-                    </div>
-                    <div className="miscArea">
-                        <b>Location:</b> {this.state.model.location}<br/>
-                        <b>Price:</b> ${this.state.model.price}<br/>
-                        <b>Manufacturer:</b> {this.state.model.manufacturer}<br/>
-                        <b>Vendor:</b> {this.state.model.vendor}<br/>
-                        {(this.state.model.allowCheckout ? null : <span><b>Quantity:</b> {this.state.model.count}<br/></span>)}
-                    </div>
+                    <b>Location:</b> {this.state.model.location}<br/>
+                    <b>Price:</b> ${this.state.model.price}<br/>
+                    <b>Manufacturer:</b> {this.state.model.manufacturer}<br/>
+                    <b>Vendor:</b> {this.state.model.vendor}<br/>
+                    <b>Total:</b> {this.state.model.count}<br/>
+                    {(this.state.model.allowCheckout ? <span><b>In Stock:</b> {this.state.model.inStock}<br/></span> : null)}
                 </div>
                 <div className="actionArea">
-                    <img className='btnAddItemToModel' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
-                    <img onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
-                    <img onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
-                    <img onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
+                    <img className='btnAddItemToModel icon-button' onClick={this.showAddItemConfirmModal.bind(this)} src="../assets/images/add.svg"/>
+                    <img className='icon-button' onClick={this.editModel.bind(this)} src="../assets/images/edit.svg"/>
+                    <img className='icon-button' onClick={this.showDeleteConfirmModal.bind(this)} src="../assets/images/delete.svg"/>
+                    <img className='icon-button' onClick={this.openQr.bind(this)} src='../assets/images/qr.svg' />
                 </div>
                 <div className="clear"></div>
             </div>
