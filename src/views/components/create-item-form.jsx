@@ -2,7 +2,6 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
 import ItemFormController from '../../controllers/components/create-item-form';
-import Model from '../components/model.jsx';
 
 export default class CreateItemForm extends ListenerComponent {
 
