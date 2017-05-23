@@ -116,14 +116,15 @@ export default class StudentPanel extends ListenerComponent {
 
     renderModelInfo(model) {
         let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
-        return <div className="model-info" onClick={() => OmnibarController.displayEquipment(model.address)}>
-            <span className="quantity">({model.quantity}&times;) </span>
-            <span className="name">{model.name}</span>
-            <span className="addr">{model.address}</span>
-            <br/>
-            <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
-            <br/>
-            <span className="buttons">
+        return <div className="model-info">
+            <div onClick={() => OmnibarController.displayEquipment(model.address)} className="fake-link">
+                <span className="quantity">({model.quantity}&times;) </span>
+                <span className="name">{model.name}</span>
+                <span className="addr">{model.address}</span>
+                <br/>
+                <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+            </div>
+            <div className="buttons">
                 <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
                 <button id={model.address} className="neat-secondary-button" onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>
                     Check in
@@ -134,7 +135,7 @@ export default class StudentPanel extends ListenerComponent {
                 <button className="neat-secondary-button" onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>
                     Save
                 </button>
-            </span>
+            </div>
         </div>;
     }
 
@@ -150,16 +151,17 @@ export default class StudentPanel extends ListenerComponent {
             return null;
         } else {
             let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
-            return <div className="item-info" onClick={() => OmnibarController.displayEquipment(item.address)}>
-                <span className="name">{model.name}</span>
-                <span className="addr">{item.address}</span>
-                <br/>
-                <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
-                <br/>
-                <span className="buttons">
+            return <div className="item-info">
+                <div onClick={() => OmnibarController.displayEquipment(item.address)} className="fake-link">
+                    <span className="name">{model.name}</span>
+                    <span className="addr">{item.address}</span>
+                    <br/>
+                    <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                </div>
+                <div className="buttons">
                     <button className="neat-secondary-button" onClick={this.showItemDateModal.bind(this)}>Change due date</button>
                     <button className="neat-secondary-button" onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
-                </span>
+                </div>
             </div>;
         }
     }

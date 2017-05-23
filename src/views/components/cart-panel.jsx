@@ -53,7 +53,7 @@ export default class CartPanel extends React.Component {
 
     renderEquipment() {
         if(this.props.equipment.length === 0) {
-            return <div><br/><i>Cart is empty.</i><br/><br/></div>;
+            return <div><br/><i>Cart is empty.</i><br/></div>;
         }
         return (
             <ul className='cartItems'>
@@ -95,11 +95,14 @@ export default class CartPanel extends React.Component {
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
-                <p>Is this a longterm checkout? <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} /></p>
-                {this.renderLongtermSection()}
+                <p>
+                    Is this a longterm checkout?
+                    <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} />
+                    {this.renderLongtermSection()}
+                </p>
+                <input type='button' className="cool-button" onClick={this.props.submit} value='Complete Checkout'
+                    disabled={CartStore.getContents().length <= 0} />
                 <br/>
-                <input type='button' className="cool-button" onClick={this.props.submit} value='Complete Checkout' />
-                <br/><br/>
                 <input type='button' className="neat-secondary-button" onClick={this.props.cancel} value='Cancel' />
             </div>
         );
