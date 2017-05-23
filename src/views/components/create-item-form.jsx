@@ -2,6 +2,7 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
 import ItemFormController from '../../controllers/components/create-item-form';
+import Model from '../components/model.jsx';
 
 export default class CreateItemForm extends ListenerComponent {
 
@@ -13,23 +14,39 @@ export default class CreateItemForm extends ListenerComponent {
 
     getState() {
         return {
-            modelAddress: '',
+            model: null,
             models: ModelStore.getAllModels()
         };
     }
 
     changeModel(e) {
         this.setState({
-            modelAddress: e.target.value
+            model: ModelStore.getModelByAddress(e.target.value)
         });
     }
 
     submit(e) {
         e.preventDefault();
-        if (this.state.modelAddress === '') {
+        if (!this.state.model) {
             ItemFormController.popNoModelSelectedToast();
         } else {
-            ItemFormController.createItem(this.state.modelAddress);
+            ItemFormController.createItem(this.state.model.address);
+        }
+    }
+
+    renderDescription() {
+        return this.state.model.description.split(/[\r\n]/g).map((line, index) => {
+            return <span key={index}>{line}<br/></span>;
+        });
+    }
+
+    renderModelPreview() {
+        if(this.state.model){
+            return (
+                <div className='model-preview'>
+                    <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
+                </div>
+            );
         }
     }
 
@@ -46,7 +63,8 @@ export default class CreateItemForm extends ListenerComponent {
                             }
                         })}
                     </select><br/>
-                    <input type='submit' value='Create Item' />
+                    {this.renderModelPreview()}
+                    <input className='cool-button' type='submit' value='Create Item' />
                 </form>
             </div>
         );
