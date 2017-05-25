@@ -44,6 +44,9 @@ export default class CreateItemForm extends ListenerComponent {
             return (
                 <div className='model-preview'>
                     <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
+                    <br/>
+                    <div className='description'>{this.renderDescription()}</div>
+                    <br/>
                 </div>
             );
         }
