@@ -2,6 +2,8 @@ import {
     checkOutContents,
     searchStudent,
     checkInModel,
+    searchItem,
+    searchModel,
     checkOutContentsLongterm,
     createRfidToStudentAssosciation,
     createStudent} from '../../lib/api-client';
@@ -11,6 +13,7 @@ import moment from 'moment-timezone';
 import StudentStore from '../../store/student-store';
 import OmnibarController from '../../controllers/components/omnibar';
 import config from 'config';
+
 export default class StudentController {
 
     static acceptAdminModal(adminCode) {
@@ -133,6 +136,18 @@ export default class StudentController {
     static getStudent(rfid) {
         return searchStudent(rfid).then(student => {
             Dispatcher.handleAction("STUDENT_FOUND", student);
+        });
+    }
+
+    static getItem(address) {
+        return searchItem(address).then(item => {
+            return item;
+        });
+    }
+
+    static getModel(address) {
+        return searchModel(address).then(model => {
+            return model;
         });
     }
 
