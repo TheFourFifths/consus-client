@@ -70,13 +70,12 @@ export default class Student extends ListenerComponent {
                 <StudentPanel student={this.state.student} checkInModel={this.checkInModel.bind(this)}/>
                 <CartPanel equipment={this.state.equipment} cancel={this.cancelCheckout.bind(this)}
                            submit={this.checkOut.bind(this)} student={this.state.student}/>
-                <div className='clear'></div>
                 <InputModal
-                    message='Scan Admin ID or Enter Admin Pin.'
+                    message='Please Scan Admin ID or Enter Admin Pin:'
                     active={this.state.adminCodeRequired}
                     onAccept={this.acceptAdminModal.bind(this)}
                     onCancel={StudentController.cancelAdminModal}
-                    acceptText='Checkout'
+                    acceptText='Continue Checkout'
                     textHidden={true}
                 />
             </div>

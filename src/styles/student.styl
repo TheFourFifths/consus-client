@@ -1,25 +1,35 @@
 #student
-    width: 90%
-    margin: 24px auto 0 auto
+    display: grid
+    grid-template-areas: "student cart"
+    grid-template-rows: 1fr
+    grid-template-columns: 1fr 1fr
+    grid-gap: 12px 12px
+    align-items: start
+
+    margin: 24px 24px 0 24px
+
+    h2.name
+        margin: 0
+
+    .student
+        grid-area: student
+    .cart
+        grid-area: cart
+
+        h3
+            margin-top: 0
+            margin-bottom: 1em
 
     .student, .cart
-        width: calc(50% - 18px)
-        margin: 12px
         padding: 12px
         box-sizing: border-box
-        float: left
         background-color: #d8d8d8
         border-radius: 3px
         box-shadow: 0 1px 0 #ccc
 
-        .name, .id
-            margin: 0 0 0 0.5rem
-
-        .equipment-heading, .equipment-none
-            margin 1em 0 0 0.8rem
-
-        i
+        .addr
             color: #777
+            font-style: italic
 
         .overdue
             color: red
@@ -31,8 +41,10 @@
             padding: 0.3em .8rem
             box-shadow: 0 1px 0 #ccc
 
+            .name
+                float: none
+            .addr
+                float: right
+
             &:hover
                 background: lighten(#e5e5e5, 15%)
-
-    .cart
-        margin-left: 0
