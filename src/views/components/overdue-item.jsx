@@ -22,7 +22,7 @@ export default class OverdueItem extends React.Component {
     }
 
     goToItemPage() {
-        OmnibarController.displayItem(this.state.item.address);
+        OmnibarController.displayEquipment(this.state.item.address);
     }
 
     goToModelPage() {

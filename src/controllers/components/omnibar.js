@@ -81,7 +81,7 @@ export default class OmnibarController {
                 });
             } else if (type === 'model') {
                 return searchModel(equipAddress).then(data => {
-                    Dispatcher.handleAction("ITEM_FOUND", data);
+                    Dispatcher.handleAction("MODEL_FOUND", data);
                     hashHistory.push(`/model/${equipAddress}`);
                 });
             }
