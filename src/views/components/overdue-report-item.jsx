@@ -21,7 +21,7 @@ export default class OverdueReportItem extends React.Component {
         return (
             <div className='overdueItem'>
                 <div className="picArea">
-                    <img src="../assets/images/placeholder.jpg"/>
+                    <img src={`data:image/jpeg;base64,${this.state.model.photo}`}/>
                 </div>
                 <div className="modelItemArea  displayBlock">
                     <div className="modelArea subBlock">

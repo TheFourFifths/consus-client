@@ -36,7 +36,7 @@ export default class StudentFileUpload extends React.Component {
                 <form onSubmit={this.submit.bind(this)}>
                 Select the file to upload/update students from:
                     <input type="file" onChange={this.changeFile.bind(this)} accept=".xls, .xlsx, .xlsm" />
-                    <input type="submit" value="Submit" />
+                    <input className='cool-button' type="submit" value="Submit" />
                 </form>
             </div>
         );
