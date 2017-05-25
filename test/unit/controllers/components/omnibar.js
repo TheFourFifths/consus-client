@@ -77,10 +77,11 @@ describe("OmnibarController", () => {
     });
 
     describe("displayEquipment", () => {
-        let dispatcherSpy, searchItem;
+        let dispatcherSpy, searchItem, searchModel;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             searchItem = sinon.stub(api, "searchItem");
+            searchModel = sinon.stub(api, "searchModel");
         });
 
         it('Redirects if given an item address', () => {
@@ -106,7 +107,7 @@ describe("OmnibarController", () => {
         it('Redirects if given a model address', () => {
             let historySpy = router.hashHistory.push = sinon.spy();
             let modelAddress = models[0].address;
-            searchItem.returns(
+            searchModel.returns(
                 new Promise (resolve => {
                     resolve(models[0]);
                 })
@@ -131,6 +132,7 @@ describe("OmnibarController", () => {
         afterEach(() => {
             dispatcherSpy.restore();
             searchItem.restore();
+            searchModel.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
