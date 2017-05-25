@@ -12,7 +12,10 @@ function createWindow() {
     // Create the browser window
     window = new BrowserWindow({
         fullscreen: true,
-        show: false
+        show: false,
+        webPreferences: {
+            experimentalFeatures: true
+        }
     });
 
     // Open developer tools when in development mode

@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
-import moment from 'moment-timezone';
 import ModelStore from '../../store/model-store';
 import StudentPanelController from '../../controllers/components/student-panel';
 import OmnibarController from '../../controllers/components/omnibar';
-import config from 'config';
 
 export default class SavedEquipment extends React.Component {
 
-    displayItem(address){
-        OmnibarController.displayItem(address);
+    displayEquipment(address) {
+        OmnibarController.displayEquipment(address);
     }
 
     renderItemInfo(item) {
@@ -17,22 +14,21 @@ export default class SavedEquipment extends React.Component {
         if (!model) {
             return null;
         }
-        let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
         return (
             <span>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address} Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
+                <span className="name">{model.name}</span>
+                <span className="addr">{model.address}</span>
+                <span>{item.timestamp < Math.floor(Date.now()/1000) ? ' (overdue)' : ''}</span>
             </span>
         );
     }
 
     renderModelInfo(model) {
-        let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
-        return (
-            <span>
-                {model.name} <i>{model.address}</i> ({model.quantity})
-                {model.dueDate < Math.floor(Date.now() / 1000) ? '(overdue)' : ''} <i>Due on: {dueDate.format('MMMM Do YYYY, h:mm:ss a')}</i>
-            </span>
-        );
+        return <span>
+            <span className="quantity">({model.quantity}&times;) </span>
+            <span className="name">{model.name}</span>
+            <span className="addr">{model.address}</span>
+        </span>;
     }
 
     renderEquipment() {
@@ -44,11 +40,11 @@ export default class SavedEquipment extends React.Component {
                 {this.props.items.map(item => {
                     return (
                         <div key={item.address} className="item-info">
-                            <div onClick={this.displayItem.bind(this, item.address)} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div onClick={this.displayEquipment.bind(this, item.address)} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderItemInfo(item)}
                             </div>
                             <div className='buttons'>
-                                <button onClick={() => StudentPanelController.retrieveItem(item.address)}>Retrieve</button>
+                                <button className="neat-secondary-button" onClick={() => StudentPanelController.retrieveItem(item.address)}>Retrieve</button>
                             </div>
                         </div>
                     );
@@ -56,11 +52,11 @@ export default class SavedEquipment extends React.Component {
                 {this.props.models.map(model => {
                     return (
                         <div key={model.address} className="model-info">
-                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
+                            <div onClick={this.displayEquipment.bind(this, model.address)} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
                                 {this.renderModelInfo(model)}
-                            </Link>
+                            </div>
                             <div className='buttons'>
-                                <button onClick={() => StudentPanelController.retrieveModel(this.props.student.id, model.address)}>Retrieve</button>
+                                <button className="neat-secondary-button" onClick={() => StudentPanelController.retrieveModel(this.props.student.id, model.address)}>Retrieve</button>
                             </div>
                         </div>
                     );

@@ -7,6 +7,9 @@ timezone = "America/Chicago"
 max_model_photo_size = 950
 
 [cart]
+# The format of due dates shown in a student's cart.
+# See http://momentjs.com/docs/#/displaying/format/
+due_date_format = "M/D/YY h:mma"
 # The carts timeout. How many seconds should elapse before pending equipment in
 # a student's cart is checked out to them.
 timeout = 60

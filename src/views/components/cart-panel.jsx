@@ -95,10 +95,15 @@ export default class CartPanel extends React.Component {
                 <h3>Cart</h3>
                 <input type='text' maxLength="30" onChange={this.changeAddress.bind(this)} value={this.state.address} placeholder='Equipment ID' autoFocus/>
                 {this.renderEquipment()}
-                Is this a longterm checkout? <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} /><br />
-                {this.renderLongtermSection()}
-                <input type='button'  onClick={this.props.submit} value='Complete Checkout' />
-                <input type='button' onClick={this.props.cancel} value='Cancel' />
+                <p>
+                    Is this a longterm checkout?
+                    <input type="checkbox" checked={CartStore.getIsLongterm()} onChange={this.changeIsLongterm.bind(this)} />
+                    {this.renderLongtermSection()}
+                </p>
+                <input type='button' className="cool-button" onClick={this.props.submit} value='Complete Checkout'
+                    disabled={CartStore.getContents().length <= 0} />
+                <br/>
+                <input type='button' className="neat-secondary-button" onClick={this.props.cancel} value='Cancel' />
             </div>
         );
     }

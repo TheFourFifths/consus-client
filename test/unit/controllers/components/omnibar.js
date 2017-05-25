@@ -6,6 +6,7 @@ import { Dispatcher } from 'consus-core/flux';
 import OmnibarController from '../../../../.dist/controllers/components/omnibar';
 import CartStore from '../../../../.dist/store/cart-store';
 import items from '../../../test-cases/items';
+import models from '../../../test-cases/models';
 import students from '../../../test-cases/students';
 import StudentController from '../../../../.dist/controllers/pages/student';
 import StudentStore from '../../../../.dist/store/student-store';
@@ -75,11 +76,12 @@ describe("OmnibarController", () => {
         });
     });
 
-    describe("displayItem", () => {
-        let dispatcherSpy, searchItem;
+    describe("displayEquipment", () => {
+        let dispatcherSpy, searchItem, searchModel;
         beforeEach(() => {
             dispatcherSpy = sinon.spy(Dispatcher, "handleAction");
             searchItem = sinon.stub(api, "searchItem");
+            searchModel = sinon.stub(api, "searchModel");
         });
 
         it('Redirects if given an item address', () => {
@@ -95,32 +97,42 @@ describe("OmnibarController", () => {
             );
             let itemAddress = 'iGwEZUvfA';
 
-            return OmnibarController.displayItem(itemAddress).then(() => {
+            return OmnibarController.displayEquipment(itemAddress).then(() => {
                 assert.isTrue(historySpy.called);
                 assert.strictEqual(historySpy.getCall(0).args.length, 1);
                 assert.strictEqual(historySpy.getCall(0).args[0], "/item/" + itemAddress);
             });
         });
 
-        it('Dispatches "ERROR" if address is of a model', () => {
-            OmnibarController.displayItem('m8y7nEtAe');
-            assert.isTrue(dispatcherSpy.called);
-            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
-            assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "Expected an item address but received a model address.");
+        it('Redirects if given a model address', () => {
+            let historySpy = router.hashHistory.push = sinon.spy();
+            let modelAddress = models[0].address;
+            searchModel.returns(
+                new Promise (resolve => {
+                    resolve(models[0]);
+                })
+            );
+
+            return OmnibarController.displayEquipment(modelAddress).then(() => {
+                assert.isTrue(historySpy.called);
+                assert.strictEqual(historySpy.getCall(0).args.length, 1);
+                assert.strictEqual(historySpy.getCall(0).args[0], `/model/${modelAddress}`);
+            });
+
         });
 
-        it('Dispatches "ERROR" if address is invalid', () => {
-            OmnibarController.displayItem('igggggggg');
+        it('Dispatches "ERROR" if item address is invalid', () => {
+            OmnibarController.displayEquipment('igggggggg');
             assert.isTrue(dispatcherSpy.called);
             assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
             assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The provided item address is invalid.");
+            assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The provided address is invalid.");
         });
 
         afterEach(() => {
             dispatcherSpy.restore();
             searchItem.restore();
+            searchModel.restore();
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
