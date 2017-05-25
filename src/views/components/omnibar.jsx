@@ -50,7 +50,7 @@ export default class Omnibar extends React.Component {
                     if (result.type === 'model') {
                         ModelPageController.getModelAndItems(query);
                     } else if (result.type === 'item') {
-                        OmnibarController.displayItem(query);
+                        OmnibarController.displayEquipment(query);
                     }
                 } catch (f) {
                     OmnibarController.throwQueryInvalidError();
