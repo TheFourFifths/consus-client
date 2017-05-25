@@ -1,0 +1,29 @@
+#inventory-system
+    padding:30px
+
+    .bigger-text
+        font-size:150%
+
+    .list-container
+
+        .item-list
+            background: white
+            height: 500px
+            width: 100%
+
+@media screen
+    .print-only
+        display: none
+
+    .list-container
+        width: 40%
+
+    .item-list
+        overflow:scroll
+
+@media print
+    .unscanned.list-container
+        width:100% !important
+
+    .print-only
+        display:block
