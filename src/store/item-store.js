@@ -13,6 +13,9 @@ class ItemStore extends Store {
     getItem() {
         return item;
     }
+    getItemByAddress(address) {
+        return items.find(item => item.address === address);
+    }
     getAllItems(){
         return items;
     }

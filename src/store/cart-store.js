@@ -1,5 +1,6 @@
 import config from 'config';
 import { Store } from 'consus-core/flux';
+import clone from 'consus-core/clone';
 import StudentStore from './student-store';
 import { checkOutContents, checkOutContentsLongterm, searchStudent } from '../lib/api-client';
 import StudentController from '../controllers/pages/student';
@@ -77,9 +78,7 @@ store.registerHandler('CHECKOUT_ITEM_FOUND', data => {
     if(store.isOnTimeout()){
         clearTimer();
     }
-    let item = {
-        address: data.address
-    };
+    let item = clone(data);
     contents.push(item);
     startTimer(store.TIMEOUT_TIME);
     store.emitChange();
@@ -90,10 +89,8 @@ store.registerHandler('CHECKOUT_MODEL_FOUND', data => {
         clearTimer();
     }
     if(data.inStock > 0){
-        let model = {
-            address: data.address,
-            quantity: 1
-        };
+        let model = clone(data);
+        model.quantity = 1;
         contents.push(model);
     }
     startTimer(store.TIMEOUT_TIME);

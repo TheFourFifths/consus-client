@@ -141,13 +141,13 @@ export default class StudentController {
 
     static getItem(address) {
         return searchItem(address).then(item => {
-            return item;
+            Dispatcher.handleAction('ITEM_FOUND', item);
         });
     }
 
     static getModel(address) {
         return searchModel(address).then(model => {
-            return model;
+            Dispatcher.handleAction('MODEL_FOUND', model);
         });
     }
 

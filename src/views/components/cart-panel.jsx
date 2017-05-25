@@ -1,9 +1,9 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
+import ModelStore from '../../store/model-store';
 import CartController from '../../controllers/components/cart-panel';
 import StudentPanelController from '../../controllers/components/student-panel';
 import CartStore from '../../store/cart-store';
-import StudentPageController from '../../controllers/pages/student';
 
 export default class CartPanel extends React.Component {
 
@@ -60,25 +60,18 @@ export default class CartPanel extends React.Component {
         return (
             <ul className='cartItems'>
                 {this.props.equipment.map((content, i) => {
-                    console.log(content);
                     let result = readAddress(content.address);
                     if (result.type === 'model') {
-                        StudentPageController.getModel(content.address).then(model => {
-                            console.log(`model = ${model}`);
-                            return <li className="cartModel" key={i}>
-                                <span className="quantity">{content.quantity}&times;&nbsp;</span>
-                                <span className="name">{model.name} </span>
-                                <span className="addr">{content.address}</span>
-                            </li>;
-                        });
+                        return <li className="cartModel" key={i}>
+                            <span className="quantity">({content.quantity}&times;)&nbsp;</span>
+                            <span className="name">{content.name}</span>
+                            <span className="addr">{content.address}</span>
+                        </li>;
                     } else if (result.type === 'item') {
-                        let item = StudentPageController.getItem(content.address);
-                        console.log(`item = ${item}`);
-                        let model = StudentPageController.getModel(item.modelAddress);
-                        console.log(`model = ${model}`);
+                        let model = ModelStore.getModelByAddress(content.modelAddress);
                         return <li className="cartItem" key={i}>
-                            <span className="name">{model.name} </span>
-                            <span className="addr">{item.address}</span>
+                            <span className="name">{model.name}</span>
+                            <span className="addr">{content.address}</span>
                         </li>;
                     }
                 })}
