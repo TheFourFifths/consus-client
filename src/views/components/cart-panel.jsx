@@ -53,7 +53,7 @@ export default class CartPanel extends React.Component {
 
     renderEquipment() {
         if(this.props.equipment.length === 0) {
-            return <div><br/><i>Cart is empty.</i><br/></div>;
+            return <div><br/><i>Cart is empty.<br/>Scan an item or model barcode to add it to the cart, or scan an item the student has checked out to return it.</i><br/><br/></div>;
         }
         return (
             <ul className='cartItems'>
