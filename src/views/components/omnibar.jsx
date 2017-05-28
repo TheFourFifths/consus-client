@@ -141,11 +141,11 @@ export default class Omnibar extends React.Component {
                     onSelect = {bool => this.handleStudentRedirectModal(bool)}
                 />
                 <InputModal
-                    message="The rfid that was scanned was not recognized. Enter the student's ID number to associate the student and rfid."
+                    message="The RFID number that was scanned was not recognized. Enter the student's ID number to associate the student and RFID number."
                     active={this.state.showIdInputModal}
                     onAccept={this.associateRfidToStudent.bind(this)}
                     onCancel={this.closeRfidInputmodal.bind(this)}
-                    acceptText='Associate student and rfid'
+                    acceptText='Associate student ID and RFID'
                     textHidden={false}
                     placeholder='Student ID'
                 />

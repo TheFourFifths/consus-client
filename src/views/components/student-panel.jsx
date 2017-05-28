@@ -118,11 +118,16 @@ export default class StudentPanel extends ListenerComponent {
         let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
         return <div className="model-info">
             <div onClick={() => OmnibarController.displayEquipment(model.address)} className="fake-link">
-                <span className="quantity">({model.quantity}&times;) </span>
+                <span className="quantity">({model.quantity}&times;)&nbsp;</span>
                 <span className="name">{model.name}</span>
                 <span className="addr">{model.address}</span>
                 <br/>
                 <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                {
+                    dueDate.isBefore(moment.tz(config.get('timezone')))
+                        ? <span className='overdue'> (overdue)</span>
+                        : ''
+                }
             </div>
             <div className="buttons">
                 <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
@@ -157,6 +162,11 @@ export default class StudentPanel extends ListenerComponent {
                     <span className="addr">{item.address}</span>
                     <br/>
                     <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                    {
+                        dueDate.isBefore(moment.tz(config.get('timezone')))
+                            ? <span className='overdue'> (overdue)</span>
+                            : ''
+                    }
                 </div>
                 <div className="buttons">
                     <button className="neat-secondary-button" onClick={this.showItemDateModal.bind(this)}>Change due date</button>

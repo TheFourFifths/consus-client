@@ -45,7 +45,7 @@ export default class InputModal extends React.Component {
                 buttonText={this.props.acceptText}
                 onClose={this.onAccept.bind(this)}
                 acceptDisabled={this.props.acceptDisabled}
-                buttons={<button onClick={this.onCancel.bind(this)} className='default-btn'>Cancel</button>}>
+                buttons={<button onClick={this.onCancel.bind(this)} className='default-btn cancel'>Cancel</button>}>
                 <h4>{this.props.message}</h4>
                 <span className='modal-input-area'>
                     <input
