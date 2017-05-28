@@ -6,6 +6,7 @@ import ModelPageController from '../../controllers/pages/model';
 import ConfirmModal from './confirm-modal.jsx';
 import InputModal from "../components/input-modal.jsx";
 import StudentController from '../../controllers/pages/student';
+
 export default class Omnibar extends React.Component {
 
     constructor(props) {
@@ -148,7 +149,7 @@ export default class Omnibar extends React.Component {
                     textHidden={false}
                     placeholder='Student ID'
                 />
-                <img onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
+                <img className='home' onClick={this.clickLogo.bind(this)} src='../assets/images/home.svg'/>
                 <img className='back' onClick={this.clickBack.bind(this)} src='../assets/images/back.svg'/>
                 <img className='forward' onClick={this.clickForward.bind(this)} src='../assets/images/forward.svg'/>
                 <input id='top-bar' maxLength='30' type='text' onKeyPress={this.submitQuery.bind(this)}

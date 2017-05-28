@@ -50,7 +50,7 @@ describe('Printing QR codes', function () {
         return app.client.click('#models div:nth-of-type(1) .model img[src="../assets/images/qr.svg"]').then(() => {
             return app.client.waitForVisible('#printer');
         }).then(() => {
-            return app.client.waitForVisible('#printer img');
+            return app.client.waitForVisible('#printer .print');
         });
     });
 
@@ -98,7 +98,7 @@ describe('Printing QR codes', function () {
         return app.client.click('.item:nth-of-type(1) .actionArea img[src="../assets/images/qr.svg"]').then(() => {
             return app.client.waitForVisible('#printer');
         }).then(() => {
-            return app.client.waitForVisible('#printer img');
+            return app.client.waitForVisible('#printer .print');
         });
     });
 
