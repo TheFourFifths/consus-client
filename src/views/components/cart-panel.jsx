@@ -1,8 +1,10 @@
 import React from 'react';
 import { readAddress } from 'consus-core/identifiers';
+import ModelStore from '../../store/model-store';
 import CartController from '../../controllers/components/cart-panel';
 import StudentPanelController from '../../controllers/components/student-panel';
 import CartStore from '../../store/cart-store';
+
 export default class CartPanel extends React.Component {
 
     constructor(props) {
@@ -58,10 +60,19 @@ export default class CartPanel extends React.Component {
         return (
             <ul className='cartItems'>
                 {this.props.equipment.map((content, i) => {
-                    if(content.quantity) {
-                        return <li className="cartModel" key={i}>{content.address} x{content.quantity}</li>;
-                    } else {
-                        return <li className="cartItem" key={i}>{content.address}</li>;
+                    let result = readAddress(content.address);
+                    if (result.type === 'model') {
+                        return <li className="cartModel" key={i}>
+                            <span className="quantity">({content.quantity}&times;)&nbsp;</span>
+                            <span className="name">{content.name}</span>
+                            <span className="addr">{content.address}</span>
+                        </li>;
+                    } else if (result.type === 'item') {
+                        let model = ModelStore.getModelByAddress(content.modelAddress);
+                        return <li className="cartItem" key={i}>
+                            <span className="name">{model.name}</span>
+                            <span className="addr">{content.address}</span>
+                        </li>;
                     }
                 })}
             </ul>
@@ -103,7 +114,7 @@ export default class CartPanel extends React.Component {
                 <input type='button' className="cool-button" onClick={this.props.submit} value='Complete Checkout'
                     disabled={CartStore.getContents().length <= 0} />
                 <br/>
-                <input type='button' className="neat-secondary-button" onClick={this.props.cancel} value='Cancel' />
+                <input type='button' className="neat-secondary-button" onClick={this.props.cancel} value='Clear Cart' />
             </div>
         );
     }
