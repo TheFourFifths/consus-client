@@ -3,6 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
+import items from '../test-cases/items';
 
 describe('View all models', function () {
 
@@ -41,7 +42,7 @@ describe('View all models', function () {
         }).then(() => {
             return app.client.getText('#models h1');
         }).then(headerTxt => {
-            assert.match(headerTxt, /All models/);
+            assert.match(headerTxt, /All Models/);
             return app.client.elements('#models .model');
         }).then(resp => {
             modelList = resp.value;
@@ -71,7 +72,7 @@ describe('View all models', function () {
             response: {
                 status: 'success',
                 data: {
-                    address: 'iGwEZVvgu',
+                    item: items[3],
                     modelName: 'Resistor'
                 }
             }
@@ -86,16 +87,16 @@ describe('View all models', function () {
                 }
             }
         });
-        return app.client.click('.btnAddItemToModel:nth-of-type(1)').then(() => {
+        return app.client.click(`div#${models[0].address} .btnAddItemToModel`).then(() => {
             return app.client.waitForVisible('.modal', 5000);
         }).then(() => {
-            return app.client.click('.modal .modal-buttons button[type="button"]');
+            return app.client.click('.modal .modal-buttons button.confirm');
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
         }).then(() => {
-            return app.client.getText('.model:nth-of-type(1)')
+            return app.client.getText('.model:nth-of-type(1)');
         }).then(modelList => {
-            assert.include(modelList[1], 'Quantity: 10');
+            assert.include(modelList[1], 'Total: 10');
             mockServer.validate();
         });
     });
