@@ -74,10 +74,10 @@ describe('Deleting a model', function () {
         return app.client.click('#models div:nth-of-type(2) .model img[src="../assets/images/delete.svg"]').then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.getText('.modal p');
+            return app.client.getText('.modal .modal-content h4');
         }).then(text => {
             assert.include(text, 'Transistor');
-            return app.client.click('.modal button[type="button"]');
+            return app.client.click('.modal .modal-buttons button:nth-of-type(1)');
         }).then(() => {
             return app.client.waitForVisible('.modal', 2500, true);
         }).then(() => {
@@ -85,7 +85,7 @@ describe('Deleting a model', function () {
         }).then(() => {
             return app.client.getText('.toast');
         }).then(toast => {
-            assert.strictEqual(toast, 'Transistor (m8y7nFLsT) was deleted');
+            assert.strictEqual(toast, 'Transistor (m8y7nFLsT) was deleted.');
             items.splice(5, 1);
             items.splice(4, 1);
             items.splice(2, 1);

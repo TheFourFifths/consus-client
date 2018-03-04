@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import sinon from 'sinon';
-import ModelController from '../../../../.dist/controllers/pages/model';
+import ModelPageController from '../../../../.dist/controllers/pages/model';
 import * as api from '../../../../.dist/lib/api-client';
 import * as router from 'react-router';
 import { Dispatcher } from 'consus-core/flux';
@@ -26,7 +26,7 @@ describe("ModelPageController", () => {
                 })
             );
 
-            return ModelController.getModelAndItems("m8y123").then(() => {
+            return ModelPageController.getModelAndItems("m8y123").then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
                 assert.strictEqual(dispatcherSpy.getCall(0).args[0], "MODEL_FOUND");
@@ -40,18 +40,18 @@ describe("ModelPageController", () => {
             });
         });
 
-        it('Dispatchers "ERROR" if model request comes back invalid', () => {
+        it('Dispatchers "INFO" if model request comes back invalid', () => {
             getModelAndItems.returns(
                 new Promise((resolve, reject) => {
                     reject("NO");
                 })
             );
 
-            return ModelController.getModelAndItems().then(() => {
+            return ModelPageController.getModelAndItems().then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.lengthOf(dispatcherSpy.getCall(0).args, 2);
-                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(0).args[1].error, "The model requested does not exist");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[0], "INFO");
+                assert.strictEqual(dispatcherSpy.getCall(0).args[1].info, "The requested model does not exist.");
             });
         });
 

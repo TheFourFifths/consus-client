@@ -1,10 +1,31 @@
-#omnibar
-  input
-    width: 100%
-    padding: 1em 0 1em 3rem
+$bar-height = 3rem
+$img-space-width = 2.5rem
+$img-width = 2em
 
-  img
-    left: 0.5rem
-    position: absolute
-    height: 2.5em
-    margin-top .25em
+#omnibar
+    padding: 0
+
+    #top-bar
+        width: calc(99% - 7.5rem) // tried calculating this using $img-space-width, but it wouldn't work
+        padding: ($bar-height / 6) 0 ($bar-height / 6) 0.5rem
+        border-radius: 0.2em
+        margin: ($bar-height / 6) 0 ($bar-height / 6) 0
+        border: 1px solid lightgrey
+        float: left
+
+    img
+        cursor: pointer
+        width: $img-width
+        height: @width
+        left: (abs($img-space-width - @width) / 2 + 0.25rem)
+        margin: 0.5em (abs($img-space-width - $img-width)/2) 0 (abs($img-space-width - $img-width)/2)
+        float: left
+
+        &.back
+            left: (abs($img-space-width - @width) / 2 + 0.25rem)
+
+        &.forward
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width
+
+        &.home
+            left: (abs($img-space-width - @width) / 2 + 0.25rem) + @width * 2

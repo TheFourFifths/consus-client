@@ -1,6 +1,8 @@
 import { assert } from 'chai';
 import MockServer from '../../util/mock-server';
 import {
+    addFault,
+    addUnserializedModel,
     changeProtocol,
     changeHost,
     changePort,
@@ -10,18 +12,28 @@ import {
     createItem,
     createModel,
     deleteItem,
+    getAllFaultyItems,
     getAllItems,
     getAllModels,
     getModelAndItems,
     getAllStudents,
     getOverdueItems,
+    retrieveItem,
+    retrieveModel,
+    saveItem,
+    saveModel,
+    removeItemFault,
     searchItem,
     searchModel,
     searchStudent,
     updateStudent,
     updateModel,
     deleteModel,
-    uploadStudents
+    uploadStudents,
+    checkOutContentsLongterm,
+    patchItemDueDate,
+    createRfidToStudentAssosciation,
+    createStudent
 } from '../../../.dist/lib/api-client';
 
 describe('API Client', () => {
@@ -41,6 +53,57 @@ describe('API Client', () => {
 
     after(() => {
         mockServer.stop();
+    });
+
+    it('addFault', () => {
+        let res = {
+            status: "success",
+            data: {}
+        };
+
+        mockServer.expect({
+            method: "post",
+            endpoint: "item/fault",
+            json: {
+                itemAddress: "iGwEZUvfA",
+                faultDescription: "description"
+            },
+            response: res
+        });
+        return addFault("iGwEZUvfA", "description").then(returned => {
+            assert.deepEqual(returned, res.data);
+            mockServer.validate();
+        });
+    });
+
+    it('addUnserializedModel', () => {
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                allowCheckout: true,
+                price: 10.50,
+                count: 20,
+                inStock: 20
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'model/instock',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return addUnserializedModel('m8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
     });
 
     it('checkIn', () => {
@@ -100,11 +163,26 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE']
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ]
             },
             response
         });
-        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE']).then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContents(123456, equipment).then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -119,12 +197,27 @@ describe('API Client', () => {
             endpoint: 'checkout',
             json: {
                 studentId: 123456,
-                equipmentAddresses: ['iGwEZUvfA', 'iGwEZVHHE'],
+                equipment: [
+                    {
+                        address: 'iGwEZUvfA'
+                    },
+                    {
+                        address: 'iGwEZVHHE'
+                    }
+                ],
                 adminCode: 'abcdef'
             },
             response
         });
-        return checkOutContents(123456, ['iGwEZUvfA', 'iGwEZVHHE'], 'abcdef').then(data => {
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        return checkOutContents(123456, equipment, 'abcdef').then(data => {
             assert.isUndefined(data);
             mockServer.validate();
         });
@@ -219,6 +312,29 @@ describe('API Client', () => {
         });
     });
 
+    it('getAllFaultyItems', () => {
+        let response = {
+            status: 'success',
+            data: {
+                items: [{
+                    address: 'iGwEZVHHE',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }]
+            }
+        };
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'item/fault/all',
+            qs: {},
+            response
+        });
+        return getAllFaultyItems().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
     it('getAllItems', () => {
         let response = {
             status: 'success',
@@ -308,7 +424,7 @@ describe('API Client', () => {
             mockServer.validate();
         });
     });
-  
+
     it('getAllStudents', () => {
         let response = {
             "status":"success",
@@ -373,6 +489,106 @@ describe('API Client', () => {
             response
         });
         return getOverdueItems().then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('retrieveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/retrieve',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return retrieveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('retrieveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/retrieve',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return retrieveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveItem', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'item/save',
+            json: {
+                itemAddress: 'iGwEZVHHE'
+            },
+            response
+        });
+        return saveItem('iGwEZVHHE').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('saveModel', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'model/save',
+            json: {
+                studentId: 123456,
+                modelAddress: 'm8y7nEtAe'
+            },
+            response
+        });
+        return saveModel(123456, 'm8y7nEtAe').then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('removeItemFault', () => {
+        let response = {
+            status: 'success',
+            data: {
+                item: {
+                    address: 'iGwEZUvfA',
+                    modelAddress: 'm8y7nEtAe',
+                    status: 'AVAILABLE'
+                }
+            }
+        };
+        mockServer.expect({
+            method: 'delete',
+            endpoint: 'item/fault',
+            qs: {
+                itemAddress: 'iGwEZUvfA'
+            },
+            response
+        });
+
+        return removeItemFault('iGwEZUvfA').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });
@@ -482,7 +698,7 @@ describe('API Client', () => {
             method: 'get',
             endpoint: 'student',
             qs: {
-                id: '123456'
+                rfid: '123456'
             },
             response
         });
@@ -582,6 +798,144 @@ describe('API Client', () => {
             response
         });
         return updateStudent({id:123456, name:"This dude"}).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('checkOutContents (with code)', () => {
+        let response = {
+            status: 'success'
+        };
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout',
+            json: {
+                studentId: 123456,
+                equipment,
+                adminCode: 'abcdef'
+            },
+            response
+        });
+        return checkOutContents(123456, equipment, 'abcdef').then(data => {
+            assert.isUndefined(data);
+            mockServer.validate();
+        });
+    });
+
+    it('checkOutContentsLongterm', () => {
+        let response = {
+            status: 'success'
+        };
+        let today = new Date();
+        let equipment = [
+            {
+                address: 'iGwEZUvfA'
+            },
+            {
+                address: 'iGwEZVHHE'
+            }
+        ];
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'checkout/longterm',
+            json: {
+                studentId: 123456,
+                equipment,
+                dueDate: today.toDateString(),
+                professor: 'professor',
+                adminCode: 123456
+            },
+            response
+        });
+        return checkOutContentsLongterm(123456, equipment, today.toDateString(), 'professor', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('patchItemDueDate', () => {
+        let today = new Date().toDateString();
+        let response = {
+            status: 'success',
+            data: {
+                address: 'm8y7nEtAe',
+                name: 'Resistor',
+                description: 'V = IR',
+                manufacturer: 'Live',
+                vendor: 'Mouzer',
+                location: 'Shelf 14',
+                allowCheckout: true,
+                price: 10.50,
+                count: 20,
+                inStock: 20
+            }
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'item/duedate',
+            qs: {
+                itemAddress: 'm8y7nEtAe'
+            },
+            json: {
+                dueDate: today,
+                studentId: 123456
+            },
+            response
+        });
+        return patchItemDueDate(today, 'm8y7nEtAe', 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createRfidToStudentAssosciation', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'student/rfid',
+            qs: {
+                studentId: '123456'
+            },
+            json: {
+                rfid: 123456
+            },
+            response
+        });
+        return createRfidToStudentAssosciation(123456, 123456).then(data => {
+            assert.deepEqual(data, response.data);
+            mockServer.validate();
+        });
+    });
+
+    it('createStudent', () => {
+        let response = {
+            status: 'success'
+        };
+        mockServer.expect({
+            method: 'post',
+            endpoint: 'student',
+            json: {
+                studentId: 123456,
+                rfid: 123456,
+                email:'test',
+                major: 'test',
+                name: 'test'
+
+            },
+            response
+        });
+        return createStudent(123456, 123456, 'test', 'test', 'test').then(data => {
             assert.deepEqual(data, response.data);
             mockServer.validate();
         });

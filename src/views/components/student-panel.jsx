@@ -1,8 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
 import ModelStore from '../../store/model-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import StudentPanelController from '../../controllers/components/student-panel';
+import SavedEquipment from './saved-equipment.jsx';
+import moment from 'moment-timezone';
+import OmnibarController from "../../controllers/components/omnibar";
+import DateModal from "../components/date-modal.jsx";
+import config from 'config';
 
 export default class StudentPanel extends ListenerComponent {
 
@@ -10,11 +14,13 @@ export default class StudentPanel extends ListenerComponent {
         super();
         this.state = {
             checkinNum: 1,
-            models: ModelStore.getAllModels()
-        }
+            models: ModelStore.getAllModels(),
+            showItemDateModal: false,
+            showModelDateModal: false
+        };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         StudentPanelController.getModels();
     }
 
@@ -27,15 +33,15 @@ export default class StudentPanel extends ListenerComponent {
     getState() {
         return {
             models: ModelStore.getAllModels()
-        }
+        };
     }
 
     changeCheckinNum(maxCheckin, e) {
-        if(parseInt(e.target.value) < 1){
+        if (parseInt(e.target.value) < 1) {
             this.setState({
                 checkinNum: 1
             });
-        } else if(parseInt(e.target.value) > maxCheckin) {
+        } else if (parseInt(e.target.value) > maxCheckin) {
             this.setState({
                 checkinNum: maxCheckin
             });
@@ -47,7 +53,7 @@ export default class StudentPanel extends ListenerComponent {
     }
 
     checkInModel(studentId, modelAddress, quantity) {
-        if(isNaN(parseInt(quantity))){
+        if (isNaN(parseInt(quantity))) {
             StudentPanelController.throwNotANumberError();
         } else {
             this.props.checkInModel(studentId, modelAddress, quantity);
@@ -57,68 +63,130 @@ export default class StudentPanel extends ListenerComponent {
         });
     }
 
+    displayItem(address) {
+        OmnibarController.displayItem(address);
+    }
+
+    changeItemDueDate(date, item) {
+        StudentPanelController.changeItemDueDate(date, item);
+        this.setState({
+            showItemDateModal: false
+        });
+    }
+
+    changeModelDueDate(date, model) {
+        throw new Error(`Model due dates not yet implemented. Changing due date to: ${date} for model: ${model.address}`);
+    }
+
     renderEquipment() {
-        if(this.props.student.items.length === 0 && this.props.student.models.length === 0) {
+        let items =this.props.student.items.filter(item => item.status === 'CHECKED_OUT');
+        let models = this.props.student.models.filter(model => model.status === 'CHECKED_OUT');
+        if (items.length === 0 &&models.length === 0) {
             return (<i className='equipment-none'>Student has no equipment checked out.</i>);
         }
-
-        let modelCounts = StudentPanelController.countDuplicateModels(this.props.student.models);
-
         return (
             <div className='equipment'>
-                {this.props.student.items.map((item, i) => {
-                    return (<Link to={`/item/${item.address}`}  key={i} className={item.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                        <div className="item-info">
-                            {this.renderItemInfo(item)}
-                        </div>
-                    </Link>);
-                })}
-
-                {modelCounts.map((model, m) => {
+                {items.map(item => {
                     return (
-                        <div className="item-info" key={m}>
-                            <Link to={`/model/${model.address}`} className={model.timestamp < Math.floor(Date.now()/1000) ? 'link-nostyle overdue' : 'link-nostyle'}>
-                                {this.renderModelInfo(model)}
-                            </Link>
-                            {this.renderCheckinButtons(model)}
-                        </div>);
+                        <div key={item.address}>
+                            {this.renderItemInfo(item)}
+                            <DateModal
+                                message='Select a new due date.'
+                                active={this.state.showItemDateModal}
+                                onDateSelected={date => this.changeItemDueDate(date, item)}
+                            />
+                        </div>
+                    );
+                })}
+                {models.map(model => {
+                    return (
+                        <div key={model.address}>
+                            {this.renderModelInfo(model)}
+                            <DateModal
+                                message='Select a new due date'
+                                active={this.state.showModelDateModal}
+                                onDateSelected={date => this.changeModelDueDate(date, model)}
+                            />
+                        </div>
+                    );
                 })}
             </div>
         );
     }
 
-    renderModelInfo(model){
-        return (<div>{model.name} <i>{model.address}</i> ({model.quantity})</div>);
-    }
-
-    renderCheckinButtons(model){
-        return (
-            <div className='checkin-buttons'>
-                <input type='number'  value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
-                <button id={model.address} onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>Check in</button>
-                <button id={`all${model.address}`}  onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>Check in All</button>
+    renderModelInfo(model) {
+        let dueDate = moment.tz(model.dueDate * 1000, config.get('timezone'));
+        return <div className="model-info">
+            <div onClick={() => OmnibarController.displayEquipment(model.address)} className="fake-link">
+                <span className="quantity">({model.quantity}&times;)&nbsp;</span>
+                <span className="name">{model.name}</span>
+                <span className="addr">{model.address}</span>
+                <br/>
+                <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                {
+                    dueDate.isBefore(moment.tz(config.get('timezone')))
+                        ? <span className='overdue'> (overdue)</span>
+                        : ''
+                }
             </div>
-        );
+            <div className="buttons">
+                <input type='number' value={this.state.checkinNum} onChange={this.changeCheckinNum.bind(this, model.quantity)} min='1' max={model.quantity} />
+                <button id={model.address} className="neat-secondary-button" onClick={() => this.checkInModel(this.props.student.id, model.address, parseInt(this.state.checkinNum))}>
+                    Check in
+                </button>
+                <button id={`all${model.address}`} className="neat-secondary-button" onClick={() => this.checkInModel(this.props.student.id, model.address, model.quantity)}>
+                    Check in All
+                </button>
+                <button className="neat-secondary-button" onClick={() => StudentPanelController.saveModel(this.props.student.id, model.address)}>
+                    Save
+                </button>
+            </div>
+        </div>;
     }
 
-    renderItemInfo(item){
+    showItemDateModal() {
+        this.setState({
+            showItemDateModal: true
+        });
+    }
+
+    renderItemInfo(item) {
         let model = this.state.models.find(model => model.address === item.modelAddress);
-        if(!model){
+        if (!model) {
             return null;
-        }else{
-            return (<div>
-                {model.name} {item.timestamp < Math.floor(Date.now()/1000) ? '(overdue)' : ''} <i>{item.address}</i>
-            </div>)
+        } else {
+            let dueDate = moment.tz(item.timestamp * 1000, config.get('timezone'));
+            return <div className="item-info">
+                <div onClick={() => OmnibarController.displayEquipment(item.address)} className="fake-link">
+                    <span className="name">{model.name}</span>
+                    <span className="addr">{item.address}</span>
+                    <br/>
+                    <span className="dueDate">{dueDate.format(config.get('cart.due_date_format'))}</span>
+                    {
+                        dueDate.isBefore(moment.tz(config.get('timezone')))
+                            ? <span className='overdue'> (overdue)</span>
+                            : ''
+                    }
+                </div>
+                <div className="buttons">
+                    <button className="neat-secondary-button" onClick={this.showItemDateModal.bind(this)}>Change due date</button>
+                    <button className="neat-secondary-button" onClick={() => StudentPanelController.saveItem(item.address)}>Save</button>
+                </div>
+            </div>;
         }
     }
 
     render() {
+        let savedItems = this.props.student.items.filter(item => item.status === 'SAVED');
+        let savedModels = this.props.student.models.filter(model => model.status === 'SAVED');
         return (
             <div className='student'>
                 <h2 className='name'>{this.props.student.name}</h2>
                 <i className='id'>{this.props.student.id}</i>
                 <h4 className='equipment-heading'>Equipment</h4>
                 {this.renderEquipment()}
+                <h4 className='equipment-heading'>Saved Equipment</h4>
+                <SavedEquipment items={savedItems} models={savedModels} student={this.props.student} />
             </div>
         );
     }

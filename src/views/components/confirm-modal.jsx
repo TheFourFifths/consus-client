@@ -3,17 +3,15 @@ import Modal from './modal.jsx';
 
 export default class ConfirmModal extends React.Component {
 
-
     render() {
         return (
             <Modal
                 active={this.props.active}
                 buttonText="Yes"
-                onClose={() => this.props.onSelect(true)}>
-                <p>{this.props.message}</p><br/>
-                <br/>
-                <button onClick={() => this.props.onSelect(false)}>No</button>
+                onClose={() => this.props.onSelect(true)}
+                buttons={<button onClick={() => this.props.onSelect(false)} id='no-btn' className='default-btn deny'>No</button>}>
+                <h4>{this.props.message.split(/\n/g).map((line, index) => { return <span key={index}>{line}<br/></span>; })}</h4>
             </Modal>
-        )
+        );
     }
 }

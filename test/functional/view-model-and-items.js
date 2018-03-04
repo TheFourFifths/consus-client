@@ -34,21 +34,24 @@ describe('Viewing a model and an item', function () {
     });
 
     it('Looks up a model and its items', () => {
+        let model = models[0];
         mockServer.expect({
             method: 'get',
             endpoint: 'model/children',
             qs: {
-                modelAddress: 'm8y7nEtAe'
+                modelAddress: model.address
             },
             response: {
                 status: 'success',
                 data: {
-                    model: models[0],
+                    model: model,
                     items: [items[0], items[1], items[3]]
                 }
             }
         });
-        return app.client.keys('m8y7nEtAe').then(() => {
+        return app.client.keys(model.address).then(() => {
+            return app.client.keys('Enter');
+        }).then(() => {
             return app.client.waitForVisible('.model', 1000000);
         }).then(() => {
             return app.client.getText('.model .titleArea h2');

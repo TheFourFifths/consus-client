@@ -48,7 +48,7 @@ describe('ModelStore', () => {
     });
 
     it('should get model by address', () => {
-        Dispatcher.handleAction(Dispatcher.handleAction('MODELS_RECEIVED',{
+        Dispatcher.handleAction('MODELS_RECEIVED',{
             models:[{
                 name: 'test1',
                 address: 'abc123'
@@ -59,9 +59,18 @@ describe('ModelStore', () => {
                 name: 'test3',
                 address: 'address'
             }]
-        }));
+        });
         let model = ModelStore.getModelByAddress('abc123');
         assert.strictEqual(model.name, 'test1');
+    });
+
+    it('should update the current model on unserialized model addition', () => {
+        Dispatcher.handleAction('UNSERIALIZED_MODEL_ADDED', {
+            address: 'MODELADDRESS',
+            name: 'THE MODEL'
+        });
+        let model = ModelStore.getModel();
+        assert.strictEqual(model.name, 'THE MODEL');
     });
 
 });

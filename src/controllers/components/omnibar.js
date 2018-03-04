@@ -1,4 +1,4 @@
-import { searchStudent } from '../../lib/api-client';
+import { searchStudent, searchItem, searchModel } from '../../lib/api-client';
 import { readAddress } from 'consus-core/identifiers';
 import { Dispatcher } from 'consus-core/flux';
 import { hashHistory } from 'react-router';
@@ -22,63 +22,114 @@ export default class OmnibarController {
         hashHistory.push(route);
     }
 
-    static getStudent(id) {
-        if (typeof id === 'string') {
-            id = parseInt(id);
+    static getStudent(rfid) {
+        if (typeof rfid === 'string') {
+            rfid = parseInt(rfid);
         }
 
         if (CartStore.getContents().length !== 0) {
-            let currentStudentId;
-            if (StudentStore.getStudent() !== null) {
-                currentStudentId = StudentStore.getStudent().id;
-            }
-            return StudentController.checkout(currentStudentId, CartStore.getContents()).then(() => {
-                if (CartStore.getContents().length === 0) {
-                    return (searchStudent(id));
-                }
-            }).then(student => {
-                if (CartStore.getContents().length === 0) {
-                    Dispatcher.handleAction("STUDENT_FOUND", student);
-                    hashHistory.push('/student');
-                }
-            });
+            return this.finishCheckout(rfid);
         } else {
-            return searchStudent(id).then(student => {
+            return searchStudent(rfid).then(student => {
                 Dispatcher.handleAction("STUDENT_FOUND", student);
-                hashHistory.push('/student');
-            }).catch(() => {
-                Dispatcher.handleAction("ERROR", {
-                    error: "An invalid student ID was scanned. The student could not be found."
-                });
+                hashHistory.push(`/student?rfid=${rfid}`);
             });
         }
     }
 
-    static displayItem(itemAddress) {
-        try {
-            if(readAddress(itemAddress).type === 'item') {
-                hashHistory.push('/item/' + itemAddress);
+    static finishCheckout(rfid) {
+        let currentStudentId;
+        if (StudentStore.getStudent() !== null) {
+            currentStudentId = StudentStore.getStudent().id;
+        }
+        if (CartStore.getIsLongterm()) {
+            if (!StudentController.isValidLongtermData(CartStore.getDueDate(), CartStore.getProfessor())) {
+                return;
             } else {
-                Dispatcher.handleAction("ERROR", {
-                    error: "Expected an item address but received a model address"
+                return StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                    CartStore.getProfessor()).then(() => {
+                        if (CartStore.getContents().length === 0) {
+                            return searchStudent(StudentStore.getStudent().rfid);
+                        }
+                    }).then(student => {
+                        if (CartStore.getContents().length === 0) {
+                            Dispatcher.handleAction("STUDENT_FOUND", student);
+                            hashHistory.push('/student');
+                        }
+                    });
+            }
+        }
+        return StudentController.checkout(currentStudentId, CartStore.getContents()).then(() => {
+            if (CartStore.getContents().length === 0) {
+                return (searchStudent(rfid));
+            }
+        }).then(student => {
+            if (CartStore.getContents().length === 0) {
+                Dispatcher.handleAction("STUDENT_FOUND", student);
+                hashHistory.push('/student');
+            }
+        });
+    }
+
+    static displayEquipment(equipAddress) {
+        try {
+            let type = readAddress(equipAddress).type;
+            if(type === 'item') {
+                return searchItem(equipAddress).then(data => {
+                    Dispatcher.handleAction("ITEM_FOUND", data);
+                    hashHistory.push(`/item/${equipAddress}`);
+                });
+            } else if (type === 'model') {
+                return searchModel(equipAddress).then(data => {
+                    Dispatcher.handleAction("MODEL_FOUND", data);
+                    hashHistory.push(`/model/${equipAddress}`);
                 });
             }
         } catch (f) {
             Dispatcher.handleAction("ERROR", {
-                error: "The provided item address is somehow invalid."
+                error: "The provided address is invalid."
             });
         }
     }
 
-    static throwInvalidCharacterError() {
-        Dispatcher.handleAction("ERROR", {
-            error: "Please only enter Alphanumeric Characters."
+    static throwQueryInvalidError() {
+        Dispatcher.handleAction("WARN", {
+            warn: "Invalid Query. Student RFID format should be 'rfid:######'. Model/item addresses are case sensitive."
         });
     }
 
     static emptyCart() {
         if (CartStore.getContents().length !== 0) {
-            return StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents());
+            if (CartStore.getIsLongterm()) {
+                if (!StudentController.isValidLongtermData(CartStore.getDueDate(), CartStore.getProfessor())) {
+                    return false;
+                }
+                StudentController.longtermCheckout(StudentStore.getStudent().id, CartStore.getContents(), CartStore.getDueDate(),
+                    CartStore.getProfessor()).then(() => {
+                        return true;
+                    });
+            } else {
+                StudentController.checkout(StudentStore.getStudent().id, CartStore.getContents()).then(() => {
+                    return true;
+                });
+            }
+
+        }
+        return true;
+    }
+
+    static goToStudentForm(rfid, id){
+        if(rfid && id){
+            Dispatcher.handleAction("CREATE_STUDENT", {
+                rfid,
+                id
+            });
+            hashHistory.push('/student/new');
+        } else {
+            Dispatcher.handleAction("ERROR", {
+                error: "No RFID or ID provided."
+            });
         }
     }
+
 }

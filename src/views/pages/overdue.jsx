@@ -2,7 +2,6 @@ import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import OverdueItem from '../components/overdue-item.jsx';
 import OverdueItemsController from '../../controllers/pages/overdue';
-import { Link } from 'react-router';
 import ItemStore from '../../store/item-store';
 
 export default class OverdueItems extends ListenerComponent {
@@ -19,7 +18,7 @@ export default class OverdueItems extends ListenerComponent {
     getState() {
         return {
             overdueItems: ItemStore.getOverdueItems()
-        }
+        };
     }
 
     render() {
@@ -28,8 +27,8 @@ export default class OverdueItems extends ListenerComponent {
             {this.state.overdueItems.map( (item, key) => {
                 return <div key={key}>
                     <OverdueItem item={item} />
-                </div>
+                </div>;
             })}
-        </div>
+        </div>;
     }
 }

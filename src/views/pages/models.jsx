@@ -1,17 +1,13 @@
 import React from 'react';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import ModelStore from '../../store/model-store';
+import IndexController from '../../controllers/pages/index';
 import Model from '../components/model.jsx';
-import CartController from '../../controllers/components/cart-panel'
-import {Link} from 'react-router';
-import InputModal from '../components/input-modal.jsx';
-import {readAddress} from 'consus-core/identifiers';
-// import { Dispatcher } from 'consus-core/flux';
+
 export default class Models extends ListenerComponent {
 
     constructor() {
         super();
-
     }
 
     getStores() {
@@ -22,66 +18,20 @@ export default class Models extends ListenerComponent {
 
     getState() {
         return {
-            models: ModelStore.getAllModels(),
-            lostItemModalActive: false,
-            inputModalAcceptDisabled: true
+            models: ModelStore.getAllModels()
         };
     }
 
-    acceptItemLostAddress(equipmentAddress) {
-        CartController.turnInLostEquipment(equipmentAddress);
-        this.cancelItemLost();
-
-    }
-
-    lostItem() {
-        this.setState({lostItemModalActive: true})
-    }
-
-    cancelItemLost() {
-        this.setState({lostItemModalActive: false})
-    }
-
-    update(e) {
-        let equipmentAddress = e.target.value;
-        if (equipmentAddress.length > 8) {
-            try {
-                readAddress(equipmentAddress);
-                this.setState({
-                    inputModalIsInvalid: undefined,
-                    inputModalAcceptDisabled: false
-                });
-            } catch (error) {
-                this.setState({
-                    inputModalIsInvalid: true,
-                    inputModalAcceptDisabled: true
-                });
-            }
-        }
-        this.setState({
-            inputModalInput: equipmentAddress
-        })
+    goToNewModel() {
+        IndexController.navigateTo(`/models/new`);
     }
 
     render() {
         return (
             <div id="models">
-                <InputModal
-                    message='Please enter the item/model address located under the barcode'
-                    active={this.state.lostItemModalActive}
-                    onAccept={this.acceptItemLostAddress.bind(this)}
-                    onCancel={this.cancelItemLost.bind(this)}
-                    update={this.update.bind(this)}
-                    errorMessage='Equipment address is incorrect. Please check spelling!'
-                    acceptText='Enter'
-                    textHidden={false}
-                    input={this.state.inputModalInput}
-                    invalid={this.state.inputModalIsInvalid}
-                    acceptDisabled={this.state.inputModalAcceptDisabled}
-                />
-                <h1>All models</h1>
-                <Link to='/models/new'>Make new model</Link>
-                <button id='btnLostItem' onClick={this.lostItem.bind(this)}> Lost Item? Click here!</button>
+                <h1>All Models</h1>
+                <button className='cool-button' onClick={this.goToNewModel}>Make new Model</button>
+
                 {this.state.models.map((model) => {
                     return (
                         <div key={model.address + model.count}>

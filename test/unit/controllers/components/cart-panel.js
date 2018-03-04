@@ -74,7 +74,7 @@ describe("CartController", () => {
             })
         });
 
-        it('Should dispatch "ERROR" if item is checked out', () => {
+        it('Should dispatch "INFO" if item is checked out', () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: []});
             searchItem.returns(
                 new Promise(resolve => {
@@ -89,8 +89,8 @@ describe("CartController", () => {
             return CartController.getItem("iGwEZUvfA").then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
-                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'This item is already checked out by another student.');
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "INFO");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].info, 'Another student checked out this item.');
             });
         });
 
@@ -130,7 +130,7 @@ describe("CartController", () => {
             })
         });
 
-        it('Should dispatch "ERROR" if no models in stock', () => {
+        it('Should dispatch "INFO" if no models in stock', () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: []});
             searchModel.returns(
                 new Promise(resolve => {
@@ -146,12 +146,12 @@ describe("CartController", () => {
             return CartController.getModel("123456").then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
-                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'transistor is out of stock.');
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "INFO");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].info, 'transistor is out of stock.');
             });
         });
 
-        it('Should dispatch "ERROR" if checkout is not allowed', () => {
+        it('Should dispatch "WARN" if checkout is not allowed', () => {
             Dispatcher.handleAction("STUDENT_FOUND", {items: []});
             searchModel.returns(
                 new Promise(resolve => {
@@ -167,8 +167,8 @@ describe("CartController", () => {
             return CartController.getModel("123456").then(() => {
                 assert.isTrue(dispatcherSpy.called);
                 assert.strictEqual(dispatcherSpy.getCall(1).args.length, 2);
-                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "ERROR");
-                assert.strictEqual(dispatcherSpy.getCall(1).args[1].error, 'transistor is not available for checkout.');
+                assert.strictEqual(dispatcherSpy.getCall(1).args[0], "WARN");
+                assert.strictEqual(dispatcherSpy.getCall(1).args[1].warn, 'transistor is unavailable for checkout.');
             });
         });
 
@@ -290,5 +290,36 @@ describe("CartController", () => {
             Dispatcher.handleAction("CLEAR_ERROR");
         });
     });
+
+    describe("editors", () => {
+        let dispatcherSpy, checkin;
+
+        beforeEach(() => {
+            dispatcherSpy = sinon.spy(Dispatcher, 'handleAction');
+        });
+
+        it("Should checkin an item", () => {
+            CartController.changeIsLongterm(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_IS_LONGTERM');
+        });
+        it("Should checkin an item", () => {
+            CartController.changeLongtermDate(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_LONGTERM_DUEDATE');
+        });
+        it("Should checkin an item", () => {
+            CartController.changeLongtermProfessor(false);
+            assert.isTrue(dispatcherSpy.called, 'dispatcherSpy not called');
+            assert.strictEqual(dispatcherSpy.getCall(0).args.length, 2);
+            assert.strictEqual(dispatcherSpy.getCall(0).args[0], 'EDIT_LONGTERM_PROFESSOR');
+        });
+        afterEach(() => {
+            dispatcherSpy.restore();
+        });
+    });
+
 
 });

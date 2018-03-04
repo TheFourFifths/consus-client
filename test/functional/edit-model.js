@@ -3,6 +3,8 @@ import { Application } from 'spectron';
 import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
+import models from '../test-cases/models';
+import items from '../test-cases/items';
 
 describe('Editing a model', function () {
 
@@ -26,7 +28,7 @@ describe('Editing a model', function () {
         mockServer.clearExpectations();
     });
 
-    it('navigates to  model edit page', () => {
+    it('navigates to model edit page', () => {
         mockServer.expect({
             method: 'get',
             endpoint: 'model/all',
@@ -99,7 +101,7 @@ describe('Editing a model', function () {
             assert.lengthOf(elements.value, 2);
             return app.client.click('.model:nth-of-type(1) .actionArea img[src*=edit]');
         }).then(() => {
-            return app.client.waitForVisible('.create-model-form', 5000);
+            return app.client.waitForVisible('.model-form', 5000);
         }).then(() => {
             mockServer.validate();
         });
@@ -110,13 +112,13 @@ describe('Editing a model', function () {
         return app.client.chooseFile('#photo input', filepath).then(() => {
             return app.client.waitForVisible('.modal');
         }).then(() => {
-            return app.client.getText('.modal-content p');
+            return app.client.getText('.modal-content h4');
         }).then(errMsg => {
             assert.match(errMsg, /specified file is too large/);
-            assert.match(errMsg, /950 kB/);
-            return app.client.click('.modal-content button');
+            assert.match(errMsg, /\d+.\d{1,3} kB/);
+            return app.client.click('.modal-buttons button');
         }).then(() => {
-            return app.client.getAttribute('.create-model-form form input[type=submit]', 'disabled');
+            return app.client.getAttribute('.model-form form input[type=submit]', 'disabled');
         }).then(isDisabled => {
             assert.isOk(isDisabled, 'expected form submission button to be disabled due to oversize photo');
         });
@@ -158,24 +160,18 @@ describe('Editing a model', function () {
                 }
             }
         });
+
         mockServer.expect({
             method: 'get',
-            endpoint: 'model',
-            qs: { address: 'm8y7nEtAe' },
+            endpoint: 'model/children',
+            qs: {
+                modelAddress: 'm8y7nEtAe'
+            },
             response: {
                 status: 'success',
                 data: {
-                    address: 'm8y7nEtAe',
-                    name: 'New model name',
-                    description: 'New description',
-                    manufacturer: 'New manuf',
-                    vendor: 'New van door',
-                    location: 'The sixties',
-                    allowCheckout: false,
-                    price: 3.14,
-                    count: 20,
-                    items: [ 'iGwEZUvfA' ],
-                    photo: b64SamplePhoto
+                    model: models[0],
+                    items: [items[0]]
                 }
             }
         });
@@ -211,13 +207,13 @@ describe('Editing a model', function () {
             let filepath = path.resolve(__dirname, '../../test/assets/img', 'photo.jpeg');
             return app.client.chooseFile('#photo input', filepath);
         }).then(() => {
-            return app.client.submitForm('.create-model-form input[type=submit]');
+            return app.client.submitForm('.model-form input[type=submit]');
         }).then(() => {
             return app.client.waitForVisible('#toasts .toast');
         }).then(() => {
             return app.client.getText('#toasts .toast');
         }).then(text => {
-            assert.strictEqual(text, 'New model name (m8y7nEtAe) was updated!');
+            assert.strictEqual(text, 'New model name (m8y7nEtAe) was updated.');
             return app.client.waitForVisible('.model');
         }).then(() => {
             mockServer.validate();

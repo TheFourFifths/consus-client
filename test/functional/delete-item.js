@@ -3,6 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import items from '../test-cases/items';
+import models from '../test-cases/models';
 
 describe('Deleting an Item', function () {
 
@@ -32,6 +33,16 @@ describe('Deleting an Item', function () {
                 status: 'success',
                 data: {
                     items
+                }
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
                 }
             }
         });

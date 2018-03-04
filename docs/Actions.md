@@ -6,6 +6,7 @@ This document describes the Flux actions used in the Consus client.
 
 - [Actions](#actions)
     - [Table of contents](#table-of-contents)
+    - [ADD_ITEM_FAULT](#add_item_fault)
     - [ADMIN_CODE_ENTERED](#admin_code_entered)
     - [CHECKIN_SUCCESS](#checkin_success)
     - [CHECKOUT_ITEM_FOUND](#checkout_item_found)
@@ -15,9 +16,14 @@ This document describes the Flux actions used in the Consus client.
     - [CLEAR_ALL_DATA](#clear_all_data)
     - [CLEAR_ERROR](#clear_error)
     - [CLEAR_CART_CONTENTS](#clear_cart_contents)
+    - [CREATE_STUDENT](#create_student)
     - [CREATE_TOAST](#create_toast)
     - [DEBUG](#debug)
+    - [EDIT_IS_LONGTERM](#edit_is_longterm)
+    - [EDIT_LONGTERM_DUEDATE](#edit_longterm_duedate)
+    - [EDIT_LONGTERM_PROFESSOR](#edit_longterm_professor)
     - [ERROR](#error)
+    - [FAULTY_ITEMS_RECEIVED](#faulty_items_received)
     - [FILE_UNSUPPORTED](#file_unsupported)
     - [INFO](#info)
     - [INVALID_CODE](#invalid_code)
@@ -34,12 +40,36 @@ This document describes the Flux actions used in the Consus client.
     - [OVERDUE_ITEMS_RECEIVED](#overdue_items_received)
     - [OVERRIDE_REQUIRED](#override_required)
     - [POP_TOAST](#pop_toast)
+    - [RETRIEVE_ITEM](#retrieve_item)
+    - [RETRIEVE_MODEL](#retrieve_model)
+    - [SAVE_ITEM](#save_item)
+    - [SAVE_MODEL](#save_model)
     - [STUDENT_FOUND](#student_found)
     - [STUDENT_UPDATED](#student_updated)
     - [STUDENTS_FOUND](#students_found)
     - [STUDENTS_UPLOADED](#students_uploaded)
+    - [UNSERIALIZED_MODEL_ADDED](#unserialized_model_added)
     - [WARN](#warn)
     - [PROMPT_TO_PRINT](#prompt_to_print)
+
+## ADD_ITEM_FAULT
+
+Dispatched when adding a fault to an item.
+
+### Data
+
+- `itemAddress`: The Item to add the fault to
+- `fault`: An object containing the description and timestamp of the fault.
+
+```json
+{
+    "itemAddress": "address",
+    "fault" : {
+        "timestamp" :1020221,
+        "description": "Something broke?!?!?!"
+    }
+}
+```
 
 ## ADMIN_CODE_ENTERED
 
@@ -139,6 +169,67 @@ Dispatched when a toast should be displayed. Currently, the created toast is add
 }
 ```
 
+## CREATE_STUDENT
+
+Dispatched once a student id and rfid have been received and the student form is displayed
+
+### Data
+
+- `rfid`: the rfid of the unknown ID card
+- `id`: the entered student ID that was not found
+
+```json
+{
+    "rfid": 123456,
+    "id": 123456
+}
+```
+
+## EDIT_IS_LONGTERM
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `isLongterm `: a boolean indicating if the current checkout is set for longterm
+
+```json
+{
+    "isLongterm": true
+}
+```
+
+## EDIT_LONGTERM_DUEDATE
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `dueDate`: a Date object
+
+```json
+{
+    "dueDate": "Some Date object that probably won't be Sun Mar 26 2017 15:12:34 GMT-0500"
+}
+```
+
+## EDIT_LONGTERM_PROFESSOR
+
+Dispatched when an edit is made to the cart-panel in the longterm section. The data is stored this way to mimic
+the way a normal checkout occurs. See [CHECKOUT_ITEM_FOUND](#checkout_item_found).
+
+### Data
+
+- `professor `: a string representation of the professors name for longterm checkout
+
+```json
+{
+    "professor": "Professor Wiffle"
+}
+```
+
 
 ## DEBUG
 
@@ -169,6 +260,13 @@ Dispatched when an error modal must be shown to the user.
 }
 ```
 
+## FAULTY_ITEMS_RECEIVED
+
+Dispatched when a list of faulty items is retrieved from the server.
+
+### Data
+
+None.
 
 ## FILE_UNSUPPORTED
 
@@ -325,6 +423,62 @@ Dispatched when a toast shall be popped.
 }
 ```
 
+## RETRIEVE_ITEM
+
+Mark an item as retrieved.
+
+### Data
+
+- `itemAddress`: The address of the item that was retrieved
+
+```json
+{
+    "itemAddress": "iGwEZUvfA"
+}
+```
+
+## RETRIEVE_MODEL
+
+Mark a model as retrieved.
+
+### Data
+
+- `modelAddress`: The address of the model that was retrieving
+
+```json
+{
+    "studentId": 123456,
+    "modelAddress": "myxEb109"
+}
+```
+
+## SAVE_ITEM
+
+Mark an item as saved.
+
+### Data
+
+- `itemAddress`: The address of the item that was saved
+
+```json
+{
+    "itemAddress": "iGwEZUvfA"
+}
+```
+
+## SAVE_MODEL
+
+Mark a model as saved.
+
+### Data
+
+- `modelAddress`: The address of the model that was saved
+
+```json
+{
+    "modelAddress": "myxEb109"
+}
+```
 
 ## STUDENT_FOUND
 
@@ -358,6 +512,14 @@ Dispatched when uploading excel doc has finished uploading to the server
 ### Data
 
 None.
+
+## UNSERIALIZED_MODEL_ADDED
+
+Dispatched when a new instance of an unserialzed model is created and the total and in stock values have been incremented
+
+### Data
+
+An entire model object as received from the server.
 
 ## WARN
 

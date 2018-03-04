@@ -30,31 +30,50 @@ export default class Student extends ListenerComponent {
         };
     }
 
-    acceptAdminModal(code){
+    componentWillReceiveProps() {
+        let rfid = parseInt(window.location.href.split('?rfid=')[1].split('&')[0]);
+        if (this.state.student.rfid !== rfid) {
+            StudentController.getStudent(rfid);
+        }
+    }
+
+    acceptAdminModal(code) {
         StudentController.acceptAdminModal(code);
         this.checkOut();
     }
 
     checkOut() {
-        if(CartStore.getContents().length > 0)
-            StudentController.checkout(this.state.student.id, this.state.equipment);
+        if (CartStore.getContents().length > 0) {
+            if (CartStore.getIsLongterm()) {
+                StudentController.longtermCheckout(this.state.student.id, this.state.equipment,
+                    CartStore.getDueDate(), CartStore.getProfessor());
+            } else {
+                StudentController.checkout(this.state.student.id, this.state.equipment);
+            }
+            document.querySelector(`#omnibar input[type="text"]`).focus();
+        }
         else StudentController.throwNoItemsError();
     }
 
-    checkInModel(studentId, modelAddress, quantity){
+    checkInModel(studentId, modelAddress, quantity) {
         StudentController.checkInModel(studentId, modelAddress, quantity);
+    }
+
+    cancelCheckout() {
+        StudentController.cancelCheckout();
+        document.querySelector(`.cart input[type="text"]`).focus();
     }
 
     render() {
         return (
             <div id='student'>
                 <StudentPanel student={this.state.student} checkInModel={this.checkInModel.bind(this)}/>
-                <CartPanel equipment={this.state.equipment} cancel={StudentController.cancelCheckout} submit={this.checkOut.bind(this)} student={this.state.student} />
-                <div className='clear'></div>
+                <CartPanel equipment={this.state.equipment} cancel={this.cancelCheckout.bind(this)}
+                           submit={this.checkOut.bind(this)} student={this.state.student}/>
                 <InputModal
                     message='Please Scan Admin ID or Enter Admin Pin:'
-                    active = {this.state.adminCodeRequired}
-                    onAccept= {this.acceptAdminModal.bind(this)}
+                    active={this.state.adminCodeRequired}
+                    onAccept={this.acceptAdminModal.bind(this)}
                     onCancel={StudentController.cancelAdminModal}
                     acceptText='Continue Checkout'
                     textHidden={true}

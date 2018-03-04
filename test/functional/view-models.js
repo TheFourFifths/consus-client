@@ -3,6 +3,7 @@ import electron from 'electron-prebuilt';
 import { assert } from 'chai';
 import MockServer from '../util/mock-server';
 import models from '../test-cases/models';
+import items from '../test-cases/items';
 
 describe('View all models', function () {
 
@@ -41,13 +42,14 @@ describe('View all models', function () {
         }).then(() => {
             return app.client.getText('#models h1');
         }).then(headerTxt => {
-            assert.match(headerTxt, /All models/);
+            assert.match(headerTxt, /All Models/);
             return app.client.elements('#models .model');
         }).then(resp => {
             modelList = resp.value;
             assert.lengthOf(modelList, 4);
-            return app.client.getText('#models:first-child');
-        }).then(model => {
+            return app.client.getText('#models .model');
+        }).then(modelList => {
+            let model = modelList[0];
             assert.include(model, 'Resistor');
             assert.include(model, 'm8y7nEtAe');
             assert.include(model, 'V = IR');
@@ -70,7 +72,7 @@ describe('View all models', function () {
             response: {
                 status: 'success',
                 data: {
-                    address: 'iGwEZVvgu',
+                    item: items[3],
                     modelName: 'Resistor'
                 }
             }
@@ -85,19 +87,64 @@ describe('View all models', function () {
                 }
             }
         });
-        return app.client.click('.btnAddItemToModel:nth-of-type(1)').then(() => {
+        return app.client.click(`div#${models[0].address} .btnAddItemToModel`).then(() => {
             return app.client.waitForVisible('.modal', 5000);
         }).then(() => {
-            return app.client.click('.modal .modal-content button[type="button"]');
+            return app.client.click('.modal .modal-buttons button.confirm');
         }).then(()=> {
             return app.client.waitForVisible('.toast', 1000);
         }).then(() => {
-            return app.client.getText('.model:nth-of-type(1)')
+            return app.client.getText('.model:nth-of-type(1)');
         }).then(modelList => {
-            assert.include(modelList[1], 'Quantity: 10');
+            assert.include(modelList[1], 'Total: 10');
             mockServer.validate();
         });
     });
+
+    it('increments unserialized models', () => {
+        let responseData = models[2];
+        responseData.inStock++;
+        responseData.count++;
+        mockServer.expect({
+            method: 'patch',
+            endpoint: 'model/instock',
+            qs: {
+                modelAddress: models[2].address
+            },
+            response: {
+                status: 'success',
+                data: responseData
+            }
+        });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
+        return app.client.click(`#${models[2].address} .btnAddItemToModel`).then(() => {
+            return app.client.waitForVisible('.modal', 5000);
+        }).then(() => {
+            return app.client.getText('.modal');
+        }).then(modalText => {
+            assert.include(modalText, 'Add another Resistor?');
+            return app.client.click('.modal .modal-buttons button[type="button"]');
+        }).then(()=> {
+            return app.client.waitForVisible('.toast', 1000);
+        }).then(() => {
+            return app.client.click('.toast');
+        }).then(() => {
+            return app.client.getText('.toast');
+        }).then(toastText => {
+            assert.include(toastText, 'New Resistor (m8y7nFnMs) created.');
+            mockServer.validate();
+        });
+    });
+
     after(() => {
         if (app && app.isRunning()) {
             return app.stop().then(() => {

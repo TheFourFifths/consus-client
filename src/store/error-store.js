@@ -31,7 +31,7 @@ store.registerHandler('INFO', data => {
 });
 store.registerHandler('WARN', data => {
     message = data.warn;
-    tag = 'WARN';
+    tag = 'WARNING';
     store.emitChange();
 });
 store.registerHandler('ERROR', data => {

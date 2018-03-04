@@ -50,7 +50,7 @@ describe('Printing QR codes', function () {
         return app.client.click('#models div:nth-of-type(1) .model img[src="../assets/images/qr.svg"]').then(() => {
             return app.client.waitForVisible('#printer');
         }).then(() => {
-            return app.client.waitForVisible('#printer img');
+            return app.client.waitForVisible('#printer .print');
         });
     });
 
@@ -61,7 +61,7 @@ describe('Printing QR codes', function () {
     });
 
     it('returns to the home page', () => {
-        return app.client.click('#omnibar img').then(() => {
+        return app.client.click('#omnibar img.home').then(() => {
             return app.client.waitForVisible('#index');
         });
     });
@@ -77,6 +77,16 @@ describe('Printing QR codes', function () {
                 }
             }
         });
+        mockServer.expect({
+            method: 'get',
+            endpoint: 'model/all',
+            response: {
+                status: 'success',
+                data: {
+                    models
+                }
+            }
+        });
         return app.client.click('#view-items').then(() => {
             return app.client.waitForVisible('#items', 5000);
         }).then(() => {
@@ -88,7 +98,7 @@ describe('Printing QR codes', function () {
         return app.client.click('.item:nth-of-type(1) .actionArea img[src="../assets/images/qr.svg"]').then(() => {
             return app.client.waitForVisible('#printer');
         }).then(() => {
-            return app.client.waitForVisible('#printer img');
+            return app.client.waitForVisible('#printer .print');
         });
     });
 

@@ -1,8 +1,9 @@
 import request from 'request';
+import config from 'config';
 
-let PROTOCOL = 'http';
-let HOST = 'localhost';
-let PORT = 80;
+let PROTOCOL = config.get('server.protocol');
+let HOST = config.get('server.ip');
+let PORT = config.get('server.port');
 
 export function changeProtocol(protocol) {
     PROTOCOL = protocol;
@@ -61,6 +62,20 @@ function patch(endpoint, qs, data) {
 }
 
 //////////////////////
+export function addFault(itemAddress, faultDescription){
+
+    return post('item/fault', {
+        itemAddress,
+        faultDescription
+    });
+}
+
+export function addUnserializedModel(modelAddress) {
+    return patch('model/instock', {
+        modelAddress
+    });
+}
+
 export function checkIn(studentId, itemAddress){
     return post('checkin', {
         studentId,
@@ -76,10 +91,10 @@ export function checkInModel(studentId, modelAddress, quantity){
     });
 }
 
-export function checkOutContents(studentId, equipmentAddresses, code){
+export function checkOutContents(studentId, equipment, code){
     let params = {
         studentId,
-        equipmentAddresses
+        equipment
     };
     if (typeof code !== 'undefined') {
         params.adminCode = code;
@@ -91,7 +106,7 @@ export function createItem(modelAddress){
     return post('item', { modelAddress });
 }
 
-export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count) {
+export function createModel(name, description, manufacturer, vendor, location, allowCheckout, price, count, photo) {
     return post('model', {
         name,
         description,
@@ -100,7 +115,8 @@ export function createModel(name, description, manufacturer, vendor, location, a
         location,
         allowCheckout,
         price,
-        count
+        count,
+        photo
     });
 }
 
@@ -113,6 +129,10 @@ export function deleteItem(item){
 
 export function deleteModel(modelAddress) {
     return del('model', { modelAddress });
+}
+
+export function getAllFaultyItems() {
+    return get('item/fault/all');
 }
 
 export function getAllItems() {
@@ -137,6 +157,38 @@ export function getOverdueItems() {
     return get('item/overdue');
 }
 
+export function retrieveItem(itemAddress) {
+    return post('item/retrieve', {
+        itemAddress
+    });
+}
+
+export function retrieveModel(studentId, modelAddress) {
+    return post('model/retrieve', {
+        studentId,
+        modelAddress
+    });
+}
+
+export function saveItem(itemAddress) {
+    return post('item/save', {
+        itemAddress
+    });
+}
+
+export function saveModel(studentId, modelAddress) {
+    return post('model/save', {
+        studentId,
+        modelAddress
+    });
+}
+
+export function removeItemFault(itemAddress) {
+    return del('item/fault', {
+        itemAddress
+    });
+}
+
 export function searchItem(address) {
     return get('item', {
         address
@@ -149,12 +201,11 @@ export function searchModel(address) {
     });
 }
 
-export function searchStudent(id) {
+export function searchStudent(rfid) {
     return get('student', {
-        id
+        rfid
     });
 }
-
 
 export function updateModel(address, name, description, manufacturer, vendor, location, allowCheckout, price, count, changeStock, inStock, base64Photo) {
     return patch('model', { address }, {
@@ -180,4 +231,41 @@ export function uploadStudents(data){
     return post('student', {
         data
     });
+}
+
+export function checkOutContentsLongterm(studentId, equipment, dueDate, professor, code){
+    let params = {
+        studentId,
+        equipment,
+        dueDate,
+        professor
+    };
+    if (typeof code !== 'undefined') {
+        params.adminCode = code;
+    }
+    return post('checkout/longterm', params);
+}
+export function patchItemDueDate(dueDate, itemAddress, studentId){
+    return patch('item/duedate', {itemAddress}, {dueDate, studentId});
+}
+
+export function createRfidToStudentAssosciation(studentId, rfid){
+    let qs = {
+        studentId
+    };
+    let data = {
+        rfid
+    };
+    return patch('student/rfid', qs, data);
+}
+
+export function createStudent(studentId, rfid, major, email, name){
+    let body = {
+        studentId,
+        rfid,
+        major,
+        email,
+        name
+    };
+    return post('student', body);
 }

@@ -51,4 +51,4 @@ export default [
         count: 20,
         inStock: 0
     }
-]
+];
